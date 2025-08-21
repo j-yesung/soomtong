@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+
+import { Button } from "@/components/ui";
+
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -14,6 +19,7 @@ export default function Home() {
         </ol>
 
         <div className={styles.ctas}>
+          <Button onClick={() => alert("Button clicked!")}>버튼</Button>
           <a
             className={styles.primary}
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
