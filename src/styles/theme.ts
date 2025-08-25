@@ -9,6 +9,7 @@ export const theme = {
     success: "var(--color-success)",
     warning: "var(--color-warning)",
     danger: "var(--color-danger)",
+    default: "var(--color-default)",
   },
   radius: {
     sm: "6px",
