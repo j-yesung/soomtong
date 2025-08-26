@@ -1,15 +1,7 @@
 import { JSX } from "react";
 
 import * as S from "./style";
-import { HeadingAlign, HeadingColor, HeadingFontWeight, HeadingLevel } from "./type";
-
-interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  children: React.ReactNode;
-  level: HeadingLevel;
-  align?: HeadingAlign;
-  color?: HeadingColor;
-  fontWeight?: HeadingFontWeight;
-}
+import { HeadingProps } from "./type";
 
 export default function Heading({
   children,

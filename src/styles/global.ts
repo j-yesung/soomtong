@@ -19,6 +19,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-text-primary: var(--color-text);
     --color-text-secondary: #6b7280;
     --color-muted: #6b7280;
+    --color-text-white: #ffffff;
 
     /* Brand & states */
     --color-default: #2d2d2d;

@@ -10,17 +10,13 @@ export const theme = {
     warning: "var(--color-warning)",
     danger: "var(--color-danger)",
     default: "var(--color-default)",
+    white: "var(--color-text-white)",
   },
   radius: {
     sm: "6px",
     md: "12px",
     lg: "16px",
     pill: "9999px",
-  },
-  shadow: {
-    sm: "0 1px 2px rgba(0,0,0,0.06)",
-    md: "0 4px 12px rgba(0,0,0,0.10)",
-    lg: "0 10px 24px rgba(0,0,0,0.14)",
   },
   font: {
     sm: "12px",

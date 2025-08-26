@@ -11,5 +11,5 @@ export const SalaryContainer = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  position: relative;
 `;

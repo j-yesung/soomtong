@@ -1,15 +1,11 @@
 "use client";
 
 import * as S from "./style";
+import { ButtonProps } from "./type";
 
-type ButtonProps = {
-  onClick: () => void;
-  children: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export default function Button({ children, onClick, ...props }: ButtonProps) {
+export default function Button({ children, onClick, size = "m", color = "default", fullWidth }: ButtonProps) {
   return (
-    <S.Button type="button" onClick={onClick} {...props}>
+    <S.Button type="button" onClick={onClick} $size={size} $color={color} $fullWidth={fullWidth}>
       {children}
     </S.Button>
   );
