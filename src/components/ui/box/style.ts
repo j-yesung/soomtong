@@ -1,18 +1,6 @@
 import sspShouldForwardProp from "@styled-system/should-forward-prop";
 import styled from "styled-components";
-import {
-  border,
-  color,
-  compose,
-  flexbox,
-  grid,
-  layout,
-  position,
-  shadow,
-  space,
-  system,
-  typography,
-} from "styled-system";
+import { border, color, compose, flexbox, grid, layout, position, shadow, space, system } from "styled-system";
 
 import { BoxProps } from "./type";
 
@@ -29,7 +17,7 @@ const extra = system({
   boxSizing: true,
 });
 
-const sx = compose(space, layout, color, flexbox, grid, position, border, shadow, typography, extra);
+const sx = compose(space, layout, color, flexbox, grid, position, border, shadow, extra);
 
 const Box = styled("div").withConfig({
   shouldForwardProp: (prop, target) => (typeof target === "string" ? sspShouldForwardProp(prop) : true),

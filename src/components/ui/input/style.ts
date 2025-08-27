@@ -50,21 +50,29 @@ export const Input = styled.input<InputStyleProps>`
             border-radius: 0;
           }
         `;
+      default:
+        return css`
+          border: none;
+          background: transparent;
+        `;
     }
   }}
 
     ${({ $inputStyle }) =>
     $inputStyle === "salary" &&
     css`
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      font-size: 24px;
+      flex: 1;
+      padding: 0;
+      font-size: 28px;
+      font-weight: 800;
+      height: auto;
+      letter-spacing: normal;
+      background: transparent;
 
       &::placeholder {
         color: #999;
         font-weight: normal;
         letter-spacing: normal;
-        font-size: 24px;
       }
     `};
 `;

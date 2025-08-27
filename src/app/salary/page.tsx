@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Button, Heading, Input } from "@/components/ui";
+import { Box, Button, Heading } from "@/components/ui";
+import SalaryInput from "@/features/salary/components/salaryInput";
 
 export default function SalaryPage() {
   return (
@@ -17,6 +18,7 @@ export default function SalaryPage() {
       overflow="hidden"
       position="relative"
       padding={30}
+      gap={40}
     >
       <Box as="header">
         <Heading level={2} fontWeight="bold">
@@ -27,16 +29,7 @@ export default function SalaryPage() {
         </Heading>
       </Box>
       <Box display="flex" flexDirection="column" width="100%" gap={20}>
-        <Input
-          onChange={() => {}}
-          id="salary"
-          type="number"
-          inputMode="numeric"
-          inputSize="m"
-          variant="underline"
-          inputStyle="salary"
-          placeholder="내년엔 더 벌자"
-        />
+        <SalaryInput />
         <Button onClick={() => {}} fullWidth>
           다음
         </Button>

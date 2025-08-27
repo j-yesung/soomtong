@@ -1,6 +1,6 @@
 type InputSize = "s" | "m" | "l";
 
-type InputVariant = "outline" | "filled" | "underline";
+type InputVariant = "base" | "outline" | "filled" | "underline";
 
 type inputStyle = "base" | "salary";
 

@@ -5,21 +5,18 @@ export default function Input({
   onChange,
   id,
   inputSize = "m",
-  variant = "outline",
+  variant = "base",
   inputStyle = "base",
   placeholder,
 }: InputProps) {
   return (
-    <div>
-      <S.Input
-        onChange={onChange}
-        id={id}
-        placeholder={placeholder}
-        $inputSize={inputSize}
-        $variant={variant}
-        $inputStyle={inputStyle}
-      />
-      <span>원</span>
-    </div>
+    <S.Input
+      onChange={onChange}
+      id={id}
+      placeholder={placeholder}
+      $inputSize={inputSize}
+      $variant={variant}
+      $inputStyle={inputStyle}
+    />
   );
 }

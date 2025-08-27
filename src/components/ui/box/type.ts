@@ -8,7 +8,6 @@ import type {
   ResponsiveValue,
   ShadowProps,
   SpaceProps,
-  TypographyProps,
 } from "styled-system";
 
 export type SystemProps = SpaceProps &
@@ -18,8 +17,7 @@ export type SystemProps = SpaceProps &
   GridProps &
   PositionProps &
   BorderProps &
-  ShadowProps &
-  TypographyProps;
+  ShadowProps;
 
 export type ExtraProps = {
   gap?: ResponsiveValue<string | number>;
