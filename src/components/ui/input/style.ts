@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import styled, { css } from "styled-components";
 
 import { InputStyleProps } from "./type";
 
@@ -64,7 +64,7 @@ export const Input = styled.input<InputStyleProps>`
         color: #999;
         font-weight: normal;
         letter-spacing: normal;
-        font-size: 16px;
+        font-size: 24px;
       }
     `};
 `;
