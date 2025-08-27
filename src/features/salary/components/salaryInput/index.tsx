@@ -1,10 +1,15 @@
+import { useState } from "react";
+
 import { Box, Input, Text } from "@/components/ui";
 
 export default function SalaryInput() {
+  const [salary, setSalary] = useState("");
+
   return (
     <Box display="flex" gap={8}>
       <Input
-        onChange={() => {}}
+        onChange={(e) => setSalary(e.target.value)}
+        value={salary}
         id="salary"
         type="number"
         inputMode="numeric"
