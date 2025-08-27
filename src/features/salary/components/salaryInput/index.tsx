@@ -5,13 +5,20 @@ import { Box, Input, Text } from "@/components/ui";
 export default function SalaryInput() {
   const [salary, setSalary] = useState("");
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    const digitsOnly = raw.replace(/\D/g, "");
+    const trimmed = digitsOnly.replace(/^0+/, "");
+    const formatted = trimmed.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    setSalary(formatted);
+  };
+
   return (
     <Box display="flex" gap={8}>
       <Input
-        onChange={(e) => setSalary(e.target.value)}
+        id="salary-input"
         value={salary}
-        id="salary"
-        type="number"
+        onChange={handleChange}
         inputMode="numeric"
         inputSize="m"
         inputStyle="salary"

@@ -4,6 +4,7 @@ import { InputProps } from "./type";
 export default function Input({
   onChange,
   id,
+  value,
   inputSize = "m",
   variant = "base",
   inputStyle = "base",
@@ -11,8 +12,10 @@ export default function Input({
 }: InputProps) {
   return (
     <S.Input
+      type="text"
       onChange={onChange}
       id={id}
+      value={value}
       placeholder={placeholder}
       $inputSize={inputSize}
       $variant={variant}
