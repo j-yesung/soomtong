@@ -3,6 +3,7 @@ import { InputProps } from "./type";
 
 export default function Input({
   onChange,
+  ref,
   id,
   value,
   inputSize = "m",
