@@ -61,6 +61,7 @@ export const Input = styled.input<InputStyleProps>`
     ${({ $inputStyle }) =>
     $inputStyle === "salary" &&
     css`
+      width: 100%;
       flex: 1;
       padding: 0;
       font-size: 28px;

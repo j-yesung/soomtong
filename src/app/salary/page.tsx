@@ -26,10 +26,10 @@ export default function SalaryPage() {
           월급을 입력해 주세요
         </Heading>
         <Heading level={5} fontWeight="normal" color="description">
-          월 수입을 입력해서 예산을 계획해 보세요
+          월 수입을 기반으로 예산을 계획해 보세요
         </Heading>
       </Box>
-      <Box display="flex" flexDirection="column" width="100%" gap={20}>
+      <Box display="flex" flexDirection="column" gap={20}>
         <SalaryInput />
         <SalaryButton />
       </Box>

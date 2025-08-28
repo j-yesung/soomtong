@@ -19,6 +19,7 @@ export default function SalaryInput() {
         inputSize="m"
         inputStyle="salary"
         placeholder="내년엔 더 벌자"
+        fullWidth
       />
       <Text fontSize={28} fontWeight={800}>
         원
