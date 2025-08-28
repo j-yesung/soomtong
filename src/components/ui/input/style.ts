@@ -5,12 +5,19 @@ import { InputStyleProps } from "./type";
 export const Input = styled.input<InputStyleProps>`
   border: none;
   outline: none;
+  border-radius: 8px;
   padding: 12px 16px;
 
   &:focus {
     outline: none;
     box-shadow: none;
   }
+
+  ${({ $fullWidth }) =>
+    $fullWidth &&
+    css`
+      width: 100%;
+    `}
 
   ${({ $inputSize }) => {
     switch ($inputSize) {
@@ -35,6 +42,7 @@ export const Input = styled.input<InputStyleProps>`
         return css`
           border: 1px solid #ccc;
           background: transparent;
+          padding-right: 40px;
         `;
       case "filled":
         return css`
@@ -76,4 +84,12 @@ export const Input = styled.input<InputStyleProps>`
         letter-spacing: normal;
       }
     `};
+`;
+
+export const Unit = styled.span`
+  position: absolute;
+  right: 16px;
+  font-size: 14px;
+  color: #666;
+  pointer-events: none;
 `;

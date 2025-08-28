@@ -1,3 +1,4 @@
+import Box from "../box/style";
 import * as S from "./style";
 import * as T from "./type";
 
@@ -10,18 +11,24 @@ export default function Input({
   variant = "base",
   inputStyle = "base",
   placeholder,
+  fullWidth,
+  unit,
 }: T.InputProps) {
   return (
-    <S.Input
-      type="text"
-      ref={ref}
-      onChange={onChange}
-      id={id}
-      value={value}
-      placeholder={placeholder}
-      $inputSize={inputSize}
-      $variant={variant}
-      $inputStyle={inputStyle}
-    />
+    <Box position="relative" display="flex" alignItems="center">
+      <S.Input
+        type="text"
+        ref={ref}
+        onChange={onChange}
+        id={id}
+        value={value}
+        placeholder={placeholder}
+        $inputSize={inputSize}
+        $variant={variant}
+        $inputStyle={inputStyle}
+        $fullWidth={fullWidth}
+      />
+      {unit && <S.Unit>{unit}</S.Unit>}
+    </Box>
   );
 }

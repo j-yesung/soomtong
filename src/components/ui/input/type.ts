@@ -16,10 +16,11 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   ref?: React.Ref<HTMLInputElement>;
   id: string;
-  inputSize: InputSize;
+  inputSize?: InputSize;
   inputStyle?: inputStyle;
   variant?: InputVariant;
   label?: string;
   placeholder?: string;
   fullWidth?: boolean;
+  unit?: string;
 }
