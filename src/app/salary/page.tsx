@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Button, Heading } from "@/components/ui";
+import { Box, Heading } from "@/components/ui";
+import SalaryButton from "@/features/salary/components/salaryButton";
 import SalaryInput from "@/features/salary/components/salaryInput";
 
 export default function SalaryPage() {
@@ -30,9 +31,7 @@ export default function SalaryPage() {
       </Box>
       <Box display="flex" flexDirection="column" width="100%" gap={20}>
         <SalaryInput />
-        <Button onClick={() => {}} fullWidth>
-          다음
-        </Button>
+        <SalaryButton />
       </Box>
     </Box>
   );

@@ -1,7 +1,7 @@
 import { JSX } from "react";
 
 import * as S from "./style";
-import { HeadingProps } from "./type";
+import * as T from "./type";
 
 export default function Heading({
   children,
@@ -9,7 +9,7 @@ export default function Heading({
   align = "left",
   color = "base",
   fontWeight = "normal",
-}: HeadingProps) {
+}: T.HeadingProps) {
   const tag = `h${level}` as keyof JSX.IntrinsicElements;
 
   return (

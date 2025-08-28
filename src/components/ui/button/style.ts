@@ -51,5 +51,12 @@ export const Button = styled.button<ButtonStyleProps>`
           background-color: ${({ theme }) => theme.colors.default};
         `;
     }
-  }}
+  }} 
+  
+  ${({ $disabled }) =>
+    $disabled &&
+    css`
+      background-color: ${({ theme }) => theme.colors.muted};
+      cursor: not-allowed;
+    `}
 `;
