@@ -1,5 +1,5 @@
 import * as S from "./style";
-import { InputProps } from "./type";
+import * as T from "./type";
 
 export default function Input({
   onChange,
@@ -10,10 +10,11 @@ export default function Input({
   variant = "base",
   inputStyle = "base",
   placeholder,
-}: InputProps) {
+}: T.InputProps) {
   return (
     <S.Input
       type="text"
+      ref={ref}
       onChange={onChange}
       id={id}
       value={value}

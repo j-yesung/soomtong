@@ -1,10 +1,9 @@
-import { useState } from "react";
-
 import { Box, Input, Text } from "@/components/ui";
+import { useSalaryStore } from "@/stores/salary/state";
 import { formatNumericInput } from "@/utils/formatter";
 
 export default function SalaryInput() {
-  const [salary, setSalary] = useState("");
+  const { salary, setSalary } = useSalaryStore();
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSalary(formatNumericInput(e.target.value));
