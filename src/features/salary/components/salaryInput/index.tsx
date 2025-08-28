@@ -1,16 +1,13 @@
 import { useState } from "react";
 
 import { Box, Input, Text } from "@/components/ui";
+import { formatNumericInput } from "@/utils/formatter";
 
 export default function SalaryInput() {
   const [salary, setSalary] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    const digitsOnly = raw.replace(/\D/g, "");
-    const trimmed = digitsOnly.replace(/^0+/, "");
-    const formatted = trimmed.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    setSalary(formatted);
+  const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSalary(formatNumericInput(e.target.value));
   };
 
   return (
@@ -18,7 +15,7 @@ export default function SalaryInput() {
       <Input
         id="salary-input"
         value={salary}
-        onChange={handleChange}
+        onChange={handleSalaryChange}
         inputMode="numeric"
         inputSize="m"
         inputStyle="salary"

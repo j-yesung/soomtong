@@ -13,6 +13,7 @@ export interface InputStyleProps {
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  ref?: React.Ref<HTMLInputElement>;
   id: string;
   inputSize: InputSize;
   inputStyle?: inputStyle;
