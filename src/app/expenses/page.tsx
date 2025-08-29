@@ -3,12 +3,17 @@
 import { useState } from "react";
 
 import MainLayout from "@/components/layout/mainLayout";
-import { Box, Heading, Text } from "@/components/ui";
+import { Box, Heading, Tag, Text } from "@/components/ui";
 import ReadyButton from "@/features/common/readyButton";
 import ExpensesInput from "@/features/expenses/components/expensesInput";
 
 export default function ExpensesPage() {
   const [value, setValue] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTag(tag);
+  };
 
   return (
     <MainLayout>
@@ -23,9 +28,11 @@ export default function ExpensesPage() {
               카테고리 선택
             </Text>
             <Box display="flex" gap={8}>
-              <Text>교통비</Text>
-              <Text>식비</Text>
-              <Text>문화생활비</Text>
+              {["교통비", "식비", "구독료"].map((tag) => (
+                <Tag key={tag} variant="select" onClick={() => handleTagClick(tag)} isSelected={selectedTag === tag}>
+                  {tag}
+                </Tag>
+              ))}
             </Box>
           </Box>
           <ReadyButton onClick={() => {}} text="추가" condition={!!value} />

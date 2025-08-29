@@ -12,6 +12,9 @@ export const theme = {
     default: "var(--color-default)",
     white: "var(--color-text-white)",
   },
+  bg: {
+    secondary: "var(--color-bg-secondary)",
+  },
   radius: {
     sm: "6px",
     md: "12px",

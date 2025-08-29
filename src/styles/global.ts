@@ -14,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-bg: #FFFFFF;
     --color-text: #2D2D2D;
     --color-border: #e5e7eb;
+    --color-bg-secondary: #F5F5F5;
 
     /* Text roles */
     --color-text-primary: var(--color-text);

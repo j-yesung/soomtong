@@ -7,5 +7,7 @@ declare module "styled-components" {
     colors: AppTheme["colors"];
     font: AppTheme["font"];
     fontWeight: AppTheme["fontWeight"];
+    radius: AppTheme["radius"];
+    bg: AppTheme["bg"];
   }
 }
