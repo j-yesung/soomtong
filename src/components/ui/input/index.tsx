@@ -18,6 +18,7 @@ export default function Input({
     <Box position="relative" display="flex" alignItems="center">
       <S.Input
         type="text"
+        autoComplete="off"
         ref={ref}
         onChange={onChange}
         id={id}
