@@ -3,7 +3,7 @@ export const theme = {
     bg: "var(--color-bg)",
     text: "var(--color-text)",
     primary: "var(--color-primary)",
-    primaryText: "var(--color-on-primary)",
+    secondary: "var(--color-text-secondary)",
     muted: "var(--color-muted)",
     border: "var(--color-border)",
     success: "var(--color-success)",
@@ -33,3 +33,5 @@ export const theme = {
 } as const;
 
 export type AppTheme = typeof theme;
+
+export type ColorsKeys = keyof AppTheme["colors"];

@@ -19,7 +19,7 @@ export default function ExpensesPage() {
         <Box display="flex" flexDirection="column" width="100%" gap={24}>
           <ExpensesInput value={value} onChange={setValue} />
           <Box display="flex" flexDirection="column" gap={8}>
-            <Text fontSize={14} color="var(--color-muted)">
+            <Text variant="caption" color="secondary">
               카테고리 선택
             </Text>
             <Box display="flex" gap={8}>

@@ -11,20 +11,20 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
   :root {
     /* Base (Light) */
-    --color-bg: #ffffff;
-    --color-text: #111315;
+    --color-bg: #FFFFFF;
+    --color-text: #2D2D2D;
     --color-border: #e5e7eb;
 
     /* Text roles */
     --color-text-primary: var(--color-text);
     --color-text-secondary: #6b7280;
     --color-muted: #6b7280;
-    --color-text-white: #ffffff;
+    --color-text-white: #FFFFFF;
 
     /* Brand & states */
     --color-default: #2d2d2d;
     --color-primary: #2563eb;
-    --color-on-primary: #ffffff;
+    --color-on-primary: #FFFFFF;
 
     --color-success: #16a34a;
     --color-warning: #d97706;
@@ -36,7 +36,7 @@ export const GlobalStyle = createGlobalStyle`
   /* Dark scheme */
   @media (prefers-color-scheme: dark) {
     :root {
-      --color-bg: #ffffff;
+      --color-bg: #FFFFFF;
       --color-text: #111315;
       --color-border: #1f2937;
 
