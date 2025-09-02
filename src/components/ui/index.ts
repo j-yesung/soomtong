@@ -4,3 +4,6 @@ export { default as Input } from "./input";
 export { default as Box } from "./box/style";
 export { default as Text } from "./text/style";
 export { default as Tag } from "./tag";
+export { default as Flex } from "./flex";
+export { default as Column } from "./column";
+export { default as Row } from "./row";
