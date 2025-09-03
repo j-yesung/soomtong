@@ -15,3 +15,11 @@ export function formatNumericInput(raw: string) {
   const trimmed = digitsOnly.replace(/^0+(?=\d)/, ""); // 선행 0 제거
   return formatWithComma(trimmed);
 }
+
+/**
+ * 콤마 제거 후 숫자로 변환
+ */
+export function parseNumericInput(raw: string) {
+  const cleaned = raw.replace(/[^\d]/g, "");
+  return Number(cleaned) || 0;
+}

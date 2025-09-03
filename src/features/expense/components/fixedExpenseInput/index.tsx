@@ -6,7 +6,7 @@ type Props = {
   value: string;
 };
 
-export default function ExpensesInput({ onChange, value }: Props) {
+export default function FixedExpenseInput({ onChange, value }: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(formatNumericInput(event.target.value));
   };
