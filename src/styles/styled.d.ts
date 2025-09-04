@@ -9,5 +9,6 @@ declare module "styled-components" {
     fontWeight: AppTheme["fontWeight"];
     radius: AppTheme["radius"];
     bg: AppTheme["bg"];
+    border: AppTheme["border"];
   }
 }

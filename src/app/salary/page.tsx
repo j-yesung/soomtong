@@ -25,7 +25,7 @@ export default function SalaryPage() {
         </Box>
         <Box display="flex" flexDirection="column" gap={20}>
           <SalaryInput />
-          <ReadyButton onClick={() => router.push("/expenses")} text="다음" condition={!!salary} />
+          <ReadyButton onClick={() => router.push("/expense")} text="다음" condition={!!salary} />
         </Box>
       </Box>
     </MainLayout>

@@ -11,5 +11,16 @@ export default function FixedExpenseInput({ onChange, value }: Props) {
     onChange(formatNumericInput(event.target.value));
   };
 
-  return <Input id="expenses-input" onChange={handleChange} value={value} variant="outline" unit="원" fullWidth />;
+  return (
+    <Input
+      id="expenses-input"
+      onChange={handleChange}
+      value={value}
+      inputMode="numeric"
+      variant="outline"
+      unit="원"
+      fullWidth
+      inputSize="l"
+    />
+  );
 }

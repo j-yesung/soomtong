@@ -10,9 +10,18 @@ export default function Button({
   color = "default",
   disabled = false,
   fullWidth,
+  variant = "fill",
 }: T.ButtonProps) {
   return (
-    <S.Button type="button" onClick={onClick} $size={size} $color={color} $fullWidth={fullWidth} $disabled={disabled}>
+    <S.Button
+      type="button"
+      onClick={onClick}
+      $size={size}
+      $color={color}
+      $fullWidth={fullWidth}
+      $disabled={disabled}
+      $variant={variant}
+    >
       {children}
     </S.Button>
   );

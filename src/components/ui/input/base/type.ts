@@ -14,6 +14,9 @@ export interface InputStyleProps {
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onEnter?: () => void;
+  value: string;
   ref?: React.Ref<HTMLInputElement>;
   id: string;
   inputSize?: InputSize;
@@ -23,4 +26,5 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   placeholder?: string;
   fullWidth?: boolean;
   unit?: string;
+  className?: string;
 }

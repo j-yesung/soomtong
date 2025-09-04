@@ -1,9 +1,11 @@
-import Box from "../box/style";
+import Box from "../../box/style";
 import * as S from "./style";
 import * as T from "./type";
 
 export default function Input({
   onChange,
+  onBlur,
+  onEnter,
   ref,
   id,
   value,
@@ -12,16 +14,24 @@ export default function Input({
   inputStyle = "base",
   placeholder,
   fullWidth,
+  inputMode,
   unit,
+  className,
 }: T.InputProps) {
   return (
-    <Box position="relative" display="flex" alignItems="center">
+    <Box position="relative" display="flex" alignItems="center" className={className}>
       <S.Input
-        type="text"
         autoComplete="off"
         ref={ref}
         onChange={onChange}
+        onBlur={onBlur}
+        onKeyDown={(e) => {
+          if (onEnter && e.key === "Enter" && !e.nativeEvent.isComposing) {
+            onEnter();
+          }
+        }}
         id={id}
+        inputMode={inputMode}
         value={value}
         placeholder={placeholder}
         $inputSize={inputSize}

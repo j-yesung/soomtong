@@ -14,23 +14,34 @@ export default function FixedExpenseForm() {
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
 
-  const amount = useMemo(() => parseNumericInput(value), [value]);
+  const [tagList, setTagList] = useState<string[]>(DEFAULT_TAGS);
 
+  const [alwaysShowAdd, setAlwaysShowAdd] = useState(false);
+
+  const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
-  const handleAdd = () => {
+  const handleSubmit = () => {
     if (!canSubmit) return;
-
     add({ tag, amount });
     setValue("");
     setTag("");
+    setAlwaysShowAdd(true);
+  };
+
+  const handleAddTag = (name: string) => {
+    const t = name.trim();
+    if (!t) return;
+    if (tagList.includes(t)) return;
+    setTagList((prev) => [...prev, t]);
+    setTag(t);
   };
 
   return (
     <Column width="100%" gap={24}>
       <FixedExpenseInput value={value} onChange={setValue} />
-      <FixedTagSelector tags={DEFAULT_TAGS} selected={tag} onSelect={setTag} />
-      <ReadyButton onClick={handleAdd} text="추가" condition={canSubmit} />
+      <FixedTagSelector tags={tagList} selected={tag} onSelect={setTag} onAddTag={handleAddTag} />
+      <ReadyButton onClick={handleSubmit} text="추가" condition={alwaysShowAdd ? true : canSubmit} />
     </Column>
   );
 }

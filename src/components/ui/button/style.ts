@@ -36,11 +36,7 @@ export const Button = styled.button<ButtonStyleProps>`
         `;
       case "secondary":
         return css`
-          background-color: ${({ theme }) => theme.colors.success};
-        `;
-      case "warning":
-        return css`
-          background-color: ${({ theme }) => theme.colors.warning};
+          background-color: ${({ theme }) => theme.bg.secondary};
         `;
       case "danger":
         return css`
@@ -51,8 +47,27 @@ export const Button = styled.button<ButtonStyleProps>`
           background-color: ${({ theme }) => theme.colors.default};
         `;
     }
-  }} 
-  
+  }}
+
+  ${({ $variant }) => {
+    switch ($variant) {
+      case "outline":
+        return css`
+          border: 1px solid ${({ theme }) => theme.colors.border};
+        `;
+      case "dash":
+        return css`
+          border: 1px dashed ${({ theme }) => theme.border.default};
+          background-color: transparent;
+          color: ${({ theme }) => theme.colors.text};
+        `;
+      default:
+        return css`
+          background-color: ${({ theme }) => theme.colors.default};
+        `;
+    }
+  }}
+
   ${({ $disabled }) =>
     $disabled &&
     css`
