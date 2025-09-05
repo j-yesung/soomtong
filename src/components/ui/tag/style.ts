@@ -15,7 +15,7 @@ export const TagButton = styled.button<TagStylesProps>`
       case "select":
         return css`
           background-color: ${$isSelected ? "#000" : theme.bg.secondary};
-          border-radius: ${theme.radius.lg};
+          border-radius: ${theme.radius.sm};
           padding: 4px 8px;
         `;
       case "base":

@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 
-import { Column } from "@/components/ui";
-import ReadyButton from "@/features/common/readyButton";
+import { Button, Column, Row } from "@/components/ui";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
 import { DEFAULT_TAGS } from "@/features/expense/constant";
 import { useFixedExpenseStore } from "@/features/expense/store";
@@ -15,8 +14,6 @@ export default function FixedExpenseForm() {
 
   const [tagList, setTagList] = useState<string[]>(DEFAULT_TAGS);
 
-  const [alwaysShowAdd, setAlwaysShowAdd] = useState(false);
-
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
@@ -25,7 +22,6 @@ export default function FixedExpenseForm() {
     add({ tag, amount });
     setValue("");
     setTag("");
-    setAlwaysShowAdd(true);
   };
 
   const handleAddTag = (name: string) => {
@@ -37,10 +33,14 @@ export default function FixedExpenseForm() {
   };
 
   return (
-    <Column width="100%" gap={24}>
-      <FixedExpenseInput value={value} onChange={setValue} />
+    <Column gap={24} fullWidth>
       <FixedTagSelector tags={tagList} selected={tag} onSelect={setTag} onAddTag={handleAddTag} />
-      <ReadyButton onClick={handleSubmit} text="추가" condition={alwaysShowAdd ? true : canSubmit} />
+      <Row fullWidth gap={4} align="center">
+        <FixedExpenseInput value={value} onChange={setValue} />
+        <Button onClick={handleSubmit} height={42}>
+          +
+        </Button>
+      </Row>
     </Column>
   );
 }

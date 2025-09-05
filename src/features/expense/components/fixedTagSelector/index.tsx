@@ -42,7 +42,7 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
         카테고리 선택
       </Text>
 
-      <Row gap={8} wrap="wrap" align="center">
+      <Row gap={4} wrap="wrap" align="center">
         {tags.map((tag) => (
           <Tag key={tag} variant="select" onClick={() => onSelect(tag)} isSelected={selected === tag}>
             {tag}

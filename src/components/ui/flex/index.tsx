@@ -10,6 +10,7 @@ export interface FlexProps extends Omit<React.ComponentProps<typeof Box>, "displ
   gap?: number;
   fullWidth?: boolean;
   children?: React.ReactNode;
+  as?: React.ElementType;
 }
 
 export default function Flex({
@@ -19,6 +20,7 @@ export default function Flex({
   wrap,
   gap,
   fullWidth,
+  as,
   children,
   ...rest
 }: FlexProps) {
@@ -26,6 +28,7 @@ export default function Flex({
     <Box
       {...rest}
       display="flex"
+      as={as}
       flexDirection={direction}
       justifyContent={justify}
       alignItems={align}

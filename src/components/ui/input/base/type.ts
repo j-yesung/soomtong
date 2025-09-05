@@ -27,4 +27,5 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   fullWidth?: boolean;
   unit?: string;
   className?: string;
+  flex?: number;
 }

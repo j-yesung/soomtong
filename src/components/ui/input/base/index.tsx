@@ -1,4 +1,4 @@
-import Box from "../../box/style";
+import Flex from "../../flex";
 import * as S from "./style";
 import * as T from "./type";
 
@@ -17,9 +17,10 @@ export default function Input({
   inputMode,
   unit,
   className,
+  flex,
 }: T.InputProps) {
   return (
-    <Box position="relative" display="flex" alignItems="center" className={className}>
+    <Flex position="relative" align="center" flex={flex} className={className}>
       <S.Input
         autoComplete="off"
         ref={ref}
@@ -40,6 +41,6 @@ export default function Input({
         $fullWidth={fullWidth}
       />
       {unit && <S.Unit>{unit}</S.Unit>}
-    </Box>
+    </Flex>
   );
 }
