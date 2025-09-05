@@ -11,6 +11,8 @@ export default function Button({
   disabled = false,
   fullWidth,
   variant = "fill",
+  height,
+  width,
 }: T.ButtonProps) {
   return (
     <S.Button
@@ -21,6 +23,8 @@ export default function Button({
       $fullWidth={fullWidth}
       $disabled={disabled}
       $variant={variant}
+      $height={height}
+      $width={width}
     >
       {children}
     </S.Button>

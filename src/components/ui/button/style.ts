@@ -5,8 +5,14 @@ import { ButtonStyleProps } from "./type";
 export const Button = styled.button<ButtonStyleProps>`
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.white};
-  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
+  width: ${({ $width }) => $width && `${$width}px`};
+  height: ${({ $height }) => $height && `${$height}px`};
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  ${({ $fullWidth }) => ($fullWidth ? "width: 100%" : "width: auto")};
 
   ${({ $size }) => {
     switch ($size) {

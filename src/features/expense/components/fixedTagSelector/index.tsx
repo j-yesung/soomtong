@@ -42,7 +42,7 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
         카테고리 선택
       </Text>
 
-      <Row gap={8} wrap="wrap" height={42}>
+      <Row gap={8} wrap="wrap" align="center">
         {tags.map((tag) => (
           <Tag key={tag} variant="select" onClick={() => onSelect(tag)} isSelected={selected === tag}>
             {tag}
@@ -52,19 +52,14 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
         <AnimatePresence mode="popLayout" initial={false}>
           {!isAdding ? (
             <motion.div initial={false} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0 }}>
-              <Button onClick={() => setIsAdding(true)} variant="dash" color="secondary">
+              <Button onClick={() => setIsAdding(true)} variant="dash" color="secondary" size="s" height={30}>
                 + 추가
               </Button>
             </motion.div>
           ) : (
-            <motion.div
-              key="add-input"
-              initial={{ opacity: 0, width: 64 }}
-              animate={{ opacity: 1, width: 140 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-            >
+            <Row>
               <ChipInput
+                key="add-input"
                 id="chip-input"
                 ref={inputRef}
                 value={draft}
@@ -75,7 +70,7 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
                 enterKeyHint="done"
                 fullWidth
               />
-            </motion.div>
+            </Row>
           )}
         </AnimatePresence>
       </Row>

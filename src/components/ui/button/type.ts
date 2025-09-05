@@ -10,6 +10,8 @@ export interface ButtonStyleProps {
   $fullWidth?: boolean;
   $disabled?: boolean;
   $variant?: ButtonVariant;
+  $height?: number;
+  $width?: number;
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,4 +22,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   disabled?: boolean;
   fullWidth?: boolean;
   variant?: ButtonVariant;
+  height?: number;
+  width?: number;
 }

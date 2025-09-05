@@ -5,15 +5,7 @@ import Input from "../base";
 
 export default function ChipInput(props: React.ComponentProps<typeof Input>) {
   return (
-    <Row
-      align="center"
-      height={42}
-      padding="0 8px"
-      border="1px solid #ccc"
-      borderRadius={16}
-      borderColor={theme.colors.border}
-      backgroundColor={theme.bg.secondary}
-    >
+    <Row align="center" width={110} height={30} borderRadius={4} border={`1px dashed ${theme.border.default}`}>
       <Input {...props} inputSize="l" />
     </Row>
   );

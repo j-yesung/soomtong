@@ -6,7 +6,7 @@ export const Input = styled.input<InputStyleProps>`
   border: none;
   outline: none;
   border-radius: 8px;
-  padding: 12px 16px;
+  padding: 8px;
 
   &:focus {
     outline: none;
