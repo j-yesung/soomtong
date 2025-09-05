@@ -5,12 +5,19 @@ import { InputStyleProps } from "./type";
 export const Input = styled.input<InputStyleProps>`
   border: none;
   outline: none;
-  padding: 12px 16px;
+  border-radius: 8px;
+  padding: 8px;
 
   &:focus {
     outline: none;
     box-shadow: none;
   }
+
+  ${({ $fullWidth }) =>
+    $fullWidth &&
+    css`
+      width: 100%;
+    `}
 
   ${({ $inputSize }) => {
     switch ($inputSize) {
@@ -35,6 +42,7 @@ export const Input = styled.input<InputStyleProps>`
         return css`
           border: 1px solid #ccc;
           background: transparent;
+          padding-right: 40px;
         `;
       case "filled":
         return css`
@@ -61,6 +69,7 @@ export const Input = styled.input<InputStyleProps>`
     ${({ $inputStyle }) =>
     $inputStyle === "salary" &&
     css`
+      width: 100%;
       flex: 1;
       padding: 0;
       font-size: 28px;
@@ -75,4 +84,12 @@ export const Input = styled.input<InputStyleProps>`
         letter-spacing: normal;
       }
     `};
+`;
+
+export const Unit = styled.span`
+  position: absolute;
+  right: 16px;
+  font-size: 14px;
+  color: #666;
+  pointer-events: none;
 `;

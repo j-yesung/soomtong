@@ -16,11 +16,11 @@ export default function SalaryInput() {
         value={salary}
         onChange={handleSalaryChange}
         inputMode="numeric"
-        inputSize="m"
         inputStyle="salary"
         placeholder="내년엔 더 벌자"
+        fullWidth
       />
-      <Text fontSize={28} fontWeight={800}>
+      <Text size={28} weight={800}>
         원
       </Text>
     </Box>
