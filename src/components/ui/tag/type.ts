@@ -1,4 +1,4 @@
-type Variant = "select" | "base";
+type Variant = "select" | "default" | "list";
 
 export interface TagProps {
   onClick?: () => void;

@@ -59,7 +59,6 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
           ) : (
             <Row>
               <ChipInput
-                key="add-input"
                 id="chip-input"
                 ref={inputRef}
                 value={draft}
