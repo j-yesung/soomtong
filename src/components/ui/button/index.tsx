@@ -9,7 +9,7 @@ export default function Button({
   size = "m",
   color = "default",
   disabled = false,
-  fullWidth,
+  fullWidth = false,
   variant = "fill",
   height,
   width,

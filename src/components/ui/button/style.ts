@@ -12,7 +12,7 @@ export const Button = styled.button<ButtonStyleProps>`
   align-items: center;
   justify-content: center;
 
-  ${({ $fullWidth }) => ($fullWidth ? "width: 100%" : "width: auto")};
+  ${({ $fullWidth }) => $fullWidth && "width: 100%"};
 
   ${({ $size }) => {
     switch ($size) {
@@ -66,6 +66,10 @@ export const Button = styled.button<ButtonStyleProps>`
           border: 1px dashed ${({ theme }) => theme.border.default};
           background-color: transparent;
           color: ${({ theme }) => theme.colors.text};
+        `;
+      case "fill":
+        return css`
+          border: none;
         `;
       default:
         return css`

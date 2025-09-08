@@ -9,23 +9,30 @@ export const TagButton = styled.button<TagStylesProps>`
   color: ${({ theme, $isSelected }) => ($isSelected ? "#fff" : theme.colors.text)};
   font-size: ${({ theme }) => theme.font.sm};
   height: 30px;
+  cursor: default;
 
   ${({ $variant, $isSelected, theme }) => {
     switch ($variant) {
       case "select":
         return css`
-          background-color: ${$isSelected ? "#000" : theme.bg.secondary};
+          background-color: ${$isSelected ? theme.colors.default : theme.bg.secondary};
+          border-radius: ${theme.radius.sm};
+          padding: 4px 8px;
+          cursor: pointer;
+        `;
+      case "list":
+        return css`
+          background-color: #fff;
+          border: 1px solid ${theme.colors.border};
           border-radius: ${theme.radius.sm};
           padding: 4px 8px;
         `;
-      case "base":
+      case "default":
       default:
         return css`
           border: 1px solid ${theme.colors.border};
-          background-color: transparent;
           border-radius: ${theme.radius.sm};
           padding: 4px 8px;
-          cursor: default;
         `;
     }
   }}
