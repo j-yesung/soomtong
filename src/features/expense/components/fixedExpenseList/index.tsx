@@ -10,8 +10,8 @@ import MotionList from "./motionList";
 import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
-  const items = useFixedExpenseStore((s) => s.items);
-  const remove = useFixedExpenseStore((s) => s.remove);
+  const items = useFixedExpenseStore((state) => state.items);
+  const remove = useFixedExpenseStore((state) => state.remove);
 
   return (
     <MotionList>
