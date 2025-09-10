@@ -8,11 +8,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       flexDirection="column"
       alignItems="flex-start"
       width="100%"
-      height="100vh"
+      minHeight="100vh"
+      minWidth="320px"
       maxWidth="500px"
       margin="0 auto"
       boxSizing="border-box"
-      overflow="hidden"
+      overflowY="auto"
+      overflowX="hidden"
       position="relative"
       padding={30}
     >
