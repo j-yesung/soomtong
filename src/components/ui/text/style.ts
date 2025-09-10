@@ -8,29 +8,26 @@ const Text = styled("span").withConfig({
 })<TextProps>`
   ${({ variant }) => {
     switch (variant) {
-      case "body":
-        return css`
-          font-size: ${({ theme }) => theme.font.md}
-          line-height: 1.5;
-          font-weight: ${({ theme }) => theme.fontWeight.normal};
-        `;
       case "caption":
         return css`
-          font-size: ${({ theme }) => theme.font.sm}
-          line-height: 1.4;
+          color: ${({ theme }) => theme.colors.text.secondary};
+          font-size: ${({ theme }) => theme.font.base};
           font-weight: ${({ theme }) => theme.fontWeight.normal};
+          line-height: 1.4;
         `;
       default:
         return css`
-          font-size: ${({ theme }) => theme.font.base}
+          color: ${({ theme }) => theme.colors.text.primary};
+          font-size: ${({ theme }) => theme.font.sm}
+          font-weight: ${({ theme }) => theme.fontWeight.medium};
           line-height: 1.5;
         `;
     }
   }}
 
-  color: ${({ theme, color }) => (color ? theme.colors[color] : theme.colors.text)};
-  font-size: ${({ theme, size }) => (size ? `${size}px` : theme.font.base)};
-  font-weight: ${({ weight }) => weight ?? 500};
+  color: ${({ theme, color }) => color && theme.colors.text[color]};
+  font-size: ${({ size }) => size && `${size}px`};
+  font-weight: ${({ weight }) => weight && 500};
 `;
 
 export default Text;

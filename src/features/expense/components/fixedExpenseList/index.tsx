@@ -24,13 +24,13 @@ export default function FixedExpenseList() {
             width="100%"
             borderRadius={8}
             padding={2}
-            backgroundColor={theme.bg.secondary}
+            backgroundColor={theme.colors.bg.secondary}
             role="button"
             aria-label={`${tag} list remove`}
           >
             <Tag variant="list">{tag}</Tag>
             <Row gap={12} align="center">
-              <Text variant="body">{formatWithComma(amount)}원</Text>
+              <Text>{formatWithComma(amount)}원</Text>
             </Row>
           </Row>
         </SwipeItem>

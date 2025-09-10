@@ -17,7 +17,7 @@ export default function SalaryInput() {
         onChange={handleSalaryChange}
         inputMode="numeric"
         inputStyle="salary"
-        placeholder="내년엔 더 벌자"
+        placeholder="월 수입이 얼마인가요?"
         fullWidth
       />
       <Text size={28} weight={800}>

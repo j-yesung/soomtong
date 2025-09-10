@@ -1,23 +1,25 @@
 export const theme = {
   colors: {
-    bg: "var(--color-bg)",
-    text: "var(--color-text)",
-    primary: "var(--color-primary)",
-    secondary: "var(--color-text-secondary)",
-    muted: "var(--color-muted)",
-    border: "var(--color-border)",
-    success: "var(--color-success)",
-    warning: "var(--color-warning)",
-    danger: "var(--color-danger)",
-    default: "var(--color-default)",
-    white: "var(--color-text-white)",
-  },
-  bg: {
-    secondary: "var(--color-bg-secondary)",
-    white: "var(--color-text-white)",
-  },
-  border: {
-    default: "var(--color-default)",
+    bg: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-bg-secondary)",
+    },
+    text: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-text-secondary)",
+      inverseWhite: "var(--color-inverseWhite)",
+    },
+    button: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-secondary)",
+      danger: "var(--color-danger)",
+    },
+    border: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-border)",
+      danger: "var(--color-danger)",
+    },
+    disabled: "var(--color-disabled)",
   },
   radius: {
     sm: "6px",
@@ -40,5 +42,3 @@ export const theme = {
 } as const;
 
 export type AppTheme = typeof theme;
-
-export type ColorsKeys = keyof AppTheme["colors"];
