@@ -1,13 +1,13 @@
 import { JSX } from "react";
 
-import { ColorsKeys } from "@/styles/theme";
+import { AppTheme } from "@/styles/theme";
 
-type Variant = "body" | "caption";
+type Variant = "caption";
 
 export interface TextProps {
   as?: keyof JSX.IntrinsicElements;
   variant?: Variant;
-  color?: ColorsKeys;
+  color?: keyof AppTheme["colors"]["text"];
   size?: number;
   weight?: number;
 }

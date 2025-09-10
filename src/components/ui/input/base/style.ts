@@ -19,28 +19,28 @@ export const Input = styled.input<InputStyleProps>`
       width: 100%;
     `}
 
-  ${({ $inputSize }) => {
+  ${({ theme, $inputSize }) => {
     switch ($inputSize) {
       case "s":
         return css`
-          font-size: 12px;
+          font-size: ${theme.font.sm};
         `;
       case "m":
         return css`
-          font-size: 14px;
+          font-size: ${theme.font.md};
         `;
       case "l":
         return css`
-          font-size: 16px;
+          font-size: ${theme.font.base};
         `;
     }
   }}
 
-  ${({ $variant }) => {
+  ${({ theme, $variant }) => {
     switch ($variant) {
       case "outline":
         return css`
-          border: 1px solid #ccc;
+          border: 1px solid ${theme.colors.border.secondary};
           background: transparent;
           padding-right: 40px;
         `;
@@ -51,7 +51,7 @@ export const Input = styled.input<InputStyleProps>`
         `;
       case "underline":
         return css`
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid ${theme.colors.border.secondary};
           padding: 4px 0;
 
           &:focus {

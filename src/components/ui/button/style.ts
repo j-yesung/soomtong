@@ -4,7 +4,7 @@ import { ButtonStyleProps } from "./type";
 
 export const Button = styled.button<ButtonStyleProps>`
   font-weight: ${({ theme }) => theme.fontWeight.medium};
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text.inverseWhite};
   width: ${({ $width }) => $width && `${$width}px`};
   height: ${({ $height }) => $height && `${$height}px`};
   border-radius: 4px;
@@ -38,19 +38,19 @@ export const Button = styled.button<ButtonStyleProps>`
     switch ($color) {
       case "primary":
         return css`
-          background-color: ${({ theme }) => theme.colors.primary};
+          background-color: ${({ theme }) => theme.colors.button.primary};
         `;
       case "secondary":
         return css`
-          background-color: ${({ theme }) => theme.bg.secondary};
+          background-color: ${({ theme }) => theme.colors.button.secondary};
         `;
       case "danger":
         return css`
-          background-color: ${({ theme }) => theme.colors.danger};
+          background-color: ${({ theme }) => theme.colors.button.danger};
         `;
       default:
         return css`
-          background-color: ${({ theme }) => theme.colors.default};
+          background-color: ${({ theme }) => theme.colors.button.primary};
         `;
     }
   }}
@@ -59,11 +59,11 @@ export const Button = styled.button<ButtonStyleProps>`
     switch ($variant) {
       case "outline":
         return css`
-          border: 1px solid ${({ theme }) => theme.colors.border};
+          border: 1px solid ${({ theme }) => theme.colors.border.secondary};
         `;
       case "dash":
         return css`
-          border: 1px dashed ${({ theme }) => theme.border.default};
+          border: 1px dashed ${({ theme }) => theme.colors.border.primary};
           background-color: transparent;
           color: ${({ theme }) => theme.colors.text};
         `;
@@ -73,7 +73,7 @@ export const Button = styled.button<ButtonStyleProps>`
         `;
       default:
         return css`
-          background-color: ${({ theme }) => theme.colors.default};
+          background-color: ${({ theme }) => theme.colors.button.primary};
         `;
     }
   }}
@@ -81,7 +81,7 @@ export const Button = styled.button<ButtonStyleProps>`
   ${({ $disabled }) =>
     $disabled &&
     css`
-      background-color: ${({ theme }) => theme.colors.muted};
+      background-color: ${({ theme }) => theme.colors.disabled};
       cursor: not-allowed;
     `}
 `;

@@ -7,7 +7,7 @@ export default function Heading({
   children,
   level,
   align = "left",
-  color = "base",
+  color = "primary",
   fontWeight = "normal",
 }: T.HeadingProps) {
   const tag = `h${level}` as keyof JSX.IntrinsicElements;

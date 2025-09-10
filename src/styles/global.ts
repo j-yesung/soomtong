@@ -10,32 +10,19 @@ import { createGlobalStyle } from "styled-components";
  */
 export const GlobalStyle = createGlobalStyle`
   :root {
-    /* Base (Light) */
-    --color-bg: #FFFFFF;
-    --color-text: #2D2D2D;
+    --color-brand: #2D2D2D;
+    --color-secondary: #F5F5F5;
+    --color-danger: #EB003B;
+    --color-success: #74B075;
+    --color-inverseWhite: #FFFFFF;
     --color-border: #e5e7eb;
+    --color-disabled: #9ca3af;
     --color-bg-secondary: #F5F5F5;
-
-    /* Text roles */
-    --color-text-primary: var(--color-text);
     --color-text-secondary: #6b7280;
-    --color-muted: #6b7280;
-    --color-text-white: #FFFFFF;
-
-    /* Brand & states */
-    --color-default: #2d2d2d;
-    --color-primary: #2563eb;
-    --color-on-primary: #FFFFFF;
-
-    --color-success: #16a34a;
-    --color-warning: #d97706;
-    --color-danger: #dc2626;
-
-    --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.35);
   }
 
   /* Dark scheme */
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     :root {
       --color-bg: #FFFFFF;
       --color-text: #111315;
@@ -54,7 +41,7 @@ export const GlobalStyle = createGlobalStyle`
 
       --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.45);
     }
-  }
+  } */
 
   /* Reset */
   *, *::before, *::after { box-sizing: border-box; }

@@ -1,17 +1,10 @@
 import { styled } from "styled-components";
 
-import { HeadingAlign, HeadingColor, HeadingFontWeight, HeadingLevel } from "./type";
-
-interface HeadingTextProps {
-  $level: HeadingLevel;
-  $align: HeadingAlign;
-  $color: HeadingColor;
-  $fontWeight: HeadingFontWeight;
-}
+import { HeadingTextProps } from "./type";
 
 export const HeadingText = styled.h1<HeadingTextProps>`
   text-align: ${({ $align }) => $align};
-  color: ${({ theme, $color }) => ($color === "description" ? theme.colors.muted : theme.colors.default)};
+  color: ${({ theme, $color }) => theme.colors.text[$color]};
 
   font-size: ${({ $level }) => {
     switch ($level) {

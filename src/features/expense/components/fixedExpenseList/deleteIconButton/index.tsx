@@ -13,7 +13,7 @@ const Button = styled.button`
   height: 40px;
   border: 0;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.danger};
+  background: ${({ theme }) => theme.colors.button.danger};
   color: #fff;
   cursor: pointer;
 

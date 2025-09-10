@@ -38,9 +38,7 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
 
   return (
     <Column gap={8}>
-      <Text variant="caption" color="secondary">
-        카테고리 선택
-      </Text>
+      <Text variant="caption">카테고리 선택</Text>
 
       <Row gap={4} wrap="wrap" align="center">
         {tags.map((tag) => (

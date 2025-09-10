@@ -7,7 +7,7 @@ import { useFixedExpenseStore } from "@/features/expense/store";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function FixedExpenseForm() {
-  const add = useFixedExpenseStore((s) => s.add);
+  const add = useFixedExpenseStore((state) => state.add);
 
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
@@ -25,11 +25,11 @@ export default function FixedExpenseForm() {
   };
 
   const handleAddTag = (name: string) => {
-    const t = name.trim();
-    if (!t) return;
-    if (tagList.includes(t)) return;
-    setTagList((prev) => [...prev, t]);
-    setTag(t);
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+    if (tagList.includes(trimmedName)) return;
+    setTagList((prev) => [...prev, trimmedName]);
+    setTag(trimmedName);
   };
 
   return (
