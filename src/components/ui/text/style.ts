@@ -27,7 +27,7 @@ const Text = styled("span").withConfig({
 
   color: ${({ theme, color }) => color && theme.colors.text[color]};
   font-size: ${({ size }) => size && `${size}px`};
-  font-weight: ${({ weight }) => weight && 500};
+  font-weight: ${({ weight }) => weight && weight};
 `;
 
 export default Text;

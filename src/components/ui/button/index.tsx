@@ -13,10 +13,11 @@ export default function Button({
   variant = "fill",
   height,
   width,
+  type = "button",
 }: T.ButtonProps) {
   return (
     <S.Button
-      type="button"
+      type={type}
       onClick={onClick}
       $size={size}
       $color={color}

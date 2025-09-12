@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 
 import { Button, Column, Row } from "@/components/ui";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
@@ -11,13 +11,13 @@ export default function FixedExpenseForm() {
 
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
-
   const [tagList, setTagList] = useState<string[]>(DEFAULT_TAGS);
 
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: FormEvent) => {
+    if (e) e.preventDefault();
     if (!canSubmit) return;
     add({ tag, amount });
     setValue("");
@@ -35,9 +35,9 @@ export default function FixedExpenseForm() {
   return (
     <Column gap={24} fullWidth>
       <FixedTagSelector tags={tagList} selected={tag} onSelect={setTag} onAddTag={handleAddTag} />
-      <Row fullWidth gap={4} align="center">
+      <Row as="form" gap={4} align="center" onSubmit={handleSubmit} fullWidth>
         <FixedExpenseInput value={value} onChange={setValue} />
-        <Button onClick={handleSubmit} height={42}>
+        <Button type="submit" height={39}>
           +
         </Button>
       </Row>
