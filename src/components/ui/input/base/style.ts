@@ -31,7 +31,7 @@ export const Input = styled.input<InputStyleProps>`
         `;
       case "l":
         return css`
-          font-size: ${theme.font.base};
+          font-size: ${theme.font.lg};
         `;
     }
   }}

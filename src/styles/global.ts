@@ -67,7 +67,7 @@ export const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  img, picture, video, canvas, svg {
+  picture, video, canvas, svg {
     display: block;
     max-width: 100%;
   }
@@ -118,9 +118,6 @@ export const GlobalStyle = createGlobalStyle`
   a:hover, a:active {
     text-decoration: none;
   }
-
-  /* 이미지 기본 비율 유지 */
-  img { width: 100%; height: auto; }
 
   /* Autofill 색: 전역 변수 사용 (theme 참조 제거) */
   input:-webkit-autofill {

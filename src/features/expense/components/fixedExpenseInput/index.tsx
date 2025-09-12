@@ -20,7 +20,7 @@ export default function FixedExpenseInput({ onChange, value }: Props) {
       variant="outline"
       unit="원"
       fullWidth
-      inputSize="l"
+      inputSize="m"
       flex={1}
     />
   );

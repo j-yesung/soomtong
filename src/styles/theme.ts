@@ -3,6 +3,7 @@ export const theme = {
     bg: {
       primary: "var(--color-brand)",
       secondary: "var(--color-bg-secondary)",
+      inverseWhite: "var(--color-inverseWhite)",
     },
     text: {
       primary: "var(--color-brand)",
@@ -29,7 +30,6 @@ export const theme = {
   },
   font: {
     sm: "12px",
-    base: "14px",
     md: "16px",
     lg: "18px",
     xl: "22px",
