@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 
-import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "soomtong",
-  description: "숨통 - 월급 기반 생활비 관리",
+  description: "숨통 - 월 수입 기반 생활비 관리",
 };
 
 export default function RootLayout({

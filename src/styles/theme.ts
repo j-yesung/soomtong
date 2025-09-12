@@ -1,14 +1,26 @@
 export const theme = {
   colors: {
-    bg: "var(--color-bg)",
-    text: "var(--color-text)",
-    primary: "var(--color-primary)",
-    primaryText: "var(--color-on-primary)",
-    muted: "var(--color-muted)",
-    border: "var(--color-border)",
-    success: "var(--color-success)",
-    warning: "var(--color-warning)",
-    danger: "var(--color-danger)",
+    bg: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-bg-secondary)",
+      inverseWhite: "var(--color-inverseWhite)",
+    },
+    text: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-text-secondary)",
+      inverseWhite: "var(--color-inverseWhite)",
+    },
+    button: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-secondary)",
+      danger: "var(--color-danger)",
+    },
+    border: {
+      primary: "var(--color-brand)",
+      secondary: "var(--color-border)",
+      danger: "var(--color-danger)",
+    },
+    disabled: "var(--color-disabled)",
   },
   radius: {
     sm: "6px",
@@ -16,14 +28,8 @@ export const theme = {
     lg: "16px",
     pill: "9999px",
   },
-  shadow: {
-    sm: "0 1px 2px rgba(0,0,0,0.06)",
-    md: "0 4px 12px rgba(0,0,0,0.10)",
-    lg: "0 10px 24px rgba(0,0,0,0.14)",
-  },
   font: {
     sm: "12px",
-    base: "14px",
     md: "16px",
     lg: "18px",
     xl: "22px",
