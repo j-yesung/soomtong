@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Button, ChipInput, Column, Row, Tag, Text } from "@/components/ui";
+import { Button, ChipInput, Column, Row, Tag } from "@/components/ui";
 
 type Props = {
   tags: string[];
@@ -38,8 +38,6 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
 
   return (
     <Column gap={8}>
-      <Text variant="caption">매 월 무엇을 지출하시나요?</Text>
-
       <Row gap={4} wrap="wrap" align="center">
         {tags.map((tag) => (
           <Tag key={tag} variant="select" onClick={() => onSelect(tag)} isSelected={selected === tag}>
