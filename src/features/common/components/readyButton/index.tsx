@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui";
 
 type Props = {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   condition: boolean;
 };
