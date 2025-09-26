@@ -7,7 +7,7 @@ export default function FixedExpenseTotalBoard() {
   const total = items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
-    <Row align="flex-end" borderRadius={4} padding={2} gap={2} fullWidth>
+    <Row align="center" borderRadius={4} padding={2} gap={2} fullWidth>
       {total > 0 && <SlotCounter value={total} suffix="원" />}
     </Row>
   );
