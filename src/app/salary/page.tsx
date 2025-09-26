@@ -11,6 +11,11 @@ export default function SalaryPage() {
   const router = useRouter();
   const salary = useSalaryStore((state) => state.salary);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push("/expense");
+  };
+
   return (
     <Column gap={40} fullWidth>
       <Column as="header">
@@ -21,9 +26,9 @@ export default function SalaryPage() {
           월 수입을 기반으로 예산을 계획해 보세요
         </Heading>
       </Column>
-      <Column gap={20}>
+      <Column as="form" gap={20} onSubmit={handleSubmit}>
         <SalaryInput />
-        <ReadyButton onClick={() => router.push("/expense")} text="다음" condition={!!salary} />
+        <ReadyButton type="submit" text="다음" condition={!!salary} />
       </Column>
     </Column>
   );

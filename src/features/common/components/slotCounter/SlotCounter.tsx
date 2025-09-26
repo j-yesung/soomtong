@@ -34,7 +34,7 @@ export default function SlotCounter({
 
   return (
     <>
-      <Row gap={gap} align="flex-end" aria-label="total-amount" role="figure">
+      <Row gap={gap} align="center" aria-label="total-amount" role="figure">
         {glyphs.map((g, i) =>
           g.type === "digit" ? (
             <DigitReel
@@ -46,13 +46,17 @@ export default function SlotCounter({
               lineHeightFactor={lineHeightFactor}
             />
           ) : (
-            <Text key={`s-${i}`} weight={700}>
+            <Text key={`s-${i}`} size={24} weight={700}>
               {g.char}
             </Text>
           ),
         )}
       </Row>
-      {suffix && <Text>{suffix}</Text>}
+      {suffix && (
+        <Text size={24} weight={700}>
+          {suffix}
+        </Text>
+      )}
     </>
   );
 }

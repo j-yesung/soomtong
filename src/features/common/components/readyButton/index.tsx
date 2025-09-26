@@ -3,12 +3,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui";
 
 type Props = {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   condition: boolean;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function ReadyButton({ onClick, text, condition }: Props) {
+export default function ReadyButton({ onClick, text, type = "button", condition }: Props) {
   return (
     <AnimatePresence>
       {!!condition && (
@@ -19,7 +19,7 @@ export default function ReadyButton({ onClick, text, condition }: Props) {
           exit={{ opacity: 0, y: 8 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
         >
-          <Button onClick={onClick} fullWidth>
+          <Button onClick={onClick} type={type} fullWidth>
             {text}
           </Button>
         </motion.div>
