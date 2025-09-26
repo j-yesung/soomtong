@@ -11,7 +11,7 @@ const Text = styled("span").withConfig({
       case "caption":
         return css`
           color: ${({ theme }) => theme.colors.text.secondary};
-          font-size: ${({ theme }) => theme.font.base};
+          font-size: ${({ theme }) => theme.font.md};
           font-weight: ${({ theme }) => theme.fontWeight.normal};
           line-height: 1.4;
         `;

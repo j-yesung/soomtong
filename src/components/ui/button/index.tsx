@@ -14,6 +14,7 @@ export default function Button({
   height,
   width,
   type = "button",
+  ...rest
 }: T.ButtonProps) {
   return (
     <S.Button
@@ -26,6 +27,7 @@ export default function Button({
       $variant={variant}
       $height={height}
       $width={width}
+      {...rest}
     >
       {children}
     </S.Button>
