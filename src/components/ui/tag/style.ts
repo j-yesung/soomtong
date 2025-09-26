@@ -1,39 +1,43 @@
+import shouldForwardProp from "@styled-system/should-forward-prop";
 import styled, { css } from "styled-components";
 
 import { TagStylesProps } from "./type";
 
-export const TagButton = styled.button<TagStylesProps>`
-  display: flex;
+const COMMON = css`
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme, $isSelected }) => ($isSelected ? "#fff" : theme.colors.text.primary)};
-  font-size: ${({ theme }) => theme.font.sm};
   height: 30px;
-  cursor: default;
+  padding: 4px 8px;
+  border-radius: ${({ theme }) => theme.radius.sm};
+  font-size: ${({ theme }) => theme.font.sm};
+`;
 
-  ${({ $variant, $isSelected, theme }) => {
-    switch ($variant) {
-      case "select":
-        return css`
-          background-color: ${$isSelected ? theme.colors.bg.primary : theme.colors.bg.secondary};
-          border-radius: ${theme.radius.sm};
-          padding: 4px 8px;
-          cursor: pointer;
-        `;
-      case "list":
-        return css`
-          background-color: #fff;
-          border: 1px solid ${theme.colors.border.secondary};
-          border-radius: ${theme.radius.sm};
-          padding: 4px 8px;
-        `;
-      case "default":
-      default:
-        return css`
-          border: 1px solid ${theme.colors.border.secondary};
-          border-radius: ${theme.radius.sm};
-          padding: 4px 8px;
-        `;
-    }
-  }}
+const variantStyles = {
+  select: css<TagStylesProps>`
+    cursor: pointer;
+    background-color: ${({ theme, $isSelected }) =>
+      $isSelected ? theme.colors.bg.primary : theme.colors.bg.secondary};
+    color: ${({ theme, $isSelected }) => ($isSelected ? theme.colors.text.inverseWhite : theme.colors.text.primary)};
+    border: none;
+  `,
+  list: css<TagStylesProps>`
+    cursor: default;
+    background-color: ${({ theme }) => theme.colors.bg.inverseWhite};
+    border: 1px solid ${({ theme, $color }) => $color ?? theme.colors.border.secondary};
+    color: ${({ theme, $color }) => $color ?? theme.colors.text.primary};
+  `,
+  default: css<TagStylesProps>`
+    cursor: default;
+    background: transparent;
+    border: 1px solid ${({ theme }) => theme.colors.border.secondary};
+    color: ${({ theme }) => theme.colors.text.primary};
+  `,
+} as const;
+
+export const TagButton = styled("button").withConfig({
+  shouldForwardProp: (prop, target) => (typeof target === "string" ? shouldForwardProp(prop) : true),
+})<TagStylesProps>`
+  ${COMMON}
+  ${({ $variant = "default" }) => variantStyles[$variant]}
 `;

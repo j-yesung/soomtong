@@ -1,6 +1,22 @@
 import type { Transition } from "framer-motion";
 
-export const DEFAULT_TAGS = ["교통비", "식비", "구독료"];
+export const DEFAULT_TAGS = [
+  "주거비",
+  "공과금",
+  "교통비",
+  "식비",
+  "통신비",
+  "구독료",
+  "보험료",
+  "의료비",
+  "교육비",
+  "기타생활비",
+  "저축/투자",
+];
+
+export const TAG_COLORS: Record<string, string> = {
+  "저축/투자": "#3E8EDE",
+};
 
 export const THRESHOLD = 270;
 

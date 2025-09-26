@@ -2,7 +2,7 @@ import { FormEvent, useMemo, useState } from "react";
 
 import { Button, Column, Row } from "@/components/ui";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
-import { DEFAULT_TAGS } from "@/features/expense/constant";
+import { DEFAULT_TAGS } from "@/features/expense/constants";
 import { useFixedExpenseStore } from "@/features/expense/store";
 import { parseNumericInput } from "@/utils/formatter";
 

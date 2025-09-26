@@ -2,7 +2,7 @@
 
 import { PanInfo, animate, useMotionValue } from "framer-motion";
 
-import { REMOVE_TWEEN, SPRING, THRESHOLD } from "../constant";
+import { REMOVE_TWEEN, SPRING, THRESHOLD } from "../constants";
 
 export function useSwipeToDelete(onRemove: () => void) {
   const x = useMotionValue(0);
