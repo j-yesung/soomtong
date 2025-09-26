@@ -10,4 +10,5 @@ export interface TagProps {
 export interface TagStylesProps {
   $variant: Variant;
   $isSelected?: boolean;
+  $color?: string;
 }
