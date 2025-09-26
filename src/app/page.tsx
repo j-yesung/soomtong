@@ -26,7 +26,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <Row align="center" justify="center" height="100vh" fullWidth>
+    <Row align="center" justify="center" minHeight="100vh" fullWidth>
       <Image src={Logo} width={120} height={120} alt="Soomtong Logo" priority />
     </Row>
   );
