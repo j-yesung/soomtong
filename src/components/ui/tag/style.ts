@@ -22,7 +22,7 @@ export const TagButton = styled.button<TagStylesProps>`
         `;
       case "list":
         return css`
-          background-color: #fff;
+          background-color: ${theme.colors.bg.inverseWhite};
           border: 1px solid ${theme.colors.border.secondary};
           border-radius: ${theme.radius.sm};
           padding: 4px 8px;

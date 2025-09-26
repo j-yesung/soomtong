@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-import { LAYOUT_SPRING } from "@/features/expense/constant";
+import { LAYOUT_SPRING } from "@/features/expense/constants";
 
 const List = styled(motion.ul)`
   display: flex;
