@@ -23,7 +23,7 @@ export const theme = {
     disabled: "var(--color-disabled)",
   },
   radius: {
-    sm: "6px",
+    sm: "4px",
     md: "12px",
     lg: "16px",
     pill: "9999px",

@@ -11,11 +11,15 @@ type Props = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Motion = styled(motion.div)<{ $offset: number }>`
-  position: absolute;
+  position: fixed;
   box-sizing: border-box;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%) !important;
   z-index: 10;
+  padding: 30px;
+  min-width: 320px;
+  max-width: 500px;
+  width: 100%;
   bottom: calc(env(safe-area-inset-bottom, 0px) + ${({ $offset }) => $offset}px);
 `;
 
