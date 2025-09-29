@@ -2,6 +2,8 @@
 
 import { create } from "zustand";
 
+import { genId } from "@/utils";
+
 export type FixedExpense = {
   id: string;
   tag: string;
@@ -23,10 +25,7 @@ export const useFixedExpenseStore = create<State & Actions>()((set) => ({
   items: [],
   add: ({ tag, amount }) =>
     set((s) => ({
-      items: [
-        ...s.items,
-        { id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`, tag, amount, createdAt: Date.now() },
-      ],
+      items: [...s.items, { id: genId(), tag, amount, createdAt: Date.now() }],
     })),
   remove: (id) => set((s) => ({ items: s.items.filter((it) => it.id !== id) })),
   clear: () => set({ items: [] }),
