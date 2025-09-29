@@ -7,12 +7,28 @@ export const Button = styled.button<ButtonStyleProps>`
   color: ${({ theme }) => theme.colors.text.inverseWhite};
   width: ${({ $width }) => $width && `${$width}px`};
   height: ${({ $height }) => $height && `${$height}px`};
-  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
   ${({ $fullWidth }) => $fullWidth && "width: 100%"};
+
+  border-radius: ${({ theme, $radius }) => {
+    switch ($radius) {
+      case "sm":
+        return theme.radius.sm;
+      case "md":
+        return theme.radius.md;
+      case "lg":
+        return theme.radius.lg;
+      case "pill":
+        return theme.radius.pill;
+      case "none":
+        return "0";
+      default:
+        return theme.radius.md;
+    }
+  }};
 
   ${({ $size }) => {
     switch ($size) {

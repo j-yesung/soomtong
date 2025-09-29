@@ -13,6 +13,7 @@ export default function Button({
   variant = "fill",
   height,
   width,
+  radius = "sm",
   type = "button",
   ...rest
 }: T.ButtonProps) {
@@ -27,6 +28,7 @@ export default function Button({
       $variant={variant}
       $height={height}
       $width={width}
+      $radius={radius}
       {...rest}
     >
       {children}
