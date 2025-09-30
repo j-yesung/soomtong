@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Soomtong
 
-## Getting Started
+고정지출로 빠져나가는 게 자동이체, 타 수단 등도 있어서 엑셀로 가계부 관리를 했는데 이젠 너무 불편해서 내가 사용하기 가장 편리한 기능들로만 추려서 어플로 사용하기 위함
 
-First, run the development server:
+## 서버 실행
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# pnpm이 없다면
+npm install -g pnpm
+
+# 의존성 파일 설치
+pnpm install
+
+# 실행
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 스펙
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node 20 LTS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- pnpm
 
-## Learn More
+- Next.js 15(App Router), TypeScript
 
-To learn more about Next.js, take a look at the following resources:
+- TanStack Query, Zustand
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Styled-Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Framer Motion (Animation)
 
-## Deploy on Vercel
+## UX Feature
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Swipe to Delete (밀어서 삭제)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Slot Counter Animation (숫자 애니메이션)
+
+- Splash Screen with Transition
+
+- Responsive Layout (320px ~ 500px 모바일 최적화)
