@@ -1,19 +1,24 @@
 "use client";
 
+import { useState } from "react";
+
 import { useRouter } from "next/navigation";
 
-import { Column, Heading } from "@/components/ui";
+import { Column, Heading, Input, Row, Text } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
-import SalaryInput from "@/features/salary/components/salaryInput";
-import { useSalaryStore } from "@/stores/salary/state";
+import { formatNumericInput } from "@/utils/formatter";
 
 export default function SalaryPage() {
+  const [salary, setSalary] = useState("");
   const router = useRouter();
-  const salary = useSalaryStore((state) => state.salary);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     router.push("/expense");
+  };
+
+  const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSalary(formatNumericInput(e.target.value));
   };
 
   return (
@@ -27,7 +32,20 @@ export default function SalaryPage() {
         </Heading>
       </Column>
       <Column as="form" gap={20} justify="space-between" onSubmit={handleSubmit}>
-        <SalaryInput />
+        <Row gap={8}>
+          <Input
+            id="salary-input"
+            value={salary}
+            onChange={handleSalaryChange}
+            inputMode="numeric"
+            inputStyle="salary"
+            placeholder="월 수입이 얼마인가요?"
+            fullWidth
+          />
+          <Text size={28} weight={800}>
+            원
+          </Text>
+        </Row>
         <ReadyButton type="submit" text="다음" condition={!!salary} />
       </Column>
     </Column>
