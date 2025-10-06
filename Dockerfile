@@ -11,7 +11,7 @@ RUN pnpm install --frozen-lockfile
 
 # 소스 복사 및 빌드
 COPY . .
-RUN pnpm build && pnpm export
+RUN pnpm build
 
 # --- 2단계: Nginx 배포 스테이지 ---
 FROM nginx:alpine
