@@ -3,6 +3,8 @@
 APP_NAME=soomtong
 IMAGE=ghcr.io/j-yesung/soomtong:latest
 
+set -e # 오류 발생 시 스크립트 중단
+
 echo "[1/4] 최신 이미지 Pull"
 docker pull $IMAGE
 
