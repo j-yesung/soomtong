@@ -63,13 +63,25 @@ jobs:
           docker build -t ghcr.io/${{ github.repository }}:latest .
           docker push ghcr.io/${{ github.repository }}:latest
 
-      - name: Deploy to EC2 via SSH
+      - name: Upload deploy.sh to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "deploy.sh"
+          target: "/home/ubuntu/soomtong/"
+          overwrite: true
+
+      - name: Run deploy.sh on EC2
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: CR_PAT
           script: |
-            cd ~/soomtong
+            set -euo pipefail
+            cd /home/ubuntu/soomtong
+            command -v dos2unix >/dev/null 2>&1 && dos2unix deploy.sh || true
+            chmod +x deploy.sh
             ./deploy.sh
