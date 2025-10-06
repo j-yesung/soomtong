@@ -1,54 +1,67 @@
-name: Deploy soomtong
+name: CI (PR) & CD (main)
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+concurrency:
+  group: soomtong-${{ github.ref }}
+  cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  ci-build:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
     steps:
-      # 1. 코드 체크아웃
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4.2.0
 
-      # 2. Node.js 20 LTS 설치
-      - name: Set up Node.js 20 LTS
+      - name: Setup Node 20 LTS
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: "pnpm" # node_modules 캐시도 자동 관리됨
-          cache-dependency-path: "pnpm-lock.yaml"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      # 3. pnpm 활성화
       - name: Enable pnpm
-        run: corepack enable && corepack prepare pnpm@latest --activate
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
-      # 4. pnpm 캐시 복원
-      - name: Restore pnpm cache
+      - name: Restore pnpm store cache
         uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
+          restore-keys: ${{ runner.os }}-pnpm-
 
-      # 5. GHCR 로그인
+      - name: Install & Build (PR only)
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+  cd-deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Log in to GHCR
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # 6. Docker 이미지 빌드
-      # no-cache 제거하여 Docker 레이어 캐싱 활용 가능
-      - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.repository }}:latest .
+      - name: Build & Push Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}:latest .
+          docker push ghcr.io/${{ github.repository }}:latest
 
-      # 7. Docker 이미지 푸시
-      - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository }}:latest
-
-      # 8. EC2에 SSH 접속 후 배포
-      - name: Deploy to EC2 via SSH
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -57,4 +70,4 @@ jobs:
           envs: CR_PAT
           script: |
             cd ~/soomtong
-            ./build.sh
+            ./deploy.sh
