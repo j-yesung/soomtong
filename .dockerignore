@@ -1,0 +1,20 @@
+# 패키지/캐시
+node_modules
+.yarn/cache
+.pnp.*
+.yarn/install-state.gz
+
+# Git/IDE 등 불필요 파일
+.git
+.gitignore
+.vscode
+.idea
+
+# 환경변수(이미지에 넣지 않기)
+.env
+.env.*
+
+# 기타 빌드 설정 자체는 이미지에 불필요
+Dockerfile
+docker-compose.yml
+compose.yml
