@@ -1,11 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Column, Heading } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
 import { FixedExpenseForm, FixedExpenseList, FixedExpenseTotalBoard } from "@/features/expense/components";
 import { useFixedExpenseStore } from "@/features/expense/store";
 
 export default function ExpensePage() {
+  const router = useRouter();
   const items = useFixedExpenseStore((state) => state.items);
 
   return (
@@ -23,7 +26,7 @@ export default function ExpensePage() {
         <FixedExpenseTotalBoard />
         <FixedExpenseList />
       </Column>
-      <ReadyButton text="다음" condition={items.length > 0} />
+      <ReadyButton text="다음" condition={items.length > 0} onClick={() => router.push("/dashboard")} />
     </Column>
   );
 }
