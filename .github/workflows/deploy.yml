@@ -31,6 +31,11 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
       - name: Install & Build
+        env:
+          # CI 빌드에서도 문제가 없도록 기본값 주입(선택)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
         run: |
           pnpm install --frozen-lockfile
           pnpm build
@@ -53,7 +58,11 @@ jobs:
           IMAGE=$(echo "$IMAGE_RAW" | tr '[:upper:]' '[:lower:]')
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
-          docker build -t "$IMAGE" .
+          docker build \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL="${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" \
+            --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}" \
+            --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
+            -t "$IMAGE" .
           docker push "$IMAGE"
 
       - name: Upload deploy assets to EC2
