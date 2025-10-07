@@ -19,29 +19,18 @@ jobs:
   ci-build:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20 LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-
-      - name: Restore pnpm store cache
-        uses: actions/cache@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.x }
+      - uses: pnpm/action-setup@v2
+        with: { version: 10 }
+      - uses: actions/cache@v4
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
-
-      - name: Install dependencies & Build
+      - name: Install & Build
         run: |
           pnpm install --frozen-lockfile
           pnpm build
@@ -50,26 +39,30 @@ jobs:
   cd-deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Log in to GHCR
-        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - name: Build & Push Docker image
+        env:
+          REPO: ${{ github.repository }}
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:latest .
-          docker push ghcr.io/${{ github.repository }}:latest
+          IMAGE_RAW="ghcr.io/${REPO}:latest"
+          IMAGE=$(echo "$IMAGE_RAW" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
-      - name: Upload deploy.sh to EC2
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+
+      - name: Upload deploy assets to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "deploy.sh"
+          source: "docker-compose.yml,Caddyfile,deploy.sh"
           target: "/home/ubuntu/soomtong/"
           overwrite: true
 

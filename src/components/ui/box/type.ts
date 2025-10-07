@@ -30,6 +30,7 @@ export type ExtraProps = {
   pointerEvents?: React.CSSProperties["pointerEvents"];
   cursor?: React.CSSProperties["cursor"];
   boxSizing?: React.CSSProperties["boxSizing"];
+  centerScreen?: boolean;
 };
 
 export type BoxProps = SystemProps & ExtraProps;

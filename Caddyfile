@@ -1,0 +1,11 @@
+52.62.190.42.sslip.io {
+    reverse_proxy web:3000
+
+    # 권장 보안 헤더
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    }
+}
