@@ -4,9 +4,8 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { Button, Column, Heading, Input, Row, Text } from "@/components/ui";
+import { Column, Heading, Input, Row, Text } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
-import { createClient } from "@/supabase/client";
 import { insertUserSalary } from "@/supabase/salary";
 import { formatNumericInput, parseNumericInput } from "@/utils/formatter";
 
@@ -23,12 +22,6 @@ export default function SalaryPage() {
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSalary(formatNumericInput(e.target.value));
-  };
-
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/login");
   };
 
   return (
@@ -57,7 +50,6 @@ export default function SalaryPage() {
           </Text>
         </Row>
         <ReadyButton type="submit" text="다음" condition={!!salary} />
-        <Button onClick={handleLogout}>로그아웃</Button>
       </Column>
     </Column>
   );
