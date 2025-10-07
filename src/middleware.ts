@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const accessToken = req.cookies.get("sb-access-token")?.value;
+  const accessToken = req.cookies.get("sb-ibcsirxrmlasxozygipt-auth-token-code-verifier")?.value;
 
   if (!accessToken) {
     const loginUrl = new URL("/login", req.url);
