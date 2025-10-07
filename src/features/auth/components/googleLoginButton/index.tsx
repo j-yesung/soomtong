@@ -1,10 +1,10 @@
 "use client";
 
+import { createBrowserClient } from "@supabase/ssr";
 import styled from "styled-components";
 
 import { GoogleLogo } from "@/assets/svg/logo";
 import { Text } from "@/components/ui";
-import { createClient } from "@/supabase/client";
 
 const GoogleButton = styled.button`
   display: flex;
@@ -26,10 +26,13 @@ const GoogleButton = styled.button`
 `;
 
 export default function GoogleLoginButton() {
-  const supabase = createClient();
-
   const handleGoogleLogin = async () => {
     try {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+      );
+
       await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
