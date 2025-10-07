@@ -5,6 +5,10 @@ APP_DIR="/home/ubuntu/soomtong"
 DOMAIN="52.62.190.42.sslip.io"
 HEALTH_MAX_TRY=24
 
+# docker config 디렉토리 권한 보정
+sudo mkdir -p /home/ubuntu/.docker
+sudo chown -R ubuntu:ubuntu /home/ubuntu/.docker
+
 echo "[0/5] Move to app dir: $APP_DIR"
 cd "$APP_DIR"
 
