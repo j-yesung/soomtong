@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import Logo from "@/assets/images/soomtong.png";
-import { Row } from "@/components/ui";
+import { Box } from "@/components/ui";
+import { getUserInfo, initializeUserBudget } from "@/supabase/auth";
 
 export default function Home() {
   const router = useRouter();
@@ -14,20 +15,39 @@ export default function Home() {
   useEffect(() => {
     let mounted = true;
 
-    const timer = setTimeout(() => {
+    (async () => {
+      const user = await getUserInfo();
+
       if (!mounted) return;
-      router.replace("/salary");
-    }, 1500);
+
+      const navigateAfterDelay = (path: string) => {
+        setTimeout(() => {
+          if (mounted) router.replace(path);
+        }, 1500);
+      };
+
+      if (!user) {
+        navigateAfterDelay("/login");
+        return;
+      }
+
+      try {
+        await initializeUserBudget();
+        navigateAfterDelay("/salary");
+      } catch (e) {
+        console.error("유저 초기화 오류:", e);
+        navigateAfterDelay("/login");
+      }
+    })();
 
     return () => {
       mounted = false;
-      clearTimeout(timer);
     };
   }, [router]);
 
   return (
-    <Row align="center" justify="center" minHeight="100vh" fullWidth>
+    <Box centerScreen>
       <Image src={Logo} width={120} height={120} alt="Soomtong Logo" priority />
-    </Row>
+    </Box>
   );
 }
