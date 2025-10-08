@@ -36,3 +36,15 @@ export async function getUserInfo() {
 
   return userData.user ?? null;
 }
+
+/**
+ * 유저 세션 정보 가져오기
+ */
+export async function getUserSession() {
+  const supabase = createClient();
+
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw sessionError;
+
+  return sessionData.session;
+}
