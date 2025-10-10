@@ -4,12 +4,12 @@ import { useEffect } from "react";
 
 import { Column } from "@/components/ui";
 import { useUserQuery } from "@/features/auth/queries";
-import { useAuthStore } from "@/features/auth/store";
+import { useUserStore } from "@/features/auth/store";
 import SalaryForm from "@/features/salary/components/salaryForm";
 import SalaryHeader from "@/features/salary/components/salaryHeader";
 
 export default function SalaryPage() {
-  const updateUserInfo = useAuthStore((state) => state.updateUserInfo);
+  const updateUserInfo = useUserStore((state) => state.updateUserInfo);
   const { data } = useUserQuery();
 
   useEffect(() => {
