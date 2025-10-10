@@ -1,31 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Column, Heading, Input, Row, Text } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
-import { initializeUserBudget } from "@/supabase/auth";
-import { insertUserSalary } from "@/supabase/salary";
+import { useSalaryMutation } from "@/features/salary/queries";
 import { formatNumericInput, parseNumericInput } from "@/utils/formatter";
 
 export default function SalaryPage() {
   const [salary, setSalary] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    async function fetchBudget() {
-      await initializeUserBudget();
-    }
-    fetchBudget();
-  }, []);
+  const { mutate } = useSalaryMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const budget = parseNumericInput(salary);
-    await insertUserSalary(budget);
-    router.push("/expense");
+    const numericSalary = parseNumericInput(salary);
+    mutate(numericSalary);
   };
 
   const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
