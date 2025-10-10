@@ -11,7 +11,7 @@ export default function StoreHydrator({ user }: { user: User }) {
 
   useEffect(() => {
     updateUserInfo(user);
-  }, [user, updateUserInfo]);
+  }, [user]);
 
   return null;
 }

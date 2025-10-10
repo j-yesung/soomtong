@@ -1,10 +1,10 @@
 "use client";
 
-import { createBrowserClient } from "@supabase/ssr";
 import styled from "styled-components";
 
 import { GoogleLogo } from "@/assets/svg/logo";
 import { Text } from "@/components/ui";
+import { supabaseBrowser } from "@/lib/supabase/broswer";
 
 const GoogleButton = styled.button`
   display: flex;
@@ -28,15 +28,11 @@ const GoogleButton = styled.button`
 export default function GoogleLoginButton() {
   const handleGoogleLogin = async () => {
     try {
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-      );
-
-      await supabase.auth.signInWithOAuth({
+      await supabaseBrowser.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/salary`,
+          queryParams: { access_type: "offline", prompt: "consent" },
         },
       });
     } catch (error) {
