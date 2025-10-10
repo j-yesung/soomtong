@@ -1,7 +1,7 @@
 import { createClient } from "../client";
 
 /**
- * 월수입 삽입 또는 업데이트
+ * 월수입 저장 또는 업데이트
  * @param salary - 월 수입
  */
 export async function insertUserSalary(salary: number) {

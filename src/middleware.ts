@@ -1,25 +1,29 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
+import { createSupabaseWithCookies } from "@/lib/supabase/factory";
 
-export function middleware(req: NextRequest) {
+const PUBLIC = ["/", "/login"];
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const supabase = createSupabaseWithCookies({
+    getAll: () => req.cookies.getAll(),
+    setAll: (list) => {
+      list.forEach(({ name, value, options }) => res.cookies.set({ name, value, ...options }));
+    },
+  });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   const { pathname } = req.nextUrl;
 
-  if (PUBLIC_PATHS.some((path) => pathname.startsWith(path))) {
-    return NextResponse.next();
-  }
+  if (pathname === "/login" && session) return NextResponse.redirect(new URL("/", req.url));
+  if (!PUBLIC.includes(pathname) && !session) return NextResponse.redirect(new URL("/login", req.url));
 
-  const accessToken = req.cookies.get("sb-ibcsirxrmlasxozygipt-auth-token-code-verifier")?.value;
-
-  if (!accessToken) {
-    const loginUrl = new URL("/login", req.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets|images).*)"],
 };

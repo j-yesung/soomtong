@@ -7,41 +7,22 @@ import { useRouter } from "next/navigation";
 
 import Logo from "@/assets/images/soomtong.png";
 import { Box } from "@/components/ui";
-import { getUserInfo, initializeUserBudget } from "@/supabase/auth";
+import { hasSupabaseCookie } from "@/utils/auth";
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    let mounted = true;
+    let active = true;
+    const isCookie = hasSupabaseCookie();
 
-    (async () => {
-      const user = await getUserInfo();
-
-      if (!mounted) return;
-
-      const navigateAfterDelay = (path: string) => {
-        setTimeout(() => {
-          if (mounted) router.replace(path);
-        }, 1500);
-      };
-
-      if (!user) {
-        navigateAfterDelay("/login");
-        return;
-      }
-
-      try {
-        await initializeUserBudget();
-        navigateAfterDelay("/salary");
-      } catch (e) {
-        console.error("유저 초기화 오류:", e);
-        navigateAfterDelay("/login");
-      }
-    })();
+    setTimeout(() => {
+      if (!active) return;
+      router.replace(isCookie ? "/salary" : "/login");
+    }, 1500);
 
     return () => {
-      mounted = false;
+      active = false;
     };
   }, [router]);
 
