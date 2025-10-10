@@ -1,3 +1,5 @@
+import type { User } from "@supabase/supabase-js";
+
 export interface UserInfo {
   id: string;
   aud: string;
@@ -53,9 +55,9 @@ export interface UserInfo {
 }
 
 export interface AuthState {
-  userInfo: UserInfo;
+  userInfo: User;
 }
 
 export interface AuthActions {
-  updateUserInfo: (info: UserInfo) => void;
+  updateUserInfo: (info: User) => void;
 }

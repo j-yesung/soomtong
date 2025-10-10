@@ -1,34 +1,29 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_ROUTES = ["/", "/login"];
+import { createSupabaseWithCookies } from "@/lib/supabase/factory";
 
-export function middleware(req: NextRequest) {
+const PUBLIC = ["/", "/login"];
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const supabase = createSupabaseWithCookies({
+    getAll: () => req.cookies.getAll(),
+    setAll: (list) => {
+      list.forEach(({ name, value, options }) => res.cookies.set({ name, value, ...options }));
+    },
+  });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
   const { pathname } = req.nextUrl;
 
-  // Supabase 인증 쿠키 확인
-  const hasAuthCookie = req.cookies.getAll().some((cookie) => cookie.name.startsWith("sb-") && cookie.value);
+  if (pathname === "/login" && session) return NextResponse.redirect(new URL("/", req.url));
+  if (!PUBLIC.includes(pathname) && !session) return NextResponse.redirect(new URL("/login", req.url));
 
-  // 로그인 상태면 로그인 페이지 진입 차단
-  if (pathname === "/login" && hasAuthCookie) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  const isPublic = PUBLIC_ROUTES.includes(pathname);
-
-  if (isPublic) {
-    return NextResponse.next();
-  }
-
-  if (!hasAuthCookie) {
-    const loginUrl = new URL("/login", req.url);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {
-  // 정적 리소스 등은 미들웨어에서 제외
   matcher: ["/((?!_next/static|_next/image|favicon.ico|assets|images).*)"],
 };
