@@ -1,25 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 
-import { Column, Heading, Input, Row, Text } from "@/components/ui";
-import { ReadyButton } from "@/features/common/components";
-import { useSalaryMutation } from "@/features/salary/queries";
-import { formatNumericInput, parseNumericInput } from "@/utils/formatter";
+import { Column, Heading } from "@/components/ui";
+import { useUserQuery } from "@/features/auth/queries";
+import { useAuthStore } from "@/features/auth/store";
+import SalaryForm from "@/features/salary/components/salaryForm";
 
 export default function SalaryPage() {
-  const [salary, setSalary] = useState("");
-  const { mutate } = useSalaryMutation();
+  const updateUserInfo = useAuthStore((state) => state.updateUserInfo);
+  const { data } = useUserQuery();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const numericSalary = parseNumericInput(salary);
-    mutate(numericSalary);
-  };
-
-  const handleSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSalary(formatNumericInput(e.target.value));
-  };
+  useEffect(() => {
+    if (data) {
+      updateUserInfo(data);
+    }
+  }, [data]);
 
   return (
     <Column gap={40} fullWidth>
@@ -31,23 +27,7 @@ export default function SalaryPage() {
           월 수입을 기반으로 예산을 계획해 보세요
         </Heading>
       </Column>
-      <Column as="form" gap={20} justify="space-between" onSubmit={handleSubmit}>
-        <Row gap={8}>
-          <Input
-            id="salary-input"
-            value={salary}
-            onChange={handleSalaryChange}
-            inputMode="numeric"
-            inputStyle="salary"
-            placeholder="월 수입이 얼마인가요?"
-            fullWidth
-          />
-          <Text size={28} weight={800}>
-            원
-          </Text>
-        </Row>
-        <ReadyButton type="submit" text="다음" condition={!!salary} />
-      </Column>
+      <SalaryForm />
     </Column>
   );
 }
