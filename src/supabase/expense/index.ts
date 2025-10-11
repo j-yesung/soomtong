@@ -37,5 +37,5 @@ export async function fetchFixedRow(params: { userId: string }) {
   const { userId } = params;
   const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).single();
   if (error && error.code !== "PGRST116") throw error;
-  return (data ?? null) as FixedRow;
+  return data as FixedRow;
 }

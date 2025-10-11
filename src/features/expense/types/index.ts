@@ -32,4 +32,5 @@ export type FixedState = {
 export type FixedActions = {
   add: (p: FixedAddItem) => void;
   remove: (p: FixedRemoveItem) => void;
+  updateItems: (items: FixedItem[]) => void;
 };

@@ -1,15 +1,26 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { Column, Heading } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
 import { FixedExpenseForm, FixedExpenseList, FixedExpenseTotalBoard } from "@/features/expense/components";
+import { useFixedExpenseQuery } from "@/features/expense/queries";
 import { useFixedExpenseStore } from "@/features/expense/store";
 
 export default function ExpensePage() {
   const router = useRouter();
-  const items = useFixedExpenseStore((state) => state.items);
+  const { items, updateItems } = useFixedExpenseStore();
+
+  const { data } = useFixedExpenseQuery();
+
+  useEffect(() => {
+    if (data) {
+      updateItems(data.items);
+    }
+  }, [data]);
 
   return (
     <Column align="flex-start" gap={18} width="100%">
@@ -26,7 +37,7 @@ export default function ExpensePage() {
         <FixedExpenseTotalBoard />
         <FixedExpenseList />
       </Column>
-      <ReadyButton text="다음" condition={items.length > 0} onClick={() => router.push("/dashboard")} />
+      <ReadyButton text="다음" condition={items?.length > 0} onClick={() => router.push("/dashboard")} />
     </Column>
   );
 }

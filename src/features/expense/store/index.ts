@@ -19,4 +19,6 @@ export const useFixedExpenseStore = create<FixedState & FixedActions>((set) => (
     const row = await removeFixedItem({ userId, tag, createdAt });
     set(() => ({ userId: row.userId, items: row.items }));
   },
+
+  updateItems: (items) => set(() => ({ items })),
 }));
