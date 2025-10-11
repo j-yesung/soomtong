@@ -10,7 +10,7 @@ export async function addFixedItem(params: { userId: string; item: FixedItem }) 
   const { userId, item } = params;
   const { data, error } = await supabase.rpc("add_fixed_item", {
     _user: userId,
-    _item: item as unknown as Record<string, unknown>,
+    _item: item,
   });
   if (error) throw error;
   return (data as FixedRow[])[0];

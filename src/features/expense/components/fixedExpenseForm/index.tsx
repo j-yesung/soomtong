@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { Button, Column, Row } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
@@ -16,7 +16,7 @@ export default function FixedExpenseForm() {
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!canSubmit) return;
     add({ userId: userInfo.id, tag, amount });
