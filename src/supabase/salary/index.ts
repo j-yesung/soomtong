@@ -1,22 +1,22 @@
 import { createClient } from "../client";
 
+const supabase = createClient();
+
 /**
  * 월수입 저장 또는 업데이트
- * @param salary - 월 수입
+ * @param salary - 월수입
  */
 export async function insertUserSalary(salary: number) {
-  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
 
   const { data, error } = await supabase
-    .from("user_budget")
+    .from("fixed_expenses")
     .upsert(
       {
         user_id: user.id,
-        email: user.email,
         budget: salary,
       },
       { onConflict: "user_id" },
@@ -26,4 +26,15 @@ export async function insertUserSalary(salary: number) {
 
   if (error) throw error;
   return data;
+}
+
+/**
+ * 월수입 조회
+ */
+export async function getUserSalary(userId: string) {
+  if (!userId) return 0;
+
+  const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).maybeSingle();
+  if (error) throw error;
+  return data?.budget ?? 0;
 }
