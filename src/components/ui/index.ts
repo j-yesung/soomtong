@@ -10,3 +10,4 @@ export { default as Column } from "./column";
 export { default as Row } from "./row";
 export { default as Card } from "./card";
 export { default as BarChart } from "./chart/bar";
+export { default as Skeleton } from "./skeleton";

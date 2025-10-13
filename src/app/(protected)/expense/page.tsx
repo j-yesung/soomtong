@@ -6,19 +6,18 @@ import { useRouter } from "next/navigation";
 
 import { Column, Heading } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
+import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseForm, FixedExpenseList, FixedExpenseTotalBoard } from "@/features/expense/components";
-import { useFixedExpenseQuery } from "@/features/expense/queries";
 import { useFixedExpenseStore } from "@/features/expense/store";
 
 export default function ExpensePage() {
   const router = useRouter();
   const { items, updateItems } = useFixedExpenseStore();
-
-  const { data } = useFixedExpenseQuery();
+  const { data } = useFixedExpenseTableQuery();
 
   useEffect(() => {
     if (data) {
-      updateItems(data.items);
+      updateItems(data?.items);
     }
   }, [data]);
 

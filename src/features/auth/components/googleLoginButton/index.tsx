@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { GoogleLogo } from "@/assets/svg/logo";
 import { Text } from "@/components/ui";
-import { supabaseBrowser } from "@/lib/supabase/broswer";
+import { useLogin } from "@/features/auth/queries";
 
 const GoogleButton = styled.button`
   display: flex;
@@ -26,22 +26,10 @@ const GoogleButton = styled.button`
 `;
 
 export default function GoogleLoginButton() {
-  const handleGoogleLogin = async () => {
-    try {
-      await supabaseBrowser.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/salary`,
-          queryParams: { access_type: "offline", prompt: "consent" },
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { mutate: login } = useLogin();
 
   return (
-    <GoogleButton onClick={handleGoogleLogin}>
+    <GoogleButton onClick={() => login()}>
       <GoogleLogo />
       <Text size={14}>구글 계정으로 로그인하기</Text>
     </GoogleButton>
