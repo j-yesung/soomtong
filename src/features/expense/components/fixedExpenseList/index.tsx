@@ -1,6 +1,7 @@
 "use client";
 
 import { Row, Tag, Text } from "@/components/ui";
+import { useUserStore } from "@/features/auth/store";
 import { theme } from "@/styles/theme";
 import { formatWithComma } from "@/utils/formatter";
 
@@ -10,13 +11,22 @@ import MotionList from "./motionList";
 import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
+  const userInfo = useUserStore((state) => state.userInfo);
   const items = useFixedExpenseStore((state) => state.items);
   const remove = useFixedExpenseStore((state) => state.remove);
 
+  const handleRemove = (tag: string, createdAt: number) => {
+    return remove({ userId: userInfo.id, tag, createdAt });
+  };
+
   return (
     <MotionList>
-      {items.map(({ id, tag, amount }) => (
-        <SwipeItem key={id} onRemove={() => remove(id)} rightAction={<DeleteIconButton onClick={() => remove(id)} />}>
+      {items.map(({ createdAt, tag, amount }) => (
+        <SwipeItem
+          key={createdAt}
+          onRemove={() => handleRemove(tag, createdAt)}
+          rightAction={<DeleteIconButton onClick={() => handleRemove(tag, createdAt)} />}
+        >
           <Row
             justify="space-between"
             align="center"

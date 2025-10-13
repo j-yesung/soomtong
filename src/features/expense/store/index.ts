@@ -2,31 +2,23 @@
 
 import { create } from "zustand";
 
-import { genId } from "@/utils";
+import { FixedActions, FixedState } from "@/features/expense/types";
+import { addFixedItem, removeFixedItem } from "@/supabase/expense";
 
-export type FixedExpense = {
-  id: string;
-  tag: string;
-  amount: number;
-  createdAt: number;
-};
-
-type State = {
-  items: FixedExpense[];
-};
-
-type Actions = {
-  add: (payload: { tag: string; amount: number }) => void;
-  remove: (id: string) => void;
-  clear: () => void;
-};
-
-export const useFixedExpenseStore = create<State & Actions>()((set) => ({
+export const useFixedExpenseStore = create<FixedState & FixedActions>((set) => ({
+  userId: "",
   items: [],
-  add: ({ tag, amount }) =>
-    set((s) => ({
-      items: [...s.items, { id: genId(), tag, amount, createdAt: Date.now() }],
-    })),
-  remove: (id) => set((s) => ({ items: s.items.filter((it) => it.id !== id) })),
-  clear: () => set({ items: [] }),
+
+  add: async ({ userId, tag, amount }) => {
+    const item = { tag, amount, createdAt: Date.now() };
+    const row = await addFixedItem({ userId, item });
+    set(() => ({ userId: row.userId, items: row.items }));
+  },
+
+  remove: async ({ userId, tag, createdAt }) => {
+    const row = await removeFixedItem({ userId, tag, createdAt });
+    set(() => ({ userId: row.userId, items: row.items }));
+  },
+
+  updateItems: (items) => set(() => ({ items })),
 }));

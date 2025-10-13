@@ -7,24 +7,20 @@ import { useRouter } from "next/navigation";
 import { Column, Heading } from "@/components/ui";
 import { ReadyButton } from "@/features/common/components";
 import { FixedExpenseForm, FixedExpenseList, FixedExpenseTotalBoard } from "@/features/expense/components";
+import { useFixedExpenseQuery } from "@/features/expense/queries";
 import { useFixedExpenseStore } from "@/features/expense/store";
-import { supabaseBrowser } from "@/lib/supabase/broswer";
 
 export default function ExpensePage() {
   const router = useRouter();
-  const items = useFixedExpenseStore((state) => state.items);
+  const { items, updateItems } = useFixedExpenseStore();
+
+  const { data } = useFixedExpenseQuery();
 
   useEffect(() => {
-    (async () => {
-      const {
-        data: { session },
-      } = await supabaseBrowser.auth.getSession();
-      if (!session) router.replace("/login"); // 미들웨어가 막아도 방어용
-      console.log(session);
-      // 필요하면 유저/데이터 fetch → Zustand hydrate
-      // const { data: { user } } = await supabaseBrowser.auth.getUser();
-    })();
-  }, [router]);
+    if (data) {
+      updateItems(data.items);
+    }
+  }, [data]);
 
   return (
     <Column align="flex-start" gap={18} width="100%">
@@ -41,7 +37,7 @@ export default function ExpensePage() {
         <FixedExpenseTotalBoard />
         <FixedExpenseList />
       </Column>
-      <ReadyButton text="다음" condition={items.length > 0} onClick={() => router.push("/dashboard")} />
+      <ReadyButton text="다음" condition={items?.length > 0} onClick={() => router.push("/dashboard")} />
     </Column>
   );
 }

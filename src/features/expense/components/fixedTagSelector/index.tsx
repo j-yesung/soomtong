@@ -5,17 +5,17 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Button, ChipInput, Column, Row, Tag } from "@/components/ui";
+import { DEFAULT_TAGS } from "@/features/expense/constants";
 
 type Props = {
-  tags: string[];
   selected: string;
   onSelect: (tag: string) => void;
-  onAddTag?: (name: string) => void;
 };
 
-export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }: Props) {
+export default function FixedTagSelector({ selected, onSelect }: Props) {
   const [isAdding, setIsAdding] = useState(false);
   const [draft, setDraft] = useState("");
+  const [tagList, setTagList] = useState<string[]>(DEFAULT_TAGS);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -23,10 +23,18 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
     if (isAdding) inputRef.current?.focus();
   }, [isAdding]);
 
+  const AddTag = (name: string) => {
+    const trimmedName = name.trim();
+    if (!trimmedName) return;
+    if (tagList.includes(trimmedName)) return;
+    setTagList((prev) => [...prev, trimmedName]);
+    onSelect(trimmedName);
+  };
+
   const commitAdd = () => {
     const name = draft.trim();
     if (!name) return cancelAdd();
-    onAddTag?.(name);
+    AddTag(name);
     setIsAdding(false);
     setDraft("");
   };
@@ -39,7 +47,7 @@ export default function FixedTagSelector({ tags, selected, onSelect, onAddTag }:
   return (
     <Column gap={8}>
       <Row gap={4} wrap="wrap" align="center">
-        {tags.map((tag) => (
+        {tagList.map((tag) => (
           <Tag key={tag} variant="select" onClick={() => onSelect(tag)} isSelected={selected === tag}>
             {tag}
           </Tag>
