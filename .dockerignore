@@ -3,6 +3,7 @@ node_modules
 .yarn/cache
 .pnp.*
 .yarn/install-state.gz
+*.log
 
 # Git/IDE 등 불필요 파일
 .git
@@ -18,3 +19,5 @@ node_modules
 Dockerfile
 docker-compose.yml
 compose.yml
+Caddyfile
+deploy.sh

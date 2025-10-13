@@ -2,50 +2,29 @@
 set -euo pipefail
 
 APP_DIR="/home/ubuntu/soomtong"
-DOMAIN="52.62.190.42.sslip.io"
-HEALTH_MAX_TRY=24
+# DOMAIN="52.62.190.42.sslip.io"
 
-# docker config 디렉토리 권한 보정
-sudo mkdir -p /home/ubuntu/.docker
-sudo chown -R ubuntu:ubuntu /home/ubuntu/.docker
-
-echo "[0/5] Move to app dir: $APP_DIR"
 cd "$APP_DIR"
 
-echo "[1/5] Check .env.production exists"
-if [ ! -f ".env.production" ]; then
-  echo "[ERROR] .env.production not found in $APP_DIR"
-  exit 1
-fi
+echo "Pull latest image"
+docker compose pull web
 
-echo "[2/5] Ensure docker compose is available"
-if ! docker compose version >/dev/null 2>&1; then
-  if command -v docker-compose >/dev/null 2>&1; then
-    echo "[WARN] docker compose plugin not found. Using docker-compose fallback"
-    alias docker='docker-compose'
-  else
-    echo "[ERROR] docker compose not found"
-    exit 1
-  fi
-fi
+echo "Restart container"
+docker compose up -d --no-deps web
 
-echo "[3/5] Pull latest images"
-docker compose pull
-
-echo "[4/5] Up (detached)"
-docker compose up -d
-
-echo "[5/5] Prune old images (optional)"
+echo "Clean old images"
 docker image prune -f || true
 
-echo "[Healthcheck] Wait until https://${DOMAIN} responds"
-for i in $(seq 1 ${HEALTH_MAX_TRY}); do
-  if curl -fsSLI --max-time 5 "https://${DOMAIN}" >/dev/null 2>&1; then
-    echo "✅ Service is up (try=${i})"
-    exit 0
-  fi
-  sleep 5
-done
+echo "배포완료"
 
-echo "❌ Healthcheck failed for https://${DOMAIN}"
+# echo "헬스체크..."
+# for i in {1..20}; do
+#   if curl -fsSLI --max-time 5 "https://${DOMAIN}" >/dev/null 2>&1; then
+#     echo "Service is UP (${i})"
+#     exit 0
+#   fi
+#   sleep 3
+# done
+
+# echo "헬스체크 실패 for https://${DOMAIN}"
 exit 1

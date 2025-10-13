@@ -1,4 +1,5 @@
 52.62.190.42.sslip.io {
+    tls internal
     reverse_proxy web:3000
 
     # 권장 보안 헤더
