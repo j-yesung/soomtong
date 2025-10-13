@@ -1,7 +1,13 @@
 "use client";
 
-import { Column } from "@/components/ui";
-import BudgetRatioCard from "@/features/dashboard/components/budgetRatioCard";
+import dynamic from "next/dynamic";
+
+import { Column, Skeleton } from "@/components/ui";
+
+const BudgetRatioCard = dynamic(() => import("@/features/dashboard/components/budgetRatioCard"), {
+  ssr: false,
+  loading: () => <Skeleton height={168} />,
+});
 
 export default function DashboardPage() {
   return (

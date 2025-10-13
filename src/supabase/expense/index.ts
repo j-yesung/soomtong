@@ -13,7 +13,7 @@ export async function addFixedItem(params: { userId: string; item: FixedItem }) 
     _item: item,
   });
   if (error) throw error;
-  return (data as FixedRow[])[0];
+  return data as FixedRow;
 }
 
 /**
@@ -27,15 +27,5 @@ export async function removeFixedItem(params: { userId: string; tag: string; cre
     _created_at: String(createdAt),
   });
   if (error) throw error;
-  return (data as FixedRow[])[0];
-}
-
-/**
- * 고정지출 행 조회
- */
-export async function fetchFixedRow(params: { userId: string }) {
-  const { userId } = params;
-  const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).single();
-  if (error && error.code !== "PGRST116") throw error;
   return data as FixedRow;
 }

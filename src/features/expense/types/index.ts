@@ -20,6 +20,7 @@ export type FixedRemoveItem = BaseFixedItem & {
 export type FixedRow = {
   id: number;
   userId: string;
+  budget: number;
   items: FixedItem[];
   createdAt: string;
 };

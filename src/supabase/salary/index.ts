@@ -27,14 +27,3 @@ export async function insertUserSalary(salary: number) {
   if (error) throw error;
   return data;
 }
-
-/**
- * 월수입 조회
- */
-export async function getUserSalary(userId: string) {
-  if (!userId) return 0;
-
-  const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).maybeSingle();
-  if (error) throw error;
-  return data?.budget ?? 0;
-}
