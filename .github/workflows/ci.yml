@@ -2,11 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
-
-concurrency:
-  group: soomtong-ci-${{ github.ref }}
-  cancel-in-progress: true
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -14,8 +10,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    env:
-      NEXT_FAST_BUILD: "1"
+
     steps:
       - uses: actions/checkout@v4
 
@@ -37,8 +32,5 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
-        run: pnpm run typecheck
-
-      - name: Lint
-        run: pnpm run lint
+      - name: Build
+        run: pnpm build

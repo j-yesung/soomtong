@@ -2,12 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch: {} # 수동 배포도 가능하게
-
-concurrency:
-  group: soomtong-cd-${{ github.ref }}
-  cancel-in-progress: true
+    branches: ["main"]
 
 permissions:
   contents: read
