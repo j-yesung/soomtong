@@ -17,6 +17,9 @@ env:
 
 jobs:
   build-and-push:
+    # 다른 이벤트로 불려도 main push만 진행
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -49,7 +52,7 @@ jobs:
           cache-from: |
             type=registry,ref=${{ env.BUILD_CACHE }}
           cache-to: |
-            type=registry,ref=${{ env.BUILD_CACHE },mode=max}
+            type=registry,ref=${{ env.BUILD_CACHE }},mode=max
 
       - name: Upload deploy assets to EC2
         uses: appleboy/scp-action@v0.1.7
