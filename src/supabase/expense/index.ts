@@ -13,7 +13,7 @@ export async function addFixedItem(params: { userId: string; item: FixedItem }) 
     _item: item,
   });
   if (error) throw error;
-  return data as FixedRow;
+  return (data as FixedRow[])[0];
 }
 
 /**
@@ -27,5 +27,5 @@ export async function removeFixedItem(params: { userId: string; tag: string; cre
     _created_at: String(createdAt),
   });
   if (error) throw error;
-  return data as FixedRow;
+  return (data as FixedRow[])[0];
 }

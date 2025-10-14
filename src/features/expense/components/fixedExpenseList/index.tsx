@@ -30,7 +30,7 @@ export default function FixedExpenseList() {
 
   return (
     <MotionList>
-      {items.map(({ createdAt, tag, amount }) => (
+      {items?.map(({ createdAt, tag, amount }) => (
         <SwipeItem
           key={createdAt}
           onRemove={() => handleRemove(tag, createdAt)}

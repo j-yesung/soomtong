@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { getFixedExpenseTable } from "@/features/dashboard/api";
+import { getFixedExpenseTable } from "@/features/common/api";
 
 export const userAmountQueryKeys = {
   fixedExpenseTable: () => ["fixedExpense"],
