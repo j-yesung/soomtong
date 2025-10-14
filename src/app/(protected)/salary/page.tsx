@@ -1,8 +1,7 @@
 "use client";
 
 import { Column } from "@/components/ui";
-import SalaryForm from "@/features/salary/components/salaryForm";
-import SalaryHeader from "@/features/salary/components/salaryHeader";
+import { SalaryForm, SalaryHeader } from "@/features/salary/components";
 
 export default function SalaryPage() {
   return (
