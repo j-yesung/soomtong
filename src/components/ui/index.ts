@@ -11,3 +11,5 @@ export { default as Row } from "./row";
 export { default as Card } from "./card";
 export { default as BarChart } from "./chart/bar";
 export { default as Skeleton } from "./skeleton";
+export { default as Grid } from "./grid";
+export { default as Portal } from "./portal";
