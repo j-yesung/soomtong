@@ -27,11 +27,10 @@ export default function FixedExpenseForm() {
   return (
     <Column gap={24} fullWidth>
       <FixedTagSelector selected={tag} onSelect={setTag} />
-      <Row as="form" gap={4} align="center" onSubmit={handleSubmit} fullWidth>
+      <Row as="form" gap={4} height={40} align="center" fullWidth onSubmit={handleSubmit}>
         <FixedExpenseInput value={value} onChange={setValue} />
-        <Button type="submit" height={39}>
-          +
-        </Button>
+        <Button width={120}>납입일 선택</Button>
+        {/* <Button type="submit">추가</Button> */}
       </Row>
     </Column>
   );

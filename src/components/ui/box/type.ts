@@ -31,6 +31,7 @@ export type ExtraProps = {
   cursor?: React.CSSProperties["cursor"];
   boxSizing?: React.CSSProperties["boxSizing"];
   centerScreen?: boolean;
+  pvh?: number[];
 };
 
 export type BoxProps = SystemProps & ExtraProps;

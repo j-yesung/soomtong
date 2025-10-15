@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { Row, Tag, Text } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
+import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { theme } from "@/styles/theme";
 import { formatWithComma } from "@/utils/formatter";
 
@@ -12,8 +15,14 @@ import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
   const userInfo = useUserStore((state) => state.userInfo);
-  const items = useFixedExpenseStore((state) => state.items);
-  const remove = useFixedExpenseStore((state) => state.remove);
+  const { items, updateItems, remove } = useFixedExpenseStore();
+  const { data } = useFixedExpenseTableQuery();
+
+  useEffect(() => {
+    if (data) {
+      updateItems(data?.items);
+    }
+  }, [data]);
 
   const handleRemove = (tag: string, createdAt: number) => {
     return remove({ userId: userInfo.id, tag, createdAt });
@@ -21,7 +30,7 @@ export default function FixedExpenseList() {
 
   return (
     <MotionList>
-      {items.map(({ createdAt, tag, amount }) => (
+      {items?.map(({ createdAt, tag, amount }) => (
         <SwipeItem
           key={createdAt}
           onRemove={() => handleRemove(tag, createdAt)}
