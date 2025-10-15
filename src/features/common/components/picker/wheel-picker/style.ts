@@ -29,8 +29,7 @@ export const CenterHighlight = styled.div<ItemHeight>`
   height: ${({ $itemHeight }) => $itemHeight}px;
   transform: translateY(-50%);
   border-radius: 10px;
-  background: #fff7cc;
-  box-shadow: inset 0 0 0 1px #f4e08a;
+  background: ${({ theme }) => theme.colors.bg.secondary};
   pointer-events: none;
 `;
 
