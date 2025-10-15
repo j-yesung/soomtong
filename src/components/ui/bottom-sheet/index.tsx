@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 
-import Box from "../box/style";
+import Column from "../column";
 import Heading from "../heading";
 import Portal from "../portal";
 import * as S from "./style";
@@ -32,9 +32,9 @@ export default function BottomSheet({ open, title, children, onClose }: Props) {
                 <S.CloseButton onClick={onClose}>✕</S.CloseButton>
               </S.Header>
             )}
-            <Box overflow="auto" padding={16}>
+            <Column overflow="auto" padding={16}>
               {children}
-            </Box>
+            </Column>
           </S.Sheet>
         </Portal>
       )}

@@ -13,3 +13,4 @@ export { default as BarChart } from "./chart/bar";
 export { default as Skeleton } from "./skeleton";
 export { default as Grid } from "./grid";
 export { default as Portal } from "./portal";
+export { default as BottomSheet } from "./bottom-sheet";

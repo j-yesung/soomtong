@@ -13,6 +13,7 @@ export type StyledSystemBaseProps = SSGridProps & LayoutProps & SpaceProps & Col
 
 export type GridProps = StyledSystemBaseProps & {
   cols?: number;
+  gap?: number;
   minColWidth?: string | number;
   children?: React.ReactNode;
 };
