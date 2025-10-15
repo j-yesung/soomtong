@@ -1,8 +1,12 @@
 import dynamic from "next/dynamic";
 
 import { Column } from "@/components/ui";
-import { FixedExpenseForm, FixedExpenseHeader, FixedExpenseTotalBoard } from "@/features/expense/components";
-import FixedExpenseNextButton from "@/features/expense/components/fixedExpenseNextButton";
+import {
+  FixedExpenseForm,
+  FixedExpenseHeader,
+  FixedExpenseNextButton,
+  FixedExpenseTotalBoard,
+} from "@/features/expense/components";
 
 const FixedExpenseList = dynamic(() => import("@/features/expense/components/fixedExpenseList"), {
   ssr: false,
