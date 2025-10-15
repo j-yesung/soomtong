@@ -1,5 +1,3 @@
-"use client";
-
 import { Column } from "@/components/ui";
 import { SalaryForm, SalaryHeader } from "@/features/salary/components";
 
