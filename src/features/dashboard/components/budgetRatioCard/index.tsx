@@ -1,5 +1,3 @@
-"use client";
-
 import { BarChart, Card, Column, Heading, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 
