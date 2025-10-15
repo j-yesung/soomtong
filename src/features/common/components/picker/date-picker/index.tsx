@@ -1,5 +1,3 @@
-'use client";';
-
 import { useState } from "react";
 
 import { BottomSheet, Button } from "@/components/ui";

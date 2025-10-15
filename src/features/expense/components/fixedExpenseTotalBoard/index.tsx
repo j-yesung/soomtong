@@ -1,3 +1,5 @@
+"use client";
+
 import { Row } from "@/components/ui";
 import { SlotCounter } from "@/features/common/components";
 import { useFixedExpenseStore } from "@/features/expense/store";

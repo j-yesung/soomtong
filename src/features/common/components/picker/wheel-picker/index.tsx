@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 
 import { Flex } from "@/components/ui";

@@ -1,5 +1,3 @@
-"use client";
-
 import { create } from "zustand";
 
 import { FixedActions, FixedState } from "@/features/expense/types";
