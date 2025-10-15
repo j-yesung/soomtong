@@ -1,22 +1,26 @@
-import { useState } from "react";
-
 import { BottomSheet, Button } from "@/components/ui";
 
 import WheelPicker from "../wheel-picker";
 
 type Props = {
+  day: number;
   open: boolean;
   onClose: () => void;
   callback?: (day: number) => void;
+  onDayChange?: (day: number) => void;
 };
 
-export default function DatePicker({ open, onClose, callback }: Props) {
+export default function DatePicker({ day, open, onClose, callback, onDayChange }: Props) {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
-  const [day, setDay] = useState(1);
 
   return (
     <BottomSheet open={open} onClose={onClose} title="납입일 선택">
-      <WheelPicker items={days} value={day} onChange={(d) => setDay(d)} onActiveChange={(d) => setDay(d)} />
+      <WheelPicker
+        items={days}
+        value={day}
+        onChange={(d) => onDayChange?.(d)}
+        onActiveChange={(d) => onDayChange?.(d)}
+      />
 
       <Button
         onClick={() => {

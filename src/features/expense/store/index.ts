@@ -7,8 +7,8 @@ export const useFixedExpenseStore = create<FixedState & FixedActions>((set) => (
   userId: "",
   items: [],
 
-  add: async ({ userId, tag, amount }) => {
-    const item = { tag, amount, createdAt: Date.now() };
+  add: async ({ userId, tag, amount, day }) => {
+    const item = { tag, amount, day, createdAt: Date.now() };
     const row = await addFixedItem({ userId, item });
     set(() => ({ userId: row.userId, items: row.items }));
   },

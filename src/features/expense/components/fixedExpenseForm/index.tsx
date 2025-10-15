@@ -13,13 +13,14 @@ export default function FixedExpenseForm() {
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
   const [open, setOpen] = useState(false);
+  const [day, setDay] = useState(1);
 
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    addFixedExpense({ userId: userInfo.id, tag, amount });
+    addFixedExpense({ userId: userInfo.id, tag, amount, day });
     setValue("");
     setTag("");
   };
@@ -30,10 +31,10 @@ export default function FixedExpenseForm() {
       <Row gap={4} height={40} align="center" fullWidth>
         <FixedExpenseInput value={value} onChange={setValue} />
         <Button width={120} onClick={() => setOpen(true)}>
-          납입일 선택
+          지출일 선택
         </Button>
       </Row>
-      <DatePicker open={open} onClose={() => setOpen(false)} callback={handleSubmit} />
+      <DatePicker day={day} open={open} onClose={() => setOpen(false)} callback={handleSubmit} onDayChange={setDay} />
     </Column>
   );
 }
