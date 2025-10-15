@@ -6,11 +6,13 @@ export type BaseFixedItem = {
 export type FixedItem = {
   tag: string;
   amount: number;
+  day: number;
   createdAt: number;
 };
 
 export type FixedAddItem = BaseFixedItem & {
   amount: number;
+  day: number;
 };
 
 export type FixedRemoveItem = BaseFixedItem & {

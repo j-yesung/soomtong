@@ -35,9 +35,7 @@ const variantStyles = {
   `,
 } as const;
 
-export const TagButton = styled("button").withConfig({
-  shouldForwardProp: (prop, target) => (typeof target === "string" ? shouldForwardProp(prop) : true),
-})<TagStylesProps>`
+export const TagButton = styled("button").withConfig({ shouldForwardProp })<TagStylesProps>`
   ${COMMON}
   ${({ $variant = "default" }) => variantStyles[$variant]}
 `;

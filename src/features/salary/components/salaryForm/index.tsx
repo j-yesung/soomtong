@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import { Column, Input, Row, Text } from "@/components/ui";
