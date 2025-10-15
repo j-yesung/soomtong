@@ -5,17 +5,17 @@ import { useEffect } from "react";
 import { Row, Tag, Text } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import { removeFixedExpense, useFixedExpenseStore } from "@/features/expense/store";
 import { theme } from "@/styles/theme";
 import { formatWithComma } from "@/utils/formatter";
 
-import { useFixedExpenseStore } from "../../store";
 import DeleteIconButton from "./deleteIconButton";
 import MotionList from "./motionList";
 import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
   const userInfo = useUserStore((state) => state.userInfo);
-  const { items, updateItems, remove } = useFixedExpenseStore();
+  const { items, updateItems } = useFixedExpenseStore();
   const { data } = useFixedExpenseTableQuery();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function FixedExpenseList() {
   }, [data]);
 
   const handleRemove = (tag: string, createdAt: number) => {
-    return remove({ userId: userInfo.id, tag, createdAt });
+    return removeFixedExpense({ userId: userInfo.id, tag, createdAt });
   };
 
   return (

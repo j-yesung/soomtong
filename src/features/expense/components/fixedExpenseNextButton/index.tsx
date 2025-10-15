@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import { ReadyButton } from "@/features/common/components";
 import { useFixedExpenseStore } from "@/features/expense/store";

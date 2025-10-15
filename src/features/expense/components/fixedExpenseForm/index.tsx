@@ -4,11 +4,10 @@ import { Button, Column, Row } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
 import { DatePicker } from "@/features/common/components";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
-import { useFixedExpenseStore } from "@/features/expense/store";
+import { addFixedExpense } from "@/features/expense/store";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function FixedExpenseForm() {
-  const add = useFixedExpenseStore((state) => state.add);
   const userInfo = useUserStore((state) => state.userInfo);
 
   const [value, setValue] = useState("");
@@ -20,7 +19,7 @@ export default function FixedExpenseForm() {
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    add({ userId: userInfo.id, tag, amount });
+    addFixedExpense({ userId: userInfo.id, tag, amount });
     setValue("");
     setTag("");
   };

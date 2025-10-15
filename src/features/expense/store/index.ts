@@ -20,3 +20,6 @@ export const useFixedExpenseStore = create<FixedState & FixedActions>((set) => (
 
   updateItems: (items) => set(() => ({ items })),
 }));
+
+export const addFixedExpense = useFixedExpenseStore.getState().add;
+export const removeFixedExpense = useFixedExpenseStore.getState().remove;
