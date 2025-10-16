@@ -15,6 +15,11 @@ export const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.4);
   animation: ${fade} 0.16s ease-out;
   z-index: 1100;
+
+  width: 100%;
+  max-width: 500px;
+  min-width: 320px;
+  margin: 0 auto;
 `;
 
 export const Sheet = styled.div`
