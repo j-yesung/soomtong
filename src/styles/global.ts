@@ -19,6 +19,9 @@ export const GlobalStyle = createGlobalStyle`
     --color-disabled: #9ca3af;
     --color-bg-secondary: #F5F5F5;
     --color-text-secondary: #6b7280;
+
+    --color-light-blue: #E6F0FF;  
+    --color-blue: #3B82F6;         
   }
 
   /* Dark scheme */
