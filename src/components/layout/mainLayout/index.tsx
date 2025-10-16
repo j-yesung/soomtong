@@ -19,10 +19,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       maxWidth="500px"
       margin="0 auto"
       boxSizing="border-box"
-      // overflowY="auto"
-      // overflowX="hidden"
       position="relative"
-      padding={30}
+      padding={20}
     >
       {children}
     </Box>
