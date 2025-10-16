@@ -22,6 +22,7 @@ export const Sheet = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  margin: 0 auto;
   background: ${({ theme }) => theme.colors.bg.inverseWhite};
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -31,6 +32,12 @@ export const Sheet = styled.div`
   flex-direction: column;
   animation: ${slideUp} 0.2s ease-out forwards;
   z-index: 1110;
+
+  width: 100%;
+  max-width: 500px;
+  min-width: 320px;
+
+  padding-bottom: env(safe-area-inset-bottom);
 `;
 
 export const Header = styled.header`
