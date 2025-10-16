@@ -17,7 +17,7 @@ export type Props = {
 export default function WheelPicker({
   items,
   value,
-  itemHeight = 44,
+  itemHeight = 40,
   visibleCount = 7,
   onChange,
   onActiveChange,
@@ -44,12 +44,7 @@ export default function WheelPicker({
               aria-selected={i === activeIndex}
               $active={i === activeIndex}
               $itemHeight={itemHeight}
-              style={{ height: itemHeight }}
               onClick={() => snapToIndex(i)}
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") snapToIndex(i);
-              }}
             >
               {d}일
             </Item>
