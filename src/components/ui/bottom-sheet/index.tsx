@@ -26,7 +26,7 @@ export default function BottomSheet({ open, title, children, onClose }: Props) {
           <S.Sheet role="dialog" aria-modal="true" aria-labelledby={title ? "bs-title" : undefined} ref={ref}>
             {title && (
               <S.Header>
-                <Heading id="bs-title" fontWeight="bold" level={4}>
+                <Heading fontWeight="bold" level={4}>
                   {title}
                 </Heading>
                 <S.CloseButton onClick={onClose}>✕</S.CloseButton>
