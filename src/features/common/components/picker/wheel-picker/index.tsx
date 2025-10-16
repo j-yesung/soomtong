@@ -18,11 +18,11 @@ export default function WheelPicker({
   items,
   value,
   itemHeight = 44,
-  visibleCount = 5,
+  visibleCount = 7,
   onChange,
   onActiveChange,
 }: Props) {
-  const { y, activeIndex, dragConstraints, onDragEnd } = useWheel({
+  const { y, activeIndex, dragConstraints, onDragEnd, snapToIndex } = useWheel({
     items,
     itemHeight,
     visibleCount,
@@ -45,6 +45,11 @@ export default function WheelPicker({
               $active={i === activeIndex}
               $itemHeight={itemHeight}
               style={{ height: itemHeight }}
+              onClick={() => snapToIndex(i)}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") snapToIndex(i);
+              }}
             >
               {d}일
             </Item>

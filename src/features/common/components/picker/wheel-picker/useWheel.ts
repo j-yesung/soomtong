@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { PanInfo, animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 
 import { indexToY, yToIndex } from "./util";
 
@@ -38,12 +38,19 @@ export function useWheel({ items, valueIndex, itemHeight, visibleCount, onActive
     return { top, bottom };
   }, [maxIndex, itemHeight, visibleCount]);
 
-  const onDragEnd = () => {
-    const latest = y.get();
-    const idx = yToIndex(latest, itemHeight, visibleCount, maxIndex);
-    animate(y, indexToY(idx, itemHeight, visibleCount), { type: "spring", stiffness: 420, damping: 36 });
-    onChange?.(idx);
+  const snapToIndex = (idx: number) => {
+    const clamped = Math.max(0, Math.min(maxIndex, idx));
+    animate(y, indexToY(clamped, itemHeight, visibleCount), { type: "spring", stiffness: 260, damping: 28, mass: 0.6 });
+    onChange?.(clamped);
   };
 
-  return { y, activeIndex, dragConstraints, onDragEnd };
+  const onDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const latest = y.get();
+    const v = info.velocity.y ?? 0;
+    const projected = latest + v * 0.35;
+    const idx = yToIndex(projected, itemHeight, visibleCount, maxIndex);
+    snapToIndex(idx);
+  };
+
+  return { y, activeIndex, dragConstraints, onDragEnd, snapToIndex };
 }
