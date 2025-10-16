@@ -21,6 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       boxSizing="border-box"
       position="relative"
       padding={20}
+      // backgroundColor={theme.colors.bg.primary}
     >
       {children}
     </Box>

@@ -11,5 +11,10 @@ export function useFixedExpenseTableQuery() {
     queryKey: userAmountQueryKeys.fixedExpenseTable(),
     queryFn: () => getFixedExpenseTable(),
     refetchOnWindowFocus: false,
+    select: (data) => {
+      const totalFixedExpense = data.items.reduce((acc, cur) => acc + cur.amount, 0);
+      const amountAvailable = data.budget - totalFixedExpense;
+      return { ...data, amountAvailable, totalFixedExpense };
+    },
   });
 }
