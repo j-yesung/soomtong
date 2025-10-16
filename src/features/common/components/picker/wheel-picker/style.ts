@@ -18,6 +18,13 @@ export const Viewport = styled.div<ItemHeight & { $visibleCount: number }>`
     margin: 0;
     padding: 0;
     will-change: transform;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: grab;
+  }
+
+  ul:active {
+    cursor: grabbing;
   }
 `;
 

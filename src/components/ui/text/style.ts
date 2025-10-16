@@ -1,11 +1,9 @@
-import sspShouldForwardProp from "@styled-system/should-forward-prop";
+import shouldForwardProp from "@styled-system/should-forward-prop";
 import styled, { css } from "styled-components";
 
 import { TextProps } from "./type";
 
-const Text = styled("span").withConfig({
-  shouldForwardProp: (prop, target) => (typeof target === "string" ? sspShouldForwardProp(prop) : true),
-})<TextProps>`
+const Text = styled("span").withConfig({ shouldForwardProp })<TextProps>`
   ${({ variant, theme }) => {
     switch (variant) {
       case "caption":

@@ -1,18 +1,19 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-import { Column, Skeleton } from "@/components/ui";
-
-const BudgetRatioCard = dynamic(() => import("@/features/dashboard/components/budgetRatioCard"), {
-  ssr: false,
-  loading: () => <Skeleton height={168} />,
-});
+import { Column, Heading, Row } from "@/components/ui";
+import BudgetRatioCard from "@/features/dashboard/components/budgetRatioCard";
 
 export default function DashboardPage() {
   return (
-    <Column>
-      <BudgetRatioCard />
+    <Column gap={24}>
+      <Row gap={4} align="center">
+        <Heading level={3} fontWeight="bold">
+          Soomtong
+        </Heading>
+      </Row>
+      <Column gap={12}>
+        <BudgetRatioCard />
+      </Column>
     </Column>
   );
 }

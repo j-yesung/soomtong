@@ -16,14 +16,13 @@ const Motion = styled(motion.div)<{ $offset: number }>`
   left: 50%;
   transform: translateX(-50%) !important;
   z-index: 10;
-  padding: 30px;
   min-width: 320px;
   max-width: 500px;
   width: 100%;
   bottom: calc(env(safe-area-inset-bottom, 0px) + ${({ $offset }) => $offset}px);
 `;
 
-export default function ReadyButton({ onClick, text, type = "button", condition }: Props) {
+export default function ReadyButton({ onClick, text, type, condition }: Props) {
   const offset = useKeyboardInset();
 
   return (
@@ -37,7 +36,7 @@ export default function ReadyButton({ onClick, text, type = "button", condition 
           transition={{ duration: 0.2, ease: "easeOut" }}
           $offset={offset}
         >
-          <Button onClick={onClick} type={type} fullWidth>
+          <Button radius="none" onClick={onClick} type={type} fullWidth>
             {text}
           </Button>
         </Motion>

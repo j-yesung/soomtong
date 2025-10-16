@@ -17,12 +17,12 @@ export type Props = {
 export default function WheelPicker({
   items,
   value,
-  itemHeight = 44,
-  visibleCount = 5,
+  itemHeight = 40,
+  visibleCount = 7,
   onChange,
   onActiveChange,
 }: Props) {
-  const { y, activeIndex, dragConstraints, onDragEnd } = useWheel({
+  const { y, activeIndex, dragConstraints, onDragEnd, snapToIndex } = useWheel({
     items,
     itemHeight,
     visibleCount,
@@ -44,7 +44,7 @@ export default function WheelPicker({
               aria-selected={i === activeIndex}
               $active={i === activeIndex}
               $itemHeight={itemHeight}
-              style={{ height: itemHeight }}
+              onClick={() => snapToIndex(i)}
             >
               {d}일
             </Item>

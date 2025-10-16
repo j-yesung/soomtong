@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { AppTheme } from "@/styles/theme";
+
 export const Bar = styled.div`
   width: 100%;
   height: 16px;
@@ -14,9 +16,9 @@ export const Fill = styled.div<{ $danger?: boolean }>`
   background: ${({ $danger, theme }) => ($danger ? theme.colors.bg.danger : theme.colors.bg.primary)};
 `;
 
-export const Percent = styled.div`
-  font-size: ${({ theme }) => theme.font.md};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: ${({ theme }) => theme.colors.text.primary};
-  text-align: right;
+export const Legend = styled.div<{ $color: keyof AppTheme["colors"]["bg"] }>`
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  background: ${({ $color, theme }) => theme.colors.bg[$color]};
 `;
