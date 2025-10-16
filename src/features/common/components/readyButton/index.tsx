@@ -19,6 +19,7 @@ const Motion = styled(motion.div)<{ $offset: number }>`
   min-width: 320px;
   max-width: 500px;
   width: 100%;
+  padding: 20px;
   bottom: calc(env(safe-area-inset-bottom, 0px) + ${({ $offset }) => $offset}px);
 `;
 
@@ -36,7 +37,7 @@ export default function ReadyButton({ onClick, text, type, condition }: Props) {
           transition={{ duration: 0.2, ease: "easeOut" }}
           $offset={offset}
         >
-          <Button radius="none" onClick={onClick} type={type} fullWidth>
+          <Button onClick={onClick} type={type} fullWidth>
             {text}
           </Button>
         </Motion>
