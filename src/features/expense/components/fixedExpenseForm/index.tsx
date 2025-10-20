@@ -18,6 +18,11 @@ export default function FixedExpenseForm() {
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
 
+  const handleDatePickerOpen = () => {
+    if (!canSubmit) return;
+    setOpen(true);
+  };
+
   const handleSubmit = () => {
     if (!canSubmit) return;
     addFixedExpense({ userId: userInfo.id, tag, amount, day });
@@ -30,7 +35,7 @@ export default function FixedExpenseForm() {
       <FixedTagSelector selected={tag} onSelect={setTag} />
       <Row gap={4} height={40} align="center" fullWidth>
         <FixedExpenseInput value={value} onChange={setValue} />
-        <Button width={120} onClick={() => setOpen(true)}>
+        <Button width={120} onClick={handleDatePickerOpen} disabled={!canSubmit}>
           지출일 선택
         </Button>
       </Row>

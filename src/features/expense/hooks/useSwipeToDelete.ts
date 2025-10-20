@@ -15,10 +15,10 @@ export function useSwipeToDelete(onRemove: () => void) {
       const shouldRemove = info.offset.x < -THRESHOLD || info.velocity.x < -600;
       x.stop();
       if (shouldRemove) {
-        await animate(x, -260, REMOVE_TWEEN).finished; // 왼쪽으로 드래우 후 제거
+        animate(x, -260, REMOVE_TWEEN);
         onRemove();
       } else {
-        animate(x, 0, SPRING); // 원위치 복원
+        animate(x, 0, SPRING);
       }
     },
   };

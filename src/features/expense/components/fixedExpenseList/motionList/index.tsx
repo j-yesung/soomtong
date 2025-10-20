@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 
 import { LAYOUT_SPRING } from "@/features/expense/constants";
@@ -18,7 +18,9 @@ const List = styled(motion.ul)`
 export default function MotionList({ children }: { children: React.ReactNode }) {
   return (
     <List layout transition={{ layout: LAYOUT_SPRING }}>
-      {children}
+      <AnimatePresence initial={false} mode="popLayout">
+        {children}
+      </AnimatePresence>
     </List>
   );
 }
