@@ -1,6 +1,6 @@
 import { BottomSheet, Button } from "@/components/ui";
 
-import WheelPicker from "../wheel-picker";
+import WheelPicker from "../wheelPicker";
 
 type Props = {
   day: number;
@@ -28,7 +28,7 @@ export default function DatePicker({ day, open, onClose, callback, onDayChange }
           callback?.(day);
         }}
       >
-        확인
+        추가하기
       </Button>
     </BottomSheet>
   );
