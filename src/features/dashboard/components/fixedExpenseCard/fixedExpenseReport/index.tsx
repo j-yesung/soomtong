@@ -11,9 +11,6 @@ export default function FixedExpenseReport() {
         <br />
         매월 발생하고 있어요
       </Text>
-      <Text variant="caption" weight={500}>
-        -----
-      </Text>
     </Column>
   );
 }

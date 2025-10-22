@@ -1,7 +1,7 @@
 import { Column, Row, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 
-export default function AvailableText() {
+export default function BudgetReport() {
   const { data } = useFixedExpenseTableQuery();
 
   return (

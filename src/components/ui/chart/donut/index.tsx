@@ -19,7 +19,7 @@ export default function DonutChart({ value, size = 128, thickness = 18 }: Props)
 
   const mv = useMotionValue(0);
   const dashOffset = useTransform(mv, (v) => circumference * (1 - v / 100));
-  const percentText = useTransform(mv, (v) => `${Math.round(v)}`);
+  const percentText = useTransform(mv, (v) => `${Math.round(v)}%`);
 
   useEffect(() => {
     const prefersReduce =

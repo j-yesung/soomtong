@@ -1,6 +1,5 @@
 import { Column, Heading, Row } from "@/components/ui";
-import { BudgetRatioCard } from "@/features/dashboard/components";
-import FixedExpenseBoardScreen from "@/screen/dashboard/fixedExpenseBoardScreen";
+import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
 
 export default function DashboardPage() {
   return (
@@ -11,7 +10,7 @@ export default function DashboardPage() {
         </Heading>
       </Row>
       <Column gap={12}>
-        <BudgetRatioCard />
+        <BudgetBoardScreen />
         <FixedExpenseBoardScreen />
       </Column>
     </Column>

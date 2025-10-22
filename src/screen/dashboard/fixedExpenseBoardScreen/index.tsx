@@ -1,9 +1,7 @@
-"use client";
-
 import dynamic from "next/dynamic";
 
 import { Card, Heading, Row, Skeleton } from "@/components/ui";
-import FixedExpenseReportSkeleton from "@/features/dashboard/components/skeleton/fixedExpenseReportSkeleton";
+import { FixedExpenseReportSkeleton } from "@/features/dashboard/components";
 
 const FixedExpenseReport = dynamic(
   () => import("@/features/dashboard/components/fixedExpenseCard/fixedExpenseReport"),
