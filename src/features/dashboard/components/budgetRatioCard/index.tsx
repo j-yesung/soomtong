@@ -14,7 +14,7 @@ const BudgetBarChart = dynamic(() => import("@/features/dashboard/components/bud
 
 export default function BudgetRatioCard() {
   return (
-    <Card isDirection="column" gap={12}>
+    <Card direction="column" gap={12}>
       <AvailableText />
       <BudgetBarChart />
     </Card>
