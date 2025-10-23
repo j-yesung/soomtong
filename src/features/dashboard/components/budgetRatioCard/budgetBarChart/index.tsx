@@ -1,4 +1,4 @@
-import { BarChart } from "@/components/ui";
+import { BarChart, Box } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 
 export default function BudgetBarChart() {
@@ -10,14 +10,16 @@ export default function BudgetBarChart() {
   return (
     <>
       {data && (
-        <BarChart
-          income={income}
-          expense={totalFixedExpense}
-          LegendItems={[
-            { label: "월수입", value: income, color: "primary" },
-            { label: "고정지출", value: totalFixedExpense, color: "secondary" },
-          ]}
-        />
+        <Box pvh={[0, 16]}>
+          <BarChart
+            income={income}
+            expense={totalFixedExpense}
+            LegendItems={[
+              { label: "월수입", value: income, color: "primary" },
+              { label: "고정지출", value: totalFixedExpense, color: "secondary" },
+            ]}
+          />
+        </Box>
       )}
     </>
   );

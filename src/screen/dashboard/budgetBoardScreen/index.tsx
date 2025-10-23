@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 
-import { Card, Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui";
+import { Card } from "@/components/ui/card";
 
 const BudgetReport = dynamic(() => import("@/features/dashboard/components/budgetRatioCard/budgetReport"), {
   ssr: false,

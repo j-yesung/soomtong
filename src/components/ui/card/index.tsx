@@ -8,10 +8,16 @@ type Props = {
   gap?: number;
 };
 
-export default function Card({ children, direction, gap }: PropsWithChildren<Props>) {
+function Root({ children, direction, gap }: PropsWithChildren<Props>) {
   return (
     <S.CardRoot $direction={direction} $gap={gap}>
       {children}
     </S.CardRoot>
   );
 }
+
+function Footer({ children }: PropsWithChildren) {
+  return <S.CardFooter>{children}</S.CardFooter>;
+}
+
+export const Card = Object.assign(Root, { Footer });

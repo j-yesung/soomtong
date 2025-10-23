@@ -7,7 +7,7 @@ export default function BudgetReport() {
   return (
     <>
       {data && (
-        <Column gap={4}>
+        <Column gap={4} pvh={[0, 16]}>
           <Text variant="caption" weight={500}>
             이번달 생활비는
           </Text>
