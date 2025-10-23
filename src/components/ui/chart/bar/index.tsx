@@ -12,8 +12,8 @@ import Text from "../../text/style";
 import { Bar, Fill, Legend } from "./style";
 
 type Props = {
-  income: number;
-  expense: number;
+  current: number;
+  max: number;
   duration?: number;
   LegendItems?: {
     color: keyof AppTheme["colors"]["bg"];
@@ -22,8 +22,8 @@ type Props = {
   }[];
 };
 
-export default function BarChart({ income, expense, duration = 900, LegendItems }: Props) {
-  const ratio = useMemo(() => (income > 0 ? Math.min((expense / income) * 100, 100) : 0), [income, expense]);
+export default function BarChart({ current, max, duration = 900, LegendItems }: Props) {
+  const ratio = useMemo(() => (current > 0 ? Math.min((max / current) * 100, 100) : 0), [current, max]);
   const prefersReduced = useReducedMotion();
 
   return (

@@ -4,19 +4,18 @@ import { useFixedExpenseTableQuery } from "@/features/common/queries";
 export default function BudgetBarChart() {
   const { data } = useFixedExpenseTableQuery();
 
-  const income = data?.budget;
-  const totalFixedExpense = data?.totalFixedExpense;
+  const amountAvailable = data?.amountAvailable;
 
   return (
     <>
       {data && (
         <Box pvh={[0, 16]}>
           <BarChart
-            income={income}
-            expense={totalFixedExpense}
+            current={data?.amountAvailable}
+            max={20000000}
             LegendItems={[
-              { label: "월수입", value: income, color: "primary" },
-              { label: "고정지출", value: totalFixedExpense, color: "secondary" },
+              { label: "사용 금액", value: 20000000, color: "primary" },
+              { label: "총 생활비", value: amountAvailable, color: "secondary" },
             ]}
           />
         </Box>
