@@ -1,3 +1,5 @@
+"use client";
+
 export { default as Button } from "./button";
 export { default as Heading } from "./heading";
 export { default as Input } from "./input/base";
@@ -8,8 +10,8 @@ export { default as Tag } from "./tag";
 export { default as Flex } from "./flex";
 export { default as Column } from "./column";
 export { default as Row } from "./row";
-export { default as Card } from "./card";
 export { default as BarChart } from "./chart/bar";
+export { default as DonutChart } from "./chart/donut";
 export { default as Skeleton } from "./skeleton";
 export { default as Grid } from "./grid";
 export { default as Portal } from "./portal";

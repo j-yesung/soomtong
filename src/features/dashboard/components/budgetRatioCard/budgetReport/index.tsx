@@ -1,13 +1,13 @@
 import { Column, Row, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 
-export default function AvailableText() {
+export default function BudgetReport() {
   const { data } = useFixedExpenseTableQuery();
 
   return (
     <>
       {data && (
-        <Column gap={4}>
+        <Column gap={4} pvh={[0, 16]}>
           <Text variant="caption" weight={500}>
             이번달 생활비는
           </Text>

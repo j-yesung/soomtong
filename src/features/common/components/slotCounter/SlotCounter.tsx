@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 
 import { Row, Text } from "@/components/ui";
+import { AppTheme } from "@/styles/theme";
 import { formatWithComma } from "@/utils/formatter";
 
 import DigitReel from "./DigitRell";
@@ -12,9 +13,9 @@ type SlotCounterProps = {
   duration?: number; // 전체 애니메이션 시간
   spins?: number; // 최소 회전 바퀴 수
   fontSize?: number;
-  gap?: number;
   suffix?: React.ReactNode;
   lineHeightFactor?: number;
+  color?: keyof AppTheme["colors"]["text"];
 };
 
 export default function SlotCounter({
@@ -22,9 +23,9 @@ export default function SlotCounter({
   duration = 1.2,
   spins = 1,
   fontSize = 28,
-  gap = 0,
   suffix,
   lineHeightFactor = 1.2,
+  color = "primary",
 }: SlotCounterProps) {
   const formatted = useMemo(() => formatWithComma(value), [value]);
   const glyphs = useMemo(
@@ -34,7 +35,7 @@ export default function SlotCounter({
 
   return (
     <>
-      <Row gap={gap} align="center" aria-label="total-amount" role="figure">
+      <Row align="center" aria-label="total-amount" role="figure">
         {glyphs.map((g, i) =>
           g.type === "digit" ? (
             <DigitReel
@@ -44,19 +45,20 @@ export default function SlotCounter({
               spins={spins}
               fontSize={fontSize}
               lineHeightFactor={lineHeightFactor}
+              color={color}
             />
           ) : (
-            <Text key={`s-${i}`} size={24} weight={700}>
+            <Text key={`s-${i}`} size={24} weight={700} color={color}>
               {g.char}
             </Text>
           ),
         )}
+        {suffix && (
+          <Text size={fontSize} weight={700}>
+            {suffix}
+          </Text>
+        )}
       </Row>
-      {suffix && (
-        <Text size={24} weight={700}>
-          {suffix}
-        </Text>
-      )}
     </>
   );
 }
