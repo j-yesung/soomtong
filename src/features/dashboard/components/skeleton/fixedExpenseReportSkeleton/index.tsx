@@ -5,6 +5,7 @@ export default function FixedExpenseReportSkeleton() {
     <Column gap={12} flex={1}>
       <Skeleton height={21} width={120} />
       <Skeleton height={21} />
+      <Skeleton height={36} />
     </Column>
   );
 }
