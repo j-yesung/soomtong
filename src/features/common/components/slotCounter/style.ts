@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
+import { AppTheme } from "@/styles/theme";
+
 export const ReelBox = styled.div<{ $fontSize: number; $cellH: number }>`
   position: relative;
   font-size: ${({ $fontSize }) => $fontSize}px;
@@ -20,7 +22,7 @@ export const ReelTrack = styled(motion.div)`
   will-change: transform;
 `;
 
-export const Cell = styled.div<{ $cellH: number }>`
+export const Cell = styled.div<{ $cellH: number; $color: keyof AppTheme["colors"]["text"] }>`
   display: grid;
   place-items: center;
   height: ${({ $cellH }) => Math.round($cellH)}px;
@@ -28,4 +30,5 @@ export const Cell = styled.div<{ $cellH: number }>`
   font-weight: 800;
   font-size: 1em;
   font-variant-numeric: tabular-nums;
+  color: ${({ theme, $color }) => theme.colors.text[$color]};
 `;

@@ -3,6 +3,7 @@ import { useEffect, useMemo } from "react";
 import { animate, useMotionValue, useTransform } from "framer-motion";
 
 import { useCellHeight } from "@/features/common/hooks/useCellHeight";
+import { AppTheme } from "@/styles/theme";
 
 import * as S from "./style";
 
@@ -12,9 +13,10 @@ type Props = {
   spins: number;
   fontSize: number;
   lineHeightFactor: number;
+  color: keyof AppTheme["colors"]["text"];
 };
 
-export default function DigitReel({ digit, duration, spins, fontSize, lineHeightFactor }: Props) {
+export default function DigitReel({ digit, duration, spins, fontSize, lineHeightFactor, color }: Props) {
   const estimated = Math.ceil(fontSize * lineHeightFactor);
   const { ref: containerRef, cellH } = useCellHeight(estimated);
 
@@ -44,7 +46,7 @@ export default function DigitReel({ digit, duration, spins, fontSize, lineHeight
     <S.ReelBox ref={containerRef} $fontSize={fontSize} $cellH={cellH || Math.ceil(fontSize * 1.2)}>
       <S.ReelTrack style={{ y: yRounded }}>
         {loopDigits.map((d, idx) => (
-          <S.Cell key={`${idx}-${d}`} data-cell={d} $cellH={cellH || Math.ceil(fontSize * 1.2)}>
+          <S.Cell key={`${idx}-${d}`} data-cell={d} $cellH={cellH || Math.ceil(fontSize * 1.2)} $color={color}>
             {d}
           </S.Cell>
         ))}

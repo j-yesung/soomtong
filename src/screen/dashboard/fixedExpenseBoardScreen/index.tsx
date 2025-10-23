@@ -29,7 +29,7 @@ export default function FixedExpenseBoardScreen() {
         <FixedExpenseReport />
         <FixedExpenseDonutChart />
       </Row>
-      <div>월수입 대비 41%</div>
+      <div>자세히 보기</div>
     </Card>
   );
 }
