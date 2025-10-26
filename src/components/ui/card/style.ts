@@ -13,8 +13,9 @@ export const CardFooter = styled.button`
   font-size: 14px;
   font-weight: 700;
   padding: 10px 16px;
-  border-top-right-radius: 14px;
-  border-top-left-radius: 14px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  text-align: center;
   margin-top: 14px;
 `;
 
