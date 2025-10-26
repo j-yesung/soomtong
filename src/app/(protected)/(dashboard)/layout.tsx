@@ -2,9 +2,8 @@ import Image from "next/image";
 
 import Logo from "@/assets/images/soomtong.png";
 import { Column, Heading, Row } from "@/components/ui";
-import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
 
-export default function DashboardPage() {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Column gap={24}>
       <Row gap={4} align="center">
@@ -13,10 +12,7 @@ export default function DashboardPage() {
           Soomtong
         </Heading>
       </Row>
-      <Column gap={12}>
-        <BudgetBoardScreen />
-        <FixedExpenseBoardScreen />
-      </Column>
+      {children}
     </Column>
   );
 }
