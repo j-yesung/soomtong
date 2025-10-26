@@ -3,7 +3,7 @@
 import Box from "../box/style";
 
 export interface FlexProps extends Omit<React.ComponentProps<typeof Box>, "display"> {
-  display: "flex";
+  display?: "flex";
   direction?: "row" | "column";
   justify?: React.CSSProperties["justifyContent"];
   align?: React.CSSProperties["alignItems"];
