@@ -1,16 +1,16 @@
 import dynamic from "next/dynamic";
 
-import { Skeleton } from "@/components/ui";
 import { Card } from "@/components/ui/card";
+import { BudgetBarChartSkeleton, BudgetReportSkeleton } from "@/features/dashboard/components";
 
 const BudgetReport = dynamic(() => import("@/features/dashboard/components/budgetRatioCard/budgetReport"), {
   ssr: false,
-  loading: () => <Skeleton height={59.4} />,
+  loading: () => <BudgetReportSkeleton />,
 });
 
 const BudgetBarChart = dynamic(() => import("@/features/dashboard/components/budgetRatioCard/budgetBarChart"), {
   ssr: false,
-  loading: () => <Skeleton height={78} />,
+  loading: () => <BudgetBarChartSkeleton />,
 });
 
 export default function BudgetBoardScreen() {
