@@ -16,8 +16,8 @@ function Root({ children, direction, gap }: PropsWithChildren<Props>) {
   );
 }
 
-function Footer({ children }: PropsWithChildren) {
-  return <S.CardFooter>{children}</S.CardFooter>;
+function Footer({ children, onClick }: PropsWithChildren<{ onClick?: () => void }>) {
+  return <S.CardFooter onClick={onClick}>{children}</S.CardFooter>;
 }
 
 export const Card = Object.assign(Root, { Footer });

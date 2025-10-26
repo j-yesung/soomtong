@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-import { Box, Heading, Row, Skeleton } from "@/components/ui";
+import { Heading, Row, Skeleton } from "@/components/ui";
 import { Card } from "@/components/ui/card";
 import { FixedExpenseReportSkeleton } from "@/features/dashboard/components";
 
@@ -21,18 +22,20 @@ const FixedExpenseDonutChart = dynamic(
 );
 
 export default function FixedExpenseBoardScreen() {
+  const router = useRouter();
+
   return (
     <Card direction="column" gap={12}>
-      <Box pvh={[0, 16]}>
+      <Row pvh={[0, 16]}>
         <Heading level={2} fontWeight="bold">
           고정지출
         </Heading>
-      </Box>
+      </Row>
       <Row justify="space-between" gap={12} pvh={[0, 16]}>
         <FixedExpenseReport />
         <FixedExpenseDonutChart />
       </Row>
-      <Card.Footer>자세히 보기</Card.Footer>
+      <Card.Footer onClick={() => router.push("/dashboard/fixed")}>자세히 보기</Card.Footer>
     </Card>
   );
 }

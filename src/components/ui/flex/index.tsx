@@ -3,6 +3,7 @@
 import Box from "../box/style";
 
 export interface FlexProps extends Omit<React.ComponentProps<typeof Box>, "display"> {
+  display: "flex";
   direction?: "row" | "column";
   justify?: React.CSSProperties["justifyContent"];
   align?: React.CSSProperties["alignItems"];
@@ -14,6 +15,7 @@ export interface FlexProps extends Omit<React.ComponentProps<typeof Box>, "displ
 }
 
 export default function Flex({
+  display = "flex",
   direction = "row",
   justify,
   align,
@@ -27,7 +29,7 @@ export default function Flex({
   return (
     <Box
       {...rest}
-      display="flex"
+      display={display}
       as={as}
       flexDirection={direction}
       justifyContent={justify}
