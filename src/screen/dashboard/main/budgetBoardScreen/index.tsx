@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic";
 
 import { Card } from "@/components/ui/card";
-import { BudgetBarChartSkeleton, BudgetReportSkeleton } from "@/features/dashboard/components";
+import { BudgetBarChartSkeleton, BudgetReportSkeleton } from "@/features/dashboard/main/components";
 
-const BudgetReport = dynamic(() => import("@/features/dashboard/components/budgetRatioCard/budgetReport"), {
+const BudgetReport = dynamic(() => import("@/features/dashboard/main/components/budgetRatioCard/budgetReport"), {
   ssr: false,
   loading: () => <BudgetReportSkeleton />,
 });
 
-const BudgetBarChart = dynamic(() => import("@/features/dashboard/components/budgetRatioCard/budgetBarChart"), {
+const BudgetBarChart = dynamic(() => import("@/features/dashboard/main/components/budgetRatioCard/budgetBarChart"), {
   ssr: false,
   loading: () => <BudgetBarChartSkeleton />,
 });

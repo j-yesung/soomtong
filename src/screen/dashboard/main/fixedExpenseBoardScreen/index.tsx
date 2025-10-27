@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation";
 
 import { Heading, Row, Skeleton } from "@/components/ui";
 import { Card } from "@/components/ui/card";
-import { FixedExpenseReportSkeleton } from "@/features/dashboard/components";
+import { FixedExpenseReportSkeleton } from "@/features/dashboard/main/components";
 
 const FixedExpenseReport = dynamic(
-  () => import("@/features/dashboard/components/fixedExpenseCard/fixedExpenseReport"),
+  () => import("@/features/dashboard/main/components/fixedExpenseCard/fixedExpenseReport"),
   {
     ssr: false,
     loading: () => <FixedExpenseReportSkeleton />,
@@ -14,7 +14,7 @@ const FixedExpenseReport = dynamic(
 );
 
 const FixedExpenseDonutChart = dynamic(
-  () => import("@/features/dashboard/components/fixedExpenseCard/fixedExpenseDonutChart"),
+  () => import("@/features/dashboard/main/components/fixedExpenseCard/fixedExpenseDonutChart"),
   {
     ssr: false,
     loading: () => <Skeleton width={128} height={128} />,
