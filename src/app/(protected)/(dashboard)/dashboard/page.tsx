@@ -1,5 +1,5 @@
 import { Column } from "@/components/ui";
-import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/(dashboard)";
+import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
 
 export default function DashboardPage() {
   return (
