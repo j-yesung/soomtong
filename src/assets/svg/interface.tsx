@@ -25,3 +25,15 @@ export const TrashIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
     </svg>
   );
 };
+
+export const SingleArrowIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M14.5303 16.5303C14.2374 16.8232 13.7626 16.8232 13.4697 16.5303L9.46967 12.5303C9.17678 12.2374 9.17678 11.7626 9.46967 11.4697L13.4697 7.46967C13.7626 7.17678 14.2374 7.17678 14.5303 7.46967C14.8232 7.76256 14.8232 8.23744 14.5303 8.53033L11.0607 12L14.5303 15.4697C14.8232 15.7626 14.8232 16.2374 14.5303 16.5303Z"
+      />
+    </svg>
+  );
+};
