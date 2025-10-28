@@ -8,6 +8,7 @@ const ItemCard = styled.div`
   padding: 10px;
   border-radius: ${({ theme }) => theme.radius.sm};
   box-shadow: ${({ theme }) => theme.shadows.card};
+  cursor: pointer;
 
   svg {
     transform: rotate(180deg);
@@ -15,12 +16,13 @@ const ItemCard = styled.div`
 `;
 
 type Props = {
+  onClick?: () => void;
   items: FixedItem;
 };
 
-export default function ExpenseItem({ items }: Props) {
+export default function ExpenseItem({ onClick, items }: Props) {
   return (
-    <ItemCard as="li">
+    <ItemCard as="li" onClick={onClick}>
       <Row justify="center" gap={16}>
         <Column gap={4} fullWidth>
           <Row align="center" justify="space-between">

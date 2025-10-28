@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import { useOutsideClick } from "@/hooks/useOutsideClick";
-
 import Column from "../column";
 import Heading from "../heading";
 import Portal from "../portal";
@@ -14,30 +12,24 @@ type Props = {
   onClose: () => void;
 };
 
-export default function BottomSheet({ open, title, children, onClose }: Props) {
-  const ref = useOutsideClick<HTMLDivElement>(onClose);
-
+export default function BottomSheet({ title, children, onClose }: Props) {
   return (
-    <>
-      {open && (
-        <Portal>
-          <S.Backdrop aria-hidden="true" role="presentation" />
+    <Portal>
+      <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />
 
-          <S.Sheet role="dialog" aria-modal="true" aria-labelledby={title ? "bs-title" : undefined} ref={ref}>
-            {title && (
-              <S.Header>
-                <Heading fontWeight="bold" level={4}>
-                  {title}
-                </Heading>
-                <S.CloseButton onClick={onClose}>✕</S.CloseButton>
-              </S.Header>
-            )}
-            <Column overflow="auto" padding={16}>
-              {children}
-            </Column>
-          </S.Sheet>
-        </Portal>
-      )}
-    </>
+      <S.Sheet role="dialog" aria-modal="true" aria-labelledby={title ? "bs-title" : undefined}>
+        {title && (
+          <S.Header>
+            <Heading fontWeight="bold" level={4}>
+              {title}
+            </Heading>
+            <S.CloseButton onClick={onClose}>✕</S.CloseButton>
+          </S.Header>
+        )}
+        <Column overflow="auto" padding={16}>
+          {children}
+        </Column>
+      </S.Sheet>
+    </Portal>
   );
 }
