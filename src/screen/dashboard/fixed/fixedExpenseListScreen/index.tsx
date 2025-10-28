@@ -1,3 +1,18 @@
+import { Column } from "@/components/ui";
+import { ExpenseItem, SlotCounter } from "@/features/common/components";
+import { useFixedExpenseTableQuery } from "@/features/common/queries";
+
 export default function FixedExpenseListScreen() {
-  return <div>고정지출 내역 화면</div>;
+  const { data } = useFixedExpenseTableQuery();
+
+  return (
+    <Column padding={10} gap={12}>
+      <SlotCounter value={data?.totalFixedExpense} suffix="원" />
+      <Column gap={8} as="ul">
+        {data?.items?.map((item) => (
+          <ExpenseItem key={item.createdAt} items={item} />
+        ))}
+      </Column>
+    </Column>
+  );
 }

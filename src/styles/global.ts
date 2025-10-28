@@ -11,17 +11,18 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
   :root {
     --color-brand: #2D2D2D;
-    --color-secondary: #F5F5F5;
+    --color-secondary: #F8F8F8;
     --color-danger: #EB003B;
     --color-success: #74B075;
     --color-inverseWhite: #FFFFFF;
     --color-border: #e5e7eb;
     --color-disabled: #9ca3af;
-    --color-bg-secondary: #F5F5F5;
+    --color-bg-secondary: #F8F8F8;
     --color-text-secondary: #6b7280;
 
-    --color-light-blue: #E6F0FF;  
-    --color-blue: #3B82F6;         
+    --color-light-blue: #E6F0FF;
+    --color-blue: #3B82F6;
+    
   }
 
   /* Dark scheme */
