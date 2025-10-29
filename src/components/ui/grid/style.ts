@@ -13,6 +13,10 @@ const extra = system({
 
 const gridStyles = compose(gridSystem, layout, space, color, border, position, extra);
 
-export const StyledGrid = styled("div").withConfig({ shouldForwardProp })<StyledSystemBaseProps>(gridStyles);
+export const StyledGrid = styled("div").withConfig({ shouldForwardProp })<StyledSystemBaseProps>`
+  ${gridStyles}
+
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
+`;
 
 export const StyledGridItem = styled("div").withConfig({ shouldForwardProp })<StyledSystemBaseProps>(gridStyles);

@@ -1,29 +1,18 @@
-import { AnimatePresence, motion } from "framer-motion";
-import styled from "styled-components";
+import { AnimatePresence } from "framer-motion";
 
 import { Button } from "@/components/ui";
 import { useKeyboardInset } from "@/features/common/hooks/useKeyboardOffset";
+
+import { Motion } from "./style";
 
 type Props = {
   onClick?: () => void;
   text: string;
   condition: boolean;
+  position?: "bottom" | "top" | "none";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Motion = styled(motion.div)<{ $offset: number }>`
-  position: fixed;
-  box-sizing: border-box;
-  left: 50%;
-  transform: translateX(-50%) !important;
-  z-index: 10;
-  min-width: 320px;
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + ${({ $offset }) => $offset}px);
-`;
-
-export default function ReadyButton({ onClick, text, type, condition }: Props) {
+export default function ReadyButton({ onClick, text, type, condition, position = "bottom" }: Props) {
   const offset = useKeyboardInset();
 
   return (
@@ -36,6 +25,7 @@ export default function ReadyButton({ onClick, text, type, condition }: Props) {
           exit={{ opacity: 0, y: 8 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           $offset={offset}
+          $position={position}
         >
           <Button onClick={onClick} type={type} fullWidth>
             {text}
