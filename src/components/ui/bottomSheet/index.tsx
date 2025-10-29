@@ -6,7 +6,6 @@ import Portal from "../portal";
 import * as S from "./style";
 
 type Props = {
-  open: boolean;
   title?: string;
   children: ReactNode;
   onClose: () => void;

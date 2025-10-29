@@ -21,28 +21,24 @@ export default function FixedExpenseBottomSheet({ onClose, onClick, sheetOpen, s
 
   return (
     <BottomSheet open={sheetOpen} onClose={onClose} title={sheetTitle}>
-      {sheetOpen && (
-        <>
-          {sheetType === "edit" && (
-            <Column gap={12}>
-              <FixedExpenseInput value={changedAmount} onChange={setChangedAmount} />
-              <Row gap={4} justify="space-between">
-                <Button color="danger" onClick={onClose}>
-                  취소
-                </Button>
-                <Button onClick={onClick}>적용</Button>
-              </Row>
-            </Column>
-          )}
-          {sheetType === "add" && (
-            <Row gap={4} justify="space-between">
-              <Button color="danger" onClick={onClose}>
-                취소
-              </Button>
-              <Button onClick={onClick}>저장</Button>
-            </Row>
-          )}
-        </>
+      {sheetType === "edit" && (
+        <Column gap={12}>
+          <FixedExpenseInput value={changedAmount} onChange={setChangedAmount} />
+          <Row gap={4} justify="space-between">
+            <Button color="danger" onClick={onClose}>
+              취소
+            </Button>
+            <Button onClick={onClick}>적용</Button>
+          </Row>
+        </Column>
+      )}
+      {sheetType === "add" && (
+        <Row gap={4} justify="space-between">
+          <Button color="danger" onClick={onClose}>
+            취소
+          </Button>
+          <Button onClick={onClick}>저장</Button>
+        </Row>
       )}
     </BottomSheet>
   );
