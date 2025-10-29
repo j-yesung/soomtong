@@ -38,7 +38,7 @@ export default function FixedExpenseList() {
         >
           <ListItem role="button" aria-label={`${tag} list remove`}>
             <Row gap={12} justify="space-between" align="center" fullWidth>
-              <Tag variant="list">{tag}</Tag>
+              <Tag variant="fixed">{tag}</Tag>
               <Text size={18} weight={700}>
                 {formatWithComma(amount)}원
               </Text>

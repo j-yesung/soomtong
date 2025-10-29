@@ -15,7 +15,7 @@ export const DEFAULT_TAGS = [
 ];
 
 export const TAG_COLORS: Record<string, string> = {
-  "저축/투자": "#3E8EDE",
+  "저축/투자": "#E3F2FD",
 };
 
 export const THRESHOLD = 270;

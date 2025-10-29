@@ -2,7 +2,7 @@ export const theme = {
   colors: {
     bg: {
       primary: "var(--color-brand)",
-      secondary: "var(--color-bg-secondary)",
+      secondary: "var(--color-secondary)",
       inverseWhite: "var(--color-inverseWhite)",
       danger: "var(--color-danger)",
       lightBlue: "var(--color-light-blue)",
@@ -12,6 +12,9 @@ export const theme = {
       secondary: "var(--color-text-secondary)",
       inverseWhite: "var(--color-inverseWhite)",
       blue: "var(--color-blue)",
+      lightBlue: "#E3F2FD",
+      darkBlue: "#42A5F5",
+      gray: "#717171",
     },
     button: {
       primary: "var(--color-brand)",

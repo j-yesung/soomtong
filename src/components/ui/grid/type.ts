@@ -9,12 +9,18 @@ import type {
   SpaceProps,
 } from "styled-system";
 
-export type StyledSystemBaseProps = SSGridProps & LayoutProps & SpaceProps & ColorProps & BorderProps & PositionProps;
+export type StyledSystemBaseProps = SSGridProps &
+  LayoutProps &
+  SpaceProps &
+  ColorProps &
+  BorderProps &
+  PositionProps & { fullWidth?: boolean };
 
 export type GridProps = StyledSystemBaseProps & {
   cols?: number;
   gap?: number;
   minColWidth?: string | number;
+  fullWidth?: boolean;
   children?: React.ReactNode;
 };
 

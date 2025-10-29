@@ -4,17 +4,16 @@ import WheelPicker from "../wheelPicker";
 
 type Props = {
   day: number;
-  open: boolean;
   onClose: () => void;
   callback?: (day: number) => void;
   onDayChange?: (day: number) => void;
 };
 
-export default function DatePicker({ day, open, onClose, callback, onDayChange }: Props) {
+export default function DatePicker({ day, onClose, callback, onDayChange }: Props) {
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   return (
-    <BottomSheet open={open} onClose={onClose} title="납입일 선택">
+    <BottomSheet onClose={onClose} title="납입일 선택">
       <WheelPicker
         items={days}
         value={day}

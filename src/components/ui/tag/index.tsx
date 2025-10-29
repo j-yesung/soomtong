@@ -1,16 +1,20 @@
-import { useTheme } from "styled-components";
-
 import { TAG_COLORS } from "@/features/expense/constants";
 
 import * as S from "./style";
 import * as T from "./type";
 
-export default function Tag({ onClick, children, isSelected, variant = "default" }: T.TagProps) {
-  const theme = useTheme();
-  const color = TAG_COLORS[children as string] ?? theme.colors.text.secondary;
+export default function Tag({ onClick, children, isSelected, fontSize, fontWeight, variant = "default" }: T.TagProps) {
+  const color = TAG_COLORS[children as string];
 
   return (
-    <S.TagButton onClick={onClick} $variant={variant} $color={color} $isSelected={isSelected}>
+    <S.TagButton
+      onClick={onClick}
+      variant={variant}
+      color={color}
+      isSelected={isSelected}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+    >
       {children}
     </S.TagButton>
   );

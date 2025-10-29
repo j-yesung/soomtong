@@ -3,29 +3,34 @@ import styled, { css } from "styled-components";
 
 import { TagStylesProps } from "./type";
 
-const COMMON = css`
+const COMMON = css<TagStylesProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  padding: 4px 8px;
-  border-radius: ${({ theme }) => theme.radius.sm};
-  font-size: ${({ theme }) => theme.font.sm};
+  padding: 6px;
+  border-radius: 4px;
+  font-size: ${({ theme, fontSize }) => `${fontSize ?? theme.font.sm}px`};
+  font-weight: ${({ fontWeight }) => fontWeight ?? 500};
 `;
 
 const variantStyles = {
+  fixed: css<TagStylesProps>`
+    cursor: default;
+    background-color: ${({ theme, color }) => color ?? theme.colors.bg.secondary};
+    color: ${({ theme, color }) => (color ? theme.colors.text.darkBlue : theme.colors.text.gray)};
+    border: none;
+  `,
   select: css<TagStylesProps>`
     cursor: pointer;
-    background-color: ${({ theme, $isSelected }) =>
-      $isSelected ? theme.colors.bg.primary : theme.colors.bg.secondary};
-    color: ${({ theme, $isSelected }) => ($isSelected ? theme.colors.text.inverseWhite : theme.colors.text.primary)};
+    background-color: ${({ theme, isSelected }) => (isSelected ? theme.colors.bg.primary : theme.colors.bg.secondary)};
+    color: ${({ theme, isSelected }) => (isSelected ? theme.colors.text.inverseWhite : theme.colors.text.primary)};
     border: none;
   `,
   list: css<TagStylesProps>`
     cursor: default;
     background-color: ${({ theme }) => theme.colors.bg.inverseWhite};
-    border: 1px solid ${({ theme, $color }) => $color ?? theme.colors.border.secondary};
-    color: ${({ theme, $color }) => $color ?? theme.colors.text.primary};
+    border: 1px solid ${({ theme, color }) => color ?? theme.colors.border.secondary};
+    color: ${({ theme, color }) => color ?? theme.colors.text.primary};
   `,
   default: css<TagStylesProps>`
     cursor: default;
@@ -37,5 +42,5 @@ const variantStyles = {
 
 export const TagButton = styled("button").withConfig({ shouldForwardProp })<TagStylesProps>`
   ${COMMON}
-  ${({ $variant = "default" }) => variantStyles[$variant]}
+  ${({ variant = "default" }) => variantStyles[variant]}
 `;

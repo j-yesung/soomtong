@@ -6,11 +6,12 @@ type Props = {
   children: React.ReactNode;
   direction?: "row" | "column";
   gap?: number;
+  as?: React.ElementType;
 };
 
-function Root({ children, direction, gap }: PropsWithChildren<Props>) {
+function Root({ children, direction, gap, as }: PropsWithChildren<Props>) {
   return (
-    <S.CardRoot $direction={direction} $gap={gap}>
+    <S.CardRoot $direction={direction} $gap={gap} as={as}>
       {children}
     </S.CardRoot>
   );

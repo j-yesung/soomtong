@@ -11,20 +11,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
 
+  const isDashboard = pathname === "/dashboard";
+
   return (
     <Column gap={24}>
       <Row align="center" justify="space-between">
-        {pathname !== "/dashboard" && (
+        {!isDashboard && (
           <button type="button" onClick={() => router.back()}>
             <SingleArrowIcon size={40} />
           </button>
         )}
-        <Row gap={4} align="center">
-          <Image src={Logo} width={40} height={40} alt="Soomtong Logo" priority />
-          <Heading level={3} fontWeight="bold">
-            Soomtong
-          </Heading>
-        </Row>
+        {isDashboard && (
+          <Row gap={4} align="center">
+            <Image src={Logo} width={40} height={40} alt="Soomtong Logo" priority />
+            <Heading level={3} fontWeight="bold">
+              Soomtong
+            </Heading>
+          </Row>
+        )}
       </Row>
       {children}
     </Column>
