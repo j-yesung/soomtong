@@ -32,7 +32,7 @@ export default function FixedExpenseListScreen() {
   return (
     <Column padding={10} gap={12}>
       <SlotCounter value={data?.totalFixedExpense} suffix="원" />
-      <Column gap={8} as="ul">
+      <Column as="ul" gap={8} paddingBottom={68}>
         {data?.items?.map((item) => (
           <ExpenseItem key={item.createdAt} items={item} onClick={() => handleItemClick(item)} />
         ))}
@@ -40,7 +40,7 @@ export default function FixedExpenseListScreen() {
 
       {sheetOpen && <FixedExpenseBottomSheet onClose={handleSheetClose} sheetType={sheetType} item={selectedItem} />}
 
-      <ReadyButton text="추가하기" onClick={handleAddClick} condition />
+      <ReadyButton position="bottom" text="추가하기" onClick={handleAddClick} condition />
     </Column>
   );
 }

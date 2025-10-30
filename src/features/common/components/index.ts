@@ -5,3 +5,4 @@ export { default as WheelPicker } from "./picker/wheelPicker";
 export { default as ExpenseItem } from "./expenseItem";
 export { default as Keypad } from "./keypad";
 export { default as SmoothTabs } from "./smoothTabs";
+export { default as MoneyInput } from "./moneyInput";

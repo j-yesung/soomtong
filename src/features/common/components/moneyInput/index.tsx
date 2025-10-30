@@ -1,15 +1,17 @@
-import { useState } from "react";
-
 import { Input } from "@/components/ui";
-import { Keypad } from "@/features/common/components";
 
-export default function FixedExpenseListFormScreen() {
-  const [expense, setExpense] = useState("");
+import Keypad from "../keypad";
 
+type Props = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export default function MoneyInput({ value, onChange }: Props) {
   return (
     <>
       <Input
-        value={expense}
+        value={value}
         onFocus={(e) => e.currentTarget.blur()}
         id="fixed-expense"
         className="expense-add-input"
@@ -19,7 +21,7 @@ export default function FixedExpenseListFormScreen() {
         fullWidth
         readOnly
       />
-      <Keypad value={expense} onChange={setExpense} />
+      <Keypad value={value} onChange={onChange} />
     </>
   );
 }
