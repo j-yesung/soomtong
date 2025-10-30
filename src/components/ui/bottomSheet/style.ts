@@ -15,7 +15,6 @@ export const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.4);
   animation: ${fade} 0.16s ease-out;
   z-index: 1100;
-
   width: 100%;
   max-width: 500px;
   min-width: 320px;
@@ -37,7 +36,6 @@ export const Sheet = styled.div`
   flex-direction: column;
   animation: ${slideUp} 0.2s ease-out forwards;
   z-index: 1110;
-
   width: 100%;
   max-width: 500px;
   min-width: 320px;

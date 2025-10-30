@@ -4,6 +4,8 @@ import { BottomSheet, Button, Column, Row } from "@/components/ui";
 import { FixedExpenseInput } from "@/features/expense/components";
 import { FixedItem } from "@/features/expense/types";
 
+import FixedExpenseAddForm from "../fixedExpenseAddForm";
+
 type Props = {
   onClose: () => void;
   onClick?: () => void;
@@ -31,14 +33,7 @@ export default function FixedExpenseBottomSheet({ onClose, onClick, sheetType, i
           </Row>
         </Column>
       )}
-      {sheetType === "add" && (
-        <Row gap={4} justify="space-between">
-          <Button color="danger" onClick={onClose}>
-            취소
-          </Button>
-          <Button onClick={onClick}>저장</Button>
-        </Row>
-      )}
+      {sheetType === "add" && <FixedExpenseAddForm onClose={onClose} />}
     </BottomSheet>
   );
 }

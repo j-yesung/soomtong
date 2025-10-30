@@ -3,8 +3,7 @@
 import { useState } from "react";
 
 import { Column, Input, Row, Text } from "@/components/ui";
-import { ReadyButton } from "@/features/common/components";
-import MoneyPadSection from "@/features/common/components/keypad";
+import { Keypad, ReadyButton } from "@/features/common/components";
 import { useSalaryMutation } from "@/features/salary/queries";
 import { parseNumericInput } from "@/utils/formatter";
 
@@ -37,7 +36,7 @@ export default function SalaryForm() {
       </Row>
       <Column gap={12} bottom={0} position="absolute" align="center" fullWidth>
         <ReadyButton type="submit" text="다음" position="none" condition={!!salary} />
-        <MoneyPadSection value={salary} onChange={setSalary} />
+        <Keypad value={salary} onChange={setSalary} />
       </Column>
     </Column>
   );
