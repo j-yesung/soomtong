@@ -75,6 +75,11 @@ export const GlobalStyle = createGlobalStyle`
     display: block;
     max-width: 100%;
   }
+  
+  body.scroll-lock {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
 
   /* HTML5 display reset */
   article, aside, details, figcaption, figure,

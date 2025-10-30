@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import Column from "../column";
 import Heading from "../heading";
@@ -6,12 +6,22 @@ import Portal from "../portal";
 import * as S from "./style";
 
 type Props = {
+  isOpen: boolean;
   title?: string;
   children: ReactNode;
   onClose: () => void;
 };
 
-export default function BottomSheet({ title, children, onClose }: Props) {
+export default function BottomSheet({ isOpen, title, children, onClose }: Props) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("scroll-lock");
+    }
+    return () => {
+      document.body.classList.remove("scroll-lock");
+    };
+  }, [isOpen]);
+
   return (
     <Portal>
       <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />

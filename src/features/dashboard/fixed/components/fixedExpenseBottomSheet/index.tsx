@@ -9,11 +9,12 @@ import FixedExpenseAddForm from "../fixedExpenseAddForm";
 type Props = {
   onClose: () => void;
   onClick?: () => void;
+  open: boolean;
   sheetType: "add" | "edit";
   item: FixedItem;
 };
 
-export default function FixedExpenseBottomSheet({ onClose, onClick, sheetType, item }: Props) {
+export default function FixedExpenseBottomSheet({ onClose, onClick, open, sheetType, item }: Props) {
   const [changedAmount, setChangedAmount] = useState(
     sheetType === "edit" && item?.amount ? item.amount?.toLocaleString() : "",
   );
@@ -21,7 +22,7 @@ export default function FixedExpenseBottomSheet({ onClose, onClick, sheetType, i
   const sheetTitle = sheetType === "add" ? "고정지출 추가" : item.tag;
 
   return (
-    <BottomSheet onClose={onClose} title={sheetTitle}>
+    <BottomSheet onClose={onClose} isOpen={open} title={sheetTitle}>
       {sheetType === "edit" && (
         <Column gap={12}>
           <FixedExpenseInput value={changedAmount} onChange={setChangedAmount} />

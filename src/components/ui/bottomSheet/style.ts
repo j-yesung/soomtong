@@ -19,6 +19,7 @@ export const Backdrop = styled.div`
   max-width: 500px;
   min-width: 320px;
   margin: 0 auto;
+  touch-action: none;
 `;
 
 export const Sheet = styled.div`

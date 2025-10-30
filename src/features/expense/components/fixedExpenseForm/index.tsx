@@ -39,7 +39,15 @@ export default function FixedExpenseForm() {
           지출일 선택
         </Button>
       </Row>
-      {open && <DatePicker day={day} onClose={() => setOpen(false)} callback={handleSubmit} onDayChange={setDay} />}
+      {open && (
+        <DatePicker
+          day={day}
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          callback={handleSubmit}
+          onDayChange={setDay}
+        />
+      )}
     </Column>
   );
 }
