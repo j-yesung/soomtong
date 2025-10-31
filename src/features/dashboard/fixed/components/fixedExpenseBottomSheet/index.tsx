@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BottomSheet, Button, Column, Row } from "@/components/ui";
 import { FixedExpenseInput } from "@/features/expense/components";
@@ -15,9 +15,11 @@ type Props = {
 };
 
 export default function FixedExpenseBottomSheet({ onClose, onClick, open, sheetType, item }: Props) {
-  const [changedAmount, setChangedAmount] = useState(
-    sheetType === "edit" && item?.amount ? item.amount?.toLocaleString() : "",
-  );
+  const [changedAmount, setChangedAmount] = useState("");
+
+  useEffect(() => {
+    setChangedAmount(sheetType === "edit" && item?.amount ? item.amount?.toLocaleString() : "");
+  }, [sheetType, item]);
 
   const sheetTitle = sheetType === "add" ? "고정지출 추가" : item.tag;
 

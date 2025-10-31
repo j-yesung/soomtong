@@ -38,14 +38,7 @@ export default function FixedExpenseListScreen() {
         ))}
       </Column>
 
-      {sheetOpen && (
-        <FixedExpenseBottomSheet
-          onClose={handleSheetClose}
-          open={sheetOpen}
-          sheetType={sheetType}
-          item={selectedItem}
-        />
-      )}
+      <FixedExpenseBottomSheet onClose={handleSheetClose} open={sheetOpen} sheetType={sheetType} item={selectedItem} />
 
       <ReadyButton position="bottom" text="추가하기" onClick={handleAddClick} condition />
     </Column>

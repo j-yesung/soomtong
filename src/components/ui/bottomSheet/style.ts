@@ -1,31 +1,43 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+type DataState = "open" | "closed";
 
 const slideUp = keyframes`
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+    from {
+      transform:translateY(100%)
+    }
+    to {
+      transform:translateY(0)
+    }
+`;
+
+const slideDown = keyframes`
+  from {
+    transform:translateY(0)
+  }
+  to {
+    transform:translateY(100%)
+  }
 `;
 
 export const Backdrop = styled.div`
   position: fixed;
   inset: 0;
   z-index: 1100;
-  width: 100%;
-  max-width: 500px;
-  min-width: 320px;
-  margin: 0 auto;
-  touch-action: none;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
 `;
 
-export const Sheet = styled.div`
+export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>`
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   margin: 0 auto;
+  z-index: 1110;
+
+  width: 100%;
+  max-width: 500px;
+  min-width: 320px;
+
   background: ${({ theme }) => theme.colors.bg.inverseWhite};
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -35,24 +47,20 @@ export const Sheet = styled.div`
   flex-direction: column;
   will-change: transform, opacity;
   transform: translateZ(0);
-  animation: ${slideUp} 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  z-index: 1110;
-  width: 100%;
-  max-width: 500px;
-  min-width: 320px;
-
   padding-bottom: env(safe-area-inset-bottom);
+
+  ${({ $isOpen }) =>
+    $isOpen
+      ? css`
+          animation: ${slideUp} 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        `
+      : css`
+          animation: ${slideDown} 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        `}
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
-`;
-
-export const Header = styled.header`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 16px 8px;
 `;
 
 export const CloseButton = styled.button`
@@ -60,6 +68,5 @@ export const CloseButton = styled.button`
   border: 0;
   background: transparent;
   font-size: 18px;
-  cursor: pointer;
   line-height: 1;
 `;
