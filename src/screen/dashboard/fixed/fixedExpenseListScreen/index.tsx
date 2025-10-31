@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import { Column } from "@/components/ui";
 import { ExpenseItem, ReadyButton, SlotCounter } from "@/features/common/components";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
 import { FixedItem } from "@/features/expense/types";
+
+import { ListBox, ListScreenContainer } from "./style";
 
 export default function FixedExpenseListScreen() {
   const [sheetType, setSheetType] = useState<"add" | "edit">("add");
@@ -25,22 +26,21 @@ export default function FixedExpenseListScreen() {
     setSheetOpen(true);
   };
 
-  const handleSheetClose = () => {
-    setSheetOpen(false);
-  };
+  const handleSheetClose = () => setSheetOpen(false);
 
   return (
-    <Column padding={10} gap={12}>
+    <ListScreenContainer>
       <SlotCounter value={data?.totalFixedExpense} suffix="원" />
-      <Column gap={8} as="ul">
+
+      <ListBox>
         {data?.items?.map((item) => (
           <ExpenseItem key={item.createdAt} items={item} onClick={() => handleItemClick(item)} />
         ))}
-      </Column>
+      </ListBox>
 
-      {sheetOpen && <FixedExpenseBottomSheet onClose={handleSheetClose} sheetType={sheetType} item={selectedItem} />}
+      <FixedExpenseBottomSheet onClose={handleSheetClose} open={sheetOpen} sheetType={sheetType} item={selectedItem} />
 
       <ReadyButton text="추가하기" onClick={handleAddClick} condition />
-    </Column>
+    </ListScreenContainer>
   );
 }

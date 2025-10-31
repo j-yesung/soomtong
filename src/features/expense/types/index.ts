@@ -32,8 +32,12 @@ export type FixedState = {
   items: FixedItem[];
 };
 
+export type FixedAddParams = {
+  userId: string;
+  item: FixedItem;
+};
+
 export type FixedActions = {
-  add: (p: FixedAddItem) => void;
   remove: (p: FixedRemoveItem) => void;
   updateItems: (items: FixedItem[]) => void;
 };

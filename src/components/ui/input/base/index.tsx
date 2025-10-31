@@ -6,6 +6,7 @@ export default function Input({
   onChange,
   onBlur,
   onEnter,
+  onFocus,
   ref,
   id,
   value,
@@ -18,6 +19,7 @@ export default function Input({
   unit,
   className,
   flex,
+  readOnly,
 }: T.InputProps) {
   return (
     <Flex position="relative" align="center" flex={flex} className={className}>
@@ -31,6 +33,8 @@ export default function Input({
             onEnter();
           }
         }}
+        onFocus={onFocus}
+        readOnly={readOnly}
         id={id}
         inputMode={inputMode}
         value={value}

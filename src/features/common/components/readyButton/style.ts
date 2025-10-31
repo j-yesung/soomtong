@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 
-const ABSOLUTE_STYLES = css`
+const FIXED_STYLES = css`
+  position: fixed;
   padding: 20px;
-  position: absolute;
   transform: translateX(-50%) !important;
 `;
 
@@ -21,13 +21,13 @@ export const Motion = styled(motion.div)<{ $offset: number; $position: "bottom" 
     $position === "bottom"
       ? css`
           ${COMMON_STYLES}
-          ${ABSOLUTE_STYLES}
+          ${FIXED_STYLES}
           bottom: calc(env(safe-area-inset-bottom, 0px) + ${$offset}px);
         `
       : $position === "top"
         ? css`
             ${COMMON_STYLES}
-            ${ABSOLUTE_STYLES}
+            ${FIXED_STYLES}
             top: calc(env(safe-area-inset-top, 0px));
           `
         : css`

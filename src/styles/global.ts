@@ -57,8 +57,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    margin: 0;
+    margin: 0 auto;
+    width: 100%;
     height: 100%;
+    min-width: 320px;
+    max-width: 500px;
+    padding: 20px;
     background: var(--color-bg);
     color: var(--color-text);
     font-family:
@@ -74,6 +78,11 @@ export const GlobalStyle = createGlobalStyle`
   picture, video, canvas, svg {
     display: block;
     max-width: 100%;
+  }
+  
+  body.scroll-lock {
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
   /* HTML5 display reset */

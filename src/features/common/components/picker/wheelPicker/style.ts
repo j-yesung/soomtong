@@ -7,7 +7,7 @@ type ItemHeight = {
 export const Viewport = styled.div<ItemHeight & { $visibleCount: number }>`
   position: relative;
   overflow: hidden;
-  width: 100px;
+  width: 100%;
   height: ${({ $itemHeight, $visibleCount }) => $itemHeight * $visibleCount}px;
 
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 28%, #000 72%, transparent);
@@ -30,9 +30,9 @@ export const Viewport = styled.div<ItemHeight & { $visibleCount: number }>`
 
 export const CenterHighlight = styled.div<ItemHeight>`
   position: absolute;
-  left: 8px;
-  right: 8px;
+  left: 36%;
   top: 50%;
+  width: 100px;
   height: ${({ $itemHeight }) => $itemHeight}px;
   transform: translateY(-50%);
   border-radius: 10px;

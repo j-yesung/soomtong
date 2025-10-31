@@ -3,17 +3,19 @@ import { useMemo, useState } from "react";
 import { Button, Column, Row } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
 import { DatePicker } from "@/features/common/components";
+import { useFixedExpenseAddMutation } from "@/features/common/queries";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
-import { addFixedExpense } from "@/features/expense/store";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function FixedExpenseForm() {
-  const userInfo = useUserStore((state) => state.userInfo);
+  const userId = useUserStore((state) => state.userInfo).id;
 
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
   const [open, setOpen] = useState(false);
   const [day, setDay] = useState(1);
+
+  const { mutate } = useFixedExpenseAddMutation();
 
   const amount = useMemo(() => parseNumericInput(value), [value]);
   const canSubmit = amount > 0 && !!tag;
@@ -25,7 +27,15 @@ export default function FixedExpenseForm() {
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    addFixedExpense({ userId: userInfo.id, tag, amount, day });
+    mutate({
+      userId,
+      item: {
+        tag,
+        amount,
+        day,
+        createdAt: Date.now(),
+      },
+    });
     setValue("");
     setTag("");
   };
@@ -39,7 +49,8 @@ export default function FixedExpenseForm() {
           지출일 선택
         </Button>
       </Row>
-      {open && <DatePicker day={day} onClose={() => setOpen(false)} callback={handleSubmit} onDayChange={setDay} />}
+
+      <DatePicker day={day} isOpen={open} onClose={() => setOpen(false)} callback={handleSubmit} onDayChange={setDay} />
     </Column>
   );
 }
