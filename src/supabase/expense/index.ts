@@ -1,4 +1,4 @@
-import { FixedItem, FixedRow } from "@/features/expense/types";
+import { FixedAddParams, FixedRow } from "@/features/expense/types";
 import { createClient } from "@/supabase/client";
 
 const supabase = createClient();
@@ -6,7 +6,7 @@ const supabase = createClient();
 /**
  * 고정지출 추가
  */
-export async function addFixedItem(params: { userId: string; item: FixedItem }) {
+export async function addFixedItem(params: FixedAddParams) {
   const { userId, item } = params;
   const { data, error } = await supabase.rpc("add_fixed_item", {
     _user: userId,

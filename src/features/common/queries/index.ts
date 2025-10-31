@@ -1,15 +1,21 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
+import { useUserStore } from "@/features/auth/store";
 import { getFixedExpenseTable } from "@/features/common/api";
+import { FixedAddParams } from "@/features/expense/types";
+import { addFixedItem } from "@/supabase/expense";
 
 export const userAmountQueryKeys = {
-  fixedExpenseTable: () => ["fixedExpense"],
+  fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
   landing: () => ["landing"],
+  addFixedExpense: () => ["addFixedExpense"],
 };
 
 export function useFixedExpenseTableQuery() {
+  const userId = useUserStore((state) => state.userInfo).id;
+
   return useSuspenseQuery({
-    queryKey: userAmountQueryKeys.fixedExpenseTable(),
+    queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
     queryFn: () => getFixedExpenseTable(),
     refetchOnWindowFocus: false,
     select: (data) => {
@@ -29,5 +35,18 @@ export function useLandingFixedExpenseQuery() {
       budget: data?.budget,
       items: data?.items ?? [],
     }),
+  });
+}
+
+export function useFixedExpenseAddMutation() {
+  const queryClient = useQueryClient();
+  const userId = useUserStore((state) => state.userInfo).id;
+
+  return useMutation({
+    mutationKey: userAmountQueryKeys.addFixedExpense(),
+    mutationFn: (params: FixedAddParams) => addFixedItem(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+    },
   });
 }

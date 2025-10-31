@@ -15,7 +15,8 @@ import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
   const userInfo = useUserStore((state) => state.userInfo);
-  const { items, updateItems } = useFixedExpenseStore();
+  const updateItems = useFixedExpenseStore((state) => state.updateItems);
+
   const { data } = useFixedExpenseTableQuery();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function FixedExpenseList() {
 
   return (
     <MotionList>
-      {items?.map(({ createdAt, tag, amount, day }) => (
+      {data?.items?.map(({ createdAt, tag, amount, day }) => (
         <SwipeItem
           key={createdAt}
           onRemove={() => handleRemove(tag, createdAt)}

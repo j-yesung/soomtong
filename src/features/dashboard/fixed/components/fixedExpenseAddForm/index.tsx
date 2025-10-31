@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 import { Button, Column, Row } from "@/components/ui";
+import { useUserStore } from "@/features/auth/store";
 import { AmountInput, SmoothTabs, WheelPicker } from "@/features/common/components";
+import { useFixedExpenseAddMutation } from "@/features/common/queries";
 
 type Props = {
   onClose: () => void;
@@ -12,6 +14,23 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
 
   const [expense, setExpense] = useState("");
   const [day, setDay] = useState(today);
+
+  const userId = useUserStore((state) => state.userInfo).id;
+
+  const { mutate } = useFixedExpenseAddMutation();
+
+  const handleAdd = () => {
+    mutate({
+      userId,
+      item: {
+        tag: "라프텔",
+        amount: Number(expense.replaceAll(",", "")),
+        day,
+        createdAt: Date.now(),
+      },
+    });
+    onClose();
+  };
 
   return (
     <Column gap={20}>
@@ -29,8 +48,8 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
         <Button color="danger" onClick={onClose}>
           취소
         </Button>
-        <Button onClick={() => {}} disabled={!expense}>
-          저장
+        <Button onClick={handleAdd} disabled={!expense}>
+          추가
         </Button>
       </Row>
     </Column>
