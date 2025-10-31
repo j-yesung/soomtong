@@ -34,7 +34,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       minHeight="100%"
       boxSizing="border-box"
       position="relative"
-      // backgroundColor={theme.colors.bg.primary}
     >
       {children}
     </Box>
