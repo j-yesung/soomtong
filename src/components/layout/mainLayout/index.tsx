@@ -13,14 +13,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       flexDirection="column"
       alignItems={isHome ? "center" : "flex-start"}
       justifyContent={isHome ? "center" : "flex-start"}
-      width="100%"
-      minHeight="100dvh"
-      minWidth="320px"
-      maxWidth="500px"
-      margin="0 auto"
+      minHeight="100%"
       boxSizing="border-box"
       position="relative"
-      padding={20}
       // backgroundColor={theme.colors.bg.primary}
     >
       {children}

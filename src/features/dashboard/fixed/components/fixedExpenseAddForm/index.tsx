@@ -34,7 +34,8 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
 
   return (
     <Column gap={20}>
-      <SmoothTabs tabList={["금액 입력", "지출일"]}>
+      <SmoothTabs tabList={["항목", "금액 입력", "지출일"]}>
+        <div>태그들</div>
         <AmountInput value={expense} onChange={setExpense} />
         <WheelPicker
           items={Array.from({ length: 31 }, (_, i) => i + 1)}

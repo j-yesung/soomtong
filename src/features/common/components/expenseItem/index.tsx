@@ -5,9 +5,9 @@ import { Column, Row, Tag, Text } from "@/components/ui";
 import { FixedItem } from "@/features/expense/types";
 
 const ItemCard = styled.div`
-  padding: 10px;
+  padding: 12px;
+  background: ${({ theme }) => theme.colors.bg.secondary};
   border-radius: ${({ theme }) => theme.radius.sm};
-  box-shadow: ${({ theme }) => theme.shadows.card};
   cursor: pointer;
 
   svg {
@@ -26,7 +26,7 @@ export default function ExpenseItem({ onClick, items }: Props) {
       <Row justify="center" gap={16}>
         <Column gap={4} fullWidth>
           <Row align="center" justify="space-between">
-            <Tag variant="fixed" fontSize={12}>
+            <Tag variant="fixed" fontSize={14} fontWeight={600}>
               {items.tag}
             </Tag>
             <Text size={16} weight={700}>

@@ -7,8 +7,8 @@ const COMMON = css<TagStylesProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
-  border-radius: 4px;
+  padding: 8px;
+  border-radius: 14px;
   font-size: ${({ theme, fontSize }) => `${fontSize ?? theme.font.sm}px`};
   font-weight: ${({ fontWeight }) => fontWeight ?? 500};
 `;
@@ -16,7 +16,7 @@ const COMMON = css<TagStylesProps>`
 const variantStyles = {
   fixed: css<TagStylesProps>`
     cursor: default;
-    background-color: ${({ theme, color }) => color ?? theme.colors.bg.secondary};
+    background-color: ${({ theme, color }) => color ?? theme.colors.bg.inverseWhite};
     color: ${({ theme, color }) => (color ? theme.colors.text.darkBlue : theme.colors.text.gray)};
     border: none;
   `,
