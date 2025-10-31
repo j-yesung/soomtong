@@ -7,7 +7,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export default function MoneyInput({ value, onChange }: Props) {
+export default function AmountInput({ value, onChange }: Props) {
   return (
     <>
       <Input
