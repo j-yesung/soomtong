@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Button, Column, Row } from "@/components/ui";
-import { MoneyInput, SmoothTabs, WheelPicker } from "@/features/common/components";
+import { AmountInput, SmoothTabs, WheelPicker } from "@/features/common/components";
 
 type Props = {
   onClose: () => void;
@@ -16,7 +16,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
   return (
     <Column gap={20}>
       <SmoothTabs tabList={["금액 입력", "지출일"]}>
-        <MoneyInput value={expense} onChange={setExpense} />
+        <AmountInput value={expense} onChange={setExpense} />
         <WheelPicker
           items={Array.from({ length: 31 }, (_, i) => i + 1)}
           value={day}

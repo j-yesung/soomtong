@@ -1,9 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-const fade = keyframes`
-  from { opacity: 0; } to { opacity: 1; }
-`;
-
 const slideUp = keyframes`
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
@@ -12,14 +8,16 @@ const slideUp = keyframes`
 export const Backdrop = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  animation: ${fade} 0.16s ease-out;
   z-index: 1100;
   width: 100%;
   max-width: 500px;
   min-width: 320px;
   margin: 0 auto;
   touch-action: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export const Sheet = styled.div`
@@ -35,13 +33,19 @@ export const Sheet = styled.div`
   max-height: 80dvh;
   display: flex;
   flex-direction: column;
-  animation: ${slideUp} 0.2s ease-out forwards;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  animation: ${slideUp} 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   z-index: 1110;
   width: 100%;
   max-width: 500px;
   min-width: 320px;
 
   padding-bottom: env(safe-area-inset-bottom);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export const Header = styled.header`
