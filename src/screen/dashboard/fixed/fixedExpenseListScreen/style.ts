@@ -13,9 +13,7 @@ export const ListBox = styled(Column)`
   overflow: auto;
   gap: 12px;
   min-height: 0;
-
   align-self: stretch;
-
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   ${hideScrollbarOnTouch}

@@ -42,9 +42,10 @@ export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
-  max-height: 80dvh;
+  max-height: 90dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   will-change: transform, opacity;
   transform: translateZ(0);
   padding-bottom: env(safe-area-inset-bottom);
@@ -55,7 +56,7 @@ export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>
           animation: ${slideUp} 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         `
       : css`
-          animation: ${slideDown} 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: ${slideDown} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         `}
 
   @media (prefers-reduced-motion: reduce) {

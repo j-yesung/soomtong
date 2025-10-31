@@ -10,8 +10,7 @@ const List = styled(motion.ul)`
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  margin-bottom: 60px;
-  padding: 0;
+  margin-bottom: 80px;
   list-style: none;
 `;
 

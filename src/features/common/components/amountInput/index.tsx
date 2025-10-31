@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui";
+import { Column, Input } from "@/components/ui";
 
 import Keypad from "../keypad";
 
@@ -9,7 +9,7 @@ type Props = {
 
 export default function AmountInput({ value, onChange }: Props) {
   return (
-    <>
+    <Column gap={12}>
       <Input
         value={value}
         onFocus={(e) => e.currentTarget.blur()}
@@ -22,6 +22,6 @@ export default function AmountInput({ value, onChange }: Props) {
         readOnly
       />
       <Keypad value={value} onChange={onChange} />
-    </>
+    </Column>
   );
 }
