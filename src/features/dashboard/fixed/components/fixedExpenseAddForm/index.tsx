@@ -19,6 +19,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
   const today = new Date().getDate();
 
   const [expense, setExpense] = useState("");
+  const [tag, setTag] = useState("");
   const [day, setDay] = useState(today);
 
   const userId = useUserStore((state) => state.userInfo).id;
@@ -29,7 +30,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
     mutate({
       userId,
       item: {
-        tag: "라프텔",
+        tag,
         amount: parseNumericInput(expense),
         day,
         createdAt: Date.now(),
@@ -41,7 +42,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
   return (
     <FormContainer>
       <SmoothTabs tabList={["항목", "금액 입력", "지출일"]}>
-        <FixedExpenseCategoryList />
+        <FixedExpenseCategoryList onClick={(tag) => setTag(tag)} />
         <AmountInput value={expense} onChange={setExpense} />
         <WheelPicker
           items={Array.from({ length: 31 }, (_, i) => i + 1)}
