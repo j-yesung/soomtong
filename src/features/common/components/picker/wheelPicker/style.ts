@@ -30,11 +30,11 @@ export const Viewport = styled.div<ItemHeight & { $visibleCount: number }>`
 
 export const CenterHighlight = styled.div<ItemHeight>`
   position: absolute;
-  left: 36%;
+  left: 50%;
   top: 50%;
   width: 100px;
   height: ${({ $itemHeight }) => $itemHeight}px;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.bg.secondary};
   pointer-events: none;
