@@ -7,6 +7,7 @@ import { useUserStore } from "@/features/auth/store";
 import { AmountInput, SmoothTabs, WheelPicker } from "@/features/common/components";
 import { useFixedExpenseAddMutation } from "@/features/common/queries";
 import { responsiveFormHeights } from "@/styles/viewport";
+import { parseNumericInput } from "@/utils/formatter";
 
 import FixedExpenseCategoryList from "../fixedExpenseCategoryList";
 
@@ -29,7 +30,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
       userId,
       item: {
         tag: "라프텔",
-        amount: Number(expense.replaceAll(",", "")),
+        amount: parseNumericInput(expense),
         day,
         createdAt: Date.now(),
       },

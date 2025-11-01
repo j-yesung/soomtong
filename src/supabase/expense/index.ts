@@ -1,4 +1,4 @@
-import { FixedAddParams, FixedRow } from "@/features/expense/types";
+import { FixedAddParams, FixedRemoveItem, FixedRow } from "@/features/expense/types";
 import { createClient } from "@/supabase/client";
 
 const supabase = createClient();
@@ -19,7 +19,7 @@ export async function addFixedItem(params: FixedAddParams) {
 /**
  * 고정지출 삭제
  */
-export async function removeFixedItem(params: { userId: string; tag: string; createdAt: number }) {
+export async function removeFixedItem(params: FixedRemoveItem) {
   const { userId, tag, createdAt } = params;
   const { data, error } = await supabase.rpc("remove_fixed_item", {
     _user: userId,

@@ -38,6 +38,5 @@ export type FixedAddParams = {
 };
 
 export type FixedActions = {
-  remove: (p: FixedRemoveItem) => void;
   updateItems: (items: FixedItem[]) => void;
 };
