@@ -6,6 +6,7 @@ export const theme = {
       inverseWhite: "var(--color-inverseWhite)",
       danger: "var(--color-danger)",
       lightBlue: "var(--color-light-blue)",
+      darkBlue: "#42A5F5",
     },
     text: {
       primary: "var(--color-brand)",

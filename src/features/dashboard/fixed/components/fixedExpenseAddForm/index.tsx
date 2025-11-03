@@ -7,6 +7,7 @@ import { useUserStore } from "@/features/auth/store";
 import { AmountInput, SmoothTabs, WheelPicker } from "@/features/common/components";
 import { useFixedExpenseAddMutation } from "@/features/common/queries";
 import { responsiveFormHeights } from "@/styles/viewport";
+import { parseNumericInput } from "@/utils/formatter";
 
 import FixedExpenseCategoryList from "../fixedExpenseCategoryList";
 
@@ -18,6 +19,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
   const today = new Date().getDate();
 
   const [expense, setExpense] = useState("");
+  const [tag, setTag] = useState("");
   const [day, setDay] = useState(today);
 
   const userId = useUserStore((state) => state.userInfo).id;
@@ -28,8 +30,8 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
     mutate({
       userId,
       item: {
-        tag: "라프텔",
-        amount: Number(expense.replaceAll(",", "")),
+        tag,
+        amount: parseNumericInput(expense),
         day,
         createdAt: Date.now(),
       },
@@ -40,7 +42,7 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
   return (
     <FormContainer>
       <SmoothTabs tabList={["항목", "금액 입력", "지출일"]}>
-        <FixedExpenseCategoryList />
+        <FixedExpenseCategoryList onClick={(tag) => setTag(tag)} />
         <AmountInput value={expense} onChange={setExpense} />
         <WheelPicker
           items={Array.from({ length: 31 }, (_, i) => i + 1)}
@@ -52,9 +54,6 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
       </SmoothTabs>
 
       <Row gap={4} justify="space-between">
-        <Button color="danger" onClick={onClose}>
-          취소
-        </Button>
         <Button onClick={handleAdd} disabled={!expense}>
           추가
         </Button>

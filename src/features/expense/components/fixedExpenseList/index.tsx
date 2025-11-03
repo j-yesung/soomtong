@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 import { Row, Tag, Text } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
-import { useFixedExpenseTableQuery } from "@/features/common/queries";
-import { removeFixedExpense, useFixedExpenseStore } from "@/features/expense/store";
+import { useFixedExpenseRemoveMutation, useFixedExpenseTableQuery } from "@/features/common/queries";
+import { useFixedExpenseStore } from "@/features/expense/store";
 import { formatWithComma } from "@/utils/formatter";
 
 import DeleteIconButton from "./deleteIconButton";
@@ -14,10 +14,11 @@ import { ListItem } from "./style";
 import SwipeItem from "./swipeItem";
 
 export default function FixedExpenseList() {
-  const userInfo = useUserStore((state) => state.userInfo);
+  const userId = useUserStore((state) => state.userInfo).id;
   const updateItems = useFixedExpenseStore((state) => state.updateItems);
 
   const { data } = useFixedExpenseTableQuery();
+  const { mutate } = useFixedExpenseRemoveMutation();
 
   useEffect(() => {
     if (data) {
@@ -26,7 +27,7 @@ export default function FixedExpenseList() {
   }, [data]);
 
   const handleRemove = (tag: string, createdAt: number) => {
-    return removeFixedExpense({ userId: userInfo.id, tag, createdAt });
+    mutate({ userId, tag, createdAt });
   };
 
   return (
