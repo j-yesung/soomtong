@@ -36,7 +36,16 @@ export default function WheelPicker({
       <Viewport role="listbox" aria-label="일 선택" $itemHeight={itemHeight} $visibleCount={visibleCount}>
         <CenterHighlight $itemHeight={itemHeight} aria-hidden />
 
-        <motion.ul drag="y" style={{ y }} dragConstraints={dragConstraints} dragElastic={0.2} onDragEnd={onDragEnd}>
+        <motion.ul
+          drag="y"
+          style={{ y }}
+          dragConstraints={dragConstraints}
+          dragElastic={0.2}
+          onDragEnd={onDragEnd}
+          onPointerDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           {items.map((d, i) => (
             <Item
               key={d}

@@ -54,9 +54,6 @@ export default function FixedExpenseAddForm({ onClose }: Props) {
       </SmoothTabs>
 
       <Row gap={4} justify="space-between">
-        <Button color="danger" onClick={onClose}>
-          취소
-        </Button>
         <Button onClick={handleAdd} disabled={!expense}>
           추가
         </Button>

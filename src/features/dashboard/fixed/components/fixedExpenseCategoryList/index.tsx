@@ -7,10 +7,11 @@ import { DEFAULT_TAG_LIST } from "@/features/expense/constants";
 
 type Props = {
   onClick: (tag: string) => void;
+  defaultTag?: string;
 };
 
-export default function FixedExpenseCategoryList({ onClick }: Props) {
-  const [selectedName, setSelectedName] = useState("");
+export default function FixedExpenseCategoryList({ onClick, defaultTag }: Props) {
+  const [selectedName, setSelectedName] = useState(defaultTag ?? "");
 
   const handleClick = (name: string) => {
     setSelectedName(name);

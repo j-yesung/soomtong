@@ -3,20 +3,20 @@ import styled, { css, keyframes } from "styled-components";
 type DataState = "open" | "closed";
 
 const slideUp = keyframes`
-    from {
-      transform:translateY(100%)
-    }
-    to {
-      transform:translateY(0)
-    }
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 `;
 
 const slideDown = keyframes`
   from {
-    transform:translateY(0)
+    transform: translateY(0);
   }
   to {
-    transform:translateY(100%)
+    transform: translateY(100%);
   }
 `;
 
@@ -50,6 +50,8 @@ export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>
   transform: translateZ(0);
   padding-bottom: env(safe-area-inset-bottom);
 
+  transition: transform 0.2s ease-out;
+
   ${({ $isOpen }) =>
     $isOpen
       ? css`
@@ -61,13 +63,23 @@ export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
+    transition: none;
   }
 `;
 
-export const CloseButton = styled.button`
-  margin-left: auto;
-  border: 0;
-  background: transparent;
-  font-size: 18px;
-  line-height: 1;
+export const DragHandleArea = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: pan-y;
+`;
+
+export const DragHandleBar = styled.div`
+  width: 48px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
 `;

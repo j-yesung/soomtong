@@ -2,14 +2,15 @@ import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tansta
 
 import { useUserStore } from "@/features/auth/store";
 import { getFixedExpenseTable } from "@/features/common/api";
-import { FixedAddParams, FixedRemoveItem } from "@/features/expense/types";
-import { addFixedItem, removeFixedItem } from "@/supabase/expense";
+import { FixedAddParams, FixedRemoveItem, FixedUpdateItem } from "@/features/expense/types";
+import { addFixedItem, removeFixedItem, updateFixedItem } from "@/supabase/expense";
 
 export const userAmountQueryKeys = {
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
   landing: () => ["landing"],
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
+  updateFixedExpense: () => ["updateFixedExpense"],
 };
 
 /**
@@ -71,6 +72,22 @@ export function useFixedExpenseRemoveMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+    },
+  });
+}
+
+/**
+ * 고정 지출 수정
+ */
+export function useFixedExpenseUpdateMutation() {
+  const queryClient = useQueryClient();
+  const userId = useUserStore((state) => state.userInfo).id;
+
+  return useMutation({
+    mutationKey: userAmountQueryKeys.updateFixedExpense(),
+    mutationFn: (params: FixedUpdateItem) => updateFixedItem(params),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
     },

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Column from "../column";
 import Heading from "../heading";
@@ -11,11 +11,23 @@ type Props = {
   title?: string;
   children: ReactNode;
   onClose: () => void;
+  callback?: ReactNode;
 };
 
-export default function BottomSheet({ isOpen, title, children, onClose }: Props) {
+export default function BottomSheet({ isOpen, title, children, onClose, callback }: Props) {
   const [present, setPresent] = useState(isOpen);
   const [exiting, setExiting] = useState(false);
+
+  const [dragY, setDragY] = useState(0);
+
+  const dragYRef = useRef(0);
+  const startYRef = useRef<number | null>(null);
+  const isDraggingRef = useRef(false);
+
+  const setDragYSafe = (value: number) => {
+    dragYRef.current = value;
+    setDragY(value);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -34,7 +46,54 @@ export default function BottomSheet({ isOpen, title, children, onClose }: Props)
       setPresent(false);
       setExiting(false);
       document.body.classList.remove("scroll-lock");
+      setDragYSafe(0);
     }
+  };
+
+  const handlePointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    isDraggingRef.current = true;
+    startYRef.current = e.clientY;
+    setDragYSafe(0);
+
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+
+  const handlePointerMove: React.PointerEventHandler<HTMLDivElement> = (e) => {
+    if (!isDraggingRef.current || startYRef.current == null) return;
+
+    const delta = e.clientY - startYRef.current;
+    if (delta > 0) {
+      setDragYSafe(delta);
+    } else {
+      setDragYSafe(0);
+    }
+  };
+
+  const finishDrag = (pointerId: number, target: EventTarget & HTMLDivElement) => {
+    if (!isDraggingRef.current) return;
+
+    isDraggingRef.current = false;
+    startYRef.current = null;
+    target.releasePointerCapture?.(pointerId);
+
+    const threshold = 50;
+
+    if (dragYRef.current > threshold) {
+      setDragYSafe(0);
+      onClose();
+    } else {
+      setDragYSafe(0);
+    }
+  };
+
+  const handlePointerUp: React.PointerEventHandler<HTMLDivElement> = (e) => {
+    finishDrag(e.pointerId, e.currentTarget);
+  };
+
+  const handlePointerCancel: React.PointerEventHandler<HTMLDivElement> = (e) => {
+    finishDrag(e.pointerId, e.currentTarget);
   };
 
   if (!present) return null;
@@ -43,15 +102,29 @@ export default function BottomSheet({ isOpen, title, children, onClose }: Props)
     <Portal>
       <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />
 
-      <S.Sheet role="dialog" aria-modal="true" $isOpen={isOpen} onAnimationEnd={handleAnimationEnd}>
+      <S.Sheet
+        role="dialog"
+        aria-modal="true"
+        $isOpen={isOpen}
+        onAnimationEnd={handleAnimationEnd}
+        style={dragY > 0 ? { transform: `translateY(${dragY}px)` } : undefined}
+      >
+        {/* 드래그 핸들 */}
+        <S.DragHandleArea
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+        >
+          <S.DragHandleBar />
+        </S.DragHandleArea>
+
         {title && (
           <Row as="header" pvh={[16, 16, 0]} gap={8} align="center">
-            <Heading fontWeight="bold" level={4}>
+            <Heading fontWeight="bold" level={3}>
               {title}
             </Heading>
-            <S.CloseButton onClick={onClose} aria-label="Close">
-              ✕
-            </S.CloseButton>
+            {callback && callback}
           </Row>
         )}
         <Column overflow="auto" padding={16}>

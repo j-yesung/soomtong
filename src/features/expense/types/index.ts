@@ -1,23 +1,11 @@
 export type BaseFixedItem = {
-  userId: string;
-  tag: string;
-};
-
-export type FixedItem = {
   tag: string;
   amount: number;
   day: number;
   createdAt: number;
 };
 
-export type FixedAddItem = BaseFixedItem & {
-  amount: number;
-  day: number;
-};
-
-export type FixedRemoveItem = BaseFixedItem & {
-  createdAt: number;
-};
+export type FixedItem = BaseFixedItem;
 
 export type FixedRow = {
   id: number;
@@ -27,14 +15,26 @@ export type FixedRow = {
   createdAt: string;
 };
 
-export type FixedState = {
-  userId: string;
-  items: FixedItem[];
-};
-
 export type FixedAddParams = {
   userId: string;
   item: FixedItem;
+};
+
+export type FixedRemoveItem = {
+  userId: string;
+  tag: string;
+  createdAt: number;
+};
+
+export type FixedUpdateItem = {
+  userId: string;
+  createdAt: number;
+  item: FixedItem;
+};
+
+export type FixedState = {
+  userId: string;
+  items: FixedItem[];
 };
 
 export type FixedActions = {

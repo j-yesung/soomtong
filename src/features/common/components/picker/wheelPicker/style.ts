@@ -9,6 +9,7 @@ export const Viewport = styled.div<ItemHeight & { $visibleCount: number }>`
   overflow: hidden;
   width: 100%;
   height: ${({ $itemHeight, $visibleCount }) => $itemHeight * $visibleCount}px;
+  touch-action: pan-y;
 
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 28%, #000 72%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 28%, #000 72%, transparent);
