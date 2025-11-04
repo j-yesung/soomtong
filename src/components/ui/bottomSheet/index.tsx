@@ -120,8 +120,8 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
         </S.DragHandleArea>
 
         {title && (
-          <Row as="header" pvh={[16, 16, 0]} gap={8} align="center">
-            <Heading fontWeight="bold" level={3}>
+          <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
+            <Heading fontWeight="bold" level={2}>
               {title}
             </Heading>
             {callback && callback}
