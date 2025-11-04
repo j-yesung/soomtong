@@ -11,6 +11,13 @@ export const Button = styled.button<ButtonStyleProps>`
   align-items: center;
   justify-content: center;
 
+  /* 모바일 탭 하이라이트 제거 */
+  -webkit-tap-highlight-color: transparent;
+
+  /* 브라우저 기본 appearance 제거 (특히 iOS) */
+  -webkit-appearance: none;
+  appearance: none;
+
   ${({ $fullWidth }) => $fullWidth && "width: 100%"};
 
   border-radius: ${({ theme, $radius }) => {

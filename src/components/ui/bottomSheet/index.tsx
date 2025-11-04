@@ -1,4 +1,6 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect } from "react";
+
+import { AnimatePresence, type PanInfo, motion, useDragControls } from "framer-motion";
 
 import Column from "../column";
 import Heading from "../heading";
@@ -15,122 +17,86 @@ type Props = {
 };
 
 export default function BottomSheet({ isOpen, title, children, onClose, callback }: Props) {
-  const [present, setPresent] = useState(isOpen);
-  const [exiting, setExiting] = useState(false);
-
-  const [dragY, setDragY] = useState(0);
-
-  const dragYRef = useRef(0);
-  const startYRef = useRef<number | null>(null);
-  const isDraggingRef = useRef(false);
-
-  const setDragYSafe = (value: number) => {
-    dragYRef.current = value;
-    setDragY(value);
-  };
+  const dragControls = useDragControls();
 
   useEffect(() => {
     if (isOpen) {
-      if (!present) setPresent(true);
-
-      requestAnimationFrame(() => setExiting(false));
-
       document.body.classList.add("scroll-lock");
-    } else if (present) {
-      setExiting(true);
-    }
-  }, [isOpen, present]);
-
-  const handleAnimationEnd = () => {
-    if (exiting) {
-      setPresent(false);
-      setExiting(false);
+    } else {
       document.body.classList.remove("scroll-lock");
-      setDragYSafe(0);
     }
-  };
 
-  const handlePointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+    return () => {
+      document.body.classList.remove("scroll-lock");
+    };
+  }, [isOpen]);
 
-    isDraggingRef.current = true;
-    startYRef.current = e.clientY;
-    setDragYSafe(0);
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const threshold = 300;
+    const velocityThreshold = 600;
 
-    e.currentTarget.setPointerCapture?.(e.pointerId);
-  };
+    const offsetY = info.offset.y;
+    const velocityY = info.velocity.y;
 
-  const handlePointerMove: React.PointerEventHandler<HTMLDivElement> = (e) => {
-    if (!isDraggingRef.current || startYRef.current == null) return;
+    const shouldClose = offsetY > threshold || (offsetY > 0 && velocityY > velocityThreshold);
 
-    const delta = e.clientY - startYRef.current;
-    if (delta > 0) {
-      setDragYSafe(delta);
-    } else {
-      setDragYSafe(0);
-    }
-  };
-
-  const finishDrag = (pointerId: number, target: EventTarget & HTMLDivElement) => {
-    if (!isDraggingRef.current) return;
-
-    isDraggingRef.current = false;
-    startYRef.current = null;
-    target.releasePointerCapture?.(pointerId);
-
-    const threshold = 50;
-
-    if (dragYRef.current > threshold) {
-      setDragYSafe(0);
+    if (shouldClose) {
       onClose();
-    } else {
-      setDragYSafe(0);
     }
   };
-
-  const handlePointerUp: React.PointerEventHandler<HTMLDivElement> = (e) => {
-    finishDrag(e.pointerId, e.currentTarget);
-  };
-
-  const handlePointerCancel: React.PointerEventHandler<HTMLDivElement> = (e) => {
-    finishDrag(e.pointerId, e.currentTarget);
-  };
-
-  if (!present) return null;
 
   return (
-    <Portal>
-      <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />
+    <AnimatePresence>
+      {isOpen && (
+        <Portal>
+          <S.Backdrop as={motion.div} aria-hidden="true" role="presentation" onClick={onClose} />
 
-      <S.Sheet
-        role="dialog"
-        aria-modal="true"
-        $isOpen={isOpen}
-        onAnimationEnd={handleAnimationEnd}
-        style={dragY > 0 ? { transform: `translateY(${dragY}px)` } : undefined}
-      >
-        {/* 드래그 핸들 */}
-        <S.DragHandleArea
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
-        >
-          <S.DragHandleBar />
-        </S.DragHandleArea>
+          <S.Sheet
+            as={motion.div}
+            role="dialog"
+            aria-modal="true"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{
+              type: "spring",
+              stiffness: 400,
+              damping: 40,
+            }}
+            drag="y"
+            dragControls={dragControls}
+            dragListener={false}
+            dragElastic={{ top: 0, bottom: 0.5 }}
+            dragMomentum={false}
+            dragConstraints={{ top: 0 }}
+            dragSnapToOrigin
+            onDragEnd={handleDragEnd}
+          >
+            {/* 드래그 핸들 */}
+            <S.DragHandleArea
+              onPointerDown={(e) => {
+                e.preventDefault();
+                dragControls.start(e);
+              }}
+            >
+              <S.DragHandleBar />
+            </S.DragHandleArea>
 
-        {title && (
-          <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
-            <Heading fontWeight="bold" level={2}>
-              {title}
-            </Heading>
-            {callback && callback}
-          </Row>
-        )}
-        <Column overflow="auto" padding={16}>
-          {children}
-        </Column>
-      </S.Sheet>
-    </Portal>
+            {title && (
+              <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
+                <Heading fontWeight="bold" level={2}>
+                  {title}
+                </Heading>
+                {callback && callback}
+              </Row>
+            )}
+
+            <Column overflow="auto" padding={16}>
+              {children}
+            </Column>
+          </S.Sheet>
+        </Portal>
+      )}
+    </AnimatePresence>
   );
 }
