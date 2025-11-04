@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Button, Column, Row } from "@/components/ui";
-import { AmountInput, SmoothTabs } from "@/features/common/components";
-import WheelPicker from "@/features/common/components/wheelPicker";
+import { AmountInput, SmoothTabs, WheelPicker } from "@/features/common/components";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
 import { FixedItem } from "@/features/expense/types";
 import { responsiveFormHeights } from "@/styles/viewport";

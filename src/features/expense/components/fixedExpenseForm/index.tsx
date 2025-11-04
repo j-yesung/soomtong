@@ -1,19 +1,20 @@
 import { useMemo, useState } from "react";
 
-import { Button, Column, Row } from "@/components/ui";
+import { BottomSheet, Button, Column, Row } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
-import { DatePicker } from "@/features/common/components";
+import { WheelPicker } from "@/features/common/components";
 import { useFixedExpenseAddMutation } from "@/features/common/queries";
 import { FixedExpenseInput, FixedTagSelector } from "@/features/expense/components";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function FixedExpenseForm() {
+  const today = new Date().getDate();
   const userId = useUserStore((state) => state.userInfo).id;
 
   const [value, setValue] = useState("");
   const [tag, setTag] = useState("");
   const [open, setOpen] = useState(false);
-  const [day, setDay] = useState(1);
+  const [day, setDay] = useState(today);
 
   const { mutate } = useFixedExpenseAddMutation();
 
@@ -38,6 +39,7 @@ export default function FixedExpenseForm() {
     });
     setValue("");
     setTag("");
+    setOpen(false);
   };
 
   return (
@@ -50,7 +52,11 @@ export default function FixedExpenseForm() {
         </Button>
       </Row>
 
-      <DatePicker day={day} isOpen={open} onClose={() => setOpen(false)} callback={handleSubmit} onDayChange={setDay} />
+      <BottomSheet isOpen={open} onClose={() => setOpen(false)} title="납입일 선택">
+        <WheelPicker items={Array.from({ length: 31 }, (_, i) => i + 1)} value={day} onChange={setDay} />
+
+        <Button onClick={handleSubmit}>추가하기</Button>
+      </BottomSheet>
     </Column>
   );
 }
