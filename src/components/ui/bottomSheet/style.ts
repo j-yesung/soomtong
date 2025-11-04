@@ -1,24 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
-
-type DataState = "open" | "closed";
-
-const slideUp = keyframes`
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const slideDown = keyframes`
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100%);
-  }
-`;
+import styled from "styled-components";
 
 export const Backdrop = styled.div`
   position: fixed;
@@ -26,7 +6,7 @@ export const Backdrop = styled.div`
   z-index: 1100;
 `;
 
-export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>`
+export const Sheet = styled.div`
   position: fixed;
   left: 0;
   right: 0;
@@ -49,22 +29,6 @@ export const Sheet = styled.div<{ "data-state"?: DataState; $isOpen?: boolean }>
   will-change: transform, opacity;
   transform: translateZ(0);
   padding-bottom: env(safe-area-inset-bottom);
-
-  transition: transform 0.2s ease-out;
-
-  ${({ $isOpen }) =>
-    $isOpen
-      ? css`
-          animation: ${slideUp} 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        `
-      : css`
-          animation: ${slideDown} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        `}
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-    transition: none;
-  }
 `;
 
 export const DragHandleArea = styled.div`
