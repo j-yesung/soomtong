@@ -48,7 +48,10 @@ export const GlobalStyle = createGlobalStyle`
   } */
 
   /* Reset */
-  *, *::before, *::after { box-sizing: border-box; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
 
   html {
     -webkit-text-size-adjust: 100%;
