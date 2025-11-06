@@ -32,8 +32,8 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
   }, [isOpen]);
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 300;
-    const velocityThreshold = 600;
+    const threshold = 200;
+    const velocityThreshold = 800;
 
     const offsetY = info.offset.y;
     const velocityY = info.velocity.y;
@@ -53,26 +53,28 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
 
           <S.Sheet
             as={motion.div}
-            role="dialog"
             aria-modal="true"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
+            initial={{ y: "100%" }} // 처음엔 화면 아래
+            animate={{ y: 0 }} // 열리면 0으로
+            exit={{ y: "100%" }} // 닫힐 때 다시 아래로
             transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 40,
+              type: "tween",
+              ease: [0.22, 1, 0.36, 1],
+              duration: 0.25,
             }}
             drag="y"
             dragControls={dragControls}
-            dragListener={false}
-            dragElastic={{ top: 0, bottom: 0.5 }}
+            dragListener={true}
+            dragElastic={{ top: 0, bottom: 0.35 }}
             dragMomentum={false}
-            dragConstraints={{ top: 0 }}
+            dragConstraints={{ top: 0 }} // 위로는 못 올라가게
             dragSnapToOrigin
+            dragTransition={{
+              bounceStiffness: 1200,
+              bounceDamping: 60,
+            }} // 드래그 후 스냅백 시
             onDragEnd={handleDragEnd}
           >
-            {/* 드래그 핸들 */}
             <S.DragHandleArea
               onPointerDown={(e) => {
                 e.preventDefault();

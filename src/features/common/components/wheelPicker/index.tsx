@@ -14,7 +14,7 @@ export default function WheelPicker({ items, value, onChange, visibleCount = 8, 
   const pickerValue = { day: String(value) };
 
   return (
-    <S.PickerWrapper>
+    <S.PickerWrapper onPointerDownCapture={(e) => e.stopPropagation()}>
       <S.StyledPicker
         value={pickerValue}
         onChange={(nextValue) => {
