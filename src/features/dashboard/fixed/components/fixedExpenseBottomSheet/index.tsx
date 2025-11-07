@@ -1,4 +1,4 @@
-import { BottomSheet, Button } from "@/components/ui";
+import { BottomSheet, Button, Text } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
 import {
   useFixedExpenseAddMutation,
@@ -64,8 +64,10 @@ export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item
       title={isEdit ? item?.tag : "고정지출 추가"}
       callback={
         isEdit && (
-          <Button onClick={handleRemove} size="s" color="danger" width={50}>
-            삭제
+          <Button onClick={handleRemove} size="s" color="danger" width={60} height={40}>
+            <Text color="inverseWhite" size={16}>
+              삭제
+            </Text>
           </Button>
         )
       }
