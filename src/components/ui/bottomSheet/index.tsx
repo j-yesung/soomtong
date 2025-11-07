@@ -1,6 +1,4 @@
-import { ReactNode, useEffect } from "react";
-
-import { AnimatePresence, type PanInfo, motion, useDragControls } from "framer-motion";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Column from "../column";
 import Heading from "../heading";
@@ -17,88 +15,163 @@ type Props = {
 };
 
 export default function BottomSheet({ isOpen, title, children, onClose, callback }: Props) {
-  const dragControls = useDragControls();
+  const [present, setPresent] = useState(isOpen);
+  const [exiting, setExiting] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
+
+  // 드래그 상태
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragY, setDragY] = useState(0);
+  const [snapBack, setSnapBack] = useState(false);
+
+  const startYRef = useRef<number | null>(null);
+  const lastYRef = useRef(0);
+  const lastTRef = useRef(0);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
+      if (!present) {
+        setPresent(true);
+        setHasOpened(false);
+      }
+
+      requestAnimationFrame(() => setExiting(false));
+
       document.body.classList.add("scroll-lock");
-    } else {
-      document.body.classList.remove("scroll-lock");
+      setIsDragging(false);
+      setDragY(0);
+      setSnapBack(false);
+      startYRef.current = null;
+      lastYRef.current = 0;
+      lastTRef.current = 0;
+    } else if (present) {
+      setExiting(true);
+    }
+  }, [isOpen, present]);
+
+  const handleAnimationEnd = () => {
+    if (!exiting && isOpen) {
+      setHasOpened(true);
     }
 
-    return () => {
+    if (exiting) {
+      setPresent(false);
+      setExiting(false);
+      setIsDragging(false);
+      setDragY(0);
+      setSnapBack(false);
       document.body.classList.remove("scroll-lock");
-    };
-  }, [isOpen]);
-
-  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 200;
-    const velocityThreshold = 800;
-
-    const offsetY = info.offset.y;
-    const velocityY = info.velocity.y;
-
-    const shouldClose = offsetY > threshold || (offsetY > 0 && velocityY > velocityThreshold);
-
-    if (shouldClose) {
-      onClose();
+      setHasOpened(false);
     }
   };
 
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    setIsDragging(true);
+    setSnapBack(false);
+    startYRef.current = e.clientY;
+    lastYRef.current = e.clientY;
+    lastTRef.current = performance.now();
+
+    try {
+      (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || startYRef.current == null) return;
+
+    const currentY = e.clientY;
+    const dy = Math.max(0, currentY - startYRef.current);
+    setDragY(dy);
+
+    const now = performance.now();
+    lastYRef.current = currentY;
+    lastTRef.current = now;
+  };
+
+  const onPointerUp = () => {
+    if (!isDragging || startYRef.current == null) return;
+
+    const now = performance.now();
+    const totalDy = Math.max(0, lastYRef.current - (startYRef.current ?? lastYRef.current));
+
+    const dt = Math.max(1, now - lastTRef.current);
+    const vy = totalDy / dt;
+
+    const isDistanceClose = totalDy > 600;
+    const isFastClose = totalDy > 150 && vy > 0.6;
+    const shouldClose = isDistanceClose || isFastClose;
+
+    setIsDragging(false);
+
+    if (shouldClose) {
+      onClose();
+      setSnapBack(false);
+    } else {
+      setSnapBack(true);
+    }
+
+    startYRef.current = null;
+    lastYRef.current = 0;
+    lastTRef.current = 0;
+  };
+
+  const onPointerCancel = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    setSnapBack(true);
+    startYRef.current = null;
+  };
+
+  const onTransitionEnd = () => {
+    if (snapBack) {
+      setSnapBack(false);
+      setDragY(0);
+    }
+  };
+
+  if (!present) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <Portal>
-          <S.Backdrop as={motion.div} aria-hidden="true" role="presentation" onClick={onClose} />
+    <Portal>
+      <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />
 
-          <S.Sheet
-            as={motion.div}
-            aria-modal="true"
-            initial={{ y: "100%" }} // 처음엔 화면 아래
-            animate={{ y: 0 }} // 열리면 0으로
-            exit={{ y: "100%" }} // 닫힐 때 다시 아래로
-            transition={{
-              type: "tween",
-              ease: [0.22, 1, 0.36, 1],
-              duration: 0.25,
-            }}
-            drag="y"
-            dragControls={dragControls}
-            dragListener={true}
-            dragElastic={{ top: 0, bottom: 0.35 }}
-            dragMomentum={false}
-            dragConstraints={{ top: 0 }} // 위로는 못 올라가게
-            dragSnapToOrigin
-            dragTransition={{
-              bounceStiffness: 1200,
-              bounceDamping: 60,
-            }} // 드래그 후 스냅백 시
-            onDragEnd={handleDragEnd}
-          >
-            <S.DragHandleArea
-              onPointerDown={(e) => {
-                e.preventDefault();
-                dragControls.start(e);
-              }}
-            >
-              <S.DragHandleBar />
-            </S.DragHandleArea>
+      <S.Sheet
+        ref={sheetRef}
+        role="dialog"
+        aria-modal="true"
+        $isOpen={isOpen}
+        $hasOpened={hasOpened}
+        $dragging={isDragging}
+        $translateY={dragY}
+        $snapBack={snapBack}
+        onAnimationEnd={handleAnimationEnd}
+        onTransitionEnd={onTransitionEnd}
+      >
+        <S.DragArea
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+        >
+          <S.HandleBar />
+          {title && (
+            <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
+              <Heading fontWeight="bold" level={2}>
+                {title}
+              </Heading>
+              {callback && callback}
+            </Row>
+          )}
+        </S.DragArea>
 
-            {title && (
-              <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
-                <Heading fontWeight="bold" level={2}>
-                  {title}
-                </Heading>
-                {callback && callback}
-              </Row>
-            )}
-
-            <Column overflow="auto" padding={16}>
-              {children}
-            </Column>
-          </S.Sheet>
-        </Portal>
-      )}
-    </AnimatePresence>
+        <Column overflow="auto" padding={16}>
+          {children}
+        </Column>
+      </S.Sheet>
+    </Portal>
   );
 }
