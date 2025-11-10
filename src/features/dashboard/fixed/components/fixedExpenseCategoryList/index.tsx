@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { CategoryButton } from "@/components/ui";
-import { DEFAULT_TAG_LIST } from "@/features/expense/constants";
+import { DEFAULT_TAG_LIST } from "@/constants";
 
 type Props = {
   onClick: (tag: string) => void;

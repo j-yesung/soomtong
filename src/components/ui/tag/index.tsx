@@ -1,4 +1,4 @@
-import { TAG_COLORS } from "@/features/expense/constants";
+import { TAG_COLORS } from "@/constants";
 
 import * as S from "./style";
 import * as T from "./type";

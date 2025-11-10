@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 
-import { LAYOUT_SPRING } from "@/features/expense/constants";
+import { LAYOUT_SPRING } from "@/constants";
 
 const List = styled(motion.ul)`
   display: flex;

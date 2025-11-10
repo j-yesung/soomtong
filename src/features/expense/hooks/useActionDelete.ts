@@ -1,6 +1,6 @@
 import { MotionValue, useSpring, useTransform } from "framer-motion";
 
-import { ACTION_SPRING } from "../constants";
+import { ACTION_SPRING } from "../../../constants";
 
 export function useActionDelete(x: MotionValue<number>) {
   const rawScale = useTransform(x, [40, 0, -12, -80, -140], [0, 0, 0.6, 1.06, 1.0]);
