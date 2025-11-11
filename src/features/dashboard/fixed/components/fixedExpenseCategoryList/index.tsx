@@ -37,6 +37,5 @@ const ListGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  overflow: auto;
   align-self: stretch;
 `;

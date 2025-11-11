@@ -4,10 +4,11 @@ import * as S from "./style";
 import * as T from "./type";
 
 export default function Button({
+  ref,
   children,
   onClick,
   size = "m",
-  color = "default",
+  color = "primary",
   disabled = false,
   fullWidth = false,
   variant = "fill",
@@ -15,10 +16,12 @@ export default function Button({
   width,
   radius = "sm",
   type = "button",
+  isActive,
   ...rest
 }: T.ButtonProps) {
   return (
     <S.Button
+      ref={ref}
       type={type}
       onClick={onClick}
       $size={size}
@@ -29,6 +32,7 @@ export default function Button({
       $height={height}
       $width={width}
       $radius={radius}
+      $isActive={isActive}
       {...rest}
     >
       {children}

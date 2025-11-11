@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from "react";
 
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 
-import Column from "../column";
 import Heading from "../heading";
 import Portal from "../portal";
 import Row from "../row";
@@ -91,19 +90,15 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
           onPointerCancel={onPointerCancel}
         >
           <S.HandleBar />
-          {title && (
-            <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
-              <Heading fontWeight="bold" level={2}>
-                {title}
-              </Heading>
-              {callback && callback}
-            </Row>
-          )}
+          <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
+            <Heading fontWeight="bold" level={2}>
+              {title}
+            </Heading>
+            {callback && callback}
+          </Row>
         </S.DragArea>
 
-        <Column overflow="auto" padding={16}>
-          {children}
-        </Column>
+        <S.SheetContent>{children}</S.SheetContent>
       </S.Sheet>
     </Portal>
   );

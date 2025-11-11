@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-bg-secondary: #F8F8F8;
     --color-text-secondary: #6b7280;
 
-    --color-light-blue: #E6F0FF;
+    --color-light-blue: #f6f9ff;
     --color-blue: #3B82F6;
     
   }

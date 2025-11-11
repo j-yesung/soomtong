@@ -1,5 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
+import { hideScrollbarOnTouch } from "@/styles/scroll";
+
 type DataState = "open" | "closed";
 
 const slideUp = keyframes`
@@ -52,6 +54,7 @@ export const Sheet = styled.div<{
   will-change: transform, opacity;
   transform: translateZ(0);
   padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
 
   ${({ $isOpen, $hasOpened }) =>
     $isOpen
@@ -90,8 +93,20 @@ export const Sheet = styled.div<{
   }
 `;
 
+export const SheetContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+  gap: 20px;
+
+  ${hideScrollbarOnTouch}
+`;
+
 export const DragArea = styled.div`
-  padding: 8px 16px 0;
+  padding: 16px 0;
   cursor: grab;
   touch-action: none;
 `;
