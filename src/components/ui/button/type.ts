@@ -1,10 +1,10 @@
-type ButtonSize = "s" | "m" | "l";
+export type ButtonSize = "s" | "m" | "l";
 
-type ButtonColor = "default" | "primary" | "secondary" | "danger" | "secondary";
+export type ButtonColor = "default" | "primary" | "secondary" | "danger" | "secondary";
 
-type ButtonVariant = "fill" | "outline" | "dash";
+export type ButtonVariant = "fill" | "outline" | "dash";
 
-type ButtonRadius = "sm" | "md" | "lg" | "pill" | "none";
+export type ButtonRadius = "sm" | "md" | "lg" | "pill" | "none";
 
 export interface ButtonStyleProps {
   $size: ButtonSize;
@@ -15,10 +15,12 @@ export interface ButtonStyleProps {
   $height?: number;
   $width?: number;
   $radius?: ButtonRadius;
+  $isActive?: boolean;
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
+  ref?: React.Ref<HTMLButtonElement>;
   children: React.ReactNode;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -28,4 +30,5 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   height?: number;
   width?: number;
   radius?: ButtonRadius;
+  isActive?: boolean;
 }

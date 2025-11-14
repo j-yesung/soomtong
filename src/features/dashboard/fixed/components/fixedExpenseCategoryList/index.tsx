@@ -3,7 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { CategoryButton } from "@/components/ui";
-import { DEFAULT_TAG_LIST } from "@/features/expense/constants";
+import { DEFAULT_TAG_LIST } from "@/constants";
 
 type Props = {
   onClick: (tag: string) => void;
@@ -37,6 +37,5 @@ const ListGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  overflow: auto;
   align-self: stretch;
 `;

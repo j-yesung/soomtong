@@ -1,5 +1,6 @@
 import { BottomSheet, Button, Text } from "@/components/ui";
 import { useUserStore } from "@/features/auth/store";
+import { FixedExpenseForm } from "@/features/common/components";
 import {
   useFixedExpenseAddMutation,
   useFixedExpenseRemoveMutation,
@@ -7,8 +8,6 @@ import {
 } from "@/features/common/queries";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
 import { FixedItem } from "@/features/expense/types";
-
-import FixedExpenseForm from "../fixedExpenseForm";
 
 type Props = {
   onClose: () => void;
@@ -59,9 +58,8 @@ export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item
 
   return (
     <BottomSheet
-      onClose={onClose}
       isOpen={open}
-      title={isEdit ? item?.tag : "고정지출 추가"}
+      onClose={onClose}
       callback={
         isEdit && (
           <Button onClick={handleRemove} size="s" color="danger" width={60} height={40}>
@@ -71,12 +69,13 @@ export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item
           </Button>
         )
       }
+      title={isEdit ? item?.tag : "고정지출 추가"}
     >
       <FixedExpenseForm
-        mode={sheetType}
-        initialItem={isEdit ? item : undefined}
-        onSubmit={handleSubmit}
         onClose={onClose}
+        onSubmit={handleSubmit}
+        initialItem={isEdit ? item : undefined}
+        formType={sheetType}
       />
     </BottomSheet>
   );

@@ -28,6 +28,7 @@ export const theme = {
       secondary: "var(--color-border)",
       danger: "var(--color-danger)",
       blue: "var(--color-blue)",
+      darkBlue: "#42A5F5",
     },
     disabled: "var(--color-disabled)",
   },

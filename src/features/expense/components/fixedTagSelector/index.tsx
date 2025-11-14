@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Button, ChipInput, Column, Row, Tag } from "@/components/ui";
-import { DEFAULT_TAGS } from "@/features/expense/constants";
+import { DEFAULT_TAGS } from "@/constants";
 
 type Props = {
   selected: string;
