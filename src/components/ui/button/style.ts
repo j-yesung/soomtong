@@ -131,7 +131,7 @@ export const Button = styled.button<ButtonStyleProps>`
   ${({ $width }) =>
     $width
       ? css`
-          min-width: ${$width}px;
+          width: ${$width}px;
         `
       : css`
           width: 100%;
