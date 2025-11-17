@@ -2,8 +2,21 @@ import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tansta
 
 import { useUserStore } from "@/features/auth/store";
 import { getFixedExpenseTable } from "@/features/common/api";
-import { FixedAddParams, FixedRemoveItem, FixedUpdateItem } from "@/features/expense/types";
-import { addFixedItem, removeFixedItem, updateFixedItem } from "@/supabase/expense";
+import {
+  AmountSummary,
+  FixedAddParams,
+  FixedItem,
+  FixedRemoveItem,
+  FixedRow,
+  FixedUpdateItem,
+} from "@/features/expense/types";
+import {
+  addExpense,
+  addFixedItem,
+  getCurrentMonthAmountSummary,
+  removeFixedItem,
+  updateFixedItem,
+} from "@/supabase/expense";
 
 export const userAmountQueryKeys = {
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
@@ -11,6 +24,8 @@ export const userAmountQueryKeys = {
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
   updateFixedExpense: () => ["updateFixedExpense"],
+  summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
+  addExpense: () => ["addExpense"],
 };
 
 /**
@@ -56,8 +71,52 @@ export function useFixedExpenseAddMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.addFixedExpense(),
     mutationFn: (params: FixedAddParams) => addFixedItem(params),
-    onSuccess: () => {
+
+    onMutate: async (variables) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: fixedKey }),
+        queryClient.cancelQueries({ queryKey: landingKey }),
+      ]);
+
+      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
+
+      const optimisticItem: FixedItem = variables.item;
+
+      if (prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, {
+          ...prevFixed,
+          items: [...(prevFixed.items ?? []), optimisticItem],
+        });
+      }
+      if (prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, {
+          ...prevLanding,
+          items: [...(prevLanding.items ?? []), optimisticItem],
+        });
+      }
+
+      return { prevFixed, prevLanding };
+    },
+
+    onError: (_error, _variables, context) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      if (context?.prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
+      }
+      if (context?.prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+      }
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
     },
   });
 }
@@ -72,8 +131,52 @@ export function useFixedExpenseRemoveMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
-    onSuccess: () => {
+
+    onMutate: async (variables) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: fixedKey }),
+        queryClient.cancelQueries({ queryKey: landingKey }),
+      ]);
+
+      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
+
+      const { tag, createdAt } = variables;
+
+      if (prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, {
+          ...prevFixed,
+          items: (prevFixed.items ?? []).filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
+        });
+      }
+      if (prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, {
+          ...prevLanding,
+          items: (prevLanding.items ?? []).filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
+        });
+      }
+
+      return { prevFixed, prevLanding };
+    },
+
+    onError: (_error, _variables, context) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      if (context?.prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
+      }
+      if (context?.prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+      }
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
     },
   });
 }
@@ -88,8 +191,112 @@ export function useFixedExpenseUpdateMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.updateFixedExpense(),
     mutationFn: (params: FixedUpdateItem) => updateFixedItem(params),
-    onSuccess: () => {
+
+    onMutate: async (variables) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: fixedKey }),
+        queryClient.cancelQueries({ queryKey: landingKey }),
+      ]);
+
+      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
+
+      const targetCreatedAt = variables.createdAt;
+      const nextItem: FixedItem = { ...variables.item, createdAt: targetCreatedAt };
+
+      if (prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, {
+          ...prevFixed,
+          items: (prevFixed.items ?? []).map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
+        });
+      }
+      if (prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, {
+          ...prevLanding,
+          items: (prevLanding.items ?? []).map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
+        });
+      }
+
+      return { prevFixed, prevLanding };
+    },
+
+    onError: (_error, _variables, context) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const landingKey = userAmountQueryKeys.landing();
+
+      if (context?.prevFixed) {
+        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
+      }
+      if (context?.prevLanding) {
+        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+      }
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
+    },
+  });
+}
+
+/**
+ * 당월 금액 요약 조회
+ */
+export function useAmountSummaryQuery() {
+  const userId = useUserStore((s) => s.userInfo).id;
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
+
+  return useSuspenseQuery({
+    queryKey: userAmountQueryKeys.summary(userId, ym),
+    queryFn: () => getCurrentMonthAmountSummary(userId),
+    refetchOnWindowFocus: false,
+  });
+}
+
+/**
+ * 생활비 지출 추가
+ */
+export function useAddExpenseMutation() {
+  const queryClient = useQueryClient();
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
+
+  return useMutation({
+    mutationFn: addExpense,
+    onMutate: async (variables) => {
+      const { userId, amount } = variables;
+
+      await queryClient.cancelQueries({
+        queryKey: userAmountQueryKeys.summary(userId, ym),
+      });
+
+      const prevSummary = queryClient.getQueryData<AmountSummary>(userAmountQueryKeys.summary(userId, ym));
+
+      if (prevSummary) {
+        queryClient.setQueryData<AmountSummary>(userAmountQueryKeys.summary(userId, ym), {
+          ...prevSummary,
+          totalVariable: prevSummary.totalVariable + amount,
+          amountAvailable: prevSummary.amountAvailable - amount,
+        });
+      }
+
+      return { prevSummary, userId };
+    },
+
+    onError: (error, variables, context) => {
+      if (context?.prevSummary) {
+        queryClient.setQueryData(userAmountQueryKeys.summary(context.userId, ym), context.prevSummary);
+      }
+    },
+
+    onSettled: (_data, _error, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: userAmountQueryKeys.summary(variables.userId, ym),
+      });
     },
   });
 }
