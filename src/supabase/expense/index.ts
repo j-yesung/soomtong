@@ -1,7 +1,6 @@
 import {
   AddExpenseParams,
   AddExpenseResult,
-  AmountSummary,
   FixedAddParams,
   FixedRemoveItem,
   FixedRow,
@@ -65,20 +64,16 @@ export async function getCurrentMonthAmountSummary(userId: string) {
   if (!data?.[0]) return null;
 
   const row = data[0] as {
-    budget: number;
-    total_fixed: number;
-    total_variable: number;
-    amount_available: number;
+    _budget: number;
+    _total_variable: number;
+    _amount_available: number;
   };
 
-  const result: AmountSummary = {
-    budget: row.budget,
-    totalFixed: row.total_fixed,
-    totalVariable: row.total_variable,
-    amountAvailable: row.amount_available,
+  return {
+    budget: row._budget,
+    totalVariable: row._total_variable,
+    amountAvailable: row._amount_available,
   };
-
-  return result;
 }
 
 /** 지출 추가 + 최신 사용 가능 금액 반환 */
