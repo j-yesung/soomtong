@@ -6,7 +6,7 @@ const supabase = createClient();
  * 월수입 저장 또는 업데이트
  * @param salary - 월수입
  */
-export async function insertUserSalary(salary: number) {
+export async function insertUserSalary(salary: number, day: number) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -18,6 +18,7 @@ export async function insertUserSalary(salary: number) {
       {
         user_id: user.id,
         budget: salary,
+        day,
       },
       { onConflict: "user_id" },
     )
