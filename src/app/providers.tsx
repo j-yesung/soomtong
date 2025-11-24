@@ -5,7 +5,6 @@ import { ThemeProvider } from "styled-components";
 
 import MainLayout from "@/components/layout/mainLayout";
 import RouteTransition from "@/components/layout/routeTransition";
-import ServiceWorkerRegister from "@/lib/service-worker-register";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { GlobalStyle } from "@/styles/global";
 import { theme } from "@/styles/theme";
@@ -18,7 +17,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
-          <ServiceWorkerRegister />
           <MainLayout>
             <RouteTransition>{children}</RouteTransition>
           </MainLayout>
