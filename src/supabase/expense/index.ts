@@ -83,12 +83,11 @@ export async function getCurrentMonthAmountSummary(userId: string) {
 
 /** 지출 추가 + 최신 사용 가능 금액 반환 */
 export async function addExpense(params: AddExpenseParams) {
-  const { userId, amount, memo, category } = params;
+  const { userId, amount, category } = params;
 
   const { data, error } = await supabase.rpc("add_expense", {
     _user: userId,
     _amount: amount,
-    _memo: memo ?? null,
     _category: category ?? null,
     _spent_at: null,
   });

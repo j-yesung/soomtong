@@ -3,9 +3,9 @@ import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tansta
 import { useUserStore } from "@/features/auth/store";
 import { getFixedExpenseTable } from "@/features/common/api";
 import {
+  AddExpenseParams,
   AmountSummary,
   FixedAddParams,
-  FixedItem,
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
@@ -84,7 +84,7 @@ export function useFixedExpenseAddMutation() {
       const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
       const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
 
-      const optimisticItem: FixedItem = variables.item;
+      const optimisticItem = variables.item;
 
       if (prevFixed) {
         queryClient.setQueryData<FixedRow>(fixedKey, {
@@ -205,7 +205,7 @@ export function useFixedExpenseUpdateMutation() {
       const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
 
       const targetCreatedAt = variables.createdAt;
-      const nextItem: FixedItem = { ...variables.item, createdAt: targetCreatedAt };
+      const nextItem = { ...variables.item, createdAt: targetCreatedAt };
 
       if (prevFixed) {
         queryClient.setQueryData<FixedRow>(fixedKey, {
@@ -266,7 +266,7 @@ export function useAddExpenseMutation() {
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
   return useMutation({
-    mutationFn: addExpense,
+    mutationFn: (params: AddExpenseParams) => addExpense(params),
     onMutate: async (variables) => {
       const { userId, amount } = variables;
 
