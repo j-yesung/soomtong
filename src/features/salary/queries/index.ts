@@ -12,7 +12,7 @@ export function useSalaryMutation() {
 
   return useMutation({
     mutationKey: salaryQuerykeys.salary(),
-    mutationFn: (salary: number) => insertUserSalary(salary),
+    mutationFn: (params: { salary: number; day: number }) => insertUserSalary(params.salary, params.day),
     onSuccess: () => router.push("/expense"),
   });
 }

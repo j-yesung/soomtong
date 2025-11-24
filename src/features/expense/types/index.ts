@@ -40,7 +40,6 @@ export type FixedState = {
 export interface AddExpenseParams {
   userId: string;
   amount: number;
-  memo?: string;
   category?: string;
 }
 

@@ -2,23 +2,27 @@
 
 import { useState } from "react";
 
-import { Column, Input, Row, Text } from "@/components/ui";
-import { Keypad, ReadyButton } from "@/features/common/components";
+import { Column, Heading, Input, Row, Text } from "@/components/ui";
+import { DatePicker, Keypad, ReadyButton } from "@/features/common/components";
 import { useSalaryMutation } from "@/features/salary/queries";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function SalaryForm() {
   const [salary, setSalary] = useState("");
+  const [days, setDays] = useState(new Date().getDate());
   const { mutate } = useSalaryMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const numericSalary = parseNumericInput(salary);
-    mutate(numericSalary);
+    mutate({ salary: numericSalary, day: days });
   };
 
   return (
     <Column as="form" gap={20} justify="space-between" onSubmit={handleSubmit}>
+      <Heading level={3} fontWeight="bold">
+        금액
+      </Heading>
       <Row gap={8}>
         <Input
           id="salary-input"
@@ -35,9 +39,14 @@ export default function SalaryForm() {
         </Text>
       </Row>
       <Column gap={12} bottom={0} position="absolute" align="center" fullWidth>
-        <ReadyButton type="submit" text="다음" position="none" condition={!!salary} />
+        <ReadyButton type="submit" text="다음" position="none" condition={!!salary && !!days} />
         <Keypad value={salary} onChange={setSalary} />
       </Column>
+
+      <Heading level={3} fontWeight="bold">
+        일자 선택
+      </Heading>
+      <DatePicker selectedDay={days} onChange={setDays} />
     </Column>
   );
 }
