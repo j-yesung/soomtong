@@ -1,0 +1,21 @@
+{
+  "name": "숨통 - 월수입 기반 생활비 관리",
+  "short_name": "생활비",
+  "description": "한 달 월급 기준으로 고정지출 빼고 쓸 수 있는 생활비를 관리하는 앱",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#2D2D2D",
+  "icons": [
+    {
+      "src": "/256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
