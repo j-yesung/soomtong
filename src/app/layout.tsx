@@ -17,6 +17,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-180x180.png" />
       </head>
       <body>
         <Providers>{children}</Providers>
