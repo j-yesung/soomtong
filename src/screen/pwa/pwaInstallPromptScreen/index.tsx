@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import Logo from "@/assets/images/soomtong.png";
 import { Button, Card, Column, Text } from "@/components/ui";
 import { getTodayString } from "@/utils/date";
 import { isIOS, isInStandaloneMode } from "@/utils/mobile";
@@ -63,7 +64,7 @@ export default function PWAInstallPromptScreen() {
             </S.CloseButton>
 
             <Column align="center" justify="center" gap={12} mb={20}>
-              <Image src="/icon-180x180.png" alt="app icon" width={60} height={60} />
+              <Image src={Logo} alt="app icon" width={80} height={80} />
 
               <Text align="center" size={16}>
                 홈 화면에 <strong>숨통 앱</strong> 추가하고
