@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { Button, Column, Text } from "@/components/ui";
-import { Card } from "@/components/ui/card";
+import { Button, Card, Column, Text } from "@/components/ui";
 import { getTodayString } from "@/utils/date";
 import { isIOS, isInStandaloneMode } from "@/utils/mobile";
 

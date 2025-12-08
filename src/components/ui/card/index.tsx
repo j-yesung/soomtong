@@ -25,4 +25,7 @@ function Footer({ children, onClick }: PropsWithChildren<{ onClick?: () => void 
   return <S.CardFooter onClick={onClick}>{children}</S.CardFooter>;
 }
 
-export const Card = Object.assign(Root, { Footer });
+const Card = Object.assign(Root, { Footer });
+
+export default Card;
+export { Footer as CardFooter, Root as CardRoot };
