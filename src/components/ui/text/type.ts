@@ -10,4 +10,5 @@ export interface TextProps {
   color?: keyof AppTheme["colors"]["text"];
   size?: number;
   weight?: number;
+  align?: "left" | "center" | "right";
 }
