@@ -18,3 +18,4 @@ export { default as Portal } from "./portal";
 export { default as BottomSheet } from "./bottomSheet";
 export { default as KeyButton } from "./keyButton";
 export { default as CategoryButton } from "./categoryButton";
+export { default as Card, CardFooter } from "./card";

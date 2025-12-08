@@ -40,6 +40,12 @@ const Text = styled("span").withConfig({ shouldForwardProp })<TextProps>`
     css`
       font-weight: ${weight};
     `}
+
+    ${({ align }) =>
+    align &&
+    css`
+      text-align: ${align};
+    `}
 `;
 
 export default Text;

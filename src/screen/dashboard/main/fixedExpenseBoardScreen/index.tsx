@@ -1,8 +1,7 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
-import { Heading, Row, Skeleton } from "@/components/ui";
-import { Card } from "@/components/ui/card";
+import { Card, Heading, Row, Skeleton } from "@/components/ui";
 import { FixedExpenseReportSkeleton } from "@/features/dashboard/main/components";
 
 const FixedExpenseReport = dynamic(
