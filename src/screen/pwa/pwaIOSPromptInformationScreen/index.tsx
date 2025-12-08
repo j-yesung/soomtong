@@ -52,7 +52,7 @@ export default function PWAIOSPromptInformationScreen() {
 
         <Card direction="column" gap={12}>
           <Row gap={8} pvh={[0, 12]} align="center">
-            <S.CircleNumberIcon>2</S.CircleNumberIcon>
+            <S.CircleNumberIcon>3</S.CircleNumberIcon>
             <Text color="secondary" size={14}>
               <Text weight={700} size={14}>
                 더 보기
@@ -67,6 +67,21 @@ export default function PWAIOSPromptInformationScreen() {
           <S.ImgWrapper>
             <Image src="/pwa-ios-depth3.png" alt="info-depth3" width={100} height={60} priority />
             <Image src="/pwa-ios-depth4.png" alt="info-depth4" width={100} height={60} priority />
+          </S.ImgWrapper>
+        </Card>
+
+        <Card direction="column" gap={12}>
+          <Row gap={8} pvh={[0, 12]} align="center">
+            <S.CircleNumberIcon>4</S.CircleNumberIcon>
+            <Text color="secondary" size={14}>
+              추가된{" "}
+              <Text weight={700} size={14}>
+                앱 실행
+              </Text>
+            </Text>
+          </Row>
+          <S.ImgWrapper>
+            <Image src="/pwa-ios-depth5.png" alt="info-depth5" width={100} height={30} priority />
           </S.ImgWrapper>
         </Card>
       </Column>
