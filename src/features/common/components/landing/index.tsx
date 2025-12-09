@@ -18,4 +18,6 @@ export default function Landing() {
 
     router.replace(next);
   }, [data, router]);
+
+  return null;
 }
