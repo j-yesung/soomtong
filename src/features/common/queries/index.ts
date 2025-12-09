@@ -58,6 +58,8 @@ export function useLandingFixedExpenseQuery() {
       budget: data?.budget,
       items: data?.items ?? [],
     }),
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 24,
   });
 }
 
