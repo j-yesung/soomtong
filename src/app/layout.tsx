@@ -22,6 +22,10 @@ export default function RootLayout({
 
         <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
 
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
         {/* apple touch icons */}
         <link rel="apple-touch-icon" sizes="57x57" href="/apple/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="/apple/apple-icon-60x60.png" />
