@@ -64,7 +64,7 @@ export default function PWAInstallPromptScreen() {
             </S.CloseButton>
 
             <Column align="center" justify="center" gap={12} mb={20}>
-              <Image src={Logo} alt="app icon" width={80} height={80} />
+              <Image src={Logo} alt="app icon" width={120} height={120} />
 
               <Text align="center" size={16}>
                 홈 화면에 <strong>숨통 앱</strong> 추가하고
