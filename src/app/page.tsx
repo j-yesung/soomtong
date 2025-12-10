@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { FixedRow } from "@/features/expense/types";
-import { getServerSupabaseAction } from "@/lib/supabase/server-action";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
-  const supabase = await getServerSupabaseAction();
+  const supabase = await createClient();
 
   const {
     data: { user },
