@@ -6,7 +6,7 @@ import {
   FixedRow,
   FixedUpdateItem,
 } from "@/features/expense/types";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
 

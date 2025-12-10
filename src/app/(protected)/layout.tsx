@@ -1,8 +1,8 @@
 import StoreHydrator from "@/app/(protected)/store-hydrator";
-import { getServerSupabaseRSC } from "@/lib/supabase/server-rsc";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await getServerSupabaseRSC();
+  const supabase = await createClient();
 
   const {
     data: { session },

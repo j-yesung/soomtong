@@ -1,5 +1,5 @@
 import { UserInfo } from "@/features/auth/types";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
 
