@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 
-import { FixedRow } from "@/features/expense/types";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -10,29 +9,19 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return redirect("/login");
+  if (!user) redirect("/login");
+
+  const { data } = await supabase.from("fixed_expenses").select("budget, items").eq("user_id", user.id).maybeSingle();
+
+  if (!data || !data.budget) {
+    redirect("/salary");
   }
 
-  const { data, error } = await supabase
-    .from("fixed_expenses")
-    .select("*")
-    .eq("user_id", user.id)
-    .maybeSingle<FixedRow>();
+  const hasItems = Array.isArray(data.items) && data.items.length > 0;
 
-  if (error) {
-    console.error("fixed_expenses error: ", error);
-    return redirect("/salary");
+  if (!hasItems) {
+    redirect("/expense");
   }
 
-  if (!data) {
-    return redirect("/salary");
-  }
-
-  const budget = data.budget;
-  const itemsCount = data.items?.length ?? 0;
-
-  const next = budget ? (itemsCount > 0 ? "/dashboard" : "/expense") : "/salary";
-
-  return redirect(next);
+  redirect("/dashboard");
 }
