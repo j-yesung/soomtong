@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { getServerSupabaseAction } from "@/lib/supabase/server-action";
+import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
 export async function POST() {
-  const supabase = await getServerSupabaseAction();
+  const supabase = await createClient();
 
   const {
     data: { user },
