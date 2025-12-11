@@ -7,6 +7,7 @@ import Logo from "@/assets/images/soomtong.png";
 import { Button, Card, Column, Text } from "@/components/ui";
 import { getTodayString } from "@/utils/date";
 import { isIOS, isInStandaloneMode } from "@/utils/mobile";
+import { safeLocalStorage } from "@/utils/storage";
 
 import * as S from "./style";
 
@@ -21,10 +22,10 @@ export default function PWAInstallPromptScreen() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const hidden = window.localStorage.getItem(HIDE_KEY) === "1";
+    const hidden = safeLocalStorage.getItem(HIDE_KEY) === "1";
     if (hidden) return;
 
-    const hideUntil = window.localStorage.getItem(HIDE_UNTIL_KEY);
+    const hideUntil = safeLocalStorage.getItem(HIDE_UNTIL_KEY);
     const today = getTodayString();
     if (hideUntil === today) return;
 
@@ -35,7 +36,7 @@ export default function PWAInstallPromptScreen() {
 
   const hidePrompt = (key: string, value: string) => {
     if (typeof window !== "undefined") {
-      window.localStorage.setItem(key, value);
+      safeLocalStorage.setItem(key, value);
     }
   };
 
