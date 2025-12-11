@@ -29,7 +29,6 @@ export async function middleware(req: NextRequest) {
     },
   );
 
-  // 세션 검증 및 토큰 갱신
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -46,6 +45,10 @@ export async function middleware(req: NextRequest) {
   // 비로그인 상태이고 보호된 라우트 접근 시 -> 로그인으로
   if (!user && !isPublic) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (user) {
+    response.headers.set("x-user-id", user.id);
   }
 
   return response;
