@@ -1,19 +1,19 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
-  const headerList = await headers();
-  const userId = headerList.get("x-user-id");
+  const supabase = await createClient();
 
-  if (!userId) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
     redirect("/login");
   }
 
-  const supabase = await createClient();
-
-  const { data } = await supabase.from("fixed_expenses").select("budget, items").eq("user_id", userId).maybeSingle();
+  const { data } = await supabase.from("fixed_expenses").select("budget, items").eq("user_id", user.id).maybeSingle();
 
   if (!data || !data.budget) {
     redirect("/salary");

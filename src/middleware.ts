@@ -34,21 +34,16 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = req.nextUrl;
-  const PUBLIC = ["/login"];
-  const isPublic = PUBLIC.includes(pathname);
+  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/auth");
 
   // 로그인 상태이고 로그인 페이지 접근 시 -> 홈으로
-  if (user && pathname === "/login") {
+  if (user && isAuthRoute) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
   // 비로그인 상태이고 보호된 라우트 접근 시 -> 로그인으로
-  if (!user && !isPublic) {
+  if (!user && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  if (user) {
-    response.headers.set("x-user-id", user.id);
   }
 
   return response;
