@@ -21,6 +21,6 @@ export function useUserQuery() {
 export function useLogin() {
   return useMutation({
     mutationKey: authQuerykeys.login(),
-    mutationFn: () => signInWithGoogle(`${process.env.NEXT_PUBLIC_SITE_URL}/salary`),
+    mutationFn: () => signInWithGoogle(`${window.location.origin}/auth/callback`),
   });
 }
