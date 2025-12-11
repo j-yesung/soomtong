@@ -34,15 +34,14 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = req.nextUrl;
-  const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/auth");
+  const isLoginPage = pathname === "/login";
+  const isPublicRoute = pathname === "/login" || pathname.startsWith("/auth");
 
-  // 로그인 상태이고 로그인 페이지 접근 시 -> 홈으로
-  if (user && isAuthRoute) {
+  if (user && isLoginPage) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // 비로그인 상태이고 보호된 라우트 접근 시 -> 로그인으로
-  if (!user && !isAuthRoute) {
+  if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
@@ -50,5 +49,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets|images|auth).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|manifest.json|sw.js).*)"],
 };
