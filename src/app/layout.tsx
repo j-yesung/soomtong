@@ -5,6 +5,14 @@ import Providers from "./providers";
 export const metadata: Metadata = {
   title: "soomtong",
   description: "숨통 - 월수입 기반 생활비 관리",
+  appleWebApp: {
+    capable: true,
+    title: "숨통",
+    statusBarStyle: "default",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({
@@ -16,8 +24,6 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="숨통" />
 
         <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
 
