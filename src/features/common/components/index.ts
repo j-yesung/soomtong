@@ -10,3 +10,4 @@ export { default as AmountInput } from "./amountInput";
 export { default as DatePicker } from "./datePicker";
 export { default as FixedExpenseForm } from "./fixedExpenseForm";
 export { default as ExpenseQuickButton } from "./expenseQuickButton";
+export { default as FixedExpenseList } from "./fixedExpenseList";
