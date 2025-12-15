@@ -18,3 +18,11 @@ export const ListBox = styled(Column)`
   -webkit-overflow-scrolling: touch;
   ${hideScrollbarOnTouch}
 `;
+
+export const ListAddButton = styled.button`
+  border: 1px dashed ${({ theme }) => theme.colors.border.primary};
+  max-height: 85px;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+`;

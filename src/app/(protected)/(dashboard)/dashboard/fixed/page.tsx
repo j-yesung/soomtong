@@ -4,7 +4,7 @@ import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
 export default function FixedExpenseListPage() {
   return (
     <Column gap={12}>
-      <FixedExpenseListScreen />
+      <FixedExpenseListScreen renderType="dashboard" />
     </Column>
   );
 }
