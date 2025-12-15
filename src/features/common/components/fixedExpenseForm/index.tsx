@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Button, Column, Heading, Row } from "@/components/ui";
-import FixedExpenseCategoryList from "@/features/dashboard/fixed/components/fixedExpenseCategoryList";
+import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
 import { FixedItem } from "@/features/expense/types";
 import { parseNumericInput } from "@/utils/formatter";

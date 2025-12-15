@@ -1,18 +1,10 @@
-"use client";
-
-import dynamic from "next/dynamic";
-
 import { Column } from "@/components/ui";
-
-const FixedExpenseListScreen = dynamic(() => import("@/screen/dashboard/fixed/fixedExpenseListScreen"), {
-  ssr: false,
-  loading: () => <></>,
-});
+import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
 
 export default function FixedExpenseListPage() {
   return (
     <Column gap={12}>
-      <FixedExpenseListScreen />
+      <FixedExpenseListScreen renderType="dashboard" />
     </Column>
   );
 }

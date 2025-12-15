@@ -6,6 +6,7 @@ import {
   AddExpenseParams,
   AmountSummary,
   FixedAddParams,
+  FixedExpenseTableItem,
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
@@ -41,7 +42,7 @@ export function useFixedExpenseTableQuery() {
     select: (data) => {
       const totalFixedExpense = data?.items?.reduce((acc, cur) => acc + cur.amount, 0);
       const amountAvailable = data?.budget - totalFixedExpense;
-      return { ...data, amountAvailable, totalFixedExpense };
+      return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
   });
 }

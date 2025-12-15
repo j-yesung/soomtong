@@ -31,7 +31,7 @@ export default function DatePicker({ days = DEFTAULT_DAYS, selectedDay, onChange
           isActive={day === selectedDay}
           onClick={() => onChange(day)}
           width={70}
-          height={70}
+          height={60}
           variant="outline"
           color="secondary"
         >
