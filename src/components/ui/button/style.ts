@@ -120,7 +120,6 @@ export const Button = styled.button<ButtonStyleProps>`
   -webkit-appearance: none;
   appearance: none;
 
-  /* 토스 느낌 핵심 */
   &::after {
     content: "";
     position: absolute;
