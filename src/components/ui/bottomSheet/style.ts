@@ -6,9 +6,6 @@ export const Backdrop = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   inset: 0;
   z-index: 1100;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

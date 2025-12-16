@@ -15,19 +15,15 @@ export default function BudgetBarChart() {
   );
 
   return (
-    <>
-      {data && (
-        <Box pvh={[0, 16]}>
-          <BarChart
-            current={amountAvailable}
-            max={totalVariableExpense}
-            LegendItems={[
-              { label: "사용 금액", value: totalVariableExpense, color: ratio > 80 ? "danger" : "primary" },
-              { label: "총 생활비", value: amountAvailable, color: "secondary" },
-            ]}
-          />
-        </Box>
-      )}
-    </>
+    <Box pvh={[0, 16]}>
+      <BarChart
+        current={amountAvailable}
+        max={totalVariableExpense}
+        LegendItems={[
+          { label: "사용 금액", value: totalVariableExpense, color: ratio > 80 ? "danger" : "primary" },
+          { label: "총 생활비", value: amountAvailable, color: "secondary" },
+        ]}
+      />
+    </Box>
   );
 }
