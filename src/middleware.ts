@@ -1,5 +1,6 @@
-import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+
+import { updateSession } from "@/lib/supabase/proxy";
 
 function hasSupabaseCookie(req: NextRequest) {
   return req.cookies.getAll().some((c) => c.name.startsWith("sb-") && !!c.value);
@@ -7,42 +8,15 @@ function hasSupabaseCookie(req: NextRequest) {
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const isPublic = pathname === "/login" || pathname.startsWith("/auth");
 
-  const isPublicRoute = pathname === "/login" || pathname.startsWith("/auth");
+  if (!hasSupabaseCookie(req) && isPublic) return NextResponse.next();
 
-  const hasCookie = hasSupabaseCookie(req);
-  if (!hasCookie) {
-    if (isPublicRoute) return NextResponse.next();
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  let response = NextResponse.next({ request: { headers: req.headers } });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    {
-      cookies: {
-        getAll: () => req.cookies.getAll(),
-        setAll: (cookiesToSet) => {
-          cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
-          response = NextResponse.next({ request: { headers: req.headers } });
-          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
-        },
-      },
-    },
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (user && pathname === "/login") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-  if (!user && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  return response;
+  return updateSession(req);
 }
+
+export const config = {
+  matcher: [
+    "/((?!api|_next/static|_next/image|_next/data|favicon.ico|manifest.json|.*\\.webmanifest|sw.js|workbox-.*|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|woff2?|ttf|otf)$).*)",
+  ],
+};
