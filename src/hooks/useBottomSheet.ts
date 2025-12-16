@@ -1,30 +1,70 @@
 import { useCallback, useRef, useState } from "react";
-import type React from "react";
 
 type UseBottomSheetDragOptions = {
-  distanceThreshold?: number; // 얼마나 많이 내려야 그냥 닫히는지
-  fastDistanceThreshold?: number; // 빠르게 튕겨내릴 때 최소 이동 거리
-  velocityThreshold?: number; // 빠르게 튕겨내릴 때 속도 기준(px/ms)
+  distanceThreshold?: number;
+  fastDistanceThreshold?: number;
+  velocityThreshold?: number;
+  resistanceStart?: number;
+  resistanceFactor?: number;
 };
 
 export function useBottomSheet(onClose: () => void, options: UseBottomSheetDragOptions = {}) {
-  const { distanceThreshold = 600, fastDistanceThreshold = 150, velocityThreshold = 0.6 } = options;
+  const {
+    distanceThreshold = 600,
+    fastDistanceThreshold = 150,
+    velocityThreshold = 0.6,
+    resistanceStart = 120,
+    resistanceFactor = 0.35,
+  } = options;
+
+  const sheetRef = useRef<HTMLDivElement | null>(null);
 
   const [isDragging, setIsDragging] = useState(false);
-  const [dragY, setDragY] = useState(0);
   const [snapBack, setSnapBack] = useState(false);
 
   const startYRef = useRef<number | null>(null);
-  const lastYRef = useRef(0);
-  const lastTRef = useRef(0);
+  const dragYRef = useRef(0);
+  const prevMoveYRef = useRef(0);
+  const prevMoveTRef = useRef(0);
+  const velocityRef = useRef(0);
+
+  const rafRef = useRef<number | null>(null);
+
+  const applyDrag = useCallback(() => {
+    rafRef.current = null;
+    sheetRef.current?.style.setProperty("--sheet-drag", `${dragYRef.current}px`);
+  }, []);
+
+  const scheduleApply = useCallback(() => {
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(applyDrag);
+  }, [applyDrag]);
+
+  const setDrag = useCallback(
+    (y: number) => {
+      dragYRef.current = y;
+      scheduleApply();
+    },
+    [scheduleApply],
+  );
 
   const reset = useCallback(() => {
     setIsDragging(false);
-    setDragY(0);
     setSnapBack(false);
+
     startYRef.current = null;
-    lastYRef.current = 0;
-    lastTRef.current = 0;
+    dragYRef.current = 0;
+    velocityRef.current = 0;
+
+    prevMoveYRef.current = 0;
+    prevMoveTRef.current = 0;
+
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
+    sheetRef.current?.style.setProperty("--sheet-drag", `0px`);
   }, []);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -32,14 +72,17 @@ export function useBottomSheet(onClose: () => void, options: UseBottomSheetDragO
 
     setIsDragging(true);
     setSnapBack(false);
+
     startYRef.current = e.clientY;
-    lastYRef.current = e.clientY;
-    lastTRef.current = performance.now();
+
+    prevMoveYRef.current = e.clientY;
+    prevMoveTRef.current = performance.now();
+    velocityRef.current = 0;
 
     try {
       (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
     } catch {
-      // noop
+      // do nothing
     }
   };
 
@@ -47,25 +90,29 @@ export function useBottomSheet(onClose: () => void, options: UseBottomSheetDragO
     if (!isDragging || startYRef.current == null) return;
 
     const currentY = e.clientY;
-    const dy = Math.max(0, currentY - startYRef.current);
-    setDragY(dy);
+    const rawDy = Math.max(0, currentY - startYRef.current);
+
+    const dy = rawDy <= resistanceStart ? rawDy : resistanceStart + (rawDy - resistanceStart) * resistanceFactor;
+
+    setDrag(dy);
 
     const now = performance.now();
-    lastYRef.current = currentY;
-    lastTRef.current = now;
+    const dt = Math.max(1, now - prevMoveTRef.current);
+    const dyStep = currentY - prevMoveYRef.current;
+
+    velocityRef.current = Math.max(0, dyStep / dt);
+
+    prevMoveYRef.current = currentY;
+    prevMoveTRef.current = now;
   };
 
-  const onPointerUp = () => {
-    if (!isDragging || startYRef.current == null) return;
-
-    const now = performance.now();
-    const totalDy = Math.max(0, lastYRef.current - (startYRef.current ?? lastYRef.current));
-
-    const dt = Math.max(1, now - lastTRef.current);
-    const vy = totalDy / dt;
+  const finishDrag = useCallback(() => {
+    const totalDy = dragYRef.current;
+    const vy = velocityRef.current;
 
     const isDistanceClose = totalDy > distanceThreshold;
     const isFastClose = totalDy > fastDistanceThreshold && vy > velocityThreshold;
+
     const shouldClose = isDistanceClose || isFastClose;
 
     setIsDragging(false);
@@ -73,32 +120,39 @@ export function useBottomSheet(onClose: () => void, options: UseBottomSheetDragO
     if (shouldClose) {
       onClose();
       setSnapBack(false);
+
+      setDrag(0);
     } else {
       setSnapBack(true);
+      setDrag(0);
     }
 
     startYRef.current = null;
-    lastYRef.current = 0;
-    lastTRef.current = 0;
+  }, [distanceThreshold, fastDistanceThreshold, onClose, setDrag, velocityThreshold]);
+
+  const onPointerUp = () => {
+    if (!isDragging || startYRef.current == null) return;
+    finishDrag();
   };
 
   const onPointerCancel = () => {
     if (!isDragging) return;
     setIsDragging(false);
     setSnapBack(true);
+    setDrag(0);
     startYRef.current = null;
   };
 
-  const onTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = () => {
-    if (snapBack) {
+  const onTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (e) => {
+    if (e.propertyName === "transform" && snapBack) {
       setSnapBack(false);
-      setDragY(0);
+      sheetRef.current?.style.setProperty("--sheet-drag", `0px`);
     }
   };
 
   return {
+    sheetRef,
     isDragging,
-    dragY,
     snapBack,
     onPointerDown,
     onPointerMove,

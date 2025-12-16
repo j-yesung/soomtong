@@ -15,53 +15,58 @@ type Props = {
   callback?: ReactNode;
 };
 
+type Base = "0%" | "110%";
+
 export default function BottomSheet({ isOpen, title, children, onClose, callback }: Props) {
   const [present, setPresent] = useState(isOpen);
+  const [base, setBase] = useState<Base>(isOpen ? "0%" : "110%");
   const [exiting, setExiting] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
 
   const {
+    sheetRef,
     isDragging,
-    dragY,
     snapBack,
     onPointerDown,
     onPointerMove,
     onPointerUp,
     onPointerCancel,
-    onTransitionEnd,
+    onTransitionEnd: onSheetTransitionEnd,
     reset,
   } = useBottomSheet(onClose, {
-    distanceThreshold: 600,
-    fastDistanceThreshold: 150,
-    velocityThreshold: 0.6,
+    distanceThreshold: 220,
+    fastDistanceThreshold: 100,
+    velocityThreshold: 0.35,
+    resistanceStart: 40,
+    resistanceFactor: 0.55,
   });
 
   useEffect(() => {
     if (isOpen) {
-      if (!present) {
-        setPresent(true);
-        setHasOpened(false);
-      }
+      if (!present) setPresent(true);
 
-      requestAnimationFrame(() => setExiting(false));
+      setExiting(false);
+      setBase("110%");
+      requestAnimationFrame(() => setBase("0%"));
 
       document.body.classList.add("scroll-lock");
       reset();
-    } else if (present) {
+      return;
+    }
+
+    if (present) {
       setExiting(true);
+
+      setBase("110%");
     }
   }, [isOpen, present, reset]);
 
-  const handleAnimationEnd = () => {
-    if (!exiting && isOpen) {
-      setHasOpened(true);
-    }
+  const handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = (e) => {
+    onSheetTransitionEnd(e);
 
-    if (exiting) {
+    if (e.propertyName === "transform" && exiting) {
       setPresent(false);
       setExiting(false);
       document.body.classList.remove("scroll-lock");
-      setHasOpened(false);
       reset();
     }
   };
@@ -70,18 +75,20 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
 
   return (
     <Portal>
-      <S.Backdrop aria-hidden="true" role="presentation" onClick={onClose} />
+      <S.Backdrop aria-hidden="true" role="presentation" $isOpen={isOpen} onClick={onClose} />
 
       <S.Sheet
+        ref={sheetRef}
         role="dialog"
         aria-modal="true"
-        $isOpen={isOpen}
-        $hasOpened={hasOpened}
         $dragging={isDragging}
-        $translateY={dragY}
         $snapBack={snapBack}
-        onAnimationEnd={handleAnimationEnd}
-        onTransitionEnd={onTransitionEnd}
+        style={
+          {
+            ["--sheet-base"]: base,
+          } as React.CSSProperties
+        }
+        onTransitionEnd={handleTransitionEnd}
       >
         <S.DragArea
           onPointerDown={onPointerDown}
@@ -90,7 +97,7 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
           onPointerCancel={onPointerCancel}
         >
           <S.HandleBar />
-          <Row as="header" pvh={[16, 16, 0]} gap={8} align="center" justify="space-between">
+          <Row as="header" pvh={[16, 16]} gap={8} align="center" justify="space-between">
             <Heading fontWeight="bold" level={2}>
               {title}
             </Heading>
