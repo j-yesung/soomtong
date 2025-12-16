@@ -1,36 +1,22 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 
 import { hideScrollbarOnTouch } from "@/styles/scroll";
 
-type DataState = "open" | "closed";
-
-const slideUp = keyframes`
-  from {
-    transform:translateY(100%)
-  }
-  to {
-    transform:translateY(0)
-  }
-`;
-
-const slideDown = keyframes`
-  to {
-    transform:translateY(110%)
-  }
-`;
-
-export const Backdrop = styled.div`
+export const Backdrop = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   inset: 0;
   z-index: 1100;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 export const Sheet = styled.div<{
-  "data-state"?: DataState;
-  $isOpen?: boolean;
-  $hasOpened?: boolean;
   $dragging?: boolean;
-  $translateY?: number;
   $snapBack?: boolean;
 }>`
   position: fixed;
@@ -48,47 +34,35 @@ export const Sheet = styled.div<{
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+
   max-height: 80dvh;
   display: flex;
   flex-direction: column;
-  will-change: transform, opacity;
-  transform: translateZ(0);
+
   padding-bottom: env(safe-area-inset-bottom);
   overflow: hidden;
 
-  ${({ $isOpen, $hasOpened }) =>
-    $isOpen
-      ? !$hasOpened &&
-        css`
-          animation: ${slideUp} 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        `
-      : css`
-          animation: ${slideDown} 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        `}
+  will-change: transform;
+  backface-visibility: hidden;
 
-  ${({ $dragging, $snapBack }) =>
-    ($dragging || $snapBack) &&
-    css`
-      animation: none;
-    `}
+  transform: translate3d(0, var(--sheet-drag, 0px), 0) translateY(var(--sheet-base, 110%));
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 
-  ${({ $translateY = 0 }) =>
-    $translateY > 0 &&
+  ${({ $dragging }) =>
+    $dragging &&
     css`
-      transform: translateY(${$translateY}px);
+      transition: none;
     `}
 
   ${({ $snapBack }) =>
     $snapBack &&
     css`
-      transform: translateY(0);
-      transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
     `}
 
   touch-action: pan-y;
 
   @media (prefers-reduced-motion: reduce) {
-    animation: none;
     transition: none;
   }
 `;
