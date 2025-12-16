@@ -1,28 +1,32 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+function hasSupabaseCookie(req: NextRequest) {
+  return req.cookies.getAll().some((c) => c.name.startsWith("sb-") && !!c.value);
+}
+
 export async function middleware(req: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: req.headers,
-    },
-  });
+  const { pathname } = req.nextUrl;
+
+  const isPublicRoute = pathname === "/login" || pathname.startsWith("/auth");
+
+  const hasCookie = hasSupabaseCookie(req);
+  if (!hasCookie) {
+    if (isPublicRoute) return NextResponse.next();
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  let response = NextResponse.next({ request: { headers: req.headers } });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
-        getAll() {
-          return req.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
+        getAll: () => req.cookies.getAll(),
+        setAll: (cookiesToSet) => {
           cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
-          response = NextResponse.next({
-            request: {
-              headers: req.headers,
-            },
-          });
+          response = NextResponse.next({ request: { headers: req.headers } });
           cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
         },
       },
@@ -33,21 +37,12 @@ export async function middleware(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { pathname } = req.nextUrl;
-  const isLoginPage = pathname === "/login";
-  const isPublicRoute = pathname === "/login" || pathname.startsWith("/auth");
-
-  if (user && isLoginPage) {
-    return NextResponse.redirect(new URL("/", req.url));
+  if (user && pathname === "/login") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
-
   if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return response;
 }
-
-export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|manifest.json|sw.js).*)"],
-};
