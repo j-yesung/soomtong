@@ -33,11 +33,11 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
     onTransitionEnd: onSheetTransitionEnd,
     reset,
   } = useBottomSheet(onClose, {
-    distanceThreshold: 180,
-    fastDistanceThreshold: 60,
+    distanceThreshold: 220,
+    fastDistanceThreshold: 100,
     velocityThreshold: 0.35,
     resistanceStart: 40,
-    resistanceFactor: 0.75,
+    resistanceFactor: 0.55,
   });
 
   useEffect(() => {
