@@ -14,9 +14,9 @@ export const CardFooter = styled.button`
   border-top: 1px solid ${({ theme }) => theme.colors.border.secondary};
   background: ${({ theme }) => theme.colors.bg.primary};
   color: ${({ theme }) => theme.colors.text.inverseWhite};
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  padding: 10px 16px;
+  padding: 16px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   text-align: center;
