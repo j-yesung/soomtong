@@ -83,6 +83,7 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
         aria-modal="true"
         $dragging={isDragging}
         $snapBack={snapBack}
+        $closing={exiting}
         style={
           {
             ["--sheet-base"]: base,

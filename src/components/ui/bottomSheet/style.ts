@@ -15,6 +15,7 @@ export const Backdrop = styled.div<{ $isOpen: boolean }>`
 export const Sheet = styled.div<{
   $dragging?: boolean;
   $snapBack?: boolean;
+  $closing?: boolean;
 }>`
   position: fixed;
   left: 0;
@@ -43,7 +44,7 @@ export const Sheet = styled.div<{
   backface-visibility: hidden;
 
   transform: translate3d(0, var(--sheet-drag, 0px), 0) translateY(var(--sheet-base, 110%));
-  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 
   ${({ $dragging }) =>
     $dragging &&
@@ -54,7 +55,13 @@ export const Sheet = styled.div<{
   ${({ $snapBack }) =>
     $snapBack &&
     css`
-      transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+    `}
+
+  ${({ $closing }) =>
+    $closing &&
+    css`
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
     `}
 
   touch-action: pan-y;
@@ -70,7 +77,7 @@ export const SheetContent = styled.div`
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 16px;
+  padding: 24px;
   gap: 20px;
 
   ${hideScrollbarOnTouch}
