@@ -1,22 +1,21 @@
-import { redirect } from "next/navigation";
+"use client";
 
-import StoreHydrator from "@/app/(protected)/store-hydrator";
-import { createClient } from "@/lib/supabase/server";
+import { useEffect } from "react";
 
-export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
+import { useUserQuery } from "@/features/auth/queries";
+import { useUserStore } from "@/features/auth/store";
 
-  const { data, error } = await supabase.auth.getClaims();
-  if (error || !data?.claims) redirect("/login");
+export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
+  const { userInfo, updateUserInfo } = useUserStore();
+  const { data } = useUserQuery();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  useEffect(() => {
+    if (data) {
+      updateUserInfo(data);
+    }
+  }, [data]);
 
-  return (
-    <>
-      {session?.user ? <StoreHydrator user={session.user} /> : null}
-      {children}
-    </>
-  );
+  if (!userInfo?.id) return null;
+
+  return children;
 }
