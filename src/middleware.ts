@@ -1,17 +1,8 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 
 import { updateSession } from "@/lib/supabase/proxy";
 
-function hasSupabaseCookie(req: NextRequest) {
-  return req.cookies.getAll().some((c) => c.name.startsWith("sb-") && !!c.value);
-}
-
 export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const isPublic = pathname === "/login" || pathname.startsWith("/auth");
-
-  if (!hasSupabaseCookie(req) && isPublic) return NextResponse.next();
-
   return updateSession(req);
 }
 

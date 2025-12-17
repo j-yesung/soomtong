@@ -29,9 +29,18 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims;
 
-  if (!user && !request.nextUrl.pathname.startsWith("/auth")) {
+  const pathname = request.nextUrl.pathname;
+
+  if (!user && pathname !== "/login" && !pathname.startsWith("/auth")) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (user && pathname === "/login") {
+    const url = request.nextUrl.clone();
+    url.pathname = request.nextUrl.searchParams.get("next") ?? "/dashboard";
     return NextResponse.redirect(url);
   }
 
