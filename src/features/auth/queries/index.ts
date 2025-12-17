@@ -2,11 +2,11 @@
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { UserInfo } from "@/features/auth/types";
-import { getUserInfo, signInWithGoogle } from "@/supabase/auth";
+import { createClient } from "@/lib/supabase/client";
+import { getUserInfo } from "@/supabase/auth";
 
 export const authQuerykeys = {
-  info: () => ["info"],
+  info: () => ["user-info"],
   login: () => ["login"],
 };
 
@@ -14,13 +14,21 @@ export function useUserQuery() {
   return useQuery({
     queryKey: authQuerykeys.info(),
     queryFn: () => getUserInfo(),
-    initialData: {} as UserInfo,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 }
 
 export function useLogin() {
   return useMutation({
     mutationKey: authQuerykeys.login(),
-    mutationFn: () => signInWithGoogle(`${window.location.origin}/auth/callback`),
+    mutationFn: async () => {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback`, queryParams: {} },
+      });
+      if (error) throw error;
+    },
   });
 }

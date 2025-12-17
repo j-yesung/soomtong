@@ -1,9 +1,22 @@
-export default async function Home() {
-  // const supabase = await createClient();
+"use client";
 
-  // const { data: route, error } = await supabase.rpc("get_home_route");
-  // if (error || !route) redirect("/login");
+import { useEffect } from "react";
 
-  // redirect("/dashboard");
+import { redirect } from "next/navigation";
+
+import { useUserQuery } from "@/features/auth/queries";
+import { useUserStore } from "@/features/auth/store";
+
+export default function Home() {
+  const { data } = useUserQuery();
+  const { updateUserInfo } = useUserStore();
+
+  useEffect(() => {
+    if (data) {
+      updateUserInfo(data);
+      redirect("/dashboard");
+    }
+  }, [data]);
+
   return null;
 }

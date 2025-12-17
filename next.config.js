@@ -21,15 +21,15 @@ const nextConfig = withPWA({
 
   ignoreDuringBuilds: true,
 
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/dashboard",
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/dashboard",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
 });
 
 export default nextConfig;
