@@ -23,7 +23,7 @@ export default function FixedExpenseList({ renderType }: Props) {
 
   const { data } = useFixedExpenseTableQuery();
 
-  const hasItems = data?.items.length > 0;
+  const hasItems = data?.items?.length > 0;
   const isExpenseRender = renderType === "expense";
 
   const handleItemClick = (item: FixedItem) => {
