@@ -43,7 +43,7 @@ export default function FixedExpenseList({ renderType }: Props) {
   return (
     <S.ListScreenContainer $renderType={renderType}>
       <Row justify="space-between" align="center" fullWidth>
-        <SlotCounter value={data?.totalFixedExpense} suffix="원" />
+        <SlotCounter value={data?.totalFixedExpense ?? 0} suffix="원" />
         <Button onClick={handleAddClick} width={42} height={42}>
           +
         </Button>
