@@ -50,7 +50,7 @@ export interface AddExpenseParams {
 
 export interface AmountSummary {
   budget: number;
-  totalFixed: number;
+  totalFixed?: number;
   totalVariable: number;
   amountAvailable: number;
 }

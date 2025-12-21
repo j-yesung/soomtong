@@ -1,9 +1,11 @@
 import { Column, Text } from "@/components/ui";
-import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import { FixedExpenseTableItem } from "@/features/expense/types";
 
-export default function FixedExpenseReport() {
-  const { data } = useFixedExpenseTableQuery();
+type Props = {
+  data: FixedExpenseTableItem;
+};
 
+export default function FixedExpenseReport({ data }: Props) {
   const totalCount = data?.items?.length ?? 0;
 
   return (

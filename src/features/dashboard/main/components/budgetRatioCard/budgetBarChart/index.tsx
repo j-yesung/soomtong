@@ -1,18 +1,17 @@
-import { useMemo } from "react";
-
 import { BarChart, Box } from "@/components/ui";
-import { useAmountSummaryQuery } from "@/features/common/queries";
+import { AmountSummary } from "@/features/expense/types";
 
-export default function BudgetBarChart() {
-  const { data } = useAmountSummaryQuery();
+type Props = {
+  data: AmountSummary | null;
+};
 
-  const amountAvailable = data?.amountAvailable ?? 0;
-  const totalVariableExpense = data?.totalVariable ?? 0;
+export default function BudgetBarChart({ data }: Props) {
+  if (!data) return null;
 
-  const ratio = useMemo(
-    () => (amountAvailable > 0 ? Math.min((totalVariableExpense / amountAvailable) * 100, 100) : 0),
-    [amountAvailable, totalVariableExpense],
-  );
+  const amountAvailable = data?.amountAvailable;
+  const totalVariableExpense = data?.totalVariable;
+
+  const ratio = amountAvailable > 0 ? Math.min((totalVariableExpense / amountAvailable) * 100, 100) : 0;
 
   return (
     <Box pvh={[0, 16]}>

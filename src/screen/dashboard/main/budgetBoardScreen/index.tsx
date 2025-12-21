@@ -1,23 +1,42 @@
-import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
-import { Card } from "@/components/ui";
-import { BudgetBarChartSkeleton, BudgetReportSkeleton } from "@/features/dashboard/main/components";
-
-const BudgetReport = dynamic(() => import("@/features/dashboard/main/components/budgetRatioCard/budgetReport"), {
-  ssr: false,
-  loading: () => <BudgetReportSkeleton />,
-});
-
-const BudgetBarChart = dynamic(() => import("@/features/dashboard/main/components/budgetRatioCard/budgetBarChart"), {
-  ssr: false,
-  loading: () => <BudgetBarChartSkeleton />,
-});
+import { Button, Card, Column, Heading, Skeleton } from "@/components/ui";
+import { useAmountSummaryQuery } from "@/features/common/queries";
+import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
 
 export default function BudgetBoardScreen() {
+  const { data, isFetched } = useAmountSummaryQuery();
+
+  const router = useRouter();
+
+  if (isFetched && !data?.amountAvailable) {
+    return (
+      <Card direction="column">
+        <Column gap={32} pvh={[0, 16]}>
+          <Column as="header">
+            <Heading level={2} fontWeight="bold">
+              월수입을 입력해 주세요
+            </Heading>
+            <Heading level={5} fontWeight="normal" color="secondary">
+              월수입을 기반으로 생활비를 계획해 보세요
+            </Heading>
+          </Column>
+          <Button onClick={() => router.push("/salary")}>추가하기</Button>
+        </Column>
+      </Card>
+    );
+  }
+
   return (
-    <Card direction="column" gap={12}>
-      <BudgetReport />
-      <BudgetBarChart />
-    </Card>
+    <>
+      {isFetched ? (
+        <Card direction="column" gap={12}>
+          <BudgetReport data={data} />
+          <BudgetBarChart data={data} />
+        </Card>
+      ) : (
+        <Skeleton height={181.39} />
+      )}
+    </>
   );
 }

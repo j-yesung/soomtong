@@ -10,6 +10,7 @@ import { parseNumericInput } from "@/utils/formatter";
 export default function SalaryForm() {
   const [salary, setSalary] = useState("");
   const [days, setDays] = useState(new Date().getDate());
+
   const { mutate } = useSalaryMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
