@@ -21,7 +21,6 @@ import {
 
 export const userAmountQueryKeys = {
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
-  landing: () => ["landing"],
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
   updateFixedExpense: () => ["updateFixedExpense"],
@@ -35,7 +34,7 @@ export const userAmountQueryKeys = {
 export function useFixedExpenseTableQuery() {
   const userId = useUserStore((state) => state.userInfo).id;
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
     queryFn: () => getFixedExpenseTable(),
     refetchOnWindowFocus: false,
@@ -44,23 +43,7 @@ export function useFixedExpenseTableQuery() {
       const amountAvailable = data?.budget - totalFixedExpense;
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
-  });
-}
-
-/**
- * 고정 지출 내역(랜딩 페이지) 조회
- */
-export function useLandingFixedExpenseQuery() {
-  return useQuery({
-    queryKey: userAmountQueryKeys.landing(),
-    queryFn: () => getFixedExpenseTable(),
-    refetchOnWindowFocus: false,
-    select: (data) => ({
-      budget: data?.budget,
-      items: data?.items ?? [],
-    }),
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 24,
+    initialData: {} as FixedExpenseTableItem,
   });
 }
 
@@ -77,49 +60,32 @@ export function useFixedExpenseAddMutation() {
 
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
 
-      await Promise.all([
-        queryClient.cancelQueries({ queryKey: fixedKey }),
-        queryClient.cancelQueries({ queryKey: landingKey }),
-      ]);
+      await queryClient.cancelQueries({ queryKey: fixedKey });
 
       const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
-      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
-
       const optimisticItem = variables.item;
 
       if (prevFixed) {
         queryClient.setQueryData<FixedRow>(fixedKey, {
           ...prevFixed,
-          items: [...(prevFixed.items ?? []), optimisticItem],
-        });
-      }
-      if (prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, {
-          ...prevLanding,
-          items: [...(prevLanding.items ?? []), optimisticItem],
+          items: [...prevFixed.items, optimisticItem],
         });
       }
 
-      return { prevFixed, prevLanding };
+      return { prevFixed };
     },
 
     onError: (_error, _variables, context) => {
-      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
-
       if (context?.prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
-      }
-      if (context?.prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+        queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
+      queryClient.invalidateQueries({
+        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
+      });
     },
   });
 }
@@ -137,49 +103,32 @@ export function useFixedExpenseRemoveMutation() {
 
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
 
-      await Promise.all([
-        queryClient.cancelQueries({ queryKey: fixedKey }),
-        queryClient.cancelQueries({ queryKey: landingKey }),
-      ]);
+      await queryClient.cancelQueries({ queryKey: fixedKey });
 
       const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
-      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
-
       const { tag, createdAt } = variables;
 
       if (prevFixed) {
         queryClient.setQueryData<FixedRow>(fixedKey, {
           ...prevFixed,
-          items: (prevFixed.items ?? []).filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
-        });
-      }
-      if (prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, {
-          ...prevLanding,
-          items: (prevLanding.items ?? []).filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
+          items: prevFixed.items.filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
         });
       }
 
-      return { prevFixed, prevLanding };
+      return { prevFixed };
     },
 
     onError: (_error, _variables, context) => {
-      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
-
       if (context?.prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
-      }
-      if (context?.prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+        queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
+      queryClient.invalidateQueries({
+        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
+      });
     },
   });
 }
@@ -197,50 +146,33 @@ export function useFixedExpenseUpdateMutation() {
 
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
 
-      await Promise.all([
-        queryClient.cancelQueries({ queryKey: fixedKey }),
-        queryClient.cancelQueries({ queryKey: landingKey }),
-      ]);
+      await queryClient.cancelQueries({ queryKey: fixedKey });
 
       const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
-      const prevLanding = queryClient.getQueryData<FixedRow>(landingKey);
-
       const targetCreatedAt = variables.createdAt;
       const nextItem = { ...variables.item, createdAt: targetCreatedAt };
 
       if (prevFixed) {
         queryClient.setQueryData<FixedRow>(fixedKey, {
           ...prevFixed,
-          items: (prevFixed.items ?? []).map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
-        });
-      }
-      if (prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, {
-          ...prevLanding,
-          items: (prevLanding.items ?? []).map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
+          items: prevFixed.items.map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
         });
       }
 
-      return { prevFixed, prevLanding };
+      return { prevFixed };
     },
 
     onError: (_error, _variables, context) => {
-      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const landingKey = userAmountQueryKeys.landing();
-
       if (context?.prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, context.prevFixed);
-      }
-      if (context?.prevLanding) {
-        queryClient.setQueryData<FixedRow>(landingKey, context.prevLanding);
+        queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.landing() });
+      queryClient.invalidateQueries({
+        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
+      });
     },
   });
 }
@@ -270,17 +202,17 @@ export function useAddExpenseMutation() {
 
   return useMutation({
     mutationFn: (params: AddExpenseParams) => addExpense(params),
+
     onMutate: async (variables) => {
       const { userId, amount } = variables;
+      const summaryKey = userAmountQueryKeys.summary(userId, ym);
 
-      await queryClient.cancelQueries({
-        queryKey: userAmountQueryKeys.summary(userId, ym),
-      });
+      await queryClient.cancelQueries({ queryKey: summaryKey });
 
-      const prevSummary = queryClient.getQueryData<AmountSummary>(userAmountQueryKeys.summary(userId, ym));
+      const prevSummary = queryClient.getQueryData<AmountSummary>(summaryKey);
 
       if (prevSummary) {
-        queryClient.setQueryData<AmountSummary>(userAmountQueryKeys.summary(userId, ym), {
+        queryClient.setQueryData<AmountSummary>(summaryKey, {
           ...prevSummary,
           totalVariable: prevSummary.totalVariable + amount,
           amountAvailable: prevSummary.amountAvailable - amount,
@@ -290,7 +222,7 @@ export function useAddExpenseMutation() {
       return { prevSummary, userId };
     },
 
-    onError: (error, variables, context) => {
+    onError: (_error, _variables, context) => {
       if (context?.prevSummary) {
         queryClient.setQueryData(userAmountQueryKeys.summary(context.userId, ym), context.prevSummary);
       }
