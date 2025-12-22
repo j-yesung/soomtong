@@ -12,6 +12,14 @@ import { createClient } from "@/lib/supabase/client";
 const supabase = createClient();
 
 /**
+ * 고정지출 조회
+ */
+export async function getFixedExpenseTable(userId: string) {
+  const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).maybeSingle();
+  if (error) throw error;
+  return data as FixedRow;
+}
+/**
  * 고정지출 추가
  */
 export async function addFixedItem(params: FixedAddParams) {

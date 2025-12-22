@@ -21,6 +21,19 @@ export const CardFooter = styled.button`
   border-bottom-left-radius: 8px;
   text-align: center;
   margin-top: 14px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.18);
+    opacity: 0;
+    transition: opacity 0.08s ease-out;
+  }
+
+  &:active::after {
+    opacity: 1;
+  }
 `;
 
 export const CardRoot = styled.div<StylesProps>`

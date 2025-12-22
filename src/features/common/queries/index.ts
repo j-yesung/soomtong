@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useUserStore } from "@/features/auth/store";
-import { getFixedExpenseTable } from "@/features/common/api";
 import {
   AddExpenseParams,
   AmountSummary,
@@ -15,6 +14,7 @@ import {
   addExpense,
   addFixedItem,
   getCurrentMonthAmountSummary,
+  getFixedExpenseTable,
   removeFixedItem,
   updateFixedItem,
 } from "@/supabase/expense";
@@ -36,7 +36,7 @@ export function useFixedExpenseTableQuery() {
 
   return useQuery({
     queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
-    queryFn: () => getFixedExpenseTable(),
+    queryFn: () => getFixedExpenseTable(userId),
     refetchOnWindowFocus: false,
     select: (data) => {
       const totalFixedExpense = data?.items?.reduce((acc, cur) => acc + cur.amount, 0);
