@@ -7,6 +7,14 @@ export const ListScreenContainer = styled(Column)<{ $renderType: "expense" | "da
   height: calc(100dvh - ${({ $renderType }) => ($renderType === "expense" ? 110 : 100)}px);
   overflow: hidden;
   gap: 12px;
+  position: relative;
+
+  .next-btn {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
 export const ListBox = styled(Column)<{ $hasItems: boolean }>`
@@ -21,6 +29,6 @@ export const ListBox = styled(Column)<{ $hasItems: boolean }>`
   ${({ $hasItems }) =>
     $hasItems &&
     css`
-      padding-bottom: 70px;
+      padding-bottom: 75px;
     `}
 `;

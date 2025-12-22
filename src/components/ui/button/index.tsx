@@ -6,6 +6,7 @@ import * as T from "./type";
 export default function Button({
   ref,
   children,
+  className,
   onClick,
   size = "m",
   color = "primary",
@@ -21,6 +22,7 @@ export default function Button({
 }: T.ButtonProps) {
   return (
     <S.Button
+      className={`${className} c__button`}
       ref={ref}
       type={type}
       onClick={onClick}
