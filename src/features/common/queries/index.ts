@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useUserStore } from "@/features/auth/store";
 import { getFixedExpenseTable } from "@/features/common/api";
@@ -44,6 +44,7 @@ export function useFixedExpenseTableQuery() {
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
     initialData: {} as FixedExpenseTableItem,
+    enabled: !!userId,
   });
 }
 
@@ -185,10 +186,12 @@ export function useAmountSummaryQuery() {
   const now = new Date();
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: userAmountQueryKeys.summary(userId, ym),
     queryFn: () => getCurrentMonthAmountSummary(userId),
     refetchOnWindowFocus: false,
+    enabled: !!userId,
+    initialData: {} as AmountSummary,
   });
 }
 
