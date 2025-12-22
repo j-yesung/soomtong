@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button, Row } from "@/components/ui";
-import { ExpenseItem, ReadyButton, SlotCounter } from "@/features/common/components/";
+import { ExpenseItem, SlotCounter } from "@/features/common/components/";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
 import { FixedItem } from "@/features/expense/types";
+import FixedExpenseListScreenSkeleton from "@/screen/common/fixedExpenseListScreen/skeleton";
 
 import * as S from "./style";
 
@@ -21,7 +22,7 @@ export default function FixedExpenseList({ renderType }: Props) {
 
   const router = useRouter();
 
-  const { data } = useFixedExpenseTableQuery();
+  const { data, isFetched } = useFixedExpenseTableQuery();
 
   const hasItems = data?.items?.length > 0;
   const isExpenseRender = renderType === "expense";
@@ -40,6 +41,10 @@ export default function FixedExpenseList({ renderType }: Props) {
 
   const handleSheetClose = () => setSheetOpen(false);
 
+  if (!isFetched) {
+    return <FixedExpenseListScreenSkeleton />;
+  }
+
   return (
     <S.ListScreenContainer $renderType={renderType}>
       <Row justify="space-between" align="center" fullWidth>
@@ -57,7 +62,11 @@ export default function FixedExpenseList({ renderType }: Props) {
 
       <FixedExpenseBottomSheet onClose={handleSheetClose} open={sheetOpen} sheetType={sheetType} item={selectedItem} />
 
-      {isExpenseRender && <ReadyButton text="다음" onClick={() => router.push("/dashboard")} condition={hasItems} />}
+      {isExpenseRender && hasItems && (
+        <Button fullWidth className="next-btn" onClick={() => router.push("/dashboard")}>
+          다음
+        </Button>
+      )}
     </S.ListScreenContainer>
   );
 }

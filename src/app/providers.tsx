@@ -11,7 +11,13 @@ import { GlobalStyle } from "@/styles/global";
 import { theme } from "@/styles/theme";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 1,
+      },
+    },
+  });
 
   return (
     <StyledComponentsRegistry>
