@@ -6,7 +6,6 @@ import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/componen
 
 export default function BudgetBoardScreen() {
   const { data, isFetched } = useAmountSummaryQuery();
-
   const router = useRouter();
 
   if (isFetched && !data?.amountAvailable) {
@@ -30,9 +29,10 @@ export default function BudgetBoardScreen() {
   return (
     <>
       {isFetched ? (
-        <Card direction="column" gap={12}>
+        <Card direction="column" gap={16}>
           <BudgetReport data={data} />
           <BudgetBarChart data={data} />
+          <Card.Footer onClick={() => router.push("/dashboard/expense")}>지출내역 보기</Card.Footer>
         </Card>
       ) : (
         <Skeleton height={181.39} />

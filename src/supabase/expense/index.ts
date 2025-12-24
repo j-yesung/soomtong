@@ -2,6 +2,7 @@ import {
   AddExpenseParams,
   AddExpenseResult,
   AmountSummary,
+  ExpenseList,
   FixedAddParams,
   FixedRemoveItem,
   FixedRow,
@@ -19,6 +20,7 @@ export async function getFixedExpenseTable(userId: string) {
   if (error) throw error;
   return data as FixedRow;
 }
+
 /**
  * 고정지출 추가
  */
@@ -102,4 +104,13 @@ export async function addExpense(params: AddExpenseParams) {
   if (error) throw error;
 
   return data?.[0] as AddExpenseResult;
+}
+
+/**
+ * 지출내역 조회
+ */
+export async function getExpenseList(userId: string) {
+  const { data, error } = await supabase.from("expenses").select("*").eq("user_id", userId);
+  if (error) throw error;
+  return data as ExpenseList[];
 }

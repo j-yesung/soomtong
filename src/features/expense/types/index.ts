@@ -55,6 +55,17 @@ export interface AmountSummary {
   amountAvailable: number;
 }
 
+export type ExpenseList = {
+  id: number;
+  user_id: string;
+  amount: number;
+  category: string;
+  spent_at: string;
+  created_at: string;
+};
+
+export type GroupedExpense = Record<string, ExpenseList[]>;
+
 export interface AddExpenseResult extends AmountSummary {
   expenseId: number;
 }
