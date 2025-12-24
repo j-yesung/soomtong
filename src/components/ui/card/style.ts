@@ -14,14 +14,17 @@ export const CardFooter = styled.button`
   border-top: 1px solid ${({ theme }) => theme.colors.border.secondary};
   background: ${({ theme }) => theme.colors.bg.primary};
   color: ${({ theme }) => theme.colors.text.inverseWhite};
-  font-size: 16px;
-  font-weight: 700;
+  display: flex;
   padding: 12px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   text-align: center;
   margin-top: 14px;
   cursor: pointer;
+
+  span {
+    flex: 1;
+  }
 `;
 
 export const CardRoot = styled.div<StylesProps>`

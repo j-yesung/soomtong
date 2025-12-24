@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { Button, Card, Column, Heading, Skeleton } from "@/components/ui";
+import { Button, Card, Column, Heading, Skeleton, Text } from "@/components/ui";
 import { useAmountSummaryQuery } from "@/features/common/queries";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
 
@@ -32,7 +32,11 @@ export default function BudgetBoardScreen() {
         <Card direction="column" gap={16}>
           <BudgetReport data={data} />
           <BudgetBarChart data={data} />
-          <Card.Footer onClick={() => router.push("/dashboard/expense")}>지출내역 보기</Card.Footer>
+          <Card.Footer onClick={() => router.push("/dashboard/expense")}>
+            <Text size={16} color="inverseWhite">
+              지출내역 보기
+            </Text>
+          </Card.Footer>
         </Card>
       ) : (
         <Skeleton height={181.39} />
