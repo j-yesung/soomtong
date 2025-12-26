@@ -12,6 +12,7 @@ export type FixedExpenseTableItem = {
   totalFixedExpense: number;
   id: number;
   userId: string;
+  day: number;
   budget: number;
   items: FixedItem[];
   createdAt: string;
@@ -47,6 +48,11 @@ export interface AddExpenseParams {
   amount: number;
   category?: string;
 }
+
+export type UpdateBudgetParams = {
+  budget: number;
+  day: number;
+};
 
 export interface AmountSummary {
   budget: number;

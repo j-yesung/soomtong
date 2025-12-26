@@ -7,6 +7,7 @@ import {
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
+  UpdateBudgetParams,
 } from "@/features/expense/types";
 import { createClient } from "@/lib/supabase/client";
 
@@ -115,4 +116,13 @@ export async function getExpenseList(userId: string) {
   const { data, error } = await supabase.from("expenses").select("*").eq("user_id", userId);
   if (error) throw error;
   return data as ExpenseList[];
+}
+
+/**
+ * 월급일자 업데이트
+ */
+export async function updateBuget(params: UpdateBudgetParams) {
+  const { budget, day } = params;
+  const { error } = await supabase.rpc("update_fixed_settings", { _budget: budget, _day: day });
+  if (error) throw error;
 }
