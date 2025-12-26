@@ -14,25 +14,16 @@ export const CardFooter = styled.button`
   border-top: 1px solid ${({ theme }) => theme.colors.border.secondary};
   background: ${({ theme }) => theme.colors.bg.primary};
   color: ${({ theme }) => theme.colors.text.inverseWhite};
-  font-size: 16px;
-  font-weight: 700;
-  padding: 16px;
+  display: flex;
+  padding: 12px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   text-align: center;
   margin-top: 14px;
+  cursor: pointer;
 
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.18);
-    opacity: 0;
-    transition: opacity 0.08s ease-out;
-  }
-
-  &:active::after {
-    opacity: 1;
+  span {
+    flex: 1;
   }
 `;
 

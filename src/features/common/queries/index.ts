@@ -14,12 +14,14 @@ import {
   addExpense,
   addFixedItem,
   getCurrentMonthAmountSummary,
+  getExpenseList,
   getFixedExpenseTable,
   removeFixedItem,
   updateFixedItem,
 } from "@/supabase/expense";
 
 export const userAmountQueryKeys = {
+  detailExpenseList: (userId: string) => ["detail-expense-list", userId],
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
@@ -27,6 +29,18 @@ export const userAmountQueryKeys = {
   summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
   addExpense: () => ["addExpense"],
 };
+
+/**
+ * 지출내역 조회
+ */
+export function useDetailExpenseListQuery() {
+  const userId = useUserStore((state) => state.userInfo).id;
+  return useQuery({
+    queryKey: userAmountQueryKeys.detailExpenseList(userId),
+    queryFn: () => getExpenseList(userId),
+    enabled: !!userId,
+  });
+}
 
 /**
  * 고정 지출 내역 조회

@@ -1,12 +1,11 @@
 import { useRouter } from "next/navigation";
 
-import { Button, Card, Column, Heading, Skeleton } from "@/components/ui";
+import { Button, Card, Column, Heading, Skeleton, Text } from "@/components/ui";
 import { useAmountSummaryQuery } from "@/features/common/queries";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
 
 export default function BudgetBoardScreen() {
   const { data, isFetched } = useAmountSummaryQuery();
-
   const router = useRouter();
 
   if (isFetched && !data?.amountAvailable) {
@@ -30,9 +29,14 @@ export default function BudgetBoardScreen() {
   return (
     <>
       {isFetched ? (
-        <Card direction="column" gap={12}>
+        <Card direction="column" gap={16}>
           <BudgetReport data={data} />
           <BudgetBarChart data={data} />
+          <Card.Footer onClick={() => router.push("/dashboard/expense")}>
+            <Text size={16} color="inverseWhite">
+              지출내역 보기
+            </Text>
+          </Card.Footer>
         </Card>
       ) : (
         <Skeleton height={181.39} />

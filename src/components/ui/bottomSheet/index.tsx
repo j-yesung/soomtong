@@ -98,7 +98,7 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
           onPointerCancel={onPointerCancel}
         >
           <S.HandleBar />
-          <Row as="header" pvh={[16, 16]} gap={8} align="center" justify="space-between">
+          <Row as="header" pvh={[16, 0, 0, 0]} gap={8} align="center" justify="space-between">
             <Heading fontWeight="bold" level={2}>
               {title}
             </Heading>

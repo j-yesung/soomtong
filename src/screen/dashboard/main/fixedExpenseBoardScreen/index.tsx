@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { Button, Card, Column, Heading, Row, Skeleton } from "@/components/ui";
+import { Button, Card, Column, Heading, Row, Skeleton, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/main/components";
 
@@ -41,7 +41,11 @@ export default function FixedExpenseBoardScreen() {
             <FixedExpenseReport data={data} />
             <FixedExpenseDonutChart data={data} />
           </Row>
-          <Card.Footer onClick={() => router.push("/dashboard/fixed")}>자세히 보기</Card.Footer>
+          <Card.Footer onClick={() => router.push("/dashboard/fixed")}>
+            <Text size={16} color="inverseWhite">
+              자세히 보기
+            </Text>
+          </Card.Footer>
         </Card>
       ) : (
         <Skeleton height={275} />
