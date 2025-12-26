@@ -79,6 +79,8 @@ export async function getCurrentMonthAmountSummary(userId: string) {
     _fixed_total: number;
     _total_variable: number;
     _amount_available: number;
+    _billing_start: string;
+    _billing_end: string;
   };
 
   return {
