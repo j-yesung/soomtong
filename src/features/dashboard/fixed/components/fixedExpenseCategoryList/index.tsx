@@ -3,14 +3,15 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import { CategoryButton } from "@/components/ui";
-import { DEFAULT_TAG_LIST } from "@/constants";
+import { TagItem } from "@/constants";
 
 type Props = {
   onClick: (tag: string) => void;
   defaultTag?: string;
+  categoryList: TagItem[];
 };
 
-export default function FixedExpenseCategoryList({ onClick, defaultTag }: Props) {
+export default function FixedExpenseCategoryList({ onClick, defaultTag, categoryList }: Props) {
   const [selectedName, setSelectedName] = useState(defaultTag ?? "");
 
   const handleClick = (name: string) => {
@@ -20,7 +21,7 @@ export default function FixedExpenseCategoryList({ onClick, defaultTag }: Props)
 
   return (
     <ListGrid onPointerDownCapture={(e) => e.stopPropagation()}>
-      {DEFAULT_TAG_LIST.map(({ name, icon }) => (
+      {categoryList.map(({ name, icon }) => (
         <CategoryButton
           key={name}
           name={name}

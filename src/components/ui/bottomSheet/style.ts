@@ -84,7 +84,7 @@ export const SheetContent = styled.div`
 `;
 
 export const DragArea = styled.div`
-  padding: 16px 0;
+  padding: 16px 16px 0;
   cursor: grab;
   touch-action: none;
 `;

@@ -23,16 +23,18 @@ export default function DashboardExpenseScreen() {
 
       {grouped.map(([dateKey, items]) => (
         <Column key={dateKey} gap={8}>
-          <Text size={14} color="secondary">
+          <Text size={14} weight={400} color="secondary">
             {formatTitle(dateKey)}
           </Text>
 
           <Column gap={4}>
             {items.map((item) => (
               <Column key={item.id}>
+                {item.category && <Text size={18}>{item.category}</Text>}
+
                 <Row align="center" justify="space-between">
                   {/* 사용날짜 */}
-                  <Text size={16} weight={400} color="secondary">
+                  <Text size={14} color="secondary">
                     {new Intl.DateTimeFormat("ko-KR", {
                       timeZone: "Asia/Seoul",
                       hour: "2-digit",
@@ -41,9 +43,7 @@ export default function DashboardExpenseScreen() {
                     }).format(new Date(item.created_at))}
                   </Text>
                   {/* 사용금액 */}
-                  <Text size={16} weight={400}>
-                    {item.amount?.toLocaleString()}원{" "}
-                  </Text>
+                  <Text size={16}>{item.amount?.toLocaleString()}원 </Text>
                 </Row>
               </Column>
             ))}

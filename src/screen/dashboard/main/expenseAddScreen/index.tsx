@@ -1,14 +1,17 @@
 import { useState } from "react";
 
-import { BottomSheet, Button, Column, Row } from "@/components/ui";
+import { BottomSheet, Button, Column, Row, Text } from "@/components/ui";
+import { EXPENSE_CATEGORY_LIST } from "@/constants";
 import { useUserStore } from "@/features/auth/store";
 import { AmountInput, ExpenseQuickButton } from "@/features/common/components";
 import { useAddExpenseMutation } from "@/features/common/queries";
+import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function ExpenseAddtScreen() {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
 
   const userId = useUserStore((s) => s.userInfo).id;
 
@@ -25,6 +28,7 @@ export default function ExpenseAddtScreen() {
     mutate({
       userId,
       amount: parseNumericInput(amount),
+      category,
     });
     handleOnClose();
   };
@@ -34,6 +38,13 @@ export default function ExpenseAddtScreen() {
       <ExpenseQuickButton onClick={() => setBottomSheetOpen((v) => !v)} />
       <BottomSheet isOpen={bottomSheetOpen} onClose={handleOnClose} title="지출 등록">
         <Column gap={12}>
+          <Text size={16} weight={700}>
+            항목
+          </Text>
+          <FixedExpenseCategoryList
+            onClick={(category) => setCategory(category)}
+            categoryList={EXPENSE_CATEGORY_LIST}
+          />
           <AmountInput value={amount} onChange={setAmount} />
           <Row gap={8}>
             <Button onClick={handleOnClose} color="danger">

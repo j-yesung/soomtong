@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Bus,
+  CarTaxiFront,
   Home,
   Lightbulb,
   PiggyBank,
@@ -16,20 +17,6 @@ export type TagItem = {
   name: string;
   icon?: React.ReactNode;
 };
-
-export const DEFAULT_TAGS = [
-  "주거비",
-  "공과금",
-  "교통비",
-  "식비",
-  "통신비",
-  "구독료",
-  "보험료",
-  "의료비",
-  "교육비",
-  "기타생활비",
-  "저축/투자",
-];
 
 export const DEFAULT_TAG_LIST: TagItem[] = [
   { name: "주거비", icon: <Home size={20} /> },
@@ -48,3 +35,10 @@ export const DEFAULT_TAG_LIST: TagItem[] = [
 export const TAG_COLORS: Record<string, string> = {
   "저축/투자": "#E3F2FD",
 };
+
+export const EXPENSE_CATEGORY_LIST: TagItem[] = [
+  { name: "식비", icon: <Utensils size={20} /> },
+  { name: "택시", icon: <CarTaxiFront size={20} /> },
+  { name: "기타생활비", icon: <ShoppingBag size={20} /> },
+  { name: "의료비", icon: <Stethoscope size={20} /> },
+];
