@@ -9,21 +9,55 @@ type StylesProps = {
   $position?: React.CSSProperties["position"];
 };
 
-export const CardFooter = styled.button`
+export const CardFooter = styled.div`
   width: 100%;
   border-top: 1px solid ${({ theme }) => theme.colors.border.secondary};
   background: ${({ theme }) => theme.colors.bg.primary};
   color: ${({ theme }) => theme.colors.text.inverseWhite};
+
   display: flex;
-  padding: 12px;
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
-  text-align: center;
-  margin-top: 14px;
-  cursor: pointer;
 
-  span {
+  & > button + button {
+    position: relative;
+  }
+
+  & > button + button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: ${({ theme }) => theme.colors.border.secondary};
+    pointer-events: none;
+  }
+
+  button {
     flex: 1;
+    overflow: hidden;
+    position: relative;
+    padding: 12px 8px;
+  }
+
+  button::after {
+    content: "";
+    inset: 8px;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transition: opacity 120ms ease;
+    pointer-events: none;
+    border-radius: 8px;
+  }
+
+  button:active::after {
+    opacity: 1;
+  }
+
+  button:active > .inner {
+    transform: scale(0.98);
   }
 `;
 

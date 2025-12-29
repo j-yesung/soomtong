@@ -32,10 +32,17 @@ export default function BudgetBoardScreen() {
         <Card direction="column" gap={16}>
           <BudgetReport data={data} />
           <BudgetBarChart data={data} />
-          <Card.Footer onClick={() => router.push("/dashboard/expense")}>
-            <Text size={16} color="inverseWhite">
-              지출내역 보기
-            </Text>
+          <Card.Footer>
+            <button type="button" onClick={() => {}}>
+              <Text className="inner" size={14} color="inverseWhite">
+                월수입 변경
+              </Text>
+            </button>
+            <button type="button" onClick={() => router.push("/dashboard/expense")}>
+              <Text size={14} color="inverseWhite">
+                지출내역 보기
+              </Text>
+            </button>
           </Card.Footer>
         </Card>
       ) : (

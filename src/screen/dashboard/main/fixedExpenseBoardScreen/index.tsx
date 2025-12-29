@@ -41,10 +41,12 @@ export default function FixedExpenseBoardScreen() {
             <FixedExpenseReport data={data} />
             <FixedExpenseDonutChart data={data} />
           </Row>
-          <Card.Footer onClick={() => router.push("/dashboard/fixed")}>
-            <Text size={16} color="inverseWhite">
-              자세히 보기
-            </Text>
+          <Card.Footer>
+            <button type="button" onClick={() => router.push("/dashboard/fixed")}>
+              <Text size={14} color="inverseWhite">
+                자세히 보기
+              </Text>
+            </button>
           </Card.Footer>
         </Card>
       ) : (
