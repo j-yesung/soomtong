@@ -1,12 +1,23 @@
+import { useEffect } from "react";
+
 import { useRouter } from "next/navigation";
 
 import { Button, Card, Column, Heading, Row, Skeleton, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/main/components";
 
 export default function FixedExpenseBoardScreen() {
   const router = useRouter();
   const { data, isFetched } = useFixedExpenseTableQuery();
+
+  const updateBudget = useBudgetStore((state) => state.updateBudget);
+
+  useEffect(() => {
+    if (data) {
+      updateBudget({ amount: data?.budget, day: data?.day });
+    }
+  }, [data]);
 
   if (data?.items?.length === 0) {
     return (
@@ -50,7 +61,7 @@ export default function FixedExpenseBoardScreen() {
           </Card.Footer>
         </Card>
       ) : (
-        <Skeleton height={275} />
+        <Skeleton height={253} />
       )}
     </>
   );
