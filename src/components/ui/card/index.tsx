@@ -1,7 +1,5 @@
 import { PropsWithChildren } from "react";
 
-import { ChevronsRightIcon } from "lucide-react";
-
 import { AppTheme } from "@/styles/theme";
 
 import * as S from "./style";
@@ -23,13 +21,8 @@ function Root({ children, direction, position, gap, radius = "sm", as }: PropsWi
   );
 }
 
-function Footer({ children, onClick }: PropsWithChildren<{ onClick?: () => void }>) {
-  return (
-    <S.CardFooter onClick={onClick}>
-      {children}
-      <ChevronsRightIcon />
-    </S.CardFooter>
-  );
+function Footer({ children }: PropsWithChildren) {
+  return <S.CardFooter>{children}</S.CardFooter>;
 }
 
 const Card = Object.assign(Root, { Footer });

@@ -9,6 +9,7 @@ import {
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
+  UpdateBudgetParams,
 } from "@/features/expense/types";
 import {
   addExpense,
@@ -17,6 +18,7 @@ import {
   getExpenseList,
   getFixedExpenseTable,
   removeFixedItem,
+  updateBuget,
   updateFixedItem,
 } from "@/supabase/expense";
 
@@ -28,6 +30,7 @@ export const userAmountQueryKeys = {
   updateFixedExpense: () => ["updateFixedExpense"],
   summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
   addExpense: () => ["addExpense"],
+  updateBuget: () => ["update-budget"],
 };
 
 /**
@@ -249,6 +252,66 @@ export function useAddExpenseMutation() {
       queryClient.invalidateQueries({
         queryKey: userAmountQueryKeys.summary(variables.userId, ym),
       });
+    },
+  });
+}
+
+export function useUpdateBudgetMutation() {
+  const queryClient = useQueryClient();
+  const userId = useUserStore((s) => s.userInfo).id;
+
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
+
+  return useMutation({
+    mutationKey: userAmountQueryKeys.updateBuget(),
+    mutationFn: (params: UpdateBudgetParams) => updateBuget(params),
+
+    onMutate: async (variables) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const summaryKey = userAmountQueryKeys.summary(userId, ym);
+
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: fixedKey }),
+        queryClient.cancelQueries({ queryKey: summaryKey }),
+      ]);
+
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
+      const prevSummary = queryClient.getQueryData<AmountSummary>(summaryKey);
+
+      if (prevFixed) {
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
+          ...prevFixed,
+          budget: variables.budget,
+          day: variables.day,
+          amountAvailable: variables.budget - (prevFixed.totalFixedExpense ?? 0),
+        });
+      }
+
+      if (prevSummary) {
+        const nextAmountAvailable = variables.budget - (prevSummary.totalFixed ?? 0) - prevSummary.totalVariable;
+
+        queryClient.setQueryData<AmountSummary>(summaryKey, {
+          ...prevSummary,
+          budget: variables.budget,
+          amountAvailable: nextAmountAvailable,
+        });
+      }
+
+      return { prevFixed, prevSummary };
+    },
+
+    onError: (_error, _variables, context) => {
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const summaryKey = userAmountQueryKeys.summary(userId, ym);
+
+      if (context?.prevFixed) queryClient.setQueryData(fixedKey, context.prevFixed);
+      if (context?.prevSummary) queryClient.setQueryData(summaryKey, context.prevSummary);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.summary(userId, ym) });
     },
   });
 }

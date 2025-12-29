@@ -33,7 +33,7 @@ export const Sheet = styled.div<{
   border-top-right-radius: 16px;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
 
-  max-height: 80dvh;
+  max-height: 85dvh;
   display: flex;
   flex-direction: column;
 
