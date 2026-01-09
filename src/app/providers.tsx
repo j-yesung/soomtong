@@ -10,6 +10,8 @@ import { PWAIOSInstallPromptScreen } from "@/screen/pwa";
 import { GlobalStyle } from "@/styles/global";
 import { theme } from "@/styles/theme";
 
+import AuthProvider from "./auth-provider";
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -22,13 +24,15 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <StyledComponentsRegistry>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <MainLayout>
-            <RouteTransition>{children}</RouteTransition>
-            <PWAIOSInstallPromptScreen />
-          </MainLayout>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <MainLayout>
+              <RouteTransition>{children}</RouteTransition>
+              <PWAIOSInstallPromptScreen />
+            </MainLayout>
+          </ThemeProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </StyledComponentsRegistry>
   );

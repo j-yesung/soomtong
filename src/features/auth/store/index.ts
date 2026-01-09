@@ -9,6 +9,7 @@ export const useUserStore = create(
     (set) => ({
       userInfo: {} as User,
       updateUserInfo: (info) => set(() => ({ userInfo: info })),
+      clearUserInfo: () => set(() => ({ userInfo: {} as User })),
     }),
     {
       name: "soomtong-auth-store",
