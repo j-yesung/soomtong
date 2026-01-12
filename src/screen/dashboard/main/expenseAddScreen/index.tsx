@@ -50,7 +50,7 @@ export default function ExpenseAddtScreen() {
             <Button onClick={handleOnClose} color="danger">
               닫기
             </Button>
-            <Button onClick={handleSubmit} disabled={false}>
+            <Button onClick={handleSubmit} disabled={!amount || !category}>
               등록
             </Button>
           </Row>
