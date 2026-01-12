@@ -6,4 +6,5 @@ export interface AuthState {
 
 export interface AuthActions {
   updateUserInfo: (info: User) => void;
+  clearUserInfo: () => void;
 }
