@@ -1,23 +1,12 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { createClient } from "@/lib/supabase/client";
-import { getUserInfo } from "@/supabase/auth";
 
 export const authQuerykeys = {
-  info: () => ["user-info"],
   login: () => ["login"],
 };
-
-export function useUserQuery() {
-  return useQuery({
-    queryKey: authQuerykeys.info(),
-    queryFn: () => getUserInfo(),
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-  });
-}
 
 export function useLogin() {
   return useMutation({
