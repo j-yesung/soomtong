@@ -42,6 +42,7 @@ export function useDetailExpenseListQuery() {
     queryKey: userAmountQueryKeys.detailExpenseList(userId),
     queryFn: () => getExpenseList(userId),
     enabled: !!userId,
+    refetchOnWindowFocus: false,
   });
 }
 

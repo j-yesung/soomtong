@@ -15,6 +15,7 @@ export { default as DonutChart } from "./chart/donut";
 export { default as Skeleton } from "./skeleton";
 export { default as Grid } from "./grid";
 export { default as Portal } from "./portal";
+export { default as Alert } from "./alert";
 export { default as BottomSheet } from "./bottomSheet";
 export { default as KeyButton } from "./keyButton";
 export { default as CategoryButton } from "./categoryButton";

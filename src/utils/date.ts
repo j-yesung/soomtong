@@ -8,6 +8,14 @@ export function getTodayString() {
   return `${year}-${month}-${day}`;
 }
 
+export function getCurrentYearMonthKst() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+  }).format(new Date());
+}
+
 export function groupByKstDate(items: ExpenseList[]) {
   const groups = items.reduce<GroupedExpense>((acc, item) => {
     const dateKey = new Intl.DateTimeFormat("ko-KR", {
