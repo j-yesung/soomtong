@@ -1,5 +1,5 @@
 import { Box, Column } from "@/components/ui";
-import CalendarScreen from "@/screen/calendar";
+import CalendarScreen from "@/screen/calendar/calendarScreen";
 
 export default function CalendarPage() {
   return (

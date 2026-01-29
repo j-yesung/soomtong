@@ -1,14 +1,10 @@
-"use client";
-
 import { useState } from "react";
 
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
 import { Box } from "@/components/ui";
-
-import CalendarView from "./components/calendarView";
-import DayDetailSheet from "./components/dayDetailSheet";
+import { CalendarView, DayDetailSheet } from "@/features/calendar/components";
 
 export default function CalendarScreen() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
