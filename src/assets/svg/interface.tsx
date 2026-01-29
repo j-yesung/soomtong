@@ -39,6 +39,26 @@ export const SingleArrowIcon = ({ size = 24, color = "currentColor" }: IconProps
   );
 };
 
+export const HomeIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.97 2.59a1.5 1.5 0 0 0-1.94 0l-7.5 6.363A1.5 1.5 0 0 0 3 10.097V19.5A1.5 1.5 0 0 0 4.5 21h4.75a.75.75 0 0 0 .75-.75v-4.5a2 2 0 0 1 4 0v4.5c0 .414.336.75.75.75h4.75a1.5 1.5 0 0 0 1.5-1.5v-9.403a1.5 1.5 0 0 0-.53-1.144l-7.5-6.363Z" />
+    </svg>
+  );
+};
+
+export const CalendarIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8 2a.75.75 0 0 1 .75.75V4h6.5V2.75a.75.75 0 0 1 1.5 0V4h1.75A2.5 2.5 0 0 1 21 6.5v12a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4h1.75V2.75A.75.75 0 0 1 8 2ZM4.5 9.5v9a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-9h-15Z"
+      />
+    </svg>
+  );
+};
+
 export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24">
