@@ -1,5 +1,5 @@
 import { Box, Column } from "@/components/ui";
-import { BudgetBoardScreen, ExpenseAddScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
+import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
 
 export default function DashboardPage() {
   return (
@@ -7,7 +7,6 @@ export default function DashboardPage() {
       <Column gap={12}>
         <BudgetBoardScreen />
         <FixedExpenseBoardScreen />
-        <ExpenseAddScreen />
       </Column>
     </Box>
   );

@@ -20,7 +20,7 @@ export default function FixedExpenseCategoryList({ onClick, defaultTag, category
   };
 
   return (
-    <ListGrid onPointerDownCapture={(e) => e.stopPropagation()}>
+    <ListGrid>
       {categoryList.map(({ name, icon }) => (
         <CategoryButton
           key={name}

@@ -27,7 +27,7 @@ export default function RouteTransition({ children }: { children: ReactNode }) {
       }
     : {
         initial: { opacity: 0 },
-        animate: { opacity: 1, transition: { duration: 0.7, ease: easeOut } },
+        animate: { opacity: 1, transition: { duration: 0.3, ease: easeOut } },
       };
 
   return (

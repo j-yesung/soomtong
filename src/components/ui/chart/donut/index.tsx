@@ -12,7 +12,7 @@ type Props = {
   thickness?: number;
 };
 
-export default function DonutChart({ value, size = 128, thickness = 18 }: Props) {
+export default function DonutChart({ value, size = 100, thickness = 14 }: Props) {
   const clamped = Math.max(0, Math.min(100, Number.isFinite(value) ? value : 0));
   const radius = useMemo(() => (size - thickness) / 2, [size, thickness]);
   const circumference = useMemo(() => 2 * Math.PI * radius, [radius]);

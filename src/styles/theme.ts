@@ -26,6 +26,7 @@ export const theme = {
     border: {
       primary: "var(--color-brand)",
       secondary: "var(--color-border)",
+      light: "var(--color-border-light)",
       danger: "var(--color-danger)",
       blue: "var(--color-blue)",
       darkBlue: "#42A5F5",

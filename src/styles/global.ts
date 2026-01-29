@@ -16,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-success: #74B075;
     --color-inverseWhite: #FFFFFF;
     --color-border: #e5e7eb;
+    --color-border-light: #8A8A8A;
     --color-disabled: #9ca3af;
     --color-bg-secondary: #F8F8F8;
     --color-text-secondary: #6b7280;
@@ -56,16 +57,9 @@ export const GlobalStyle = createGlobalStyle`
   html {
     -webkit-text-size-adjust: 100%;
     font-size: 16px;
-    height: 100%;
   }
 
   body {
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    min-width: 320px;
-    max-width: 500px;
-    padding: 20px;
     background: var(--color-bg);
     color: var(--color-text);
     font-family:
@@ -83,11 +77,6 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
   }
   
-  body.scroll-lock {
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-
   /* HTML5 display reset */
   article, aside, details, figcaption, figure,
   footer, header, hgroup, menu, nav, section { display: block; }

@@ -38,6 +38,13 @@ const variantStyles = {
     border: 1px solid ${({ theme }) => theme.colors.border.secondary};
     color: ${({ theme }) => theme.colors.text.primary};
   `,
+  status: css<TagStylesProps>`
+    cursor: default;
+    background-color: ${({ theme, color }) => color ?? theme.colors.bg.secondary};
+    color: ${({ theme }) => theme.colors.text.inverseWhite};
+    border: none;
+    font-weight: 600;
+  `,
 } as const;
 
 export const TagButton = styled("button").withConfig({ shouldForwardProp })<TagStylesProps>`

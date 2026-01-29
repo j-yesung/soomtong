@@ -3,8 +3,7 @@ export const safeLocalStorage = {
     if (typeof window === "undefined") return null;
     try {
       return window.localStorage.getItem(key);
-    } catch (e) {
-      console.log("e: ", e);
+    } catch {
       // Safari 시크릿 모드 등에서 접근 거부 시 null 반환
       return null;
     }

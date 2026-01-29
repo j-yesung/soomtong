@@ -1,4 +1,4 @@
-type Variant = "fixed" | "select" | "default" | "list";
+type Variant = "fixed" | "select" | "default" | "list" | "status";
 
 export interface TagProps {
   onClick?: () => void;
@@ -7,6 +7,7 @@ export interface TagProps {
   fontSize?: number;
   fontWeight?: number;
   isSelected?: boolean;
+  color?: string;
 }
 
 export interface TagStylesProps {
