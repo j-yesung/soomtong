@@ -1,22 +1,48 @@
-import styled, { css } from "styled-components";
+"use client";
+
+import styled from "styled-components";
+import { Drawer } from "vaul";
 
 import { hideScrollbarOnTouch } from "@/styles/scroll";
 
-export const Backdrop = styled.div<{ $isOpen: boolean }>`
+export const DrawerOverlay = styled(Drawer.Overlay)`
   position: fixed;
   inset: 0;
   z-index: 1100;
+  background: rgba(0, 0, 0, 0.4);
+
+  &[data-state="open"] {
+    animation: fadeIn 300ms ease-out;
+  }
+
+  &[data-state="closed"] {
+    animation: fadeOut 200ms ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    animation: none !important;
   }
 `;
 
-export const Sheet = styled.div<{
-  $dragging?: boolean;
-  $snapBack?: boolean;
-  $closing?: boolean;
-}>`
+export const DrawerContent = styled(Drawer.Content)`
   position: fixed;
   left: 0;
   right: 0;
@@ -40,34 +66,36 @@ export const Sheet = styled.div<{
   padding-bottom: env(safe-area-inset-bottom);
   overflow: hidden;
 
-  will-change: transform;
-  backface-visibility: hidden;
+  outline: none;
 
-  transform: translate3d(0, var(--sheet-drag, 0px), 0) translateY(var(--sheet-base, 110%));
-  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  &[data-state="open"] {
+    animation: slideUp 400ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
 
-  ${({ $dragging }) =>
-    $dragging &&
-    css`
-      transition: none;
-    `}
+  &[data-state="closed"] {
+    animation: slideDown 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
 
-  ${({ $snapBack }) =>
-    $snapBack &&
-    css`
-      transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
-    `}
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
 
-  ${({ $closing }) =>
-    $closing &&
-    css`
-      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
-    `}
-
-  touch-action: pan-y;
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    animation: none !important;
   }
 `;
 
@@ -86,7 +114,10 @@ export const SheetContent = styled.div`
 export const DragArea = styled.div`
   padding: 16px 16px 0;
   cursor: grab;
-  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 export const HandleBar = styled.div`
@@ -95,12 +126,4 @@ export const HandleBar = styled.div`
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.16);
   margin: 0 auto 8px;
-`;
-
-export const CloseButton = styled.button`
-  margin-left: auto;
-  border: 0;
-  background: transparent;
-  font-size: 18px;
-  line-height: 1;
 `;

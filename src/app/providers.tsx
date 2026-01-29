@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "styled-components";
 
@@ -13,13 +15,16 @@ import { theme } from "@/styles/theme";
 import AuthProvider from "./auth-provider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: 1,
-      },
-    },
-  });
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: 1,
+          },
+        },
+      }),
+  );
 
   return (
     <StyledComponentsRegistry>
