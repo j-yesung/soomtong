@@ -27,10 +27,11 @@ export const CardFooter = styled.div`
     content: "";
     position: absolute;
     left: 0;
-    top: 8px;
-    bottom: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
     width: 1px;
-    background: ${({ theme }) => theme.colors.border.secondary};
+    background: ${({ theme }) => theme.colors.border.light};
     pointer-events: none;
   }
 

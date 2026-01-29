@@ -16,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-success: #74B075;
     --color-inverseWhite: #FFFFFF;
     --color-border: #e5e7eb;
+    --color-border-light: #8A8A8A;
     --color-disabled: #9ca3af;
     --color-bg-secondary: #F8F8F8;
     --color-text-secondary: #6b7280;
