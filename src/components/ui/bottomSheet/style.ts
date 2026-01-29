@@ -9,7 +9,7 @@ export const DrawerOverlay = styled(Drawer.Overlay)`
   position: fixed;
   inset: 0;
   z-index: 1100;
-  background: rgba(0, 0, 0, 0.4);
+  background: transparent;
 
   &[data-state="open"] {
     animation: fadeIn 300ms ease-out;

@@ -22,6 +22,7 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
       }}
       dismissible
       shouldScaleBackground={false}
+      scrollLockTimeout={0}
     >
       <Drawer.Portal>
         <S.DrawerOverlay />

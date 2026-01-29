@@ -7,7 +7,7 @@ import { Box } from "@/components/ui";
 import { CalendarView, DayDetailSheet } from "@/features/calendar/components";
 
 export default function CalendarScreen() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleDayClick = (date: Date) => {

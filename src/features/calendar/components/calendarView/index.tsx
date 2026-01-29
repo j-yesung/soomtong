@@ -11,10 +11,8 @@ type Props = {
   onDayClick: (date: Date) => void;
 };
 
-// 날짜에 내역이 있는지 체크 (임시 데이터 - 추후 실제 데이터 연동)
-const getDotCount = (date: Date): number => {
+const getDotCount = (date: Date) => {
   const day = date.getDate();
-  // 임시: 특정 날짜에 점 표시
   if ([1, 2, 4, 8, 14, 22, 25, 28].includes(day)) {
     return (day % 3) + 1;
   }
