@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 import { Box } from "@/components/ui";
 
-// import BottomNavigation from "../bottomNavigation";
+import BottomNavigation from "../bottomNavigation";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -18,6 +18,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         alignItems={isHome ? "center" : "flex-start"}
         justifyContent={isHome ? "center" : "flex-start"}
         padding="20px"
+        paddingBottom="calc(100px + env(safe-area-inset-bottom))"
         boxSizing="border-box"
         position="relative"
         width="100%"
@@ -25,7 +26,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
       </Box>
-      {/* <BottomNavigation /> */}
+      <BottomNavigation />
     </LayoutWrapper>
   );
 }
