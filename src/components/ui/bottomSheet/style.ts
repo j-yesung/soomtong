@@ -109,6 +109,7 @@ export const SheetContent = styled.div`
   gap: 20px;
 
   ${hideScrollbarOnTouch}
+  overscroll-behavior-y: none;
 `;
 
 export const DragArea = styled.div`
