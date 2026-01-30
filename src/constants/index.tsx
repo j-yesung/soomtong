@@ -2,6 +2,7 @@ import {
   BookOpen,
   Bus,
   CarTaxiFront,
+  Coffee,
   Home,
   Lightbulb,
   PiggyBank,
@@ -41,4 +42,5 @@ export const EXPENSE_CATEGORY_LIST: TagItem[] = [
   { name: "택시", icon: <CarTaxiFront size={20} /> },
   { name: "기타생활비", icon: <ShoppingBag size={20} /> },
   { name: "의료비", icon: <Stethoscope size={20} /> },
+  { name: "커피", icon: <Coffee size={20} /> },
 ];
