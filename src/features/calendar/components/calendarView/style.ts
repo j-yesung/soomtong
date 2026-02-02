@@ -123,24 +123,16 @@ export const CalendarWrapper = styled.div`
   }
 
   .rdp-selected .rdp-day_button {
-    background-color: rgba(52, 199, 89, 0.15);
-    font-weight: 700;
-  }
-
-  .rdp-selected.rdp-day_sunday .rdp-day_button {
-    color: #ff3b30;
-  }
-
-  .rdp-selected.rdp-day_saturday .rdp-day_button {
-    color: #007aff;
-  }
-
-  .rdp-selected:not(.rdp-day_sunday):not(.rdp-day_saturday) .rdp-day_button {
-    color: var(--rdp-accent-color);
+    font-weight: 500;
   }
 
   .rdp-today .rdp-day_button {
     font-weight: 700;
+    color: #34c759;
+  }
+
+  .rdp-today.rdp-selected .rdp-day_button {
+    color: #34c759;
   }
 `;
 
@@ -167,10 +159,52 @@ export const DayCell = styled.button`
   }
 `;
 
+export const DayNumber = styled.span`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+
+  .rdp-selected & {
+    color: #fff;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: ${({ theme }) => theme.colors.text.primary};
+      border-radius: 50%;
+      z-index: -1;
+    }
+  }
+
+  .rdp-selected.rdp-day_sunday & {
+    &::before {
+      background-color: #ff6b6b;
+    }
+  }
+
+  .rdp-selected.rdp-day_saturday & {
+    &::before {
+      background-color: #4dabf7;
+    }
+  }
+
+  .rdp-today.rdp-selected & {
+    &::before {
+      background-color: #34c759;
+    }
+  }
+`;
+
 export const DotContainer = styled.div`
   display: flex;
   gap: 2px;
-  height: 4px;
+  min-height: 6px;
+  align-items: center;
 `;
 
 export const Dot = styled.div`
@@ -178,4 +212,12 @@ export const Dot = styled.div`
   height: 4px;
   border-radius: 50%;
   background-color: #007aff;
+`;
+
+export const FixedDot = styled(Dot)`
+  background-color: #007aff;
+`;
+
+export const VariableDot = styled(Dot)`
+  background-color: #34c759;
 `;
