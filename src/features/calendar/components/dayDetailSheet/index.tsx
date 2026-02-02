@@ -14,6 +14,7 @@ type Props = {
 export default function DayDetailSheet({ onClose, isOpen, selectedDate, dateLabel, expensesByDay }: Props) {
   const dayOfMonth = selectedDate ? getDate(selectedDate) : 0;
   const expenseData = expensesByDay.get(dayOfMonth);
+
   const fixedExpenses = expenseData?.fixed ?? [];
   const variableExpenses = expenseData?.variable ?? [];
   const hasExpenses = fixedExpenses.length > 0 || variableExpenses.length > 0;

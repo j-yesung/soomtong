@@ -16,6 +16,7 @@ export default function CalendarScreen() {
   const currentDate = selectedDate ?? new Date();
   const year = getYear(currentDate);
   const month = getMonth(currentDate) + 1;
+
   const { expensesByDay } = useCalendarExpenseData(year, month);
 
   const handleDayClick = (date: Date) => {
