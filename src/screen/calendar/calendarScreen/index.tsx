@@ -7,7 +7,7 @@ import { ko } from "date-fns/locale";
 
 import { Column } from "@/components/ui";
 import { CalendarView, DayDetailSheet } from "@/features/calendar/components";
-import { useCalendarExpenseData } from "@/features/calendar/hooks";
+import { useCalendarExpenseData } from "@/features/calendar/hooks/useCalendarExpenseData";
 
 export default function CalendarScreen() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
