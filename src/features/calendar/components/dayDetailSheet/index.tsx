@@ -1,49 +1,58 @@
-import styled from "styled-components";
+import { getDate } from "date-fns";
 
-import { Column, Row, Text } from "@/components/ui";
-import BottomSheet from "@/components/ui/bottomSheet";
+import { BottomSheet, Column, Row, Text } from "@/components/ui";
+import { ExpensesByDay } from "@/features/calendar/hooks";
 
 type Props = {
-  isOpen: boolean;
   onClose: () => void;
+  isOpen: boolean;
   selectedDate: Date | undefined;
   dateLabel: string;
+  expensesByDay: ExpensesByDay;
 };
 
-// 임시 데이터 - 추후 실제 데이터 연동
-const MOCK_EXPENSES = [
-  {
-    id: 1,
-    title: "뒷브레이크패드, 디스크 교환",
-    subtitle: "(84440km)",
-    time: "오전 10:20 - 오전 11:20",
-    icon: "🚗",
-  },
-];
+export default function DayDetailSheet({ onClose, isOpen, selectedDate, dateLabel, expensesByDay }: Props) {
+  const dayOfMonth = selectedDate ? getDate(selectedDate) : 0;
+  const expenseData = expensesByDay.get(dayOfMonth);
 
-export default function DayDetailSheet({ isOpen, onClose, dateLabel }: Props) {
+  const fixedExpenses = expenseData?.fixed ?? [];
+  const variableExpenses = expenseData?.variable ?? [];
+  const hasExpenses = fixedExpenses.length > 0 || variableExpenses.length > 0;
+
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title={dateLabel}>
-      <Column gap={16} style={{ padding: "16px 0" }}>
-        {MOCK_EXPENSES.length > 0 ? (
-          MOCK_EXPENSES.map((expense) => (
-            <Row key={expense.id} gap={12} align="flex-start">
-              <IconWrapper>{expense.icon}</IconWrapper>
-              <Column gap={4} style={{ flex: 1 }}>
-                <Text weight={500} size={15}>
-                  {expense.title}
-                </Text>
-                {expense.subtitle && (
-                  <Text color="gray" size={13}>
-                    {expense.subtitle}
+      <Column gap={16} pvh={[16, 0]}>
+        {hasExpenses ? (
+          <>
+            {/* 고정 지출 */}
+            {fixedExpenses.map((expense) => (
+              <Row key={`fixed-${expense.createdAt}`} gap={12} align="flex-start">
+                <Text size={24}>📌</Text>
+                <Column gap={4} flex={1}>
+                  <Text weight={500} size={15}>
+                    {expense.tag}
                   </Text>
-                )}
-                <Text color="gray" size={13}>
-                  {expense.time}
-                </Text>
-              </Column>
-            </Row>
-          ))
+                  <Text color="gray" size={13}>
+                    {expense.amount.toLocaleString()}원
+                  </Text>
+                </Column>
+              </Row>
+            ))}
+            {/* 변동 지출 */}
+            {variableExpenses.map((expense) => (
+              <Row key={`variable-${expense.id}`} gap={12} align="flex-start">
+                <Text size={24}>💰</Text>
+                <Column gap={4} flex={1}>
+                  <Text weight={500} size={15}>
+                    {expense.category}
+                  </Text>
+                  <Text color="gray" size={13}>
+                    {expense.amount.toLocaleString()}원
+                  </Text>
+                </Column>
+              </Row>
+            ))}
+          </>
         ) : (
           <Text color="gray" align="center" size={14}>
             이 날짜에 등록된 내역이 없습니다.
@@ -53,7 +62,3 @@ export default function DayDetailSheet({ isOpen, onClose, dateLabel }: Props) {
     </BottomSheet>
   );
 }
-
-const IconWrapper = styled.span`
-  font-size: 24px;
-`;

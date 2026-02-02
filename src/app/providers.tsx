@@ -7,6 +7,7 @@ import { ThemeProvider } from "styled-components";
 
 import MainLayout from "@/components/layout/mainLayout";
 import RouteTransition from "@/components/layout/routeTransition";
+import { Toast } from "@/components/ui";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { PWAIOSInstallPromptScreen } from "@/screen/pwa";
 import { GlobalStyle } from "@/styles/global";
@@ -32,6 +33,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyle />
+            <Toast />
             <MainLayout>
               <RouteTransition>{children}</RouteTransition>
               <PWAIOSInstallPromptScreen />

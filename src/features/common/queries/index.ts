@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { useUserStore } from "@/features/auth/store";
 import {
@@ -223,6 +224,10 @@ export function useAddExpenseMutation() {
 
   return useMutation({
     mutationFn: (params: AddExpenseParams) => addExpense(params),
+
+    onSuccess: (_data, variables) => {
+      toast.success(`${variables.amount.toLocaleString()}원이 추가되었습니다.`);
+    },
 
     onMutate: async (variables) => {
       const { userId, amount } = variables;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { BottomSheet, Button, Card, Column, Heading, Row, Skeleton, Text } from "@/components/ui";
+import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/components/ui";
 import { EXPENSE_CATEGORY_LIST } from "@/constants";
 import { useUserStore } from "@/features/auth/store";
 import { AmountInput, DatePicker } from "@/features/common/components";
@@ -13,7 +13,7 @@ import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/componen
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function BudgetBoardScreen() {
-  const { data, isFetched } = useAmountSummaryQuery();
+  const { data } = useAmountSummaryQuery();
   const { mutate: updateBudget } = useUpdateBudgetMutation();
   const { mutate: addExpense } = useAddExpenseMutation();
 
@@ -61,7 +61,7 @@ export default function BudgetBoardScreen() {
     handleExpenseClose();
   };
 
-  if (isFetched && !data?.amountAvailable) {
+  if (!data?.amountAvailable) {
     return (
       <Card direction="column">
         <Column gap={32} pvh={[0, 16]}>
@@ -80,66 +80,60 @@ export default function BudgetBoardScreen() {
   }
 
   return (
-    <>
-      {isFetched ? (
-        <Card direction="column" gap={16}>
-          <BudgetReport data={data} />
-          <BudgetBarChart data={data} />
-          <Card.Footer>
-            <button type="button" onClick={() => setBudgetSheetOpen(true)}>
-              <Text className="inner" size={14} color="inverseWhite">
-                월수입 변경
-              </Text>
-            </button>
-            <button type="button" onClick={() => setExpenseSheetOpen(true)}>
-              <Text size={14} color="inverseWhite">
-                지출 추가
-              </Text>
-            </button>
-            <button type="button" onClick={() => router.push("/dashboard/expense")}>
-              <Text size={14} color="inverseWhite">
-                지출내역 보기
-              </Text>
-            </button>
-          </Card.Footer>
+    <Card direction="column" gap={16}>
+      <BudgetReport data={data} />
+      <BudgetBarChart data={data} />
+      <Card.Footer>
+        <button type="button" onClick={() => setBudgetSheetOpen(true)}>
+          <Text className="inner" size={14} color="inverseWhite">
+            월수입 변경
+          </Text>
+        </button>
+        <button type="button" onClick={() => setExpenseSheetOpen(true)}>
+          <Text size={14} color="inverseWhite">
+            지출 추가
+          </Text>
+        </button>
+        <button type="button" onClick={() => router.push("/dashboard/expense")}>
+          <Text size={14} color="inverseWhite">
+            지출내역 보기
+          </Text>
+        </button>
+      </Card.Footer>
 
-          {/* 월수입 변경 BottomSheet */}
-          <BottomSheet isOpen={budgetSheetOpen} onClose={() => setBudgetSheetOpen(false)} title="월수입 변경">
-            <Column gap={12}>
-              <DatePicker selectedDay={budgetDay} onChange={setBudgetDay} />
-              <AmountInput value={budget} onChange={setBudget} />
+      {/* 월수입 변경 BottomSheet */}
+      <BottomSheet isOpen={budgetSheetOpen} onClose={() => setBudgetSheetOpen(false)} title="월수입 변경">
+        <Column gap={12}>
+          <DatePicker selectedDay={budgetDay} onChange={setBudgetDay} />
+          <AmountInput value={budget} onChange={setBudget} />
 
-              <Button onClick={handleBudgetSubmit} disabled={!budget}>
-                변경하기
-              </Button>
-            </Column>
-          </BottomSheet>
+          <Button onClick={handleBudgetSubmit} disabled={!budget}>
+            변경하기
+          </Button>
+        </Column>
+      </BottomSheet>
 
-          {/* 지출 추가 BottomSheet */}
-          <BottomSheet isOpen={expenseSheetOpen} onClose={handleExpenseClose} title="지출 등록">
-            <Column gap={12}>
-              <Text size={16} weight={700}>
-                항목
-              </Text>
-              <FixedExpenseCategoryList
-                onClick={(category) => setExpenseCategory(category)}
-                categoryList={EXPENSE_CATEGORY_LIST}
-              />
-              <AmountInput value={expenseAmount} onChange={setExpenseAmount} />
-              <Row gap={8}>
-                <Button onClick={handleExpenseClose} color="danger">
-                  닫기
-                </Button>
-                <Button onClick={handleExpenseSubmit} disabled={!expenseAmount || !expenseCategory}>
-                  등록
-                </Button>
-              </Row>
-            </Column>
-          </BottomSheet>
-        </Card>
-      ) : (
-        <Skeleton height={237} />
-      )}
-    </>
+      {/* 지출 추가 BottomSheet */}
+      <BottomSheet isOpen={expenseSheetOpen} onClose={handleExpenseClose} title="지출 등록">
+        <Column gap={12}>
+          <Text size={16} weight={700}>
+            항목
+          </Text>
+          <FixedExpenseCategoryList
+            onClick={(category) => setExpenseCategory(category)}
+            categoryList={EXPENSE_CATEGORY_LIST}
+          />
+          <AmountInput value={expenseAmount} onChange={setExpenseAmount} />
+          <Row gap={8}>
+            <Button onClick={handleExpenseClose} color="danger">
+              닫기
+            </Button>
+            <Button onClick={handleExpenseSubmit} disabled={!expenseAmount || !expenseCategory}>
+              등록
+            </Button>
+          </Row>
+        </Column>
+      </BottomSheet>
+    </Card>
   );
 }

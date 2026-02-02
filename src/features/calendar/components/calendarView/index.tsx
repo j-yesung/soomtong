@@ -4,22 +4,17 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
 
+import { ExpensesByDay } from "@/features/calendar/hooks";
+
 import * as S from "./style";
 
 type Props = {
-  selectedDate: Date | undefined;
   onDayClick: (date: Date) => void;
+  selectedDate: Date | undefined;
+  expensesByDay: ExpensesByDay;
 };
 
-const getDotCount = (date: Date) => {
-  const day = date.getDate();
-  if ([1, 2, 4, 8, 14, 22, 25, 28].includes(day)) {
-    return (day % 3) + 1;
-  }
-  return 0;
-};
-
-export default function CalendarView({ selectedDate, onDayClick }: Props) {
+export default function CalendarView({ onDayClick, selectedDate, expensesByDay }: Props) {
   const formatCaption = (month: Date) => {
     return format(month, "yyyy.M", { locale: ko });
   };
@@ -46,17 +41,18 @@ export default function CalendarView({ selectedDate, onDayClick }: Props) {
         }}
         components={{
           DayButton: ({ day, ...props }) => {
-            const dotCount = getDotCount(day.date);
+            const dayOfMonth = day.date.getDate();
+            const expenseData = expensesByDay.get(dayOfMonth);
+            const hasFixed = expenseData && expenseData.fixed.length > 0;
+            const hasVariable = expenseData && expenseData.variable.length > 0;
+
             return (
               <S.DayCell {...props}>
-                <span>{day.date.getDate()}</span>
-                {dotCount > 0 && (
-                  <S.DotContainer>
-                    {Array.from({ length: dotCount }).map((_, i) => (
-                      <S.Dot key={i} />
-                    ))}
-                  </S.DotContainer>
-                )}
+                <S.DayNumber>{dayOfMonth}</S.DayNumber>
+                <S.DotContainer>
+                  {hasFixed && <S.FixedDot />}
+                  {hasVariable && <S.VariableDot />}
+                </S.DotContainer>
               </S.DayCell>
             );
           },
