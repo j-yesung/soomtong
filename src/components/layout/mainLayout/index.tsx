@@ -3,8 +3,6 @@ import { styled } from "styled-components";
 
 import { Box } from "@/components/ui";
 
-import BottomNavigation from "../bottomNavigation";
-
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -26,7 +24,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
       </Box>
-      <BottomNavigation />
     </LayoutWrapper>
   );
 }
