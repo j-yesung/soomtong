@@ -50,9 +50,7 @@ export function useDetailExpenseListQuery() {
 /**
  * 고정 지출 내역 조회
  */
-export function useFixedExpenseTableQuery() {
-  const userId = useUserStore((state) => state.userInfo).id;
-
+export function useFixedExpenseTableQuery(userId: string) {
   return useQuery({
     queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
     queryFn: () => getFixedExpenseTable(userId),
@@ -62,7 +60,6 @@ export function useFixedExpenseTableQuery() {
       const amountAvailable = data?.budget - totalFixedExpense;
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
-    initialData: {} as FixedExpenseTableItem,
     enabled: !!userId,
   });
 }
@@ -200,8 +197,7 @@ export function useFixedExpenseUpdateMutation() {
 /**
  * 당월 금액 요약 조회
  */
-export function useAmountSummaryQuery() {
-  const userId = useUserStore((s) => s.userInfo).id;
+export function useAmountSummaryQuery(userId: string) {
   const now = new Date();
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
@@ -210,7 +206,6 @@ export function useAmountSummaryQuery() {
     queryFn: () => getCurrentMonthAmountSummary(userId),
     refetchOnWindowFocus: false,
     enabled: !!userId,
-    initialData: {} as AmountSummary,
   });
 }
 

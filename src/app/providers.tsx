@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "styled-components";
 
 import MainLayout from "@/components/layout/mainLayout";
-import RouteTransition from "@/components/layout/routeTransition";
 import { Toast } from "@/components/ui";
 import StyledComponentsRegistry from "@/lib/styled-components-registry";
 import { PWAIOSInstallPromptScreen } from "@/screen/pwa";
@@ -35,7 +34,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             <GlobalStyle />
             <Toast />
             <MainLayout>
-              <RouteTransition>{children}</RouteTransition>
+              {children}
               <PWAIOSInstallPromptScreen />
             </MainLayout>
           </ThemeProvider>

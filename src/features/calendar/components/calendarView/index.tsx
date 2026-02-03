@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
 
-import { ExpensesByDay } from "@/features/calendar/hooks";
+import { ExpensesByDay } from "@/features/calendar/hooks/useCalendarExpenseData";
 
 import * as S from "./style";
 

@@ -5,7 +5,7 @@ import { ko } from "date-fns/locale";
 import styled from "styled-components";
 
 import { Column, Row, Text } from "@/components/ui";
-import { ExpensesByDay } from "@/features/calendar/hooks";
+import { ExpensesByDay } from "@/features/calendar/hooks/useCalendarExpenseData";
 
 type Props = {
   selectedDate: Date;

@@ -7,9 +7,9 @@ import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/main/components";
 
-export default function FixedExpenseBoardScreen() {
+export default function FixedExpenseBoardScreen({ userId }: { userId: string }) {
   const router = useRouter();
-  const { data } = useFixedExpenseTableQuery();
+  const { data } = useFixedExpenseTableQuery(userId);
 
   const updateBudget = useBudgetStore((state) => state.updateBudget);
 
@@ -47,8 +47,8 @@ export default function FixedExpenseBoardScreen() {
         </Heading>
       </Row>
       <Row justify="space-between" gap={12} pvh={[0, 16]}>
-        <FixedExpenseReport data={data} />
-        <FixedExpenseDonutChart data={data} />
+        <FixedExpenseReport data={data!} />
+        <FixedExpenseDonutChart data={data!} />
       </Row>
       <Card.Footer>
         <button type="button" onClick={() => router.push("/dashboard/fixed")}>

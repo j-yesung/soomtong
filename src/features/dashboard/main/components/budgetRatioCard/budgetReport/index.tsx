@@ -6,12 +6,10 @@ import { getBudgetStatus, getBudgetStatusColor } from "@/utils/budgetStatus";
 import * as S from "./style";
 
 type Props = {
-  data: AmountSummary | null;
+  data: AmountSummary;
 };
 
 export default function BudgetReport({ data }: Props) {
-  if (!data) return null;
-
   const budgetStatus = getBudgetStatus(data);
   const statusColor = getBudgetStatusColor(budgetStatus);
 

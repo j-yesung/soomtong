@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/components/ui";
 import { EXPENSE_CATEGORY_LIST } from "@/constants";
-import { useUserStore } from "@/features/auth/store";
 import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
@@ -12,13 +11,12 @@ import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components"
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
 import { parseNumericInput } from "@/utils/formatter";
 
-export default function BudgetBoardScreen() {
-  const { data } = useAmountSummaryQuery();
+export default function BudgetBoardScreen({ userId }: { userId: string }) {
+  const { data } = useAmountSummaryQuery(userId);
   const { mutate: updateBudget } = useUpdateBudgetMutation();
   const { mutate: addExpense } = useAddExpenseMutation();
 
   const budgetItem = useBudgetStore((state) => state.budget);
-  const userId = useUserStore((s) => s.userInfo).id;
 
   const [budget, setBudget] = useState("");
   const [budgetDay, setBudgetDay] = useState(new Date().getDate());

@@ -60,6 +60,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    margin: 0;
     background: var(--color-bg);
     color: var(--color-text);
     font-family:

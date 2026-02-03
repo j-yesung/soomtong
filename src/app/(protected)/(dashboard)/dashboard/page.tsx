@@ -31,12 +31,14 @@ export default async function DashboardPage() {
     ]);
   }
 
+  if (!user?.id) return null;
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Box position="relative">
         <Column gap={12}>
-          <BudgetBoardScreen />
-          <FixedExpenseBoardScreen />
+          <BudgetBoardScreen userId={user?.id} />
+          <FixedExpenseBoardScreen userId={user?.id} />
         </Column>
       </Box>
     </HydrationBoundary>
