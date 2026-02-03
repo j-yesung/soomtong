@@ -22,7 +22,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         width="100%"
         flex={1}
       >
-        {children}
+        <Box width="100%" flex={1} position="relative">
+          {children}
+        </Box>
       </Box>
     </LayoutWrapper>
   );

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import { getDate, parseISO } from "date-fns";
 
+import { useUserStore } from "@/features/auth/store";
 import { useDetailExpenseListQuery, useFixedExpenseTableQuery } from "@/features/common/queries";
 import { ExpenseList, FixedItem } from "@/features/expense/types";
 
@@ -16,7 +17,9 @@ export type ExpensesByDay = Map<number, DayExpenseData>;
  * 달력에 표시할 지출 데이터를 일별로 그룹핑
  */
 export function useCalendarExpenseData(year: number, month: number) {
-  const { data: fixedData, isFetched: isFixedFetched } = useFixedExpenseTableQuery();
+  const userId = useUserStore((state) => state.userInfo).id;
+
+  const { data: fixedData, isFetched: isFixedFetched } = useFixedExpenseTableQuery(userId);
   const { data: variableData, isFetched: isVariableFetched } = useDetailExpenseListQuery();
 
   const expensesByDay = useMemo<ExpensesByDay>(() => {
