@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useTheme } from "styled-components";
 
 import { CalendarIcon, HomeIcon } from "@/assets/svg/interface";
@@ -9,21 +10,21 @@ import { CalendarIcon, HomeIcon } from "@/assets/svg/interface";
 import * as S from "./style";
 
 const NAV_ITEMS = [
-  { path: "/dashboard", label: "홈", icon: HomeIcon },
-  { path: "/calendar", label: "달력", icon: CalendarIcon },
+  { tab: "home", label: "홈", icon: HomeIcon },
+  { tab: "calendar", label: "달력", icon: CalendarIcon },
 ];
 
 export default function BottomNavigation() {
-  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const theme = useTheme();
 
-  // 네비게이션을 보여줄 페이지 확인
-  const shouldShowNav = NAV_ITEMS.some((item) => pathname === item.path || pathname.startsWith(item.path + "/"));
+  // 대시보드 페이지에서만 네비게이션 표시
+  const isDashboard = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  if (!isDashboard) return null;
 
-  if (!shouldShowNav) return null;
-
-  const activeIndex = NAV_ITEMS.findIndex((item) => pathname === item.path || pathname.startsWith(item.path + "/"));
+  const currentTab = searchParams.get("tab") || "home";
+  const activeIndex = NAV_ITEMS.findIndex((item) => item.tab === currentTab);
 
   return (
     <S.NavContainer>
@@ -33,7 +34,7 @@ export default function BottomNavigation() {
           const Icon = item.icon;
 
           return (
-            <S.NavItem key={item.path} $isActive={isActive} onClick={() => router.push(item.path)}>
+            <S.NavItem key={item.tab} as={Link} $isActive={isActive} href={`/dashboard?tab=${item.tab}`}>
               {isActive && (
                 <motion.div
                   layoutId="activeBackground"

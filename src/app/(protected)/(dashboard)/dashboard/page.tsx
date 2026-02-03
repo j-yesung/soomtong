@@ -5,9 +5,15 @@ import { userAmountQueryKeys } from "@/features/common/queries";
 import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/lib/query/dashboardQueries.server";
 import { getQueryClient } from "@/lib/query/getQueryClient";
 import { createClient } from "@/lib/supabase/server";
+import CalendarScreen from "@/screen/calendar/calendarScreen";
 import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
 
-export default async function DashboardPage() {
+interface DashboardPageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const { tab = "home" } = await searchParams;
   const queryClient = getQueryClient();
   const supabase = await createClient();
 
@@ -15,7 +21,9 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (user?.id) {
+  if (!user?.id) return null;
+
+  if (tab === "home") {
     const now = new Date();
     const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
@@ -31,14 +39,17 @@ export default async function DashboardPage() {
     ]);
   }
 
-  if (!user?.id) return null;
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Box position="relative">
         <Column gap={12}>
-          <BudgetBoardScreen userId={user?.id} />
-          <FixedExpenseBoardScreen userId={user?.id} />
+          {tab === "home" && (
+            <>
+              <BudgetBoardScreen userId={user.id} />
+              <FixedExpenseBoardScreen userId={user.id} />
+            </>
+          )}
+          {tab === "calendar" && <CalendarScreen />}
         </Column>
       </Box>
     </HydrationBoundary>
