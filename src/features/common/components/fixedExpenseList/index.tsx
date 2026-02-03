@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button, Row } from "@/components/ui";
+import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
@@ -22,9 +23,11 @@ export default function FixedExpenseList({ renderType }: Props) {
 
   const router = useRouter();
 
-  const { data, isFetched } = useFixedExpenseTableQuery();
+  const userId = useUserStore((state) => state.userInfo).id;
 
-  const hasItems = data?.items?.length > 0;
+  const { data, isFetched } = useFixedExpenseTableQuery(userId);
+
+  const hasItems = (data?.items?.length ?? 0) > 0;
   const isExpenseRender = renderType === "expense";
 
   const handleItemClick = (item: FixedItem) => {
