@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { Button, Card, Column, Heading, Row, Text } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
@@ -8,7 +8,6 @@ import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/main/components";
 
 export default function FixedExpenseBoardScreen({ userId }: { userId: string }) {
-  const router = useRouter();
   const { data } = useFixedExpenseTableQuery(userId);
 
   const updateBudget = useBudgetStore((state) => state.updateBudget);
@@ -33,7 +32,9 @@ export default function FixedExpenseBoardScreen({ userId }: { userId: string }) 
               사용 금액 계산이 더 정확해져요
             </Heading>
           </Column>
-          <Button onClick={() => router.push("/expense")}>추가하기</Button>
+          <Link href="/expense">
+            <Button>추가하기</Button>
+          </Link>
         </Column>
       </Card>
     );
@@ -51,11 +52,11 @@ export default function FixedExpenseBoardScreen({ userId }: { userId: string }) 
         <FixedExpenseDonutChart data={data!} />
       </Row>
       <Card.Footer>
-        <button type="button" onClick={() => router.push("/dashboard/fixed")}>
+        <Link href="/dashboard?tab=fixed">
           <Text size={14} color="inverseWhite">
             자세히 보기
           </Text>
-        </button>
+        </Link>
       </Card.Footer>
     </Card>
   );

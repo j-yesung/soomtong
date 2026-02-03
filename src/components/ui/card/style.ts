@@ -19,11 +19,17 @@ export const CardFooter = styled.div`
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
 
-  & > button + button {
+  & > button + button,
+  & > a + a,
+  & > button + a,
+  & > a + button {
     position: relative;
   }
 
-  & > button + button::before {
+  & > button + button::before,
+  & > a + a::before,
+  & > button + a::before,
+  & > a + button::before {
     content: "";
     position: absolute;
     left: 0;
@@ -35,14 +41,18 @@ export const CardFooter = styled.div`
     pointer-events: none;
   }
 
-  button {
+  button,
+  a {
     flex: 1;
     overflow: hidden;
     position: relative;
     padding: 12px 8px;
+    text-align: center;
+    text-decoration: none;
   }
 
-  button::after {
+  button::after,
+  a::after {
     content: "";
     inset: 8px;
     position: absolute;
@@ -53,11 +63,13 @@ export const CardFooter = styled.div`
     border-radius: 8px;
   }
 
-  button:active::after {
+  button:active::after,
+  a:active::after {
     opacity: 1;
   }
 
-  button:active > .inner {
+  button:active > .inner,
+  a:active > .inner {
     transform: scale(0.98);
   }
 `;

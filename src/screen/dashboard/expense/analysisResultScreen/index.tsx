@@ -18,7 +18,7 @@ export default function ExpenseAnalysisResultScreen() {
         <Text size={14} color="secondary">
           아직 분석 결과가 없어요. 지출내역에서 AI 분석을 실행해 주세요.
         </Text>
-        <Button width={140} height={36} onClick={() => router.push("/dashboard/expense")}>
+        <Button width={140} height={36} onClick={() => router.push("/dashboard?tab=expense")}>
           분석하러 가기
         </Button>
       </Column>
