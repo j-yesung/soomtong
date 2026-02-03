@@ -6,7 +6,9 @@ import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/lib/query/
 import { getQueryClient } from "@/lib/query/getQueryClient";
 import { createClient } from "@/lib/supabase/server";
 import CalendarScreen from "@/screen/calendar/calendarScreen";
-import { BudgetBoardScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
+import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
+import { BudgetBoardScreen, DashboardExpenseScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
+import ExpenseAnalysisResultScreen from "@/screen/dashboard/expense/analysisResultScreen";
 
 interface DashboardPageProps {
   searchParams: Promise<{ tab?: string }>;
@@ -50,6 +52,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             </>
           )}
           {tab === "calendar" && <CalendarScreen />}
+          {tab === "expense" && <DashboardExpenseScreen />}
+          {tab === "expense-analysis" && <ExpenseAnalysisResultScreen />}
+          {tab === "fixed" && <FixedExpenseListScreen renderType="dashboard" />}
         </Column>
       </Box>
     </HydrationBoundary>

@@ -111,7 +111,7 @@ export default function DashboardExpenseScreen() {
         cancelText="닫기"
         onConfirm={() => {
           setAlertOpen(false);
-          router.push("/dashboard/expense/analysis");
+          router.push("/dashboard?tab=expense-analysis");
         }}
         onCancel={() => setAlertOpen(false)}
       />
