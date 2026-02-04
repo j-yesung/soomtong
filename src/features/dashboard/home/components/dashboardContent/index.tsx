@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { Box, Column } from "@/components/ui";
 import { LazyTab } from "@/features/common/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import CalendarScreen from "@/screen/calendar/calendarScreen";
 import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
 import { BudgetBoardScreen, DashboardExpenseScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
+import CalendarScreen from "@/screen/dashboard/calendar/calendarScreen";
 import ExpenseAnalysisResultScreen from "@/screen/dashboard/expense/analysisResultScreen";
 
 interface DashboardContentProps {
