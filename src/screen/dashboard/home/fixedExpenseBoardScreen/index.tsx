@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import Link from "next/link";
 
-import { Button, Card, Column, Heading, Row, Text } from "@/components/ui";
+import { Button, Card, Column, Heading, Row } from "@/components/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/home/components";
@@ -51,13 +51,6 @@ export default function FixedExpenseBoardScreen({ userId }: { userId: string }) 
         <FixedExpenseReport data={data!} />
         <FixedExpenseDonutChart data={data!} />
       </Row>
-      <Card.Footer>
-        <Link href="/dashboard?tab=fixed">
-          <Text size={14} color="inverseWhite">
-            자세히 보기
-          </Text>
-        </Link>
-      </Card.Footer>
     </Card>
   );
 }

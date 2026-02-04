@@ -4,15 +4,16 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "styled-components";
 
-import { CalendarIcon, HistoryIcon, HomeIcon } from "@/assets/svg/interface";
-import { useDashboardTabStore } from "@/features/dashboard/home/store";
+import { CalendarIcon, FixedIcon, HistoryIcon, HomeIcon } from "@/assets/svg/interface";
+import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 
 import * as S from "./style";
 
 const NAV_ITEMS = [
-  { tab: "home" as const, label: "홈", icon: HomeIcon },
-  { tab: "calendar" as const, label: "달력", icon: CalendarIcon },
-  { tab: "expense" as const, label: "지출내역", icon: HistoryIcon },
+  { tab: "home", label: "홈", icon: HomeIcon },
+  { tab: "calendar", label: "달력", icon: CalendarIcon },
+  { tab: "fixed", label: "고정지출", icon: FixedIcon },
+  { tab: "expense", label: "지출내역", icon: HistoryIcon },
 ];
 
 export default function BottomNavigation() {
@@ -25,7 +26,7 @@ export default function BottomNavigation() {
 
   if (!isDashboard) return null;
 
-  const handleTabClick = (tab: "home" | "calendar" | "expense") => {
+  const handleTabClick = (tab: DashboardTab) => {
     setActiveTab(tab);
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set("tab", tab);
@@ -44,7 +45,7 @@ export default function BottomNavigation() {
               key={item.tab}
               as="div"
               $isActive={isActive}
-              onClick={() => handleTabClick(item.tab)}
+              onClick={() => handleTabClick(item.tab as DashboardTab)}
               style={{ cursor: "pointer" }}
             >
               {isActive && (
@@ -53,7 +54,7 @@ export default function BottomNavigation() {
                   style={{
                     position: "absolute",
                     inset: 0,
-                    borderRadius: 14,
+                    borderRadius: 24,
                     background: "rgba(255, 255, 255, 0.85)",
                     backdropFilter: "blur(10px)",
                     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",

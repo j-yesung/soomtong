@@ -81,3 +81,10 @@ export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconPro
     </svg>
   );
 };
+export const FixedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 9V5H8V9C8 10.1 8.9 11 10 11V16H8V17.5H16V16H14V11C15.1 11 16 10.1 16 9ZM12 2C13.1 2 14 2.9 14 4H10C10 2.9 10.9 2 12 2Z" />
+    </svg>
+  );
+};

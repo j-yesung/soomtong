@@ -8,7 +8,7 @@ import { SingleArrowIcon } from "@/assets/svg/interface";
 import { Heading, Row } from "@/components/ui";
 
 // 뒤로가기 버튼이 필요한 탭
-const SUB_TABS = ["expense", "expense-analysis", "fixed"];
+const SUB_TABS = ["expense-analysis"];
 
 export default function DashboardHeader() {
   const router = useRouter();

@@ -6,7 +6,7 @@ import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/st
 
 import * as S from "./style";
 
-interface LazyTabProps {
+interface Props {
   activeValue: DashboardTab;
   children: React.ReactNode;
 }
@@ -35,7 +35,7 @@ const tabVariants: Variants = {
   },
 };
 
-export default function LazyTab({ activeValue, children }: LazyTabProps) {
+export default function LazyTab({ activeValue, children }: Props) {
   const activeTab = useDashboardTabStore((state) => state.activeTab);
 
   const isActive = activeTab === activeValue;
