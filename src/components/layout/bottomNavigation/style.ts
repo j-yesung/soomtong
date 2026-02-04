@@ -7,7 +7,7 @@ export const NavContainer = styled.nav`
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
+  padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 25px);
   z-index: 100;
 `;
 
