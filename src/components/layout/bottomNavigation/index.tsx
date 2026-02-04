@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "styled-components";
 
 import { CalendarIcon, HomeIcon } from "@/assets/svg/interface";
-import { useDashboardTabStore } from "@/features/dashboard/main/store";
+import { useDashboardTabStore } from "@/features/dashboard/home/store";
 
 import * as S from "./style";
 

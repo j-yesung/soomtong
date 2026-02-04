@@ -9,7 +9,7 @@ import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
-import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
+import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function BudgetBoardScreen({ userId }: { userId: string }) {

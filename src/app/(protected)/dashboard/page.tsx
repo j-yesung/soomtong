@@ -1,8 +1,8 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 import { userAmountQueryKeys } from "@/features/common/queries";
-import { DashboardContent } from "@/features/dashboard/main/components";
-import { DashboardTab } from "@/features/dashboard/main/store";
+import { DashboardContent } from "@/features/dashboard/home/components";
+import { DashboardTab } from "@/features/dashboard/home/store";
 import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/lib/query/dashboardQueries.server";
 import { getQueryClient } from "@/lib/query/getQueryClient";
 import { createClient } from "@/lib/supabase/server";
