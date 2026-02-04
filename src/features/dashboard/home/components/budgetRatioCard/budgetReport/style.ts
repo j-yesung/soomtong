@@ -14,6 +14,6 @@ export const AmountRow = styled(Row)`
 `;
 
 export const AvailableText = styled(Text)`
-  font-size: clamp(16px, 5vw, 22px);
+  font-size: clamp(16px, 5vw, 20px);
   font-weight: 700;
 `;
