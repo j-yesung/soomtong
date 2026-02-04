@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "styled-components";
 
-import { CalendarIcon, HomeIcon } from "@/assets/svg/interface";
+import { CalendarIcon, HistoryIcon, HomeIcon } from "@/assets/svg/interface";
 import { useDashboardTabStore } from "@/features/dashboard/home/store";
 
 import * as S from "./style";
@@ -12,6 +12,7 @@ import * as S from "./style";
 const NAV_ITEMS = [
   { tab: "home" as const, label: "홈", icon: HomeIcon },
   { tab: "calendar" as const, label: "달력", icon: CalendarIcon },
+  { tab: "expense" as const, label: "지출내역", icon: HistoryIcon },
 ];
 
 export default function BottomNavigation() {
@@ -24,7 +25,7 @@ export default function BottomNavigation() {
 
   if (!isDashboard) return null;
 
-  const handleTabClick = (tab: "home" | "calendar") => {
+  const handleTabClick = (tab: "home" | "calendar" | "expense") => {
     setActiveTab(tab);
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set("tab", tab);
