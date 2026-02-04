@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
 
+import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
+
 import * as S from "./style";
 
 interface LazyTabProps {
-  isVisible: boolean;
+  activeValue: DashboardTab;
   children: React.ReactNode;
 }
 
-export default function LazyTab({ isVisible, children }: LazyTabProps) {
-  const [hasVisited, setHasVisited] = useState(isVisible);
+export default function LazyTab({ activeValue, children }: LazyTabProps) {
+  const activeTab = useDashboardTabStore((state) => state.activeTab);
+
+  const isActive = activeTab === activeValue;
+
+  const [hasVisited, setHasVisited] = useState(isActive);
 
   useEffect(() => {
-    if (isVisible && !hasVisited) {
+    if (isActive && !hasVisited) {
       setHasVisited(true);
     }
-  }, [isVisible, hasVisited]);
+  }, [isActive, hasVisited]);
 
-  if (!hasVisited && !isVisible) return null;
+  if (!hasVisited && !isActive) return null;
 
-  return <S.Container $isVisible={isVisible}>{children}</S.Container>;
+  return <S.Container $isVisible={isActive}>{children}</S.Container>;
 }

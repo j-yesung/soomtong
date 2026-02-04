@@ -16,7 +16,7 @@ interface DashboardContentProps {
 }
 
 export default function DashboardContent({ initialTab, userId }: DashboardContentProps) {
-  const { activeTab, setActiveTab } = useDashboardTabStore();
+  const setActiveTab = useDashboardTabStore((state) => state.setActiveTab);
 
   useEffect(() => {
     setActiveTab(initialTab);
@@ -24,26 +24,26 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
 
   return (
     <Box position="relative">
-      <LazyTab isVisible={activeTab === "home"}>
+      <LazyTab activeValue="home">
         <Column gap={12}>
           <BudgetBoardScreen userId={userId} />
           <FixedExpenseBoardScreen userId={userId} />
         </Column>
       </LazyTab>
 
-      <LazyTab isVisible={activeTab === "calendar"}>
+      <LazyTab activeValue="calendar">
         <CalendarScreen />
       </LazyTab>
 
-      <LazyTab isVisible={activeTab === "expense"}>
+      <LazyTab activeValue="expense">
         <DashboardExpenseScreen />
       </LazyTab>
 
-      <LazyTab isVisible={activeTab === "expense-analysis"}>
+      <LazyTab activeValue="expense-analysis">
         <ExpenseAnalysisResultScreen />
       </LazyTab>
 
-      <LazyTab isVisible={activeTab === "fixed"}>
+      <LazyTab activeValue="fixed">
         <FixedExpenseListScreen renderType="dashboard" />
       </LazyTab>
     </Box>
