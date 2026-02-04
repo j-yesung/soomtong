@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { Box, Column } from "@/components/ui";
+import { Column, Grid } from "@/components/ui";
 import { LazyTab } from "@/features/common/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
@@ -23,7 +23,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
   }, [initialTab, setActiveTab]);
 
   return (
-    <Box position="relative">
+    <Grid position="relative" fullWidth>
       <LazyTab activeValue="home">
         <Column gap={12}>
           <BudgetBoardScreen userId={userId} />
@@ -46,6 +46,6 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       <LazyTab activeValue="fixed">
         <FixedExpenseListScreen renderType="dashboard" />
       </LazyTab>
-    </Box>
+    </Grid>
   );
 }

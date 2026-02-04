@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { Variants } from "framer-motion";
+
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 
 import * as S from "./style";
@@ -8,6 +10,30 @@ interface LazyTabProps {
   activeValue: DashboardTab;
   children: React.ReactNode;
 }
+
+const tabVariants: Variants = {
+  visible: {
+    opacity: 1,
+    scale: 1,
+    display: "block",
+    transition: {
+      type: "spring",
+      stiffness: 450,
+      damping: 35,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    scale: 0.98,
+    transition: {
+      duration: 0.15,
+      ease: "easeOut",
+    },
+    transitionEnd: {
+      display: "none",
+    },
+  },
+};
 
 export default function LazyTab({ activeValue, children }: LazyTabProps) {
   const activeTab = useDashboardTabStore((state) => state.activeTab);
@@ -24,5 +50,14 @@ export default function LazyTab({ activeValue, children }: LazyTabProps) {
 
   if (!hasVisited && !isActive) return null;
 
-  return <S.Container $isVisible={isActive}>{children}</S.Container>;
+  return (
+    <S.Container
+      initial={false}
+      animate={isActive ? "visible" : "hidden"}
+      variants={tabVariants}
+      style={{ display: isActive ? "block" : "none" }}
+    >
+      {children}
+    </S.Container>
+  );
 }
