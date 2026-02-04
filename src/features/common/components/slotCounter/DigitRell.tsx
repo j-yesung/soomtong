@@ -18,7 +18,10 @@ type Props = {
 
 export default function DigitReel({ digit, duration, spins, fontSize, lineHeightFactor, color }: Props) {
   const estimated = Math.ceil(fontSize * lineHeightFactor);
+
   const { ref: containerRef, cellH } = useCellHeight(estimated);
+
+  const targetIdx = digit + spins * 10;
 
   const y = useMotionValue(0);
   const yRounded = useTransform(y, (v) => Math.round(v));
@@ -31,16 +34,14 @@ export default function DigitReel({ digit, duration, spins, fontSize, lineHeight
   useEffect(() => {
     if (!cellH) return;
 
-    const fromIdx = (spins + 1) * 10;
-    const toIdx = spins * 10 + digit;
+    y.set(0);
 
-    y.set(-fromIdx * cellH);
-    const controls = animate(y, -toIdx * cellH, {
+    const controls = animate(y, -targetIdx * cellH, {
       duration,
-      ease: [0.2, 0.6, 0.2, 1],
+      ease: [0.25, 0.8, 0.25, 1],
     });
     return controls.stop;
-  }, [digit, spins, duration, cellH, y]);
+  }, [digit, spins, duration, cellH, y, targetIdx]);
 
   return (
     <S.ReelBox ref={containerRef} $fontSize={fontSize} $cellH={cellH || Math.ceil(fontSize * 1.2)}>

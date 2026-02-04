@@ -1,17 +1,14 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
-import { Box, Column } from "@/components/ui";
 import { userAmountQueryKeys } from "@/features/common/queries";
+import { DashboardContent } from "@/features/dashboard/home/components";
+import { DashboardTab } from "@/features/dashboard/home/store";
 import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/lib/query/dashboardQueries.server";
 import { getQueryClient } from "@/lib/query/getQueryClient";
 import { createClient } from "@/lib/supabase/server";
-import CalendarScreen from "@/screen/calendar/calendarScreen";
-import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
-import { BudgetBoardScreen, DashboardExpenseScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
-import ExpenseAnalysisResultScreen from "@/screen/dashboard/expense/analysisResultScreen";
 
 interface DashboardPageProps {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{ tab?: DashboardTab }>;
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
@@ -43,20 +40,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Box position="relative">
-        <Column gap={12}>
-          {tab === "home" && (
-            <>
-              <BudgetBoardScreen userId={user.id} />
-              <FixedExpenseBoardScreen userId={user.id} />
-            </>
-          )}
-          {tab === "calendar" && <CalendarScreen />}
-          {tab === "expense" && <DashboardExpenseScreen />}
-          {tab === "expense-analysis" && <ExpenseAnalysisResultScreen />}
-          {tab === "fixed" && <FixedExpenseListScreen renderType="dashboard" />}
-        </Column>
-      </Box>
+      <DashboardContent initialTab={tab} userId={user.id} />
     </HydrationBoundary>
   );
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/components/ui";
@@ -9,7 +8,7 @@ import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
-import { BudgetBarChart, BudgetReport } from "@/features/dashboard/main/components";
+import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
 import { parseNumericInput } from "@/utils/formatter";
 
 export default function BudgetBoardScreen({ userId }: { userId: string }) {
@@ -93,11 +92,6 @@ export default function BudgetBoardScreen({ userId }: { userId: string }) {
             지출 추가
           </Text>
         </button>
-        <Link href="/dashboard?tab=expense">
-          <Text size={14} color="inverseWhite">
-            지출내역 보기
-          </Text>
-        </Link>
       </Card.Footer>
 
       {/* 월수입 변경 BottomSheet */}

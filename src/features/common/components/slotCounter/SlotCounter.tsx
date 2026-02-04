@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 
+import { motion } from "framer-motion";
+
 import { Row, Text } from "@/components/ui";
 import { AppTheme } from "@/styles/theme";
 import { formatWithComma } from "@/utils/formatter";
@@ -28,13 +30,18 @@ export default function SlotCounter({
   color = "primary",
 }: SlotCounterProps) {
   const formatted = useMemo(() => formatWithComma(value), [value]);
+
   const glyphs = useMemo(
     () => Array.from(formatted).map((ch) => (/\d/.test(ch) ? { type: "digit", char: ch } : { type: "sep", char: ch })),
     [formatted],
   );
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <Row align="center" aria-label="total-amount" role="figure">
         {glyphs.map((g, i) =>
           g.type === "digit" ? (
@@ -59,6 +66,6 @@ export default function SlotCounter({
           </Text>
         )}
       </Row>
-    </>
+    </motion.div>
   );
 }

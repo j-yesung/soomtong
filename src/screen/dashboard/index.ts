@@ -1,5 +1,5 @@
 "use client";
 
-export { default as BudgetBoardScreen } from "./main/budgetBoardScreen";
-export { default as FixedExpenseBoardScreen } from "./main/fixedExpenseBoardScreen";
+export { default as BudgetBoardScreen } from "./home/budgetBoardScreen";
+export { default as FixedExpenseBoardScreen } from "./home/fixedExpenseBoardScreen";
 export { default as DashboardExpenseScreen } from "./expense/dashboardExpenseScreen";

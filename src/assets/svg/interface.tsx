@@ -59,6 +59,16 @@ export const CalendarIcon = ({ size = 24, color = "currentColor" }: IconProps) =
   );
 };
 
+export const HistoryIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="6" width="18" height="2" rx="1" />
+      <rect x="3" y="11" width="18" height="2" rx="1" />
+      <rect x="3" y="16" width="18" height="2" rx="1" />
+    </svg>
+  );
+};
+
 export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24">
@@ -68,6 +78,13 @@ export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconPro
         transform={`rotate(${rotate} 12 12)`}
         d="M6.46967 10.4697C6.17678 10.7626 6.17678 11.2374 6.46967 11.5303C6.76256 11.8232 7.23744 11.8232 7.53033 11.5303L11.25 7.81065L11.25 18C11.25 18.4142 11.5858 18.75 12 18.75C12.4142 18.75 12.75 18.4142 12.75 18L12.75 7.81065L16.4697 11.5303C16.7626 11.8232 17.2374 11.8232 17.5303 11.5303C17.8232 11.2374 17.8232 10.7626 17.5303 10.4697L12 4.93933L6.46967 10.4697Z"
       />
+    </svg>
+  );
+};
+export const FixedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 9V5H8V9C8 10.1 8.9 11 10 11V16H8V17.5H16V16H14V11C15.1 11 16 10.1 16 9ZM12 2C13.1 2 14 2.9 14 4H10C10 2.9 10.9 2 12 2Z" />
     </svg>
   );
 };

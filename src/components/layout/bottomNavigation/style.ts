@@ -7,19 +7,20 @@ export const NavContainer = styled.nav`
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
+  padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 25px);
   z-index: 100;
 `;
 
 export const NavInner = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow:
@@ -29,17 +30,18 @@ export const NavInner = styled.div`
 
 export const NavItem = styled.button<{ $isActive: boolean }>`
   position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 10px 32px;
+  padding: 10px 0;
   border: none;
   background: transparent;
   cursor: pointer;
   z-index: 1;
-  border-radius: 14px;
+  border-radius: 18px;
   transition: color 0.2s ease;
 
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.text.primary : "#8e8e93")};
