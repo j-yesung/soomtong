@@ -1,9 +1,7 @@
-"use client";
-
 import { useRouter } from "next/navigation";
 
-import { Button, Card, Column, Text } from "@/shared/ui";
 import { useAiInsightStore } from "@/features/dashboard/expense/store";
+import { Button, Card, Column, Text } from "@/shared/ui";
 
 export default function ExpenseAnalysisBoard() {
   const router = useRouter();

@@ -1,5 +1,3 @@
-"use client";
-
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";

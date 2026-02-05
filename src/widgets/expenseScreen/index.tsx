@@ -1,13 +1,15 @@
+"use client";
+
 import { useMemo, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { Alert, Button, Column, Row, Text } from "@/shared/ui";
 import { SlotCounter } from "@/features/common/components";
 import { useDetailExpenseListQuery } from "@/features/common/queries";
 import { useAiInsightMutation } from "@/features/dashboard/expense/queries";
 import { useAiInsightStore } from "@/features/dashboard/expense/store";
 import { buildMonthlySummary } from "@/features/dashboard/expense/utils/summary";
+import { Alert, Button, Column, Row, Text } from "@/shared/ui";
 import { formatTitle, getCurrentYearMonthKst, groupByKstDate } from "@/shared/utils/date";
 
 import * as S from "./style";

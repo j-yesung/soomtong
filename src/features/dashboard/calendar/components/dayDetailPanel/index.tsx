@@ -1,11 +1,9 @@
-"use client";
-
 import { format, getDate } from "date-fns";
 import { ko } from "date-fns/locale";
 import styled from "styled-components";
 
-import { Column, Row, Text } from "@/shared/ui";
 import { ExpensesByDay } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
+import { Column, Row, Text } from "@/shared/ui";
 
 type Props = {
   selectedDate: Date;

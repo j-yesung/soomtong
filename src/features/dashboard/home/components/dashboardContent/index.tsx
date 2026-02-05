@@ -1,14 +1,12 @@
-"use client";
-
 import { useEffect } from "react";
 
 import { FixedExpenseList, LazyTab } from "@/features/common/components";
-import { CalendarScreen } from "@/features/dashboard/calendar/components";
-import { ExpenseScreen, ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
+import { ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { Grid } from "@/shared/ui";
-
-import { HomeScreen } from "../../components";
+import CalendarScreen from "@/widgets/calendarScreen";
+import ExpenseScreen from "@/widgets/expenseScreen";
+import HomeScreen from "@/widgets/homeScreen";
 
 interface DashboardContentProps {
   initialTab: DashboardTab;

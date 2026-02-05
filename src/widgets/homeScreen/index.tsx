@@ -1,5 +1,3 @@
-"use client";
-
 import { BudgetBoard, FixedExpenseBoard } from "@/features/dashboard/home/components";
 import { Column } from "@/shared/ui";
 
