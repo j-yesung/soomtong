@@ -2,13 +2,13 @@
 
 import { useEffect } from "react";
 
-import { Column, Grid } from "@/components/ui";
-import { LazyTab } from "@/features/common/components";
+import { FixedExpenseList, LazyTab } from "@/features/common/components";
+import { CalendarScreen } from "@/features/dashboard/calendar/components";
+import { ExpenseScreen, ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
-import { BudgetBoardScreen, DashboardExpenseScreen, FixedExpenseBoardScreen } from "@/screen/dashboard";
-import CalendarScreen from "@/screen/dashboard/calendar/calendarScreen";
-import ExpenseAnalysisResultScreen from "@/screen/dashboard/expense/analysisResultScreen";
+import { Grid } from "@/shared/ui";
+
+import { HomeScreen } from "../../components";
 
 interface DashboardContentProps {
   initialTab: DashboardTab;
@@ -25,10 +25,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
   return (
     <Grid position="relative" fullWidth>
       <LazyTab activeValue="home">
-        <Column gap={12}>
-          <BudgetBoardScreen userId={userId} />
-          <FixedExpenseBoardScreen userId={userId} />
-        </Column>
+        <HomeScreen userId={userId} />
       </LazyTab>
 
       <LazyTab activeValue="calendar">
@@ -36,15 +33,15 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       </LazyTab>
 
       <LazyTab activeValue="expense">
-        <DashboardExpenseScreen />
+        <ExpenseScreen />
       </LazyTab>
 
       <LazyTab activeValue="expense-analysis">
-        <ExpenseAnalysisResultScreen />
+        <ExpenseAnalysisBoard />
       </LazyTab>
 
       <LazyTab activeValue="fixed">
-        <FixedExpenseListScreen renderType="dashboard" />
+        <FixedExpenseList renderType="dashboard" />
       </LazyTab>
     </Grid>
   );

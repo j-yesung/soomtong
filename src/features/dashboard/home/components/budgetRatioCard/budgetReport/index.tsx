@@ -1,7 +1,7 @@
-import { Tag, Text } from "@/components/ui";
+import { Tag, Text } from "@/shared/ui";
 import { SlotCounter } from "@/features/common/components";
 import { AmountSummary } from "@/features/expense/types";
-import { getBudgetStatus, getBudgetStatusColor } from "@/utils/budgetStatus";
+import { getBudgetStatus, getBudgetStatusColor } from "@/shared/utils/budgetStatus";
 
 import * as S from "./style";
 

@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui";
-import { formatNumericInput } from "@/utils/formatter";
+import { Input } from "@/shared/ui";
+import { formatNumericInput } from "@/shared/utils/formatter";
 
 type Props = {
   onChange: (value: string) => void;

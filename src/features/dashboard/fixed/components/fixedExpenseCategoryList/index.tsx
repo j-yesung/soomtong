@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import styled from "styled-components";
 
-import { CategoryButton } from "@/components/ui";
-import { TagItem } from "@/constants";
+import { CategoryButton } from "@/shared/ui";
+import { TagItem } from "@/shared/config";
 
 type Props = {
   onClick: (tag: string) => void;

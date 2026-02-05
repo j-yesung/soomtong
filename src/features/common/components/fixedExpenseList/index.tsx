@@ -2,14 +2,14 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { Button, Row } from "@/components/ui";
+import { Button, Row } from "@/shared/ui";
 import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
 import { FixedItem } from "@/features/expense/types";
-import FixedExpenseListScreenSkeleton from "@/screen/common/fixedExpenseListScreen/skeleton";
 
+import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
 
 type Props = {

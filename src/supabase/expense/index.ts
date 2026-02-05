@@ -9,7 +9,7 @@ import {
   FixedUpdateItem,
   UpdateBudgetParams,
 } from "@/features/expense/types";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/shared/lib/supabase/client";
 
 const supabase = createClient();
 

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
-import { Column } from "@/components/ui";
-import { hideScrollbarOnTouch } from "@/styles/scroll";
+import { Column } from "@/shared/ui";
+import { hideScrollbarOnTouch } from "@/shared/styles/scroll";
 
 export const ListScreenContainer = styled(Column)<{ $renderType: "expense" | "dashboard" }>`
   height: calc(100dvh - ${({ $renderType }) => ($renderType === "expense" ? 110 : 100)}px);

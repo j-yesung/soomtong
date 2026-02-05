@@ -3,9 +3,9 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { userAmountQueryKeys } from "@/features/common/queries";
 import { DashboardContent } from "@/features/dashboard/home/components";
 import { DashboardTab } from "@/features/dashboard/home/store";
-import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/lib/query/dashboardQueries.server";
-import { getQueryClient } from "@/lib/query/getQueryClient";
-import { createClient } from "@/lib/supabase/server";
+import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/shared/lib/query/dashboardQueries.server";
+import { getQueryClient } from "@/shared/lib/query/getQueryClient";
+import { createClient } from "@/shared/lib/supabase/server";
 
 interface DashboardPageProps {
   searchParams: Promise<{ tab?: DashboardTab }>;

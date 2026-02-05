@@ -1,4 +1,4 @@
-import { BarChart, Box } from "@/components/ui";
+import { BarChart, Box } from "@/shared/ui";
 import { AmountSummary } from "@/features/expense/types";
 
 type Props = {

@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 
-import { ArrowIcon } from "@/assets/svg/interface";
-import { Grid, KeyButton } from "@/components/ui";
+import { ArrowIcon } from "@/shared/assets/svg/interface";
+import { Grid, KeyButton } from "@/shared/ui";
 
 type KeypadLayoutKey = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "back" | "reset";
 

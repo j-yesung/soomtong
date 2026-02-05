@@ -1,4 +1,4 @@
-import { BottomSheet, Button, Text } from "@/components/ui";
+import { BottomSheet, Button, Text } from "@/shared/ui";
 import { useUserStore } from "@/features/auth/store";
 import { FixedExpenseForm } from "@/features/common/components";
 import {

@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
-import BottomNavigation from "@/components/layout/bottomNavigation";
-import DashboardHeader from "@/components/layout/dashboardHeader";
-import { Column } from "@/components/ui";
+import BottomNavigation from "@/shared/layout/bottomNavigation";
+import DashboardHeader from "@/shared/layout/dashboardHeader";
+import { Column } from "@/shared/ui";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
