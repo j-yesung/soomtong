@@ -1,4 +1,3 @@
-"use client";
 
 import Flex from "../../flex";
 import * as S from "./style";

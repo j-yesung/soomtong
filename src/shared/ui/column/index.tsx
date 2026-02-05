@@ -1,4 +1,3 @@
-"use client";
 
 import Flex, { FlexProps } from "../flex";
 

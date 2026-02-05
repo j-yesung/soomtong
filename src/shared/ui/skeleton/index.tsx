@@ -1,4 +1,3 @@
-"use client";
 
 import sspShouldForwardProp from "@styled-system/should-forward-prop";
 import styled, { keyframes } from "styled-components";

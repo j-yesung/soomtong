@@ -1,4 +1,3 @@
-"use client";
 
 import { TAG_COLORS } from "@/shared/config";
 

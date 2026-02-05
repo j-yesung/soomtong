@@ -1,4 +1,3 @@
-"use client";
 
 import Box from "../box/style";
 

@@ -1,11 +1,8 @@
-"use client";
-
 import Button from "../button";
 import Column from "../column";
 import Portal from "../portal";
 import Row from "../row";
 import Text from "../text/style";
-
 import * as S from "./style";
 
 type AlertProps = {

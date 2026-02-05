@@ -1,4 +1,3 @@
-"use client";
 
 import { theme } from "@/shared/styles/theme";
 
