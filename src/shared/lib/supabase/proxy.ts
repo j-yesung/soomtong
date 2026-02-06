@@ -6,6 +6,26 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
+  const hasSupabaseCookie = request.cookies
+    .getAll()
+    .some((cookie) => cookie.name.startsWith("sb-") || cookie.name.startsWith("supabase-"));
+
+  const pathname = request.nextUrl.pathname;
+
+  if (!hasSupabaseCookie) {
+    const isProtectedRoute =
+      pathname !== "/login" && !pathname.startsWith("/auth") && pathname !== "/prompt-information";
+
+    if (isProtectedRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("next", pathname);
+      return NextResponse.redirect(url);
+    }
+
+    return supabaseResponse;
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
@@ -28,8 +48,6 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
 
   const user = data?.claims;
-
-  const pathname = request.nextUrl.pathname;
 
   if (!user && pathname !== "/login" && !pathname.startsWith("/auth") && pathname !== "/prompt-information") {
     const url = request.nextUrl.clone();
