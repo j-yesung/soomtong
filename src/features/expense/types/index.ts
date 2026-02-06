@@ -3,6 +3,7 @@ export type BaseFixedItem = {
   amount: number;
   day: number;
   createdAt: number;
+  memo?: string;
 };
 
 export type FixedItem = BaseFixedItem;

@@ -51,12 +51,7 @@ export default function LazyTab({ activeValue, children }: Props) {
   if (!hasVisited && !isActive) return null;
 
   return (
-    <S.Container
-      initial={false}
-      animate={isActive ? "visible" : "hidden"}
-      variants={tabVariants}
-      style={{ display: isActive ? "block" : "none" }}
-    >
+    <S.Container initial={false} animate={isActive ? "visible" : "hidden"} variants={tabVariants} $isActive={isActive}>
       {children}
     </S.Container>
   );
