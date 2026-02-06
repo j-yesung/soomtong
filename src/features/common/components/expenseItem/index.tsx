@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
+import { FixedItem } from "@/features/expense/types";
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
 import { Column, Row, Tag, Text } from "@/shared/ui";
-import { FixedItem } from "@/features/expense/types";
 
 const ItemCard = styled.div`
   padding: 12px;
@@ -33,7 +33,10 @@ export default function ExpenseItem({ onClick, items }: Props) {
               {items.amount.toLocaleString()}원
             </Text>
           </Row>
-          <Row justify="flex-end">
+          <Row justify="space-between">
+            <Text size={14} variant="caption">
+              {items.memo && items.memo}
+            </Text>
             <Text size={14} variant="caption">
               매월 {items.day}일
             </Text>

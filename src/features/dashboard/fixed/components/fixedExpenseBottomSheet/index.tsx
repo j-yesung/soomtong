@@ -1,4 +1,3 @@
-import { BottomSheet, Button, Text } from "@/shared/ui";
 import { useUserStore } from "@/features/auth/store";
 import { FixedExpenseForm } from "@/features/common/components";
 import {
@@ -8,6 +7,7 @@ import {
 } from "@/features/common/queries";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
 import { FixedItem } from "@/features/expense/types";
+import { BottomSheet, Button, Text } from "@/shared/ui";
 
 type Props = {
   onClose: () => void;
@@ -35,6 +35,7 @@ export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item
           tag: values.tag,
           amount: values.amount,
           day: values.day,
+          memo: values.memo,
         },
       });
     } else {
@@ -44,6 +45,7 @@ export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item
           tag: values.tag,
           amount: values.amount,
           day: values.day,
+          memo: values.memo,
           createdAt: Date.now(),
         },
       });
