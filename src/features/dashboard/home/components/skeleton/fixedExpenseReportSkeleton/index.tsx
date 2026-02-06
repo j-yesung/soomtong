@@ -1,4 +1,4 @@
-import { Column, Skeleton } from "@/components/ui";
+import { Column, Skeleton } from "@/shared/ui";
 
 export default function FixedExpenseReportSkeleton() {
   return (

@@ -1,4 +1,4 @@
-import { Column, Heading } from "@/components/ui";
+import { Column, Heading } from "@/shared/ui";
 
 export default function SalaryHeader() {
   return (

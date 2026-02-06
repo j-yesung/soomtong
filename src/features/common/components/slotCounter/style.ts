@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-import { AppTheme } from "@/styles/theme";
+import { AppTheme } from "@/shared/styles/theme";
 
 export const ReelBox = styled.div<{ $fontSize: number; $cellH: number }>`
   position: relative;

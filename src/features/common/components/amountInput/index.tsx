@@ -1,4 +1,4 @@
-import { Column, Input } from "@/components/ui";
+import { Column, Input } from "@/shared/ui";
 
 import Keypad from "../keypad";
 

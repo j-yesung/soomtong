@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 
 import styled from "styled-components";
 
-import { Button } from "@/components/ui";
-import { hideScrollbarOnTouch } from "@/styles/scroll";
+import { Button } from "@/shared/ui";
+import { hideScrollbarOnTouch } from "@/shared/styles/scroll";
 
 type Props = {
   days?: number[];

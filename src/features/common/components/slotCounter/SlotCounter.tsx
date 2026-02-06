@@ -4,9 +4,9 @@ import { useMemo } from "react";
 
 import { motion } from "framer-motion";
 
-import { Row, Text } from "@/components/ui";
-import { AppTheme } from "@/styles/theme";
-import { formatWithComma } from "@/utils/formatter";
+import { Row, Text } from "@/shared/ui";
+import { AppTheme } from "@/shared/styles/theme";
+import { formatWithComma } from "@/shared/utils/formatter";
 
 import DigitReel from "./DigitRell";
 

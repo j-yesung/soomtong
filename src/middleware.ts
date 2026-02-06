@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 
-import { updateSession } from "@/lib/supabase/proxy";
+import { updateSession } from "@/shared/lib/supabase/proxy";
 
 export async function middleware(req: NextRequest) {
   return updateSession(req);

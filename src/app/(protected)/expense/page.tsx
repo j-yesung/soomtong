@@ -1,12 +1,14 @@
-import { Column } from "@/components/ui";
+import { Column } from "@/shared/ui";
+import { FixedExpenseList } from "@/features/common/components";
 import { FixedExpenseHeader } from "@/features/expense/components";
-import FixedExpenseListScreen from "@/screen/common/fixedExpenseListScreen";
 
 export default function ExpensePage() {
   return (
     <Column gap={24} fullWidth>
       <FixedExpenseHeader />
-      <FixedExpenseListScreen renderType="expense" />
+      <Column gap={8} fullWidth>
+        <FixedExpenseList renderType="expense" />
+      </Column>
     </Column>
   );
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import { SingleArrowIcon } from "@/assets/svg/interface";
-import { Column, Row, Tag, Text } from "@/components/ui";
+import { SingleArrowIcon } from "@/shared/assets/svg/interface";
+import { Column, Row, Tag, Text } from "@/shared/ui";
 import { FixedItem } from "@/features/expense/types";
 
 const ItemCard = styled.div`

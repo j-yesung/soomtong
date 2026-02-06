@@ -2,8 +2,8 @@
 
 import styled from "styled-components";
 
-import { GoogleLogo } from "@/assets/svg/logo";
-import { Text } from "@/components/ui";
+import { GoogleLogo } from "@/shared/assets/svg/logo";
+import { Text } from "@/shared/ui";
 import { useLogin } from "@/features/auth/queries";
 
 const GoogleButton = styled.button`

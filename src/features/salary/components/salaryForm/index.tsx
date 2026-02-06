@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { Column, Heading, Input, Row, Text } from "@/components/ui";
+import { Column, Heading, Input, Row, Text } from "@/shared/ui";
 import { DatePicker, Keypad, ReadyButton } from "@/features/common/components";
 import { useSalaryMutation } from "@/features/salary/queries";
-import { parseNumericInput } from "@/utils/formatter";
+import { parseNumericInput } from "@/shared/utils/formatter";
 
 export default function SalaryForm() {
   const [salary, setSalary] = useState("");

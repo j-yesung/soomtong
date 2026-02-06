@@ -1,4 +1,4 @@
-import { DonutChart } from "@/components/ui";
+import { DonutChart } from "@/shared/ui";
 import { FixedExpenseTableItem } from "@/features/expense/types";
 
 type Props = {

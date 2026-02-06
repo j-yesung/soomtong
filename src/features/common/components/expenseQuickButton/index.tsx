@@ -1,7 +1,7 @@
 import { Wallet } from "lucide-react";
 import styled from "styled-components";
 
-import { Button } from "@/components/ui";
+import { Button } from "@/shared/ui";
 
 type Props = {
   onClick: () => void;

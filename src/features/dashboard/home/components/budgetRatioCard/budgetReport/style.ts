@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Column, Row, Text } from "@/components/ui";
+import { Column, Row, Text } from "@/shared/ui";
 
 export const Container = styled(Column)`
   gap: 4px;
