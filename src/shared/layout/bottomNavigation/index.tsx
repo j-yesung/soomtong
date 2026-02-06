@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "styled-components";
 
-import { CalendarIcon, FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
+import { CalendarIcon, FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
 
 import * as S from "./style";
 
@@ -27,6 +27,7 @@ export default function BottomNavigation() {
   if (!isDashboard) return null;
 
   const handleTabClick = (tab: DashboardTab) => {
+    window.scrollTo({ top: 0, behavior: "instant" });
     setActiveTab(tab);
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set("tab", tab);

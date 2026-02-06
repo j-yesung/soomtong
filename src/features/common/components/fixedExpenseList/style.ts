@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
-import { Column } from "@/shared/ui";
 import { hideScrollbarOnTouch } from "@/shared/styles/scroll";
+import { Column } from "@/shared/ui";
 
 export const ListScreenContainer = styled(Column)<{ $renderType: "expense" | "dashboard" }>`
   height: calc(100dvh - ${({ $renderType }) => ($renderType === "expense" ? 110 : 100)}px);
@@ -24,6 +24,7 @@ export const ListBox = styled(Column)<{ $hasItems: boolean }>`
   align-self: stretch;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: 110px;
   ${hideScrollbarOnTouch}
 
   ${({ $hasItems }) =>
