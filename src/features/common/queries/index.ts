@@ -75,6 +75,10 @@ export function useFixedExpenseAddMutation() {
     mutationKey: userAmountQueryKeys.addFixedExpense(),
     mutationFn: (params: FixedAddParams) => addFixedItem(params),
 
+    onSuccess: (_data, variables) => {
+      toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원이 추가됐어요.`);
+    },
+
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
 
@@ -118,6 +122,10 @@ export function useFixedExpenseRemoveMutation() {
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
 
+    onSuccess: (_data, variables) => {
+      console.log(`${variables.tag}를 삭제했어요.`);
+    },
+
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
 
@@ -160,6 +168,10 @@ export function useFixedExpenseUpdateMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.updateFixedExpense(),
     mutationFn: (params: FixedUpdateItem) => updateFixedItem(params),
+
+    onSuccess: (_data, variables) => {
+      toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원으로 수정됐어요.`);
+    },
 
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
@@ -221,7 +233,7 @@ export function useAddExpenseMutation() {
     mutationFn: (params: AddExpenseParams) => addExpense(params),
 
     onSuccess: (_data, variables) => {
-      toast.success(`${variables.amount.toLocaleString()}원이 추가되었습니다.`);
+      toast.success(`${variables.amount.toLocaleString()}원이 추가됐어요.`);
     },
 
     onMutate: async (variables) => {
@@ -267,6 +279,10 @@ export function useUpdateBudgetMutation() {
   return useMutation({
     mutationKey: userAmountQueryKeys.updateBuget(),
     mutationFn: (params: UpdateBudgetParams) => updateBuget(params),
+
+    onSuccess: (_data, variables) => {
+      toast.success(`월수입이 ${variables.budget.toLocaleString()}원으로 변경했어요.`);
+    },
 
     onMutate: async (variables) => {
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
