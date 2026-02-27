@@ -43,6 +43,7 @@ export function useDetailExpenseListQuery() {
     queryKey: userAmountQueryKeys.detailExpenseList(userId),
     queryFn: () => getExpenseList(userId),
     enabled: !!userId,
+    staleTime: 30_000,
     refetchOnWindowFocus: false,
   });
 }
@@ -54,6 +55,7 @@ export function useFixedExpenseTableQuery(userId: string) {
   return useQuery({
     queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
     queryFn: () => getFixedExpenseTable(userId),
+    staleTime: 30_000,
     refetchOnWindowFocus: false,
     select: (data) => {
       const totalFixedExpense = data?.items?.reduce((acc, cur) => acc + cur.amount, 0);
@@ -216,6 +218,7 @@ export function useAmountSummaryQuery(userId: string) {
   return useQuery({
     queryKey: userAmountQueryKeys.summary(userId, ym),
     queryFn: () => getCurrentMonthAmountSummary(userId),
+    staleTime: 30_000,
     refetchOnWindowFocus: false,
     enabled: !!userId,
   });

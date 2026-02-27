@@ -8,7 +8,7 @@ import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/home/components";
 
 export default function FixedExpenseBoard({ userId }: { userId: string }) {
-  const { data } = useFixedExpenseTableQuery(userId);
+  const { data, isLoading, isFetched } = useFixedExpenseTableQuery(userId);
 
   const updateBudget = useBudgetStore((state) => state.updateBudget);
 
@@ -18,7 +18,11 @@ export default function FixedExpenseBoard({ userId }: { userId: string }) {
     }
   }, [data, updateBudget]);
 
-  if (data?.items?.length === 0) {
+  if (isLoading || !isFetched) {
+    return null;
+  }
+
+  if (!data || data?.items?.length === 0) {
     return (
       <Card direction="column" gap={32}>
         <Column gap={32} pvh={[0, 16]}>
