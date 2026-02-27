@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 import { userAmountQueryKeys } from "@/features/common/queries";
@@ -20,7 +21,9 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user?.id) return null;
+  if (!user?.id) {
+    redirect("/login?next=/dashboard");
+  }
 
   if (tab === "home") {
     const now = new Date();

@@ -12,11 +12,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     const supabase = createClient();
 
-    supabase.auth.getUser().then(({ data, error }) => {
-      if (error || !data.user) clearUserInfo();
-      else updateUserInfo(data.user);
-    });
-
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       const user = session?.user;
       if (!user) clearUserInfo();

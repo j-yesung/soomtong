@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 
@@ -18,16 +18,19 @@ export default function DonutChart({ value, size = 100, thickness = 14 }: Props)
   const radius = useMemo(() => (size - thickness) / 2, [size, thickness]);
   const circumference = useMemo(() => 2 * Math.PI * radius, [radius]);
 
-  const mv = useMotionValue(0);
+  const mv = useMotionValue(clamped);
   const dashOffset = useTransform(mv, (v) => circumference * (1 - v / 100));
   const percentText = useTransform(mv, (v) => `${Math.round(v)}%`);
+
+  const isFirst = useRef(true);
 
   useEffect(() => {
     const prefersReduce =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReduce) {
+    if (prefersReduce || isFirst.current) {
       mv.set(clamped);
+      isFirst.current = false;
       return;
     }
 

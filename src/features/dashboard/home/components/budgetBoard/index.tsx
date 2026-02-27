@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/shared/ui";
-import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
+import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
+import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/shared/ui";
 import { parseNumericInput } from "@/shared/utils/formatter";
 
 export default function BudgetBoard({ userId }: { userId: string }) {
-  const { data } = useAmountSummaryQuery(userId);
+  const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
   const { mutate: updateBudget } = useUpdateBudgetMutation();
   const { mutate: addExpense } = useAddExpenseMutation();
 
@@ -59,7 +59,11 @@ export default function BudgetBoard({ userId }: { userId: string }) {
     handleExpenseClose();
   };
 
-  if (!data?.amountAvailable) {
+  if (isLoading || !isFetched) {
+    return null;
+  }
+
+  if (!data) {
     return (
       <Card direction="column">
         <Column gap={32} pvh={[0, 16]}>
