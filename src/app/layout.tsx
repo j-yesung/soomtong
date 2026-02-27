@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import Providers from "./providers";
 
@@ -272,6 +273,7 @@ export default function RootLayout({
       <body>
         <Providers>{children}</Providers>
         <div id="portal" />
+        <SpeedInsights />
       </body>
     </html>
   );
