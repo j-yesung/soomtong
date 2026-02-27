@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import { motion } from "framer-motion";
 
@@ -29,12 +29,6 @@ export default function SlotCounter({
   lineHeightFactor = 1.2,
   color = "primary",
 }: SlotCounterProps) {
-  const [enableMotion, setEnableMotion] = useState(false);
-
-  useEffect(() => {
-    setEnableMotion(true);
-  }, []);
-
   const formatted = useMemo(() => formatWithComma(value), [value]);
 
   const glyphs = useMemo(
@@ -44,9 +38,9 @@ export default function SlotCounter({
 
   return (
     <motion.div
-      initial={enableMotion ? { opacity: 0, y: 10, filter: "blur(4px)" } : false}
-      animate={enableMotion ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
-      transition={enableMotion ? { duration: 0.8, ease: [0.25, 0.8, 0.25, 1] } : undefined}
+      initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <Row align="center" aria-label="total-amount" role="figure">
         {glyphs.map((g, i) =>

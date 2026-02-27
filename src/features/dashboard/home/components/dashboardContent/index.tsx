@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { motion } from "framer-motion";
+
 import { FixedExpenseList, LazyTab } from "@/features/common/components";
 import { ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
@@ -22,6 +24,11 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
 
   return (
     <Grid position="relative" fullWidth>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
       <LazyTab activeValue="home">
         <HomeScreen userId={userId} />
       </LazyTab>
@@ -41,6 +48,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       <LazyTab activeValue="fixed">
         <FixedExpenseList renderType="dashboard" />
       </LazyTab>
+      </motion.div>
     </Grid>
   );
 }

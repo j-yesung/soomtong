@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 
 import { animate, useMotionValue, useTransform } from "framer-motion";
 
@@ -23,9 +23,7 @@ export default function DigitReel({ digit, duration, spins, fontSize, lineHeight
 
   const targetIdx = digit + spins * 10;
 
-  const isFirst = useRef(true);
-  const initialCellH = cellH || estimated;
-  const y = useMotionValue(-targetIdx * initialCellH);
+  const y = useMotionValue(0);
   const yRounded = useTransform(y, (v) => Math.round(v));
 
   const loopDigits = useMemo(() => {
@@ -36,15 +34,9 @@ export default function DigitReel({ digit, duration, spins, fontSize, lineHeight
   useEffect(() => {
     if (!cellH) return;
 
-    const targetY = -targetIdx * cellH;
+    y.set(0);
 
-    if (isFirst.current) {
-      y.set(targetY);
-      isFirst.current = false;
-      return;
-    }
-
-    const controls = animate(y, targetY, {
+    const controls = animate(y, -targetIdx * cellH, {
       duration,
       ease: [0.25, 0.8, 0.25, 1],
     });
