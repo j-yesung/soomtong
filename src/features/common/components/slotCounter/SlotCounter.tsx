@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { motion } from "framer-motion";
 
@@ -29,12 +29,39 @@ export default function SlotCounter({
   lineHeightFactor = 1.2,
   color = "primary",
 }: SlotCounterProps) {
+  const prevValueRef = useRef<number | null>(null);
+  const prevValue = prevValueRef.current;
+
+  useEffect(() => {
+    prevValueRef.current = value;
+  }, [value]);
+
   const formatted = useMemo(() => formatWithComma(value), [value]);
 
-  const glyphs = useMemo(
-    () => Array.from(formatted).map((ch) => (/\d/.test(ch) ? { type: "digit", char: ch } : { type: "sep", char: ch })),
-    [formatted],
-  );
+  const digitAtPlace = (n: number, place: number) => Math.floor(Math.abs(n) / place) % 10;
+
+  const glyphs = useMemo(() => {
+    const chars = Array.from(formatted);
+    const list: Array<
+      | { type: "digit"; char: string; place: number; shouldAnimate: boolean }
+      | { type: "sep"; char: string }
+    > = [];
+
+    let place = 1;
+    for (let i = chars.length - 1; i >= 0; i -= 1) {
+      const ch = chars[i];
+      if (/\d/.test(ch)) {
+        const shouldAnimate =
+          prevValue === null ? true : digitAtPlace(prevValue, place) !== digitAtPlace(value, place);
+        list[i] = { type: "digit", char: ch, place, shouldAnimate };
+        place *= 10;
+      } else {
+        list[i] = { type: "sep", char: ch };
+      }
+    }
+
+    return list;
+  }, [formatted, prevValue, value]);
 
   return (
     <motion.div
@@ -46,7 +73,9 @@ export default function SlotCounter({
         {glyphs.map((g, i) =>
           g.type === "digit" ? (
             <DigitReel
-              key={`d-${i}-${g.char}`}
+              key={`d-${i}`}
+              playKey={value}
+              shouldAnimate={g.shouldAnimate}
               digit={Number(g.char)}
               duration={duration}
               spins={spins}

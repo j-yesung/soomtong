@@ -11,7 +11,7 @@ export function useCellHeight(fallback: number) {
     if (!probe) return;
 
     const ro = new ResizeObserver(() => {
-      const h = probe.getBoundingClientRect().height;
+      const h = probe.offsetHeight;
       if (h && Math.abs(h - cellH) >= 0.5) setCellH(Math.round(h));
     });
     ro.observe(probe);

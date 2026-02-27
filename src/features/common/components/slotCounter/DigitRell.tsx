@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { animate, useMotionValue, useTransform } from "framer-motion";
 
@@ -8,6 +8,8 @@ import { AppTheme } from "@/shared/styles/theme";
 import * as S from "./style";
 
 type Props = {
+  playKey: number;
+  shouldAnimate: boolean;
   digit: number;
   duration: number;
   spins: number;
@@ -16,12 +18,23 @@ type Props = {
   color: keyof AppTheme["colors"]["text"];
 };
 
-export default function DigitReel({ digit, duration, spins, fontSize, lineHeightFactor, color }: Props) {
+export default function DigitReel({
+  playKey,
+  shouldAnimate,
+  digit,
+  duration,
+  spins,
+  fontSize,
+  lineHeightFactor,
+  color,
+}: Props) {
   const estimated = Math.ceil(fontSize * lineHeightFactor);
 
   const { ref: containerRef, cellH } = useCellHeight(estimated);
 
-  const targetIdx = digit + spins * 10;
+  const hasAnimated = useRef(false);
+  const prevDigit = useRef<number | null>(null);
+  const prevPlayKey = useRef<number | null>(null);
 
   const y = useMotionValue(0);
   const yRounded = useTransform(y, (v) => Math.round(v));
@@ -34,14 +47,54 @@ export default function DigitReel({ digit, duration, spins, fontSize, lineHeight
   useEffect(() => {
     if (!cellH) return;
 
-    y.set(0);
+    const targetIdx = digit + spins * 10;
+    const targetY = -targetIdx * cellH;
 
-    const controls = animate(y, -targetIdx * cellH, {
-      duration,
-      ease: [0.25, 0.8, 0.25, 1],
-    });
-    return controls.stop;
-  }, [digit, spins, duration, cellH, y, targetIdx]);
+    if (!hasAnimated.current) {
+      const controls = shouldAnimate
+        ? animate(y, targetY, {
+            duration,
+            ease: [0.25, 0.8, 0.25, 1],
+          })
+        : null;
+      hasAnimated.current = true;
+      prevDigit.current = digit;
+      prevPlayKey.current = playKey;
+      if (!controls) {
+        y.set(targetY);
+        return;
+      }
+      return controls.stop;
+    }
+
+    if (prevPlayKey.current !== playKey) {
+      const controls = shouldAnimate
+        ? animate(y, targetY, {
+            duration,
+            ease: [0.25, 0.8, 0.25, 1],
+          })
+        : null;
+      prevPlayKey.current = playKey;
+      prevDigit.current = digit;
+      if (!controls) {
+        y.set(targetY);
+        return;
+      }
+      return controls.stop;
+    }
+
+    if (shouldAnimate && prevDigit.current !== digit) {
+      const controls = animate(y, targetY, {
+        duration,
+        ease: [0.25, 0.8, 0.25, 1],
+      });
+      prevDigit.current = digit;
+      return controls.stop;
+    }
+
+    prevDigit.current = digit;
+    y.set(targetY);
+  }, [cellH, digit, duration, playKey, shouldAnimate, spins, y]);
 
   return (
     <S.ReelBox ref={containerRef} $fontSize={fontSize} $cellH={cellH || Math.ceil(fontSize * 1.2)}>

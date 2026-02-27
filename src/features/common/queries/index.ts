@@ -126,6 +126,7 @@ export function useFixedExpenseRemoveMutation() {
 
     onSuccess: (_data, variables) => {
       console.log(`${variables.tag}를 삭제했어요.`);
+      toast.success(`[고정지출] "${variables.tag}"가 삭제됐어요.`);
     },
 
     onMutate: async (variables) => {
