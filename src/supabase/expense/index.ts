@@ -103,10 +103,10 @@ export async function addExpense(params: AddExpenseParams) {
     _spent_at: null,
   });
 
-  if (data[0] === null) return null;
   if (error) throw error;
+  if (!data?.[0]) return null;
 
-  return data?.[0] as AddExpenseResult;
+  return data[0] as AddExpenseResult;
 }
 
 /**

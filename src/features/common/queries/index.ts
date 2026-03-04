@@ -310,7 +310,7 @@ export function useUpdateBudgetMutation() {
       }
 
       if (prevSummary) {
-        const nextAmountAvailable = variables.budget - (prevSummary.totalFixed ?? 0) - prevSummary.totalVariable;
+        const nextAmountAvailable = variables.budget - (prevSummary.fixedTotal ?? 0) - prevSummary.totalVariable;
 
         queryClient.setQueryData<AmountSummary>(summaryKey, {
           ...prevSummary,

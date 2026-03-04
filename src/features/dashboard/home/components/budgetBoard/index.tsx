@@ -63,7 +63,7 @@ export default function BudgetBoard({ userId }: { userId: string }) {
     return null;
   }
 
-  if (!data) {
+  if (!data || !data?.budget) {
     return (
       <Card direction="column">
         <Column gap={32} pvh={[0, 16]}>
