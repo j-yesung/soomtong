@@ -48,7 +48,13 @@ export default function ExpenseScreen() {
           <Text size={24} weight={700}>
             지출내역
           </Text>
-          <Button variant="outline" width={88} height={36} disabled={isPending} onClick={handleAnalyze}>
+          <Button
+            variant="outline"
+            width={88}
+            height={36}
+            disabled={isPending || grouped.length === 0}
+            onClick={handleAnalyze}
+          >
             {isPending ? (
               <Row align="center" gap={6}>
                 <Text size={14} weight={600}>
@@ -71,7 +77,13 @@ export default function ExpenseScreen() {
           </Text>
         )}
         {/* 지출 총 금액 */}
-        {totalAmount && <SlotCounter value={totalAmount} suffix="원" />}
+        {totalAmount ? (
+          <SlotCounter value={totalAmount} suffix="원" />
+        ) : (
+          <Text size={14} color="secondary">
+            아직 기록된 지출내역이 없어요.
+          </Text>
+        )}
       </Column>
 
       <Column gap={16} pb={12}>
