@@ -105,8 +105,14 @@ export const CalendarWrapper = styled.div`
     color: #1a1a1a;
     transition: all 0.15s ease;
 
-    &:hover {
-      background: #f5f5f5;
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:active {
+      background: transparent;
     }
   }
 
@@ -153,9 +159,16 @@ export const DayCell = styled.button`
   color: inherit;
   transition: all 0.15s ease;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover {
-    background: #f5f5f5;
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    background: transparent;
   }
 `;
 

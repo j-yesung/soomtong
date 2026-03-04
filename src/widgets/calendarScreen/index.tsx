@@ -2,18 +2,16 @@
 
 import { useState } from "react";
 
-import { format, getMonth, getYear } from "date-fns";
-import { ko } from "date-fns/locale";
+import { getMonth, getYear } from "date-fns";
 
 import { Column } from "@/shared/ui";
-import { CalendarView, DayDetailSheet } from "@/features/dashboard/calendar/components";
+import { CalendarView, DayDetailPanel } from "@/features/dashboard/calendar/components";
 import { useCalendarExpenseData } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
 
 export default function CalendarScreen() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const currentDate = selectedDate ?? new Date();
+  const currentDate = selectedDate;
   const year = getYear(currentDate);
   const month = getMonth(currentDate) + 1;
 
@@ -21,27 +19,16 @@ export default function CalendarScreen() {
 
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
-    setIsSheetOpen(true);
-  };
-
-  const handleCloseSheet = () => {
-    setIsSheetOpen(false);
-    setSelectedDate(undefined);
   };
 
   return (
-    <Column>
-      <Column flex={1}>
+    <Column height="100%" minHeight={0} gap={12}>
+      <Column flex={1} minHeight={0}>
         <CalendarView selectedDate={selectedDate} onDayClick={handleDayClick} expensesByDay={expensesByDay} />
       </Column>
-
-      <DayDetailSheet
-        isOpen={isSheetOpen}
-        onClose={handleCloseSheet}
-        selectedDate={selectedDate}
-        dateLabel={selectedDate ? format(selectedDate, "d. EEE", { locale: ko }) : ""}
-        expensesByDay={expensesByDay}
-      />
+      <Column flex={1} minHeight={0}>
+        <DayDetailPanel selectedDate={selectedDate} expensesByDay={expensesByDay} />
+      </Column>
     </Column>
   );
 }
