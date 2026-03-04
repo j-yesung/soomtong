@@ -19,7 +19,7 @@ import {
   getExpenseList,
   getFixedExpenseTable,
   removeFixedItem,
-  updateBuget,
+  updateBudget,
   updateFixedItem,
 } from "@/supabase/expense";
 
@@ -31,7 +31,7 @@ export const userAmountQueryKeys = {
   updateFixedExpense: () => ["updateFixedExpense"],
   summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
   addExpense: () => ["addExpense"],
-  updateBuget: () => ["update-budget"],
+  updateBudget: () => ["update-budget"],
 };
 
 /**
@@ -126,7 +126,7 @@ export function useFixedExpenseRemoveMutation() {
 
     onSuccess: (_data, variables) => {
       console.log(`${variables.tag}를 삭제했어요.`);
-      toast.success(`[고정지출] "${variables.tag}"가 삭제됐어요.`);
+      toast.success(`[고정지출] "${variables.tag}"이 삭제됐어요.`);
     },
 
     onMutate: async (variables) => {
@@ -281,11 +281,11 @@ export function useUpdateBudgetMutation() {
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
   return useMutation({
-    mutationKey: userAmountQueryKeys.updateBuget(),
-    mutationFn: (params: UpdateBudgetParams) => updateBuget(params),
+    mutationKey: userAmountQueryKeys.updateBudget(),
+    mutationFn: (params: UpdateBudgetParams) => updateBudget(params),
 
     onSuccess: (_data, variables) => {
-      toast.success(`월수입이 ${variables.budget.toLocaleString()}원으로 변경했어요.`);
+      toast.success(`월수입을 ${variables.budget.toLocaleString()}원으로 변경했어요.`);
     },
 
     onMutate: async (variables) => {
