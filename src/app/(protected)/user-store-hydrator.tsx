@@ -16,7 +16,7 @@ export default function UserStoreHydrator({ user, children }: Props) {
 
   useEffect(() => {
     updateUserInfo(user);
-  }, [user, updateUserInfo]);
+  }, [user]);
 
   return <>{children}</>;
 }
