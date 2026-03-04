@@ -3,8 +3,8 @@
 import styled from "styled-components";
 
 import { GoogleLogo } from "@/shared/assets/svg/logo";
+import { createClient } from "@/shared/lib/supabase/client";
 import { Text } from "@/shared/ui";
-import { useLogin } from "@/features/auth/queries";
 
 const GoogleButton = styled.button`
   display: flex;
@@ -26,10 +26,18 @@ const GoogleButton = styled.button`
 `;
 
 export default function GoogleLoginButton() {
-  const { mutate: login } = useLogin();
+  const handleLogin = async () => {
+    const supabase = createClient();
+    const response = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback`, queryParams: {} },
+    });
+
+    if (response.error) throw response.error;
+  };
 
   return (
-    <GoogleButton onClick={() => login()}>
+    <GoogleButton onClick={handleLogin}>
       <GoogleLogo />
       <Text size={14}>구글 계정으로 로그인하기</Text>
     </GoogleButton>

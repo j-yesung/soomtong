@@ -5,6 +5,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "styled-components";
 
+import AuthSessionSync from "@/features/auth/components/authSessionSync";
 import { PWAIOSInstallPromptScreen } from "@/features/pwa/components";
 import StyledComponentsRegistry from "@/shared/lib/styled-components-registry";
 import { Toast } from "@/shared/ui";
@@ -28,6 +29,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <StyledComponentsRegistry>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
+          <AuthSessionSync />
           <GlobalStyle />
           <Toast />
           <MainLayout>
