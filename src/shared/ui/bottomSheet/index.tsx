@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 import { Drawer } from "vaul";
 
@@ -14,9 +14,25 @@ type Props = {
 };
 
 export default function BottomSheet({ isOpen, title, children, onClose, callback }: Props) {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement) {
+      activeElement.blur();
+    }
+
+    requestAnimationFrame(() => {
+      contentRef.current?.focus();
+    });
+  }, [isOpen]);
+
   return (
     <Drawer.Root
       open={isOpen}
+      autoFocus
       onOpenChange={(open) => {
         if (!open) onClose();
       }}
@@ -26,7 +42,7 @@ export default function BottomSheet({ isOpen, title, children, onClose, callback
     >
       <Drawer.Portal>
         <S.DrawerOverlay />
-        <S.DrawerContent>
+        <S.DrawerContent ref={contentRef} tabIndex={-1}>
           <S.DragArea>
             <S.HandleBar />
             <Row pvh={[16, 0, 0, 0]} gap={8} align="center" justify="space-between">
