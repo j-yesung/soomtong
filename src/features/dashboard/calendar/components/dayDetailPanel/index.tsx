@@ -49,11 +49,13 @@ export default function DayDetailPanel({ selectedDate, expensesByDay }: Props) {
             {/* 변동 지출 */}
             {variableExpenses.map((expense) => (
               <div key={`variable-${expense.id}`}>
-                <S.DotIndicator color="#34c759" />
-                <Column gap={4} style={{ flex: 1 }}>
+                <Row gap={6} align="center">
+                  <S.DotIndicator color="#34c759" />
                   <Text weight={500} size={15}>
                     {expense.category}
                   </Text>
+                </Row>
+                <Column gap={4} style={{ flex: 1 }}>
                   <Text color="gray" size={13}>
                     {expense.amount.toLocaleString()}원
                   </Text>

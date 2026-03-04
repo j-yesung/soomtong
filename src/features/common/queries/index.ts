@@ -34,6 +34,10 @@ export const userAmountQueryKeys = {
   updateBudget: () => ["update-budget"],
 };
 
+function calcTotalFixedExpense(items: FixedRow["items"] = []) {
+  return items.reduce((acc, cur) => acc + cur.amount, 0);
+}
+
 /**
  * 지출내역 조회
  */
@@ -77,8 +81,22 @@ export function useFixedExpenseAddMutation() {
     mutationKey: userAmountQueryKeys.addFixedExpense(),
     mutationFn: (params: FixedAddParams) => addFixedItem(params),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원이 추가됐어요.`);
+
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
+
+      if (prevFixed && data) {
+        const totalFixedExpense = calcTotalFixedExpense(data.items);
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
+          ...prevFixed,
+          ...data,
+          day: prevFixed.day,
+          totalFixedExpense,
+          amountAvailable: data.budget - totalFixedExpense,
+        });
+      }
     },
 
     onMutate: async (variables) => {
@@ -86,13 +104,18 @@ export function useFixedExpenseAddMutation() {
 
       await queryClient.cancelQueries({ queryKey: fixedKey });
 
-      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
       const optimisticItem = variables.item;
 
       if (prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, {
+        const nextItems = [...prevFixed.items, optimisticItem];
+        const totalFixedExpense = calcTotalFixedExpense(nextItems);
+
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
           ...prevFixed,
-          items: [...prevFixed.items, optimisticItem],
+          items: nextItems,
+          totalFixedExpense,
+          amountAvailable: prevFixed.budget - totalFixedExpense,
         });
       }
 
@@ -100,15 +123,10 @@ export function useFixedExpenseAddMutation() {
     },
 
     onError: (_error, _variables, context) => {
+      toast.error("고정지출 추가에 실패했어요. 다시 시도해 주세요.");
       if (context?.prevFixed) {
         queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
-      });
     },
   });
 }
@@ -124,9 +142,23 @@ export function useFixedExpenseRemoveMutation() {
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       console.log(`${variables.tag}를 삭제했어요.`);
-      toast.success(`[고정지출] "${variables.tag}"이 삭제됐어요.`);
+      toast.success(`[고정지출] "${variables.tag}" 삭제됐어요.`);
+
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
+
+      if (prevFixed && data) {
+        const totalFixedExpense = calcTotalFixedExpense(data.items);
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
+          ...prevFixed,
+          ...data,
+          day: prevFixed.day,
+          totalFixedExpense,
+          amountAvailable: data.budget - totalFixedExpense,
+        });
+      }
     },
 
     onMutate: async (variables) => {
@@ -134,13 +166,18 @@ export function useFixedExpenseRemoveMutation() {
 
       await queryClient.cancelQueries({ queryKey: fixedKey });
 
-      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
       const { tag, createdAt } = variables;
 
       if (prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, {
+        const nextItems = prevFixed.items.filter((i) => !(i.tag === tag && i.createdAt === createdAt));
+        const totalFixedExpense = calcTotalFixedExpense(nextItems);
+
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
           ...prevFixed,
-          items: prevFixed.items.filter((i) => !(i.tag === tag && i.createdAt === createdAt)),
+          items: nextItems,
+          totalFixedExpense,
+          amountAvailable: prevFixed.budget - totalFixedExpense,
         });
       }
 
@@ -148,15 +185,10 @@ export function useFixedExpenseRemoveMutation() {
     },
 
     onError: (_error, _variables, context) => {
+      toast.error("고정지출 삭제에 실패했어요. 다시 시도해 주세요.");
       if (context?.prevFixed) {
         queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
-      });
     },
   });
 }
@@ -172,8 +204,22 @@ export function useFixedExpenseUpdateMutation() {
     mutationKey: userAmountQueryKeys.updateFixedExpense(),
     mutationFn: (params: FixedUpdateItem) => updateFixedItem(params),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원으로 수정됐어요.`);
+
+      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
+
+      if (prevFixed && data) {
+        const totalFixedExpense = calcTotalFixedExpense(data.items);
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
+          ...prevFixed,
+          ...data,
+          day: prevFixed.day,
+          totalFixedExpense,
+          amountAvailable: data.budget - totalFixedExpense,
+        });
+      }
     },
 
     onMutate: async (variables) => {
@@ -181,14 +227,19 @@ export function useFixedExpenseUpdateMutation() {
 
       await queryClient.cancelQueries({ queryKey: fixedKey });
 
-      const prevFixed = queryClient.getQueryData<FixedRow>(fixedKey);
+      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
       const targetCreatedAt = variables.createdAt;
       const nextItem = { ...variables.item, createdAt: targetCreatedAt };
 
       if (prevFixed) {
-        queryClient.setQueryData<FixedRow>(fixedKey, {
+        const nextItems = prevFixed.items.map((i) => (i.createdAt === targetCreatedAt ? nextItem : i));
+        const totalFixedExpense = calcTotalFixedExpense(nextItems);
+
+        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
           ...prevFixed,
-          items: prevFixed.items.map((i) => (i.createdAt === targetCreatedAt ? nextItem : i)),
+          items: nextItems,
+          totalFixedExpense,
+          amountAvailable: prevFixed.budget - totalFixedExpense,
         });
       }
 
@@ -196,15 +247,10 @@ export function useFixedExpenseUpdateMutation() {
     },
 
     onError: (_error, _variables, context) => {
+      toast.error("고정지출 수정에 실패했어요. 다시 시도해 주세요.");
       if (context?.prevFixed) {
         queryClient.setQueryData(userAmountQueryKeys.fixedExpenseTable(userId), context.prevFixed);
       }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
-      });
     },
   });
 }
@@ -236,8 +282,17 @@ export function useAddExpenseMutation() {
   return useMutation({
     mutationFn: (params: AddExpenseParams) => addExpense(params),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (data, variables) => {
       toast.success(`${variables.amount.toLocaleString()}원이 추가됐어요.`);
+
+      if (data) {
+        queryClient.setQueryData<AmountSummary>(userAmountQueryKeys.summary(variables.userId, ym), {
+          budget: data.budget,
+          fixedTotal: data.fixedTotal,
+          totalVariable: data.totalVariable,
+          amountAvailable: data.amountAvailable,
+        });
+      }
     },
 
     onMutate: async (variables) => {
@@ -260,15 +315,10 @@ export function useAddExpenseMutation() {
     },
 
     onError: (_error, _variables, context) => {
+      toast.error("지출 추가에 실패했어요. 다시 시도해 주세요.");
       if (context?.prevSummary) {
         queryClient.setQueryData(userAmountQueryKeys.summary(context.userId, ym), context.prevSummary);
       }
-    },
-
-    onSettled: (_data, _error, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: userAmountQueryKeys.summary(variables.userId, ym),
-      });
     },
   });
 }
@@ -323,16 +373,12 @@ export function useUpdateBudgetMutation() {
     },
 
     onError: (_error, _variables, context) => {
+      toast.error("월수입 변경에 실패했어요. 다시 시도해 주세요.");
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
       const summaryKey = userAmountQueryKeys.summary(userId, ym);
 
       if (context?.prevFixed) queryClient.setQueryData(fixedKey, context.prevFixed);
       if (context?.prevSummary) queryClient.setQueryData(summaryKey, context.prevSummary);
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpenseTable(userId) });
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.summary(userId, ym) });
     },
   });
 }

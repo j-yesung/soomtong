@@ -1,11 +1,13 @@
+import { memo } from "react";
+
 import { BarChart, Box } from "@/shared/ui";
 import { AmountSummary } from "@/features/expense/types";
 
-type Props = {
+type BudgetBarChartProps = {
   data: AmountSummary | null;
 };
 
-export default function BudgetBarChart({ data }: Props) {
+function BudgetBarChart({ data }: BudgetBarChartProps) {
   if (!data) return null;
 
   const amountAvailable = data?.amountAvailable;
@@ -26,3 +28,5 @@ export default function BudgetBarChart({ data }: Props) {
     </Box>
   );
 }
+
+export default memo(BudgetBarChart);
