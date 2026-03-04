@@ -1,28 +1,29 @@
 import styled, { css } from "styled-components";
 
-import { hideScrollbarOnTouch } from "@/shared/styles/scroll";
 import { Column } from "@/shared/ui";
 
 export const ListScreenContainer = styled(Column)`
-  height: calc(100dvh - 100px);
-  overflow: hidden;
   gap: 12px;
   position: relative;
+  padding-bottom: calc(110px + env(safe-area-inset-bottom));
 `;
 
 export const ListBox = styled(Column)<{ $hasItems: boolean }>`
-  overflow: auto;
   gap: 12px;
-  min-height: 0;
   align-self: stretch;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 110px;
-  ${hideScrollbarOnTouch}
+  padding-bottom: 12px;
 
   ${({ $hasItems }) =>
     $hasItems &&
     css`
-      padding-bottom: 75px;
+      padding-bottom: 12px;
     `}
+`;
+
+export const EmptyState = styled(Column)`
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 `;
