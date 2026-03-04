@@ -4,9 +4,9 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { userAmountQueryKeys } from "@/features/common/queries";
 import { DashboardContent } from "@/features/dashboard/home/components";
 import { DashboardTab } from "@/features/dashboard/home/store";
+import { getServerUser } from "@/shared/lib/auth/get-server-user";
 import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/shared/lib/query/dashboardQueries.server";
 import { getQueryClient } from "@/shared/lib/query/getQueryClient";
-import { createClient } from "@/shared/lib/supabase/server";
 
 interface DashboardPageProps {
   searchParams: Promise<{ tab?: DashboardTab }>;
@@ -15,13 +15,10 @@ interface DashboardPageProps {
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const { tab = "home" } = await searchParams;
   const queryClient = getQueryClient();
-  const supabase = await createClient();
+  const user = await getServerUser();
+  const userId = user?.id;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user?.id) {
+  if (!userId) {
     redirect("/login?next=/dashboard");
   }
 
@@ -31,19 +28,19 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
     await Promise.all([
       queryClient.prefetchQuery({
-        queryKey: userAmountQueryKeys.summary(user.id, ym),
-        queryFn: () => getAmountSummaryServer(user.id),
+        queryKey: userAmountQueryKeys.summary(userId, ym),
+        queryFn: () => getAmountSummaryServer(userId),
       }),
       queryClient.prefetchQuery({
-        queryKey: userAmountQueryKeys.fixedExpenseTable(user.id),
-        queryFn: () => getFixedExpenseTableServer(user.id),
+        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
+        queryFn: () => getFixedExpenseTableServer(userId),
       }),
     ]);
   }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DashboardContent initialTab={tab} userId={user.id} />
+      <DashboardContent initialTab={tab} userId={userId} />
     </HydrationBoundary>
   );
 }
