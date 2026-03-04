@@ -6,6 +6,7 @@ import { useTheme } from "styled-components";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { CalendarIcon, FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
+import { navigateToDashboardTab } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
@@ -27,11 +28,8 @@ export default function BottomNavigation() {
   if (!isDashboard) return null;
 
   const handleTabClick = (tab: DashboardTab) => {
-    window.scrollTo({ top: 0, behavior: "instant" });
     setActiveTab(tab);
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set("tab", tab);
-    window.history.replaceState({}, "", newUrl.toString());
+    navigateToDashboardTab(tab);
   };
 
   return (

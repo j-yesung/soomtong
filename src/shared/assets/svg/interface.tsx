@@ -88,3 +88,15 @@ export const FixedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
     </svg>
   );
 };
+
+export const EmptyIcon = ({ size = 56, color = "currentColor" }: IconProps) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="6" y="9" width="44" height="38" rx="10" stroke={color} strokeWidth="2" />
+      <path d="M18 21H38" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <path d="M18 28H33" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="38" cy="38" r="8" stroke={color} strokeWidth="2" />
+      <path d="M44 44L49 49" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+};

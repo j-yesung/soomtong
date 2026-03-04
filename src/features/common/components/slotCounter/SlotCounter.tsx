@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef } from "react";
 
 import { motion } from "framer-motion";
 
-import { Row, Text } from "@/shared/ui";
 import { AppTheme } from "@/shared/styles/theme";
+import { Row, Text } from "@/shared/ui";
 import { formatWithComma } from "@/shared/utils/formatter";
 
 import DigitReel from "./DigitRell";
@@ -43,16 +43,14 @@ export default function SlotCounter({
   const glyphs = useMemo(() => {
     const chars = Array.from(formatted);
     const list: Array<
-      | { type: "digit"; char: string; place: number; shouldAnimate: boolean }
-      | { type: "sep"; char: string }
+      { type: "digit"; char: string; place: number; shouldAnimate: boolean } | { type: "sep"; char: string }
     > = [];
 
     let place = 1;
     for (let i = chars.length - 1; i >= 0; i -= 1) {
       const ch = chars[i];
       if (/\d/.test(ch)) {
-        const shouldAnimate =
-          prevValue === null ? true : digitAtPlace(prevValue, place) !== digitAtPlace(value, place);
+        const shouldAnimate = prevValue === null ? true : digitAtPlace(prevValue, place) !== digitAtPlace(value, place);
         list[i] = { type: "digit", char: ch, place, shouldAnimate };
         place *= 10;
       } else {

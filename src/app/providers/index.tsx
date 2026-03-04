@@ -7,11 +7,11 @@ import { ThemeProvider } from "styled-components";
 
 import AuthSessionSync from "@/features/auth/components/authSessionSync";
 import { PWAIOSInstallPromptScreen } from "@/features/pwa/components";
-import StyledComponentsRegistry from "@/shared/lib/styled-components-registry";
-import { Toast } from "@/shared/ui";
-import { GlobalStyle } from "@/shared/styles/global";
 import MainLayout from "@/shared/layout/mainLayout";
+import StyledComponentsRegistry from "@/shared/lib/styled-components-registry";
+import { GlobalStyle } from "@/shared/styles/global";
 import { theme } from "@/shared/styles/theme";
+import { Toast } from "@/shared/ui";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(

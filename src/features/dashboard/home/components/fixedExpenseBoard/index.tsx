@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 
-import Link from "next/link";
-
-import { Button, Card, Column, Heading, Row } from "@/shared/ui";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/home/components";
+import { useDashboardTabStore } from "@/features/dashboard/home/store";
+import { navigateToDashboardTab } from "@/shared/lib/navigation/dashboard";
+import { Button, Card, Column, Heading, Row } from "@/shared/ui";
 
 export default function FixedExpenseBoard({ userId }: { userId: string }) {
   const { data, isLoading, isFetched } = useFixedExpenseTableQuery(userId);
 
   const updateBudget = useBudgetStore((state) => state.updateBudget);
+  const setActiveTab = useDashboardTabStore((state) => state.setActiveTab);
 
   useEffect(() => {
     if (data) {
@@ -22,7 +23,7 @@ export default function FixedExpenseBoard({ userId }: { userId: string }) {
     return null;
   }
 
-  if (!data || data?.items?.length === 0) {
+  if (!data || !data?.totalFixedExpense) {
     return (
       <Card direction="column" gap={32}>
         <Column gap={32} pvh={[0, 16]}>
@@ -36,9 +37,14 @@ export default function FixedExpenseBoard({ userId }: { userId: string }) {
               사용 금액 계산이 더 정확해져요
             </Heading>
           </Column>
-          <Link href="/expense">
-            <Button>추가하기</Button>
-          </Link>
+          <Button
+            onClick={() => {
+              setActiveTab("fixed");
+              navigateToDashboardTab("fixed");
+            }}
+          >
+            추가하기
+          </Button>
         </Column>
       </Card>
     );

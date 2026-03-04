@@ -21,3 +21,4 @@ export { default as KeyButton } from "./keyButton";
 export { default as CategoryButton } from "./categoryButton";
 export { default as Card, CardFooter } from "./card";
 export { default as Toast } from "./toast";
+export { default as Empty } from "./empty";

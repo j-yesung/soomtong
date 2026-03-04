@@ -57,7 +57,7 @@ export type UpdateBudgetParams = {
 
 export interface AmountSummary {
   budget: number;
-  totalFixed?: number;
+  fixedTotal?: number;
   totalVariable: number;
   amountAvailable: number;
 }

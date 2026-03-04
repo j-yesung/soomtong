@@ -9,7 +9,7 @@ import { useDetailExpenseListQuery } from "@/features/common/queries";
 import { useAiInsightMutation } from "@/features/dashboard/expense/queries";
 import { useAiInsightStore } from "@/features/dashboard/expense/store";
 import { buildMonthlySummary } from "@/features/dashboard/expense/utils/summary";
-import { Alert, Button, Column, Row, Text } from "@/shared/ui";
+import { Alert, Button, Column, Empty, Row, Text } from "@/shared/ui";
 import { formatTitle, getCurrentYearMonthKst, groupByKstDate } from "@/shared/utils/date";
 
 import * as S from "./style";
@@ -42,13 +42,19 @@ export default function ExpenseScreen() {
   };
 
   return (
-    <Column gap={12}>
+    <Column gap={12} height="100%" minHeight={0}>
       <Column gap={6}>
         <Row align="center" justify="space-between">
           <Text size={24} weight={700}>
             지출내역
           </Text>
-          <Button variant="outline" width={88} height={36} disabled={isPending} onClick={handleAnalyze}>
+          <Button
+            variant="outline"
+            width={88}
+            height={36}
+            disabled={isPending || grouped.length === 0}
+            onClick={handleAnalyze}
+          >
             {isPending ? (
               <Row align="center" gap={6}>
                 <Text size={14} weight={600}>
@@ -71,40 +77,46 @@ export default function ExpenseScreen() {
           </Text>
         )}
         {/* 지출 총 금액 */}
-        {totalAmount && <SlotCounter value={totalAmount} suffix="원" />}
+        {totalAmount ? <SlotCounter value={totalAmount} fontSize={24} suffix="원" /> : null}
       </Column>
 
-      <Column gap={16} pb={12}>
-        {grouped.map(([dateKey, items]) => (
-          <Column key={dateKey} gap={8}>
-            <Text size={14} weight={400} color="secondary">
-              {formatTitle(dateKey)}
-            </Text>
+      {grouped.length > 0 ? (
+        <Column gap={16} pb="calc(110px + env(safe-area-inset-bottom))">
+          {grouped.map(([dateKey, items]) => (
+            <Column key={dateKey} gap={8}>
+              <Text size={14} weight={400} color="secondary">
+                {formatTitle(dateKey)}
+              </Text>
 
-            <Column gap={4}>
-              {items.map((item) => (
-                <Column key={item.id}>
-                  {item.category && <Text size={18}>{item.category}</Text>}
+              <Column gap={4}>
+                {items.map((item) => (
+                  <Column key={item.id}>
+                    {item.category && <Text size={18}>{item.category}</Text>}
 
-                  <Row align="center" justify="space-between">
-                    {/* 사용날짜 */}
-                    <Text size={14} color="secondary">
-                      {new Intl.DateTimeFormat("ko-KR", {
-                        timeZone: "Asia/Seoul",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      }).format(new Date(item.created_at))}
-                    </Text>
-                    {/* 사용금액 */}
-                    <Text size={16}>{item.amount?.toLocaleString()}원 </Text>
-                  </Row>
-                </Column>
-              ))}
+                    <Row align="center" justify="space-between">
+                      {/* 사용날짜 */}
+                      <Text size={14} color="secondary">
+                        {new Intl.DateTimeFormat("ko-KR", {
+                          timeZone: "Asia/Seoul",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        }).format(new Date(item.created_at))}
+                      </Text>
+                      {/* 사용금액 */}
+                      <Text size={16}>{item.amount?.toLocaleString()}원 </Text>
+                    </Row>
+                  </Column>
+                ))}
+              </Column>
             </Column>
-          </Column>
-        ))}
-      </Column>
+          ))}
+        </Column>
+      ) : (
+        <S.EmptyState>
+          <Empty description="아직 지출내역이 없어요." />
+        </S.EmptyState>
+      )}
       <Alert
         isOpen={alertOpen}
         title="AI 분석 완료"

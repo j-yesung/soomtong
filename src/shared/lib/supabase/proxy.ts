@@ -12,9 +12,17 @@ export async function updateSession(request: NextRequest) {
   if (!hasSupabaseCookie && isProtectedRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("next", pathname);
+    const nextPath = `${pathname}${request.nextUrl.search}`;
+    url.searchParams.set("next", nextPath);
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next({ request });
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", `${pathname}${request.nextUrl.search}`);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }

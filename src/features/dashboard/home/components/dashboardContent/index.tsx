@@ -26,7 +26,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      style={{ position: "relative", width: "100%", display: "grid" }}
+      style={{ position: "relative", width: "100%", display: "grid", height: "100%", minHeight: 0 }}
     >
       <LazyTab activeValue="home">
         <HomeScreen userId={userId} />
@@ -45,7 +45,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       </LazyTab>
 
       <LazyTab activeValue="fixed">
-        <FixedExpenseList renderType="dashboard" />
+        <FixedExpenseList />
       </LazyTab>
     </motion.div>
   );

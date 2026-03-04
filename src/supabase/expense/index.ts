@@ -103,10 +103,10 @@ export async function addExpense(params: AddExpenseParams) {
     _spent_at: null,
   });
 
-  if (data[0] === null) return null;
   if (error) throw error;
+  if (!data?.[0]) return null;
 
-  return data?.[0] as AddExpenseResult;
+  return data[0] as AddExpenseResult;
 }
 
 /**
@@ -121,7 +121,7 @@ export async function getExpenseList(userId: string) {
 /**
  * 월급일자 업데이트
  */
-export async function updateBuget(params: UpdateBudgetParams) {
+export async function updateBudget(params: UpdateBudgetParams) {
   const { budget, day } = params;
   const { error } = await supabase.rpc("update_fixed_settings", { _budget: budget, _day: day });
   if (error) throw error;
