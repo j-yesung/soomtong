@@ -18,7 +18,7 @@ export default function Keypad({
   onChange,
   layout = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "reset", "0", "back"],
 }: MoneyPadSectionProps) {
-  const digits = useMemo(() => value.replace(/\D/g, ""), [value]);
+  const digits = useMemo(() => value?.replace(/\D/g, ""), [value]);
 
   const format = (d: string) => {
     if (!d) return "";

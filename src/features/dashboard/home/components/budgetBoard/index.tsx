@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
-
 import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
@@ -27,11 +25,9 @@ export default function BudgetBoard({ userId }: { userId: string }) {
   const [expenseAmount, setExpenseAmount] = useState("");
   const [expenseCategory, setExpenseCategory] = useState("");
 
-  const router = useRouter();
-
   useEffect(() => {
     if (budgetItem) {
-      setBudget(budgetItem.amount?.toLocaleString());
+      setBudget(budgetItem.amount ? budgetItem.amount.toLocaleString() : "");
       setBudgetDay(budgetItem.day);
     }
   }, [budgetItem]);
@@ -65,19 +61,32 @@ export default function BudgetBoard({ userId }: { userId: string }) {
 
   if (!data || !data?.budget) {
     return (
-      <Card direction="column">
-        <Column gap={32} pvh={[0, 16]}>
-          <Column as="header">
-            <Heading level={2} fontWeight="bold">
-              월수입을 입력해 주세요
-            </Heading>
-            <Heading level={5} fontWeight="normal" color="secondary">
-              월수입을 기반으로 생활비를 계획해 보세요
-            </Heading>
+      <>
+        <Card direction="column">
+          <Column gap={32} pvh={[0, 16]}>
+            <Column as="header">
+              <Heading level={2} fontWeight="bold">
+                월수입을 입력해 주세요
+              </Heading>
+              <Heading level={5} fontWeight="normal" color="secondary">
+                월수입을 기반으로 생활비를 계획해 보세요
+              </Heading>
+            </Column>
+            <Button onClick={() => setBudgetSheetOpen(true)}>추가하기</Button>
           </Column>
-          <Button onClick={() => router.push("/salary")}>추가하기</Button>
-        </Column>
-      </Card>
+        </Card>
+
+        <BottomSheet isOpen={budgetSheetOpen} onClose={() => setBudgetSheetOpen(false)} title="월수입 입력">
+          <Column gap={12}>
+            <DatePicker selectedDay={budgetDay} onChange={setBudgetDay} />
+            <AmountInput value={budget} onChange={setBudget} />
+
+            <Button onClick={handleBudgetSubmit} disabled={!budget}>
+              저장하기
+            </Button>
+          </Column>
+        </BottomSheet>
+      </>
     );
   }
 

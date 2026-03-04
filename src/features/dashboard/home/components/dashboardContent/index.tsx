@@ -45,7 +45,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       </LazyTab>
 
       <LazyTab activeValue="fixed">
-        <FixedExpenseList renderType="dashboard" />
+        <FixedExpenseList />
       </LazyTab>
     </motion.div>
   );
