@@ -3,25 +3,28 @@ import styled from "styled-components";
 
 import { Button } from "@/shared/ui";
 
-export const monthFadeVariants: Variants = {
-  enter: {
-    opacity: 0,
+export const monthSlideVariants: Variants = {
+  enter: (direction: 1 | -1) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 1,
     pointerEvents: "none",
-  },
+  }),
   center: {
+    x: "0%",
     opacity: 1,
     pointerEvents: "auto",
   },
-  exit: {
-    opacity: 0,
+  exit: (direction: 1 | -1) => ({
+    x: direction > 0 ? "-100%" : "100%",
+    opacity: 1,
     pointerEvents: "none",
-  },
+  }),
 };
 
-export const monthFadeReducedVariants: Variants = {
-  enter: { opacity: 1, pointerEvents: "none" },
-  center: { opacity: 1, pointerEvents: "auto" },
-  exit: { opacity: 1, pointerEvents: "none" },
+export const monthSlideReducedVariants: Variants = {
+  enter: { x: 0, opacity: 1, pointerEvents: "none" },
+  center: { x: 0, opacity: 1, pointerEvents: "auto" },
+  exit: { x: 0, opacity: 1, pointerEvents: "none" },
 };
 
 export const CalendarWrapper = styled.div`
@@ -176,16 +179,20 @@ export const CalendarWrapper = styled.div`
 
 export const MonthMotionViewport = styled.div`
   position: relative;
-  display: grid;
+  display: block;
   align-items: start;
   overflow: hidden;
   min-height: 356px;
+  isolation: isolate;
 `;
 
 export const MotionMonth = styled(motion.div)`
-  grid-area: 1 / 1;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  will-change: opacity;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 `;
 
 export const MonthNavButton = styled(Button)`

@@ -19,6 +19,7 @@ type Props = {
 };
 
 type CalendarViewContextValue = {
+  slideDirection: 1 | -1;
   expensesByDay: ExpensesByDay;
   reduceMotion: boolean;
 };
@@ -27,8 +28,8 @@ const CalendarViewContext = createContext<CalendarViewContextValue | null>(null)
 
 const SLIDE_TRANSITION = {
   type: "tween",
-  duration: 0.2,
-  ease: [0.25, 0.1, 0.25, 1],
+  duration: 0.24,
+  ease: [0.22, 1, 0.36, 1],
 } as const;
 
 const REDUCED_TRANSITION = { duration: 0 } as const;
@@ -44,18 +45,19 @@ const useCalendarViewContext = () => {
 };
 
 function AnimatedMonth({ calendarMonth, displayIndex, children, ...rest }: MonthProps) {
-  const { reduceMotion } = useCalendarViewContext();
+  const { slideDirection, reduceMotion } = useCalendarViewContext();
   const motionKey = format(startOfMonth(calendarMonth.date), "yyyy-MM");
 
   return (
     <S.MonthMotionViewport data-display-index={displayIndex} {...rest}>
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence custom={slideDirection} initial={false} mode="sync">
         <S.MotionMonth
           key={motionKey}
+          custom={slideDirection}
           initial="enter"
           animate="center"
           exit="exit"
-          variants={reduceMotion ? S.monthFadeReducedVariants : S.monthFadeVariants}
+          variants={reduceMotion ? S.monthSlideReducedVariants : S.monthSlideVariants}
           transition={reduceMotion ? REDUCED_TRANSITION : SLIDE_TRANSITION}
         >
           {children}
@@ -113,7 +115,9 @@ const CALENDAR_COMPONENTS = {
 export default function CalendarView({ onDayClick, onMonthChange, month, selectedDate, expensesByDay }: Props) {
   const reduceMotion = useReducedMotion();
   const {
+    slideDirection,
     handleMonthTransition,
+    setDirectionByDate,
     handlePointerDown,
     handlePointerMove,
     handlePointerEnd,
@@ -129,10 +133,11 @@ export default function CalendarView({ onDayClick, onMonthChange, month, selecte
 
   const contextValue = useMemo<CalendarViewContextValue>(
     () => ({
+      slideDirection,
       expensesByDay,
       reduceMotion: Boolean(reduceMotion),
     }),
-    [expensesByDay, reduceMotion]
+    [slideDirection, expensesByDay, reduceMotion]
   );
 
   return (
@@ -154,6 +159,7 @@ export default function CalendarView({ onDayClick, onMonthChange, month, selecte
             }
 
             if (date) {
+              setDirectionByDate(date);
               onDayClick(date);
             }
           }}
