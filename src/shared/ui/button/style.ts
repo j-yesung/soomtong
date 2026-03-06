@@ -119,6 +119,11 @@ export const Button = styled.button<ButtonStyleProps>`
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   appearance: none;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 
   &::after {
     content: "";
@@ -131,6 +136,10 @@ export const Button = styled.button<ButtonStyleProps>`
 
   &:active::after {
     opacity: 1;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
   }
 
   ${({ $size }) => sizeStyles[$size]}

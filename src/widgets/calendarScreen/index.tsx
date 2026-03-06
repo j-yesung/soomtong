@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 
-import { getMonth, getYear } from "date-fns";
+import { getDaysInMonth, getMonth, getYear, startOfMonth } from "date-fns";
 
-import { Column } from "@/shared/ui";
 import { CalendarView, DayDetailPanel } from "@/features/dashboard/calendar/components";
 import { useCalendarExpenseData } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
+import { Column } from "@/shared/ui";
 
 export default function CalendarScreen() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const today = new Date();
+  const [selectedDate, setSelectedDate] = useState<Date>(today);
+  const [displayedMonth, setDisplayedMonth] = useState<Date>(startOfMonth(today));
 
-  const currentDate = selectedDate;
+  const currentDate = displayedMonth;
   const year = getYear(currentDate);
   const month = getMonth(currentDate) + 1;
 
@@ -19,12 +21,32 @@ export default function CalendarScreen() {
 
   const handleDayClick = (date: Date) => {
     setSelectedDate(date);
+    setDisplayedMonth(startOfMonth(date));
+  };
+
+  const handleMonthChange = (nextMonth: Date) => {
+    const normalizedMonth = startOfMonth(nextMonth);
+    const nextYear = normalizedMonth.getFullYear();
+    const nextMonthIndex = normalizedMonth.getMonth();
+
+    setDisplayedMonth(normalizedMonth);
+    setSelectedDate((previous) => {
+      const currentDay = previous.getDate();
+      const maxDay = getDaysInMonth(normalizedMonth);
+      return new Date(nextYear, nextMonthIndex, Math.min(currentDay, maxDay));
+    });
   };
 
   return (
-    <Column height="100%" minHeight={0} gap={12}>
+    <Column height="100%" minHeight={0} gap={40}>
       <Column flex={1} minHeight={0}>
-        <CalendarView selectedDate={selectedDate} onDayClick={handleDayClick} expensesByDay={expensesByDay} />
+        <CalendarView
+          month={displayedMonth}
+          onMonthChange={handleMonthChange}
+          selectedDate={selectedDate}
+          onDayClick={handleDayClick}
+          expensesByDay={expensesByDay}
+        />
       </Column>
       <Column flex={1} minHeight={0}>
         <DayDetailPanel selectedDate={selectedDate} expensesByDay={expensesByDay} />

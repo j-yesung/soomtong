@@ -1,28 +1,22 @@
 
-import { TAG_COLORS } from "@/shared/config";
-
 import * as S from "./style";
 import * as T from "./type";
 
 export default function Tag({
   onClick,
   children,
-  isSelected,
-  fontSize,
-  fontWeight,
-  variant = "default",
-  color,
+  selected,
+  size = "sm",
+  variant = "badge",
 }: T.TagProps) {
-  const categoryColor = TAG_COLORS[children as string];
-
   return (
     <S.TagButton
       onClick={onClick}
       variant={variant}
-      color={color ?? categoryColor}
-      isSelected={isSelected}
-      fontSize={fontSize}
-      fontWeight={fontWeight}
+      selected={selected}
+      size={size}
+      clickable={Boolean(onClick)}
+      aria-pressed={onClick ? selected : undefined}
     >
       {children}
     </S.TagButton>

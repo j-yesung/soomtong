@@ -1,19 +1,17 @@
-type Variant = "fixed" | "select" | "default" | "list" | "status";
+type Variant = "chip" | "badge";
+type Size = "sm" | "md";
 
 export interface TagProps {
   onClick?: () => void;
   children: React.ReactNode;
   variant?: Variant;
-  fontSize?: number;
-  fontWeight?: number;
-  isSelected?: boolean;
-  color?: string;
+  size?: Size;
+  selected?: boolean;
 }
 
 export interface TagStylesProps {
   variant: Variant;
-  isSelected?: boolean;
-  color?: string;
-  fontWeight?: number;
-  fontSize?: number;
+  size: Size;
+  selected?: boolean;
+  clickable?: boolean;
 }

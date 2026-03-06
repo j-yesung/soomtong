@@ -1,6 +1,44 @@
+import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 
+import { Button } from "@/shared/ui";
+
+export const monthSlideVariants: Variants = {
+  enter: (direction: 1 | -1) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 1,
+    pointerEvents: "none",
+  }),
+  center: {
+    x: "0%",
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+  exit: (direction: 1 | -1) => ({
+    x: direction > 0 ? "-100%" : "100%",
+    opacity: 1,
+    pointerEvents: "none",
+  }),
+};
+
+export const monthSlideReducedVariants: Variants = {
+  enter: { x: 0, opacity: 1, pointerEvents: "none" },
+  center: { x: 0, opacity: 1, pointerEvents: "auto" },
+  exit: { x: 0, opacity: 1, pointerEvents: "none" },
+};
+
 export const CalendarWrapper = styled.div`
+  position: relative;
+
+  .rdp-months {
+    display: block;
+    overflow: hidden;
+  }
+
+  .rdp-month {
+    width: 100%;
+  }
+
   .rdp {
     --rdp-cell-size: 44px;
     --rdp-accent-color: #34c759;
@@ -13,10 +51,22 @@ export const CalendarWrapper = styled.div`
     width: 100%;
   }
 
+  .rdp-months,
+  .rdp-month,
+  .rdp-month table,
+  .rdp-month_grid,
+  .rdp-weeks {
+    touch-action: pan-y;
+  }
+
   .rdp-month table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+  }
+
+  .rdp-month_grid {
+    width: 100%;
   }
 
   .rdp-month_caption {
@@ -29,25 +79,10 @@ export const CalendarWrapper = styled.div`
 
   .rdp-nav {
     display: flex;
-    gap: 8px;
-  }
-
-  .rdp-button_previous,
-  .rdp-button_next {
-    width: 32px;
-    height: 32px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 8px;
-    color: #666;
-
-    &:hover {
-      background: #f5f5f5;
-    }
+    gap: 10px;
+    padding: 10px 0 4px;
   }
 
   .rdp-weekdays {
@@ -139,6 +174,43 @@ export const CalendarWrapper = styled.div`
 
   .rdp-today.rdp-selected .rdp-day_button {
     color: #34c759;
+  }
+`;
+
+export const MonthMotionViewport = styled.div`
+  position: relative;
+  display: block;
+  align-items: start;
+  overflow: hidden;
+  min-height: 356px;
+  isolation: isolate;
+`;
+
+export const MotionMonth = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+`;
+
+export const MonthNavButton = styled(Button)`
+  width: auto !important;
+  min-width: 74px;
+  padding: 0 12px !important;
+  touch-action: manipulation;
+  background: ${({ theme }) => theme.colors.bg.inverseWhite} !important;
+  color: ${({ theme }) => theme.colors.text.secondary} !important;
+  border-color: ${({ theme }) => theme.colors.border.secondary} !important;
+  font-size: 12px !important;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  line-height: 1;
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.4;
   }
 `;
 
