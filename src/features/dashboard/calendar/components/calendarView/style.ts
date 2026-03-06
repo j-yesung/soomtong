@@ -1,6 +1,41 @@
+import { motion, Variants } from "framer-motion";
 import styled from "styled-components";
 
+import { Button } from "@/shared/ui";
+
+export const monthFadeVariants: Variants = {
+  enter: {
+    opacity: 0,
+    pointerEvents: "none",
+  },
+  center: {
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+  exit: {
+    opacity: 0,
+    pointerEvents: "none",
+  },
+};
+
+export const monthFadeReducedVariants: Variants = {
+  enter: { opacity: 1, pointerEvents: "none" },
+  center: { opacity: 1, pointerEvents: "auto" },
+  exit: { opacity: 1, pointerEvents: "none" },
+};
+
 export const CalendarWrapper = styled.div`
+  position: relative;
+
+  .rdp-months {
+    display: block;
+    overflow: hidden;
+  }
+
+  .rdp-month {
+    width: 100%;
+  }
+
   .rdp {
     --rdp-cell-size: 44px;
     --rdp-accent-color: #34c759;
@@ -13,10 +48,22 @@ export const CalendarWrapper = styled.div`
     width: 100%;
   }
 
+  .rdp-months,
+  .rdp-month,
+  .rdp-month table,
+  .rdp-month_grid,
+  .rdp-weeks {
+    touch-action: pan-y;
+  }
+
   .rdp-month table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+  }
+
+  .rdp-month_grid {
+    width: 100%;
   }
 
   .rdp-month_caption {
@@ -29,25 +76,10 @@ export const CalendarWrapper = styled.div`
 
   .rdp-nav {
     display: flex;
-    gap: 8px;
-  }
-
-  .rdp-button_previous,
-  .rdp-button_next {
-    width: 32px;
-    height: 32px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 8px;
-    color: #666;
-
-    &:hover {
-      background: #f5f5f5;
-    }
+    gap: 10px;
+    padding: 10px 0 4px;
   }
 
   .rdp-weekdays {
@@ -139,6 +171,39 @@ export const CalendarWrapper = styled.div`
 
   .rdp-today.rdp-selected .rdp-day_button {
     color: #34c759;
+  }
+`;
+
+export const MonthMotionViewport = styled.div`
+  position: relative;
+  display: grid;
+  align-items: start;
+  overflow: hidden;
+  min-height: 356px;
+`;
+
+export const MotionMonth = styled(motion.div)`
+  grid-area: 1 / 1;
+  width: 100%;
+  will-change: opacity;
+`;
+
+export const MonthNavButton = styled(Button)`
+  width: auto !important;
+  min-width: 74px;
+  padding: 0 12px !important;
+  touch-action: manipulation;
+  background: ${({ theme }) => theme.colors.bg.inverseWhite} !important;
+  color: ${({ theme }) => theme.colors.text.secondary} !important;
+  border-color: ${({ theme }) => theme.colors.border.secondary} !important;
+  font-size: 12px !important;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  line-height: 1;
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.4;
   }
 `;
 

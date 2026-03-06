@@ -19,7 +19,7 @@ export interface ButtonStyleProps {
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   ref?: React.Ref<HTMLButtonElement>;
   children: React.ReactNode;
   size?: ButtonSize;
