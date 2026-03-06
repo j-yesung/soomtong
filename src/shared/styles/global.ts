@@ -102,8 +102,16 @@ export const GlobalStyle = createGlobalStyle`
     border: 0;
     margin: 0;
     outline: none;
-    transition: 0.3s;
+    transition:
+      transform 0.12s ease,
+      filter 0.12s ease,
+      background-color 0.2s ease;
   }
+
+  button:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
   button svg { transition: 0.3s; }
 
   input, textarea, select {

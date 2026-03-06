@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
-import { CategoryButton } from "@/shared/ui";
+import { Tag } from "@/shared/ui";
 import { TagItem } from "@/shared/config";
 
 type Props = {
@@ -14,29 +14,35 @@ type Props = {
 export default function FixedExpenseCategoryList({ onClick, defaultTag, categoryList }: Props) {
   const [selectedName, setSelectedName] = useState(defaultTag ?? "");
 
+  useEffect(() => {
+    setSelectedName(defaultTag ?? "");
+  }, [defaultTag]);
+
   const handleClick = (name: string) => {
     setSelectedName(name);
     onClick(name);
   };
 
   return (
-    <ListGrid>
-      {categoryList.map(({ name, icon }) => (
-        <CategoryButton
+    <ListWrap>
+      {categoryList.map(({ name }) => (
+        <Tag
           key={name}
-          name={name}
-          icon={icon}
+          variant="chip"
+          size="md"
           selected={name === selectedName}
           onClick={() => handleClick(name)}
-        />
+        >
+          {name}
+        </Tag>
       ))}
-    </ListGrid>
+    </ListWrap>
   );
 }
 
-const ListGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+const ListWrap = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-self: stretch;
 `;
