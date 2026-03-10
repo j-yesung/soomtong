@@ -1,76 +1,131 @@
-# Soomtong App (숨통)
+# 숨통 (Soomtong)
 
-### 내 생활비에 숨통이 트이다!
+월수입 기준으로 "이번 달에 실제로 쓸 수 있는 생활비"를 계산하고 관리하는 모바일 우선 가계부 PWA  
+Next.js App Router + Supabase(Auth/DB) 기반으로 동작합니다.
 
-> 월급을 기준으로 "이번 달에 실제로 사용할 수 있는 돈"을 명확하게 보여주는 개인 재무 관리 서비스<br>
-> 고정지출과 저축/투자를 먼저 분리한 뒤 남은 생활비를 기준으로 사용 흐름을 시각화해 "얼마를 쓰면 되는지"가 아니라 "얼마까지 써도 괜찮은지"를 직관적으로 이해할 수 있도록 제작<br>
-> 단순한 기능 구현을 넘어 **확장성 있는 아키텍처**, **최적화된 사용자 경험**, **안정적인 인프라 구축**에 주안점을 두었다.
+## 주요 기능
 
-## 🏗 아키텍처 및 디자인 패턴 (Architecture)
+- Google OAuth 로그인
+- 월수입/정산일 설정 및 사용 가능 금액 계산
+- 고정지출 추가/수정/삭제
+- 지출 등록 및 일자별 지출 내역 조회
+- 월간 캘린더 지출 뷰 + 선택 날짜 상세 패널
+- AI 지출 분석(코치형 텍스트 리포트)
+- iOS PWA 설치 안내 및 홈 화면 실행 지원
 
-이 프로젝트는 유지보수성과 확장성을 고려하여 **Feature-Sliced Design (FSD)** 과 유사한 도메인 주도 설계로 구현했습니다.
+## 기술 스택
 
-### 1. Domain-Driven Structure (`src/features`)
+| 영역       | 사용 기술                           |
+| ---------- | ----------------------------------- |
+| Framework  | Next.js 15 (App Router), React 19   |
+| Language   | TypeScript                          |
+| Styling    | styled-components v6, styled-system |
+| State/Data | Zustand, TanStack Query v5          |
+| Backend    | Supabase (Auth, Postgres, RPC)      |
+| AI         | Google Gemini (`@google/genai`)     |
+| PWA        | `next-pwa`                          |
 
-기능(Feature)을 기준으로 폴더를 격리하여 응집도를 높이고 결합도를 낮췄습니다. 각 기능 폴더는 UI, 데이터 로직, 상태 관리를 독립적으로 구현했습니다.
+## 프로젝트 구조
 
-- **Dashboard**: 재무 상태 시각화 및 데이터 집계
-- **Expense**: 지출 내역 CRUD 및 카테고리 관리
-- **Salary**: 직원 급여 계산 및 명세서 관리
-- **Auth**: Supabase 기반의 인증 세션 관리
+```text
+.
+├─ src
+│  ├─ app                    # 라우트, API route, 레이아웃
+│  ├─ features               # 도메인 기능 단위 UI/상태/쿼리
+│  ├─ widgets                # 화면 단위 조합
+│  ├─ shared                 # 공용 UI, 유틸, lib
+│  └─ supabase               # Supabase 데이터 접근 로직
+├─ public                    # 아이콘, 매니페스트, PWA 리소스
+└─ infra                     # 과거 EC2/Docker CI/CD 실험용 파일(현재 운영 미사용)
+```
 
-### 2. Modern Tech Stack & Decision
+## 시작하기
 
-| Category     | Stack                        | Decision Rationale                                                                                                    |
-| ------------ | ---------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| **Core**     | **Next.js 15 (App Router)**  | 서버 컴포넌트(RSC)를 활용한 초기 로딩 최적화 및 SEO 강화. TurboPack 도입으로 빠른 개발 경험 확보.                     |
-| **Language** | **TypeScript**               | 정적 타입을 통한 런타임 에러 방지 및 개발자 경험(DX) 향상.                                                            |
-| **State**    | **Zustand & React Query**    | 클라이언트 상태(Zustand)와 서버 상태(TanStack Query)의 명확한 분리. Optimistic Update를 통한 즉각적인 UI 반응성 구현. |
-| **UI/UX**    | **React 19 & Framer Motion** | React 19의 최신 기능 활용. Framer Motion을 이용한 부드러운 화면 전환 및 인터랙션.                                     |
-| **Styling**  | **Styled Components**        | CSS-in-JS 방식을 통한 동적 스타일링 및 컴포넌트 단위 스타일 캡슐화.                                                   |
+### 1) 요구 사항
 
-### 3. Mobile-First UX
+- Node.js 20+
+- pnpm 10+
+- Supabase 프로젝트(구글 OAuth 활성화)
 
-모바일 환경에서의 사용성을 최우선으로 고려했습니다.
+### 2) 설치
 
-- **Custom Hooks**: `useBottomSheet` 등 모바일 네이티브 앱과 유사한 제스처 및 인터랙션을 웹에서 구현하기 위한 커스텀 훅 개발
-- **Responsive Design**: 다양한 디바이스 크기에 대응하는 유연한 레이아웃 시스템 구축
+```bash
+pnpm install
+```
 
-## 🛠 백엔드 및 인프라 (Backend & Infra)
+### 3) 환경 변수 설정
 
-프론트엔드 개발자가 주도적으로 관리할 수 있는 **Serverless** 및 **Container** 기반 인프라 구축
+`.env.local` 파일에 아래 값을 설정합니다.
 
-### 🔐 Supabase (BaaS)
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_GEMINI_API_KEY=
+```
 
-- **Authentication**: JWT 기반의 안전한 세션 관리 및 소셜 로그인 연동
-- **Database**: PostgreSQL 기반의 강력한 관계형 데이터베이스 활용. Row Level Security (RLS) 정책을 통해 데이터 보안 강화
-- **Edge Function**: 서버리스 환경에서의 가벼운 백엔드 로직 처리
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`는 필수입니다.
+- `NEXT_PUBLIC_GEMINI_API_KEY`는 AI 분석 기능(`/api/ai/insight`) 사용 시 필요합니다.
+- `NEXT_PUBLIC_SITE_URL`은 로컬/컨테이너 기반 실행 시 사용합니다.
 
-### ☁️ Deployment & Infra
+### 4) 실행
 
-#### Current Deployment (Vercel)
+```bash
+pnpm dev
+```
 
-- **Vercel**: Next.js에 최적화된 Vercel을 사용하여 CI/CD 및 호스팅을 관리하고 있어서 별도의 인프라 관리 비용 없이 고가용성과 성능 확보
+브라우저에서 `http://localhost:3000`을 열면 `/dashboard`로 리다이렉트됩니다.
 
-#### Legacy / Knowledge (AWS EC2 & Docker)
+## 스크립트
 
-> `infra` 폴더는 AWS EC2, Docker, Caddy를 활용한 **직접 배포 파이프라인 구축 경험**을 기록으로 남겨둔 것
+| 명령어           | 설명                      |
+| ---------------- | ------------------------- |
+| `pnpm dev`       | 개발 서버 실행(Turbopack) |
+| `pnpm build`     | 프로덕션 빌드             |
+| `pnpm start`     | 빌드 결과 실행            |
+| `pnpm lint`      | ESLint 검사               |
+| `pnpm typecheck` | 타입 검사                 |
 
-- **Dockerization**: 애플리케이션을 컨테이너화하여 개발 및 배포 환경의 일관성 보장
-- **Caddy Web Server**: 자동 HTTPS 인증서 발급 및 리버스 프록시(Reverse Proxy) 설정
+## 라우트 요약
 
-## ✨ 기술적 도전 및 해결 (Technical Highlights)
+| 경로                              | 설명                       |
+| --------------------------------- | -------------------------- |
+| `/`                               | `/dashboard`로 리다이렉트  |
+| `/login`                          | Google 로그인 페이지       |
+| `/dashboard`                      | 메인 대시보드(보호 라우트) |
+| `/dashboard?tab=home`             | 홈 요약                    |
+| `/dashboard?tab=calendar`         | 달력 뷰                    |
+| `/dashboard?tab=fixed`            | 고정지출 관리              |
+| `/dashboard?tab=expense`          | 지출내역                   |
+| `/dashboard?tab=expense-analysis` | AI 분석 결과               |
+| `/prompt-information`             | iOS PWA 설치 안내          |
+| `/auth/callback`                  | OAuth 콜백                 |
+| `/api/ai/insight`                 | AI 분석 API(POST)          |
 
-### 🚀 성능 최적화 (Performance)
+## Supabase 준비 체크리스트
 
-- **Code Splitting**: Next.js의 자동 코드 분할 및 Dynamic Import를 적극 활용하여 TTI 단축
-- **Image Optimization**: `next/image` 컴포넌트를 사용하여 이미지 포맷 자동 변환(WebP/AVIF) 및 Lazy Loading 적용
+### 인증
 
-### 🔄 데이터 동기화와 캐싱
+- Google Provider 활성화
+- Redirect URL 등록
+  - `http://localhost:3000/auth/callback`
+  - 운영 도메인 `/auth/callback`
 
-- **Stale-While-Revalidate**: React Query의 캐싱 전략을 세밀하게 조정하여 서버 부하를 줄이면서도 최신 데이터를 유지하도록 설계
-- **Prefetching**: 사용자가 다음 페이지로 이동할 확률이 높은 경우 데이터를 미리 로드하여 끊김 없는 사용자 경험 제공
+### 데이터
 
-### 🧩 컴포넌트 추상화
+코드에서 아래 리소스를 사용합니다.
 
-- **Headless UI Design**: 비즈니스 로직과 스타일을 분리하여 재사용 가능한 공통 컴포넌트(`src/components/common`) 라이브러리 구축
+- 테이블: `user_profile`, `fixed_expenses`, `expenses`
+- RPC 함수:
+  - `add_fixed_item`
+  - `remove_fixed_item`
+  - `update_fixed_item`
+  - `get_current_month_amount_summary`
+  - `add_expense`
+  - `update_fixed_settings`
+
+## 배포 참고
+
+- 현재 운영 배포는 **Vercel**을 사용합니다.
+- `infra` 폴더의 EC2/Docker/Caddy 및 워크플로우 파일은 CI/CD 구축 경험을 위해 잠깐 사용했던 실험/참고용 자료입니다.
+- 앱은 `next.config.mjs`에서 `output: "standalone"`로 설정되어 있어 필요 시 컨테이너 배포 방식으로 다시 전환할 수 있습니다.
