@@ -42,7 +42,7 @@ function calcTotalFixedExpense(items: FixedRow["items"] = []) {
  * 지출내역 조회
  */
 export function useDetailExpenseListQuery() {
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
   return useQuery({
     queryKey: userAmountQueryKeys.detailExpenseList(userId),
     queryFn: () => getExpenseList(userId),
@@ -75,7 +75,7 @@ export function useFixedExpenseTableQuery(userId: string) {
  */
 export function useFixedExpenseAddMutation() {
   const queryClient = useQueryClient();
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
 
   return useMutation({
     mutationKey: userAmountQueryKeys.addFixedExpense(),
@@ -136,7 +136,7 @@ export function useFixedExpenseAddMutation() {
  */
 export function useFixedExpenseRemoveMutation() {
   const queryClient = useQueryClient();
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
 
   return useMutation({
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
@@ -198,7 +198,7 @@ export function useFixedExpenseRemoveMutation() {
  */
 export function useFixedExpenseUpdateMutation() {
   const queryClient = useQueryClient();
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
 
   return useMutation({
     mutationKey: userAmountQueryKeys.updateFixedExpense(),
@@ -325,7 +325,7 @@ export function useAddExpenseMutation() {
 
 export function useUpdateBudgetMutation() {
   const queryClient = useQueryClient();
-  const userId = useUserStore((s) => s.userInfo).id;
+  const userId = useUserStore((s) => s.userId);
 
   const now = new Date();
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;

@@ -1,10 +1,8 @@
-import { type User } from "@supabase/supabase-js";
-
 export interface AuthState {
-  userInfo: User;
+  userId: string;
 }
 
 export interface AuthActions {
-  updateUserInfo: (info: User) => void;
-  clearUserInfo: () => void;
+  setUserId: (id: string) => void;
+  clearUserId: () => void;
 }

@@ -1,7 +1,8 @@
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { Box } from "@/shared/ui";
-import { createClient } from "@/shared/lib/supabase/server";
+import { getServerUser } from "@/shared/lib/auth/get-server-user";
 import GoogleLoginButton from "@/features/auth/components/googleLoginButton";
 
 interface LoginPageProps {
@@ -10,10 +11,11 @@ interface LoginPageProps {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { next } = await searchParams;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const cookieStore = await cookies();
+  const hasSupabaseCookie = cookieStore
+    .getAll()
+    .some((cookie) => cookie.name.startsWith("sb-") || cookie.name.startsWith("supabase-"));
+  const user = hasSupabaseCookie ? await getServerUser() : null;
 
   if (user) {
     const nextPath = next?.startsWith("/") ? next : "/dashboard";

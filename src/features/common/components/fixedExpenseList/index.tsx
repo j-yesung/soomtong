@@ -15,7 +15,7 @@ export default function FixedExpenseList() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<FixedItem>({} as FixedItem);
 
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
 

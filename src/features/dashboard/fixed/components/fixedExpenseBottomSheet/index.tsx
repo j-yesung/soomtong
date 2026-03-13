@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function FixedExpenseBottomSheet({ onClose, open, sheetType, item }: Props) {
-  const userId = useUserStore((state) => state.userInfo).id;
+  const userId = useUserStore((state) => state.userId);
 
   const { mutate: addExpense } = useFixedExpenseAddMutation();
   const { mutate: updateExpense } = useFixedExpenseUpdateMutation();
