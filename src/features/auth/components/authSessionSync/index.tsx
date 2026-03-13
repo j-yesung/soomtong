@@ -4,44 +4,35 @@ import { useEffect } from "react";
 
 import { useUserStore } from "@/features/auth/store";
 import { createClient } from "@/shared/lib/supabase/client";
+import { hasSupabaseCookie } from "@/shared/utils/auth";
 
 export default function AuthSessionSync() {
-  const updateUserInfo = useUserStore((state) => state.updateUserInfo);
-  const clearUserInfo = useUserStore((state) => state.clearUserInfo);
+  const setUserId = useUserStore((state) => state.setUserId);
+  const clearUserId = useUserStore((state) => state.clearUserId);
 
   useEffect(() => {
+    if (!hasSupabaseCookie()) {
+      clearUserId();
+      return;
+    }
+
     const supabase = createClient();
-
-    const syncCurrentUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        updateUserInfo(user);
-        return;
-      }
-
-      clearUserInfo();
-    };
-
-    void syncCurrentUser();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        updateUserInfo(session.user);
+        setUserId(session.user.id);
         return;
       }
 
-      clearUserInfo();
+      clearUserId();
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [clearUserInfo, updateUserInfo]);
+  }, [clearUserId, setUserId]);
 
   return null;
 }

@@ -42,28 +42,26 @@ export default function BottomNavigation() {
           return (
             <S.NavItem
               key={item.tab}
-              as="div"
               $isActive={isActive}
               onClick={() => handleTabClick(item.tab as DashboardTab)}
-              style={{ cursor: "pointer" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 420, damping: 28 }}
+              aria-label={item.label}
+              aria-current={isActive ? "page" : undefined}
+              type="button"
             >
               {isActive && (
                 <motion.div
                   layoutId="activeBackground"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: 24,
-                    background: "rgba(255, 255, 255, 0.85)",
-                    backdropFilter: "blur(10px)",
-                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-                  }}
+                  style={{ position: "absolute", inset: 0 }}
                   transition={{
                     type: "spring",
-                    stiffness: 500,
-                    damping: 35,
+                    stiffness: 430,
+                    damping: 36,
                   }}
-                />
+                >
+                  <S.ActivePill />
+                </motion.div>
               )}
               <S.NavContent>
                 <Icon size={22} color={isActive ? theme.colors.bg.primary : "#8e8e93"} />
