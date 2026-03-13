@@ -4,12 +4,8 @@ import { getDate, parseISO } from "date-fns";
 
 import { useUserStore } from "@/features/auth/store";
 import { useDetailExpenseListQuery, useFixedExpenseTableQuery } from "@/features/common/queries";
-import { ExpenseList, FixedItem } from "@/features/expense/types";
 
-export type DayExpenseData = {
-  fixed: FixedItem[];
-  variable: ExpenseList[];
-};
+import { DayExpenseData } from "../types";
 
 export type ExpensesByDay = Map<number, DayExpenseData>;
 
