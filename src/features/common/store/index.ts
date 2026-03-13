@@ -8,7 +8,6 @@ type Budget = {
 interface BudgetStoreState {
   budget: Budget;
   updateBudget: (payload: Partial<Budget>) => void;
-  resetBudget: () => void;
 }
 
 const initialBudget: Budget = {
@@ -26,9 +25,4 @@ export const useBudgetStore = create<BudgetStoreState>((set) => ({
         ...payload,
       },
     })),
-
-  resetBudget: () =>
-    set({
-      budget: initialBudget,
-    }),
 }));

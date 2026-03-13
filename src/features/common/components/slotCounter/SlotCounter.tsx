@@ -8,7 +8,7 @@ import { AppTheme } from "@/shared/styles/theme";
 import { Row, Text } from "@/shared/ui";
 import { formatWithComma } from "@/shared/utils/formatter";
 
-import DigitReel from "./DigitRell";
+import DigitReel from "./DigitReel";
 
 type SlotCounterProps = {
   value: number;

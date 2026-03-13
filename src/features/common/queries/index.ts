@@ -143,7 +143,6 @@ export function useFixedExpenseRemoveMutation() {
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
 
     onSuccess: (data, variables) => {
-      console.log(`${variables.tag}를 삭제했어요.`);
       toast.success(`[고정지출] "${variables.tag}" 삭제됐어요.`);
 
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
