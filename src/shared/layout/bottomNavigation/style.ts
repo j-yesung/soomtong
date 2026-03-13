@@ -104,6 +104,7 @@ export const NavContent = styled.div`
   align-items: center;
   gap: 4px;
   z-index: 1;
+  pointer-events: none;
 `;
 
 export const NavLabel = styled.span<{ $isActive?: boolean }>`

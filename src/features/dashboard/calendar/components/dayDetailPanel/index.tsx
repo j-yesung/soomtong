@@ -32,19 +32,26 @@ export default function DayDetailPanel({ selectedDate, expensesByDay }: Props) {
           <Column gap={20}>
             {/* 고정 지출 */}
             {fixedExpenses.map((expense) => (
-              <div key={`fixed-${expense.createdAt}`}>
-                <Row gap={6} align="center">
-                  <S.DotIndicator color="#007aff" />
-                  <Text weight={500} size={15}>
-                    {expense.tag}
-                  </Text>
-                </Row>
-                <Column gap={4} style={{ flex: 1 }}>
+              <Column key={`fixed-${expense.createdAt}`} gap={4}>
+                <Row align="center" justify="space-between">
+                  <Row gap={6} align="center">
+                    <S.DotIndicator color="#007aff" />
+                    <Text weight={500} size={15}>
+                      {expense.tag}
+                    </Text>
+                  </Row>
                   <Text color="gray" size={13}>
                     {expense.amount.toLocaleString()}원
                   </Text>
-                </Column>
-              </div>
+                </Row>
+                <Row ml={12}>
+                  {expense.memo && (
+                    <Text size={12} variant="caption">
+                      {expense.memo}
+                    </Text>
+                  )}
+                </Row>
+              </Column>
             ))}
             {/* 변동 지출 */}
             {variableExpenses.map((expense) => (
