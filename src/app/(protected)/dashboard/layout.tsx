@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <Suspense fallback={null}>
           <DashboardHeader />
         </Suspense>
-        {children}
+        <Column flex={1}>{children}</Column>
       </Column>
       <Suspense fallback={null}>
         <BottomNavigation />

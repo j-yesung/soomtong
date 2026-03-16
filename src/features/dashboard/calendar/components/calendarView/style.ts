@@ -1,4 +1,4 @@
-import { motion, Variants } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 import styled from "styled-components";
 
 import { Button } from "@/shared/ui";
@@ -175,6 +175,66 @@ export const CalendarWrapper = styled.div`
   .rdp-today.rdp-selected .rdp-day_button {
     color: #34c759;
   }
+
+  @media (max-width: 390px), (max-height: 820px) {
+    .rdp {
+      --rdp-cell-size: 38px;
+    }
+
+    .rdp-month_caption {
+      padding: 10px 0;
+      font-size: 16px;
+    }
+
+    .rdp-nav {
+      padding: 6px 0 2px;
+    }
+
+    .rdp-weekday {
+      padding: 4px 0;
+      font-size: 12px;
+    }
+  }
+
+  @media (max-height: 680px) {
+    .rdp {
+      --rdp-cell-size: 34px;
+    }
+
+    .rdp-month_caption {
+      padding: 8px 0;
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 375px) and (max-height: 700px) {
+    .rdp {
+      --rdp-cell-size: 26px;
+    }
+
+    .rdp-day {
+      padding: 0;
+    }
+
+    .rdp-day_button {
+      font-size: 12px;
+    }
+
+    .rdp-month_caption {
+      padding: 2px 0;
+      font-size: 13px;
+    }
+
+    .rdp-nav {
+      padding: 0;
+      gap: 2px;
+    }
+
+    .rdp-weekday {
+      padding: 0;
+      font-size: 9px;
+    }
+  }
 `;
 
 export const MonthMotionViewport = styled.div`
@@ -182,8 +242,24 @@ export const MonthMotionViewport = styled.div`
   display: block;
   align-items: start;
   overflow: hidden;
-  min-height: 356px;
+  min-height: 300px;
   isolation: isolate;
+
+  @media (max-width: 390px), (max-height: 820px) {
+    min-height: 300px;
+  }
+
+  @media (max-height: 680px) {
+    min-height: 264px;
+  }
+
+  @media (max-height: 620px) {
+    min-height: 240px;
+  }
+
+  @media (max-width: 375px) and (max-height: 700px) {
+    min-height: 200px;
+  }
 `;
 
 export const MotionMonth = styled(motion.div)`
@@ -211,6 +287,12 @@ export const MonthNavButton = styled(Button)`
   &:disabled,
   &[aria-disabled="true"] {
     opacity: 0.4;
+  }
+
+  @media (max-width: 375px) and (max-height: 700px) {
+    min-width: 50px;
+    padding: 0 4px !important;
+    font-size: 9px !important;
   }
 `;
 
