@@ -6,7 +6,8 @@ import { getDaysInMonth, getMonth, getYear, startOfMonth } from "date-fns";
 
 import { CalendarView, DayDetailPanel } from "@/features/dashboard/calendar/components";
 import { useCalendarExpenseData } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
-import { Column } from "@/shared/ui";
+
+import * as S from "./style";
 
 export default function CalendarScreen() {
   const today = new Date();
@@ -38,8 +39,8 @@ export default function CalendarScreen() {
   };
 
   return (
-    <Column height="100%" minHeight={0} gap={40}>
-      <Column flex={1} minHeight={0}>
+    <S.Container>
+      <S.CalendarSection>
         <CalendarView
           month={displayedMonth}
           onMonthChange={handleMonthChange}
@@ -47,10 +48,10 @@ export default function CalendarScreen() {
           onDayClick={handleDayClick}
           expensesByDay={expensesByDay}
         />
-      </Column>
-      <Column flex={1} minHeight={0}>
+      </S.CalendarSection>
+      <S.DetailSection>
         <DayDetailPanel selectedDate={selectedDate} expensesByDay={expensesByDay} />
-      </Column>
-    </Column>
+      </S.DetailSection>
+    </S.Container>
   );
 }

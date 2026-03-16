@@ -27,7 +27,7 @@ export default function DayDetailPanel({ selectedDate, expensesByDay }: Props) {
         </Text>
       </S.PanelHeader>
 
-      <S.ScrollableContent $hasExpenses={hasExpenses}>
+      <S.ScrollableContent>
         {hasExpenses ? (
           <Column gap={20}>
             {/* 고정 지출 */}
@@ -71,11 +71,11 @@ export default function DayDetailPanel({ selectedDate, expensesByDay }: Props) {
             ))}
           </Column>
         ) : (
-          <S.EmptyState>
+          <Row align="center" justify="center" height="100%">
             <Text color="gray" size={14}>
               이 날짜에 등록된 내역이 없어요.
             </Text>
-          </S.EmptyState>
+          </Row>
         )}
       </S.ScrollableContent>
     </S.PanelContainer>
