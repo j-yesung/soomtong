@@ -11,10 +11,9 @@ import HomeScreen from "@/widgets/homeScreen";
 
 interface DashboardContentProps {
   initialTab: DashboardTab;
-  userId: string;
 }
 
-export default function DashboardContent({ initialTab, userId }: DashboardContentProps) {
+export default function DashboardContent({ initialTab }: DashboardContentProps) {
   const setActiveTab = useDashboardTabStore((state) => state.setActiveTab);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function DashboardContent({ initialTab, userId }: DashboardConten
       style={{ position: "relative", width: "100%", display: "grid", height: "100%", minHeight: 0 }}
     >
       <LazyTab activeValue="home">
-        <HomeScreen userId={userId} />
+        <HomeScreen />
       </LazyTab>
 
       <LazyTab activeValue="calendar">

@@ -35,7 +35,6 @@ export default function WheelPicker({ items, value, onChange, visibleCount = 8, 
 
       <S.OverlayTop />
       <S.OverlayBottom />
-      {/* <S.CenterHighlight /> */}
     </S.PickerWrapper>
   );
 }

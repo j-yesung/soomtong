@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { useUserStore } from "@/features/auth/store";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseDonutChart, FixedExpenseReport } from "@/features/dashboard/home/components";
@@ -7,7 +8,8 @@ import { useDashboardTabStore } from "@/features/dashboard/home/store";
 import { navigateToDashboardTab } from "@/shared/lib/navigation/dashboard";
 import { Button, Card, Column, Heading, Row } from "@/shared/ui";
 
-export default function FixedExpenseBoard({ userId }: { userId: string }) {
+export default function FixedExpenseBoard() {
+  const userId = useUserStore((state) => state.userId);
   const { data, isLoading, isFetched } = useFixedExpenseTableQuery(userId);
 
   const updateBudget = useBudgetStore((state) => state.updateBudget);
@@ -19,7 +21,7 @@ export default function FixedExpenseBoard({ userId }: { userId: string }) {
     }
   }, [data, updateBudget]);
 
-  if (isLoading || !isFetched) {
+  if (!userId || isLoading || !isFetched) {
     return null;
   }
 

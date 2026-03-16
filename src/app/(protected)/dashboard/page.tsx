@@ -1,12 +1,5 @@
-import { redirect } from "next/navigation";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-
-import { userAmountQueryKeys } from "@/features/common/queries";
 import { DashboardContent } from "@/features/dashboard/home/components";
 import { DashboardTab } from "@/features/dashboard/home/store";
-import { getServerUser } from "@/shared/lib/auth/get-server-user";
-import { getAmountSummaryServer, getFixedExpenseTableServer } from "@/shared/lib/query/dashboardQueries.server";
-import { getQueryClient } from "@/shared/lib/query/getQueryClient";
 
 interface DashboardPageProps {
   searchParams: Promise<{ tab?: DashboardTab }>;
@@ -14,33 +7,5 @@ interface DashboardPageProps {
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const { tab = "home" } = await searchParams;
-  const queryClient = getQueryClient();
-  const user = await getServerUser();
-  const userId = user?.id;
-
-  if (!userId) {
-    redirect("/login?next=/dashboard");
-  }
-
-  if (tab === "home") {
-    const now = new Date();
-    const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
-
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: userAmountQueryKeys.summary(userId, ym),
-        queryFn: () => getAmountSummaryServer(userId),
-      }),
-      queryClient.prefetchQuery({
-        queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
-        queryFn: () => getFixedExpenseTableServer(userId),
-      }),
-    ]);
-  }
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <DashboardContent initialTab={tab} userId={userId} />
-    </HydrationBoundary>
-  );
+  return <DashboardContent initialTab={tab} />;
 }

@@ -65,9 +65,3 @@ export function getBudgetStatusDisplay(data: AmountSummary): BudgetStatusMeta {
   return getBudgetStatusMeta(status);
 }
 
-/**
- * 예산 상태에 따른 색상을 반환 (호환성 유지용)
- */
-export function getBudgetStatusColor(status: BudgetStatus) {
-  return getBudgetStatusMeta(status).color;
-}

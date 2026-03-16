@@ -11,9 +11,9 @@ type Props = {
   onChange: (day: number) => void;
 };
 
-const DEFTAULT_DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
+const DEFAULT_DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
 
-export default function DatePicker({ days = DEFTAULT_DAYS, selectedDay, onChange }: Props) {
+export default function DatePicker({ days = DEFAULT_DAYS, selectedDay, onChange }: Props) {
   const activeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {

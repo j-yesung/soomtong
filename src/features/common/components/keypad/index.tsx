@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { ArrowIcon } from "@/shared/assets/svg/interface";
 import { Grid, KeyButton } from "@/shared/ui";
+import { formatWithComma } from "@/shared/utils/formatter";
 
 type KeypadLayoutKey = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "back" | "reset";
 
@@ -20,16 +21,9 @@ export default function Keypad({
 }: MoneyPadSectionProps) {
   const digits = useMemo(() => value?.replace(/\D/g, ""), [value]);
 
-  const format = (d: string) => {
-    if (!d) return "";
-    const n = Number(d);
-    if (!Number.isFinite(n)) return "";
-    return new Intl.NumberFormat("ko-KR").format(n);
-  };
-
   const apply = (nextDigits: string) => {
     const normalized = nextDigits.replace(/^0+(?=\d)/, "");
-    onChange(normalized ? format(normalized) : "");
+    onChange(normalized ? formatWithComma(normalized) : "");
     if (navigator.vibrate) navigator.vibrate(600);
   };
 
