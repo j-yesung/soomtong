@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
-type Budget = {
-  amount: number;
-  day: number;
-};
+import { Budget } from "../types";
 
 interface BudgetStoreState {
   budget: Budget;
