@@ -17,12 +17,5 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-pathname", `${pathname}${request.nextUrl.search}`);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  return NextResponse.next();
 }

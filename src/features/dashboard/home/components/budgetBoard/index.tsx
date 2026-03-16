@@ -5,11 +5,13 @@ import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation }
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
+import { useUserStore } from "@/features/auth/store";
 import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/shared/ui";
 import { parseNumericInput } from "@/shared/utils/formatter";
 
-export default function BudgetBoard({ userId }: { userId: string }) {
+export default function BudgetBoard() {
+  const userId = useUserStore((state) => state.userId);
   const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
   const { mutate: updateBudget } = useUpdateBudgetMutation();
   const { mutate: addExpense } = useAddExpenseMutation();
@@ -59,7 +61,7 @@ export default function BudgetBoard({ userId }: { userId: string }) {
     handleExpenseClose();
   };
 
-  if (isLoading || !isFetched) {
+  if (!userId || isLoading || !isFetched) {
     return null;
   }
 
