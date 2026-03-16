@@ -1,65 +1,27 @@
-import { useEffect, useState } from "react";
-
+import { useUserStore } from "@/features/auth/store";
 import { AmountInput, DatePicker } from "@/features/common/components";
-import { useAddExpenseMutation, useAmountSummaryQuery, useUpdateBudgetMutation } from "@/features/common/queries";
+import { useAmountSummaryQuery } from "@/features/common/queries";
 import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
-import { useUserStore } from "@/features/auth/store";
 import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/shared/ui";
-import { parseNumericInput } from "@/shared/utils/formatter";
+
+import useBudgetSheetForm from "../../hooks/useBudgetSheetForm";
+import useExpenseSheetForm from "../../hooks/useExpenseSheetForm";
 
 export default function BudgetBoard() {
   const userId = useUserStore((state) => state.userId);
-  const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
-  const { mutate: updateBudget } = useUpdateBudgetMutation();
-  const { mutate: addExpense } = useAddExpenseMutation();
-
   const budgetItem = useBudgetStore((state) => state.budget);
 
-  const [budget, setBudget] = useState("");
-  const [budgetDay, setBudgetDay] = useState(new Date().getDate());
-  const [budgetSheetOpen, setBudgetSheetOpen] = useState(false);
+  const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
 
-  // 지출 추가 상태
-  const [expenseSheetOpen, setExpenseSheetOpen] = useState(false);
-  const [expenseAmount, setExpenseAmount] = useState("");
-  const [expenseCategory, setExpenseCategory] = useState("");
-
-  useEffect(() => {
-    if (budgetItem) {
-      setBudget(budgetItem.amount ? budgetItem.amount.toLocaleString() : "");
-      setBudgetDay(budgetItem.day);
-    }
-  }, [budgetItem]);
+  const budgetForm = useBudgetSheetForm({ budgetItem });
+  const expenseForm = useExpenseSheetForm({ userId });
 
   const hasBudget = !!data?.budget;
   const budgetBottomSheetTitle = hasBudget ? "월수입 변경" : "월수입 추가";
   const budgetSubmitLabel = hasBudget ? "변경하기" : "추가하기";
-
-  const handleBudgetSubmit = () => {
-    const numericSalary = parseNumericInput(budget);
-    updateBudget({ budget: numericSalary, day: budgetDay });
-    setBudgetSheetOpen(false);
-  };
-
-  const handleExpenseClose = () => {
-    setExpenseAmount("");
-    setExpenseCategory("");
-    setExpenseSheetOpen(false);
-  };
-
-  const handleExpenseSubmit = () => {
-    if (!userId || !expenseAmount) return;
-
-    addExpense({
-      userId,
-      amount: parseNumericInput(expenseAmount),
-      category: expenseCategory,
-    });
-    handleExpenseClose();
-  };
 
   if (!userId || isLoading || !isFetched) {
     return null;
@@ -73,12 +35,12 @@ export default function BudgetBoard() {
             <BudgetReport data={data} />
             <BudgetBarChart data={data} />
             <Card.Footer>
-              <button type="button" onClick={() => setBudgetSheetOpen(true)}>
+              <button type="button" onClick={budgetForm.open}>
                 <Text className="inner" size={14} color="inverseWhite">
                   월수입 변경
                 </Text>
               </button>
-              <button type="button" onClick={() => setExpenseSheetOpen(true)}>
+              <button type="button" onClick={expenseForm.open}>
                 <Text size={14} color="inverseWhite">
                   지출 추가
                 </Text>
@@ -95,38 +57,35 @@ export default function BudgetBoard() {
                 월수입을 기반으로 생활비를 계획해 보세요
               </Heading>
             </Column>
-            <Button onClick={() => setBudgetSheetOpen(true)}>추가하기</Button>
+            <Button onClick={budgetForm.open}>추가하기</Button>
           </Column>
         )}
       </Card>
 
-      <BottomSheet isOpen={budgetSheetOpen} onClose={() => setBudgetSheetOpen(false)} title={budgetBottomSheetTitle}>
+      <BottomSheet isOpen={budgetForm.isOpen} onClose={budgetForm.close} title={budgetBottomSheetTitle}>
         <Column gap={12}>
-          <DatePicker selectedDay={budgetDay} onChange={setBudgetDay} />
-          <AmountInput value={budget} onChange={setBudget} />
+          <DatePicker selectedDay={budgetForm.budgetDay} onChange={budgetForm.setBudgetDay} />
+          <AmountInput value={budgetForm.budget} onChange={budgetForm.setBudget} />
 
-          <Button onClick={handleBudgetSubmit} disabled={!budget}>
+          <Button onClick={budgetForm.submit} disabled={!budgetForm.budget}>
             {budgetSubmitLabel}
           </Button>
         </Column>
       </BottomSheet>
 
       {hasBudget && (
-        <BottomSheet isOpen={expenseSheetOpen} onClose={handleExpenseClose} title="지출 등록">
+        <BottomSheet isOpen={expenseForm.isOpen} onClose={expenseForm.close} title="지출 등록">
           <Column gap={12}>
             <Text size={16} weight={700}>
               항목
             </Text>
-            <FixedExpenseCategoryList
-              onClick={(category) => setExpenseCategory(category)}
-              categoryList={EXPENSE_CATEGORY_LIST}
-            />
-            <AmountInput value={expenseAmount} onChange={setExpenseAmount} />
+            <FixedExpenseCategoryList onClick={expenseForm.setCategory} categoryList={EXPENSE_CATEGORY_LIST} />
+            <AmountInput value={expenseForm.amount} onChange={expenseForm.setAmount} />
             <Row gap={8}>
-              <Button onClick={handleExpenseClose} color="danger">
+              <Button onClick={expenseForm.close} color="danger">
                 닫기
               </Button>
-              <Button onClick={handleExpenseSubmit} disabled={!expenseAmount || !expenseCategory}>
+              <Button onClick={expenseForm.submit} disabled={!expenseForm.amount || !expenseForm.category}>
                 등록
               </Button>
             </Row>
