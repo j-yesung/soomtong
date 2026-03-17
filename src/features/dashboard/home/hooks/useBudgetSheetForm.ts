@@ -1,23 +1,20 @@
 import { useState } from "react";
 
-import { useUpdateBudgetMutation } from "@/features/common/queries";
-import { Budget } from "@/features/common/types";
+import { useUpdateBudgetMutation, useUserProfileQuery } from "@/features/common/queries";
 import { parseNumericInput } from "@/shared/utils/formatter";
 
-type Props = {
-  budgetItem: Budget;
-};
-
-export default function useBudgetSheetForm({ budgetItem }: Props) {
+export default function useBudgetSheetForm(userId: string) {
   const [isOpen, setIsOpen] = useState(false);
   const [budget, setBudget] = useState("");
   const [budgetDay, setBudgetDay] = useState(new Date().getDate());
 
+  const { data } = useUserProfileQuery(userId);
+
   const { mutate } = useUpdateBudgetMutation();
 
   const reset = () => {
-    const defaultBudget = budgetItem?.amount ? budgetItem.amount.toLocaleString() : "";
-    const defaultDay = budgetItem?.day ?? new Date().getDate();
+    const defaultBudget = data?.budget ? data.budget.toLocaleString() : "";
+    const defaultDay = data?.day ?? new Date().getDate();
     setBudget(defaultBudget);
     setBudgetDay(defaultDay);
   };
@@ -35,6 +32,7 @@ export default function useBudgetSheetForm({ budgetItem }: Props) {
     const numericSalary = parseNumericInput(budget);
     close();
     mutate({
+      userId,
       budget: numericSalary,
       day: budgetDay,
     });

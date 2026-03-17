@@ -1,6 +1,6 @@
 import { CircleAlert, Gauge, LucideIcon, Wind } from "lucide-react";
 
-import { AmountSummary } from "@/features/expense/types";
+import { AmountSummary } from "@/features/common/types";
 
 export type BudgetStatus = "여유" | "안정" | "조절";
 
@@ -64,4 +64,3 @@ export function getBudgetStatusDisplay(data: AmountSummary): BudgetStatusMeta {
   const status = getBudgetStatus(data);
   return getBudgetStatusMeta(status);
 }
-

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { FixedItem } from "@/features/common/types";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
-import { FixedItem } from "@/features/expense/types";
 import { DEFAULT_TAG_LIST } from "@/shared/config";
 import { Button, Column, Heading, Row } from "@/shared/ui";
 import { Input } from "@/shared/ui";

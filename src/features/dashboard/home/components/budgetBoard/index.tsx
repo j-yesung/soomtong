@@ -1,7 +1,6 @@
 import { useUserStore } from "@/features/auth/store";
 import { AmountInput, DatePicker } from "@/features/common/components";
 import { useAmountSummaryQuery } from "@/features/common/queries";
-import { useBudgetStore } from "@/features/common/store";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/components";
 import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
@@ -12,11 +11,10 @@ import useExpenseSheetForm from "../../hooks/useExpenseSheetForm";
 
 export default function BudgetBoard() {
   const userId = useUserStore((state) => state.userId);
-  const budgetItem = useBudgetStore((state) => state.budget);
 
   const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
 
-  const budgetForm = useBudgetSheetForm({ budgetItem });
+  const budgetForm = useBudgetSheetForm(userId);
   const expenseForm = useExpenseSheetForm({ userId });
 
   const hasBudget = !!data?.budget;

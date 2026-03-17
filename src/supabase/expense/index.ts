@@ -8,10 +8,26 @@ import {
   FixedRow,
   FixedUpdateItem,
   UpdateBudgetParams,
-} from "@/features/expense/types";
+} from "@/features/common/types";
 import { createClient } from "@/shared/lib/supabase/client";
 
 const supabase = createClient();
+
+/**
+ * 사용자 설정 조회 (예산, 월급날)
+ */
+export async function getUserProfile(userId: string) {
+  const { data, error } = await supabase
+    .from("user_profile")
+    .select("budget, salary_day")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (error) throw error;
+  return {
+    budget: data?.budget ?? 0,
+    day: data?.salary_day ?? 1,
+  };
+}
 
 /**
  * 고정지출 조회
@@ -122,7 +138,11 @@ export async function getExpenseList(userId: string) {
  * 월급일자 업데이트
  */
 export async function updateBudget(params: UpdateBudgetParams) {
-  const { budget, day } = params;
-  const { error } = await supabase.rpc("update_fixed_settings", { _budget: budget, _day: day });
+  const { userId, budget, day } = params;
+  const { error } = await supabase.rpc("update_user_settings", {
+    _user_id: userId,
+    _budget: budget,
+    _day: day,
+  });
   if (error) throw error;
 }

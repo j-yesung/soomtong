@@ -5,8 +5,8 @@ import {
   useFixedExpenseRemoveMutation,
   useFixedExpenseUpdateMutation,
 } from "@/features/common/queries";
+import { FixedItem } from "@/features/common/types";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
-import { FixedItem } from "@/features/expense/types";
 import { BottomSheet, Button, Text } from "@/shared/ui";
 
 type Props = {

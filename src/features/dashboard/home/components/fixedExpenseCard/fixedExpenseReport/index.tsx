@@ -1,4 +1,4 @@
-import { FixedExpenseTableItem } from "@/features/expense/types";
+import { FixedExpenseTableItem } from "@/features/common/types";
 
 import * as S from "./style";
 

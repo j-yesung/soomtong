@@ -1,7 +1,7 @@
 import { memo } from "react";
 
 import { SlotCounter } from "@/features/common/components";
-import { AmountSummary } from "@/features/expense/types";
+import { AmountSummary } from "@/features/common/types";
 import { Row, Text } from "@/shared/ui";
 import { getBudgetStatusDisplay } from "@/shared/utils/budgetStatus";
 

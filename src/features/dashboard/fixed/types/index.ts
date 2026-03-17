@@ -1,4 +1,4 @@
-import { FixedItem } from "@/features/expense/types";
+import { FixedItem } from "@/features/common/types";
 
 export type FixedExpenseFormMode = "add" | "edit";
 

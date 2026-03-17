@@ -1,5 +1,5 @@
+import { ExpenseList, FixedItem } from "@/features/common/types";
 import { ExpensesByDay } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
-import { ExpenseList, FixedItem } from "@/features/expense/types";
 
 export type DayExpenseData = {
   fixed: FixedItem[];
