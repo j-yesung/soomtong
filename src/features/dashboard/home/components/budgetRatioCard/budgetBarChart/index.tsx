@@ -1,7 +1,7 @@
 import { memo } from "react";
 
+import { AmountSummary } from "@/features/common/types";
 import { BarChart, Box } from "@/shared/ui";
-import { AmountSummary } from "@/features/expense/types";
 
 type BudgetBarChartProps = {
   data: AmountSummary | null;

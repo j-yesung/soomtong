@@ -1,4 +1,4 @@
-import { FixedItem } from "@/features/expense/types";
+import { FixedItem } from "@/features/common/types";
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
 import { Column, Row, Tag, Text } from "@/shared/ui";
 

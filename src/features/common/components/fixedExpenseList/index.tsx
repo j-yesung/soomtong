@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
 import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import { FixedItem } from "@/features/common/types";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
-import { FixedItem } from "@/features/expense/types";
 import { Button, Empty, Row, Text } from "@/shared/ui";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";

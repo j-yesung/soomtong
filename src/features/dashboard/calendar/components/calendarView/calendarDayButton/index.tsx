@@ -3,7 +3,7 @@ import { DayButtonProps } from "react-day-picker";
 import { useCalendarViewContext } from "../context";
 import * as S from "../style";
 
-export function CalendarDayButton({ day, modifiers: _modifiers, ...props }: DayButtonProps) {
+export function CalendarDayButton({ day, modifiers, ...props }: DayButtonProps) {
   const { expensesByDay } = useCalendarViewContext();
   const dayOfMonth = day.date.getDate();
   const expenseData = expensesByDay.get(dayOfMonth);

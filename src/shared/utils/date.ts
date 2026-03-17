@@ -1,4 +1,4 @@
-import { ExpenseList, GroupedExpense } from "@/features/expense/types";
+import { ExpenseList, GroupedExpense } from "@/features/common/types";
 
 export function getTodayString() {
   const d = new Date();

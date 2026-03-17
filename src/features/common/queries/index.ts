@@ -11,19 +11,21 @@ import {
   FixedRow,
   FixedUpdateItem,
   UpdateBudgetParams,
-} from "@/features/expense/types";
+} from "@/features/common/types";
 import {
   addExpense,
   addFixedItem,
   getCurrentMonthAmountSummary,
   getExpenseList,
   getFixedExpenseTable,
+  getUserProfile,
   removeFixedItem,
   updateBudget,
   updateFixedItem,
 } from "@/supabase/expense";
 
 export const userAmountQueryKeys = {
+  userProfile: (userId: string) => ["user-profile", userId],
   detailExpenseList: (userId: string) => ["detail-expense-list", userId],
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
   addFixedExpense: () => ["addFixedExpense"],
@@ -36,6 +38,18 @@ export const userAmountQueryKeys = {
 
 function calcTotalFixedExpense(items: FixedRow["items"] = []) {
   return items.reduce((acc, cur) => acc + cur.amount, 0);
+}
+
+/**
+ * 사용자 조회
+ */
+export function useUserProfileQuery(userId: string) {
+  return useQuery({
+    queryKey: userAmountQueryKeys.userProfile(userId),
+    queryFn: () => getUserProfile(userId),
+    enabled: !!userId,
+    staleTime: 5 * 60 * 1000,
+  });
 }
 
 /**
@@ -335,49 +349,32 @@ export function useUpdateBudgetMutation() {
 
     onSuccess: (_data, variables) => {
       toast.success(`월수입을 ${variables.budget.toLocaleString()}원으로 변경했어요.`);
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.userProfile(userId) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.summary(userId, ym) });
     },
 
     onMutate: async (variables) => {
-      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const summaryKey = userAmountQueryKeys.summary(userId, ym);
+      const profileKey = userAmountQueryKeys.userProfile(userId);
 
-      await Promise.all([
-        queryClient.cancelQueries({ queryKey: fixedKey }),
-        queryClient.cancelQueries({ queryKey: summaryKey }),
-      ]);
+      await queryClient.cancelQueries({ queryKey: profileKey });
 
-      const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
-      const prevSummary = queryClient.getQueryData<AmountSummary>(summaryKey);
+      const prevProfile = queryClient.getQueryData<{ budget: number; day: number }>(profileKey);
 
-      if (prevFixed) {
-        queryClient.setQueryData<FixedExpenseTableItem>(fixedKey, {
-          ...prevFixed,
+      if (prevProfile) {
+        queryClient.setQueryData(profileKey, {
           budget: variables.budget,
           day: variables.day,
-          amountAvailable: variables.budget - (prevFixed.totalFixedExpense ?? 0),
         });
       }
 
-      if (prevSummary) {
-        const nextAmountAvailable = variables.budget - (prevSummary.fixedTotal ?? 0) - prevSummary.totalVariable;
-
-        queryClient.setQueryData<AmountSummary>(summaryKey, {
-          ...prevSummary,
-          budget: variables.budget,
-          amountAvailable: nextAmountAvailable,
-        });
-      }
-
-      return { prevFixed, prevSummary };
+      return { prevProfile };
     },
 
     onError: (_error, _variables, context) => {
       toast.error("월수입 변경에 실패했어요. 다시 시도해 주세요.");
-      const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
-      const summaryKey = userAmountQueryKeys.summary(userId, ym);
+      const profileKey = userAmountQueryKeys.userProfile(userId);
 
-      if (context?.prevFixed) queryClient.setQueryData(fixedKey, context.prevFixed);
-      if (context?.prevSummary) queryClient.setQueryData(summaryKey, context.prevSummary);
+      if (context?.prevProfile) queryClient.setQueryData(profileKey, context.prevProfile);
     },
   });
 }

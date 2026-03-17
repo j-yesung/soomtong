@@ -1,5 +1,5 @@
+import { FixedExpenseTableItem } from "@/features/common/types";
 import { DonutChart } from "@/shared/ui";
-import { FixedExpenseTableItem } from "@/features/expense/types";
 
 type Props = {
   data: FixedExpenseTableItem;
