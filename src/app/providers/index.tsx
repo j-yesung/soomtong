@@ -5,6 +5,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "styled-components";
 
+import AnonymousAuthInitializer from "@/features/auth/components/anonymousAuthInitializer";
 import { PWAIOSInstallPromptScreen } from "@/features/pwa/components";
 import MainLayout from "@/shared/layout/mainLayout";
 import StyledComponentsRegistry from "@/shared/lib/styled-components-registry";
@@ -30,6 +31,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <Toast />
+          <AnonymousAuthInitializer />
           <MainLayout>
             {children}
             <PWAIOSInstallPromptScreen />

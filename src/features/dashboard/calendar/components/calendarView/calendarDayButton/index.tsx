@@ -11,7 +11,7 @@ export function CalendarDayButton({ day, modifiers, ...props }: DayButtonProps) 
   const hasVariable = expenseData && expenseData.variable.length > 0;
 
   return (
-    <S.DayCell {...props}>
+    <S.DayCell {...props} data-outside={modifiers.outside || undefined}>
       <S.DayNumber>{dayOfMonth}</S.DayNumber>
       <S.DotContainer>
         {hasFixed && <S.FixedDot />}

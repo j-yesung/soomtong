@@ -1,11 +1,11 @@
 # 숨통 (Soomtong)
 
 월수입 기준으로 "이번 달에 실제로 쓸 수 있는 생활비"를 계산하고 관리하는 모바일 우선 가계부 PWA  
-Next.js App Router + Supabase(Auth/DB) 기반으로 동작합니다.
+Next.js App Router + Supabase(Anonymous Auth/DB) 기반으로 동작합니다.
 
 ## 주요 기능
 
-- Google OAuth 로그인
+- 로그인 화면 없는 Supabase 익명 인증
 - 월수입/정산일 설정 및 사용 가능 금액 계산
 - 고정지출 추가/수정/삭제
 - 지출 등록 및 일자별 지출 내역 조회
@@ -45,7 +45,7 @@ Next.js App Router + Supabase(Auth/DB) 기반으로 동작합니다.
 
 - Node.js 20+
 - pnpm 10+
-- Supabase 프로젝트(구글 OAuth 활성화)
+- Supabase 프로젝트(Anonymous Sign-ins 활성화)
 
 ### 2) 설치
 
@@ -91,25 +91,21 @@ pnpm dev
 | 경로                              | 설명                       |
 | --------------------------------- | -------------------------- |
 | `/`                               | `/dashboard`로 리다이렉트  |
-| `/login`                          | Google 로그인 페이지       |
-| `/dashboard`                      | 메인 대시보드(보호 라우트) |
+| `/login`                          | `/dashboard`로 리다이렉트  |
+| `/dashboard`                      | 메인 대시보드              |
 | `/dashboard?tab=home`             | 홈 요약                    |
 | `/dashboard?tab=calendar`         | 달력 뷰                    |
 | `/dashboard?tab=fixed`            | 고정지출 관리              |
 | `/dashboard?tab=expense`          | 지출내역                   |
 | `/dashboard?tab=expense-analysis` | AI 분석 결과               |
 | `/prompt-information`             | iOS PWA 설치 안내          |
-| `/auth/callback`                  | OAuth 콜백                 |
 | `/api/ai/insight`                 | AI 분석 API(POST)          |
 
 ## Supabase 준비 체크리스트
 
 ### 인증
 
-- Google Provider 활성화
-- Redirect URL 등록
-  - `http://localhost:3000/auth/callback`
-  - 운영 도메인 `/auth/callback`
+- Anonymous Sign-ins 활성화
 
 ### 데이터
 
