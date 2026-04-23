@@ -12,7 +12,7 @@ import useExpenseSheetForm from "../../hooks/useExpenseSheetForm";
 export default function BudgetBoard() {
   const userId = useUserStore((state) => state.userId);
 
-  const { data, isLoading, isFetched } = useAmountSummaryQuery(userId);
+  const { data } = useAmountSummaryQuery(userId);
 
   const budgetForm = useBudgetSheetForm(userId);
   const expenseForm = useExpenseSheetForm({ userId });
@@ -20,10 +20,6 @@ export default function BudgetBoard() {
   const hasBudget = !!data?.budget;
   const budgetBottomSheetTitle = hasBudget ? "월수입 변경" : "월수입 추가";
   const budgetSubmitLabel = hasBudget ? "변경하기" : "추가하기";
-
-  if (!userId || isLoading || !isFetched) {
-    return null;
-  }
 
   return (
     <>
