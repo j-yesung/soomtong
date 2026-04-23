@@ -7,13 +7,9 @@ import { Button, Card, Column, Heading, Row } from "@/shared/ui";
 
 export default function FixedExpenseBoard() {
   const userId = useUserStore((state) => state.userId);
-  const { data, isLoading, isFetched } = useFixedExpenseTableQuery(userId);
+  const { data } = useFixedExpenseTableQuery(userId);
 
   const setActiveTab = useDashboardTabStore((state) => state.setActiveTab);
-
-  if (!userId || isLoading || !isFetched) {
-    return null;
-  }
 
   if (!data || !data?.totalFixedExpense) {
     return (
