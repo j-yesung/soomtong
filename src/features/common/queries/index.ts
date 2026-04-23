@@ -44,10 +44,12 @@ function calcTotalFixedExpense(items: FixedRow["items"] = []) {
  * 사용자 조회
  */
 export function useUserProfileQuery(userId: string) {
+  const isAuthReady = useUserStore((state) => state.isReady);
+
   return useQuery({
     queryKey: userAmountQueryKeys.userProfile(userId),
     queryFn: () => getUserProfile(userId),
-    enabled: !!userId,
+    enabled: isAuthReady && !!userId,
     staleTime: 5 * 60 * 1000,
   });
 }
@@ -57,10 +59,12 @@ export function useUserProfileQuery(userId: string) {
  */
 export function useDetailExpenseListQuery() {
   const userId = useUserStore((state) => state.userId);
+  const isAuthReady = useUserStore((state) => state.isReady);
+
   return useQuery({
     queryKey: userAmountQueryKeys.detailExpenseList(userId),
     queryFn: () => getExpenseList(userId),
-    enabled: !!userId,
+    enabled: isAuthReady && !!userId,
     staleTime: 30_000,
     refetchOnWindowFocus: false,
   });
@@ -70,6 +74,8 @@ export function useDetailExpenseListQuery() {
  * 고정 지출 내역 조회
  */
 export function useFixedExpenseTableQuery(userId: string) {
+  const isAuthReady = useUserStore((state) => state.isReady);
+
   return useQuery({
     queryKey: userAmountQueryKeys.fixedExpenseTable(userId),
     queryFn: () => getFixedExpenseTable(userId),
@@ -80,7 +86,7 @@ export function useFixedExpenseTableQuery(userId: string) {
       const amountAvailable = data?.budget - totalFixedExpense;
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
-    enabled: !!userId,
+    enabled: isAuthReady && !!userId,
   });
 }
 
@@ -272,6 +278,7 @@ export function useFixedExpenseUpdateMutation() {
  * 당월 금액 요약 조회
  */
 export function useAmountSummaryQuery(userId: string) {
+  const isAuthReady = useUserStore((state) => state.isReady);
   const now = new Date();
   const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
@@ -280,7 +287,7 @@ export function useAmountSummaryQuery(userId: string) {
     queryFn: () => getCurrentMonthAmountSummary(userId),
     staleTime: 30_000,
     refetchOnWindowFocus: false,
-    enabled: !!userId,
+    enabled: isAuthReady && !!userId,
   });
 }
 
