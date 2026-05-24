@@ -1,7 +1,7 @@
 import { format, getDate } from "date-fns";
 import { ko } from "date-fns/locale";
 
-import { ExpensesByDay } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
+import { ExpensesByDay } from "@/features/dashboard/calendar/model/useCalendarExpenseData";
 import { Column, Row, Text } from "@/shared/ui";
 
 import * as S from "./style";

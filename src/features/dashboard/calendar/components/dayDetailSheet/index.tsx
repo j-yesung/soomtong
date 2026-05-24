@@ -1,7 +1,7 @@
 import { getDate } from "date-fns";
 
 import { BottomSheet, Column, Row, Text } from "@/shared/ui";
-import { ExpensesByDay } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
+import { ExpensesByDay } from "@/features/dashboard/calendar/model/useCalendarExpenseData";
 
 type Props = {
   onClose: () => void;

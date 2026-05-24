@@ -5,9 +5,9 @@ import { ko } from "date-fns/locale";
 import { useReducedMotion } from "framer-motion";
 import { DayPicker } from "react-day-picker";
 
-import { useCalendarMonthInteraction } from "@/features/dashboard/calendar/hooks/useCalendarMonthInteraction";
+import { useCalendarMonthInteraction } from "@/features/dashboard/calendar/model/useCalendarMonthInteraction";
 
-import { ExpensesByDay } from "../../hooks/useCalendarExpenseData";
+import { ExpensesByDay } from "../../model/useCalendarExpenseData";
 import { CalendarViewContextValue } from "../../types";
 import { CALENDAR_COMPONENTS } from "./calendarComponents";
 import { CalendarViewProvider } from "./context";
