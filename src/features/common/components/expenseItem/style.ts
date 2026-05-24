@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export const ItemCard = styled.div`
+export const ItemCard = styled.div<{ $isPaid: boolean }>`
   padding: 14px 12px;
-  background: ${({ theme }) => theme.colors.bg.inverseWhite};
-  border: 1px solid ${({ theme }) => theme.colors.border.secondary};
+  background: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.bg.lightBlue : theme.colors.bg.inverseWhite)};
+  border: 1px solid ${({ $isPaid, theme }) => ($isPaid ? theme.colors.border.darkBlue : theme.colors.border.secondary)};
   border-radius: ${({ theme }) => theme.radius.md};
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
@@ -23,6 +23,39 @@ export const ItemCard = styled.div`
   svg {
     transform: rotate(180deg);
   }
+`;
+
+export const PaidButton = styled.button<{ $isPaid: boolean }>`
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid ${({ $isPaid, theme }) => ($isPaid ? theme.colors.border.darkBlue : theme.colors.border.secondary)};
+  border-radius: ${({ theme }) => theme.radius.pill};
+  background: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.bg.darkBlue : theme.colors.bg.inverseWhite)};
+  color: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.text.inverseWhite : theme.colors.text.gray)};
+  cursor: pointer;
+  transition:
+    transform 0.14s ease,
+    background-color 0.14s ease,
+    border-color 0.14s ease;
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  svg {
+    transform: none;
+  }
+`;
+
+export const ArrowBox = styled.div`
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.text.gray};
 `;
 
 export const MetaRow = styled.div`

@@ -2,9 +2,15 @@ import { useState } from "react";
 
 import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
-import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import {
+  getFixedExpenseDueDates,
+  useFixedExpensePaymentsQuery,
+  useFixedExpenseTableQuery,
+  useToggleFixedExpensePaymentMutation,
+} from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
+import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
 import { Button, Empty, Row, Text } from "@/shared/ui";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
@@ -18,9 +24,13 @@ export default function FixedExpenseList() {
   const userId = useUserStore((state) => state.userId);
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
+  const dueDates = getFixedExpenseDueDates(data?.items);
+  const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items);
+  const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
   const hasItems = (data?.items?.length ?? 0) > 0;
   const totalAmount = data?.totalFixedExpense ?? 0;
+  const paidKeys = new Set(payments.map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`));
 
   const handleItemClick = (item: FixedItem) => {
     setSelectedItem(item);
@@ -32,6 +42,18 @@ export default function FixedExpenseList() {
     setSelectedItem({} as FixedItem);
     setSheetType("add");
     setSheetOpen(true);
+  };
+
+  const handleTogglePaid = (item: FixedItem) => {
+    const dueDate = getCurrentFixedExpenseDueDate(item.day);
+    const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+
+    togglePaid({
+      userId,
+      fixedItemCreatedAt: item.createdAt,
+      dueDate,
+      isPaid,
+    });
   };
 
   const handleSheetClose = () => setSheetOpen(false);
@@ -55,9 +77,21 @@ export default function FixedExpenseList() {
 
       {hasItems ? (
         <S.ListBox $hasItems={hasItems}>
-          {data?.items?.map((item) => (
-            <ExpenseItem key={item.createdAt} items={item} onClick={() => handleItemClick(item)} />
-          ))}
+          {data?.items?.map((item) => {
+            const dueDate = getCurrentFixedExpenseDueDate(item.day);
+            const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+
+            return (
+              <ExpenseItem
+                key={item.createdAt}
+                items={item}
+                dueDate={dueDate}
+                isPaid={isPaid}
+                onClick={() => handleItemClick(item)}
+                onTogglePaid={() => handleTogglePaid(item)}
+              />
+            );
+          })}
         </S.ListBox>
       ) : (
         <S.EmptyState>

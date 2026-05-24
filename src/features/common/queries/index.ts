@@ -6,20 +6,26 @@ import {
   AddExpenseParams,
   AmountSummary,
   FixedAddParams,
+  FixedExpensePayment,
   FixedExpenseTableItem,
+  FixedItem,
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
+  ToggleFixedExpensePaymentParams,
   UpdateBudgetParams,
 } from "@/features/common/types";
+import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
 import {
   addExpense,
   addFixedItem,
   getCurrentMonthAmountSummary,
   getExpenseList,
+  getFixedExpensePayments,
   getFixedExpenseTable,
   getUserProfile,
   removeFixedItem,
+  toggleFixedExpensePayment,
   updateBudget,
   updateFixedItem,
 } from "@/supabase/expense";
@@ -28,9 +34,11 @@ export const userAmountQueryKeys = {
   userProfile: (userId: string) => ["user-profile", userId],
   detailExpenseList: (userId: string) => ["detail-expense-list", userId],
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
+  fixedExpensePayments: (userId: string, dueDates: string[]) => ["fixedExpensePayments", userId, dueDates.join(",")],
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
   updateFixedExpense: () => ["updateFixedExpense"],
+  toggleFixedExpensePayment: () => ["toggleFixedExpensePayment"],
   summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
   addExpense: () => ["addExpense"],
   updateBudget: () => ["update-budget"],
@@ -38,6 +46,10 @@ export const userAmountQueryKeys = {
 
 function calcTotalFixedExpense(items: FixedRow["items"] = []) {
   return items.reduce((acc, cur) => acc + cur.amount, 0);
+}
+
+export function getFixedExpenseDueDates(items: FixedItem[] = []) {
+  return Array.from(new Set(items.map((item) => getCurrentFixedExpenseDueDate(item.day)))).sort();
 }
 
 /**
@@ -87,6 +99,78 @@ export function useFixedExpenseTableQuery(userId: string) {
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;
     },
     enabled: isAuthReady && !!userId,
+  });
+}
+
+/**
+ * 고정지출 납부 완료 내역 조회
+ */
+export function useFixedExpensePaymentsQuery(userId: string, items: FixedItem[] = []) {
+  const isAuthReady = useUserStore((state) => state.isReady);
+  const dueDates = getFixedExpenseDueDates(items);
+
+  return useQuery({
+    queryKey: userAmountQueryKeys.fixedExpensePayments(userId, dueDates),
+    queryFn: () => getFixedExpensePayments(userId, dueDates),
+    staleTime: 30_000,
+    refetchOnWindowFocus: false,
+    enabled: isAuthReady && !!userId && items.length > 0,
+  });
+}
+
+/**
+ * 고정지출 납부 완료 토글
+ */
+export function useToggleFixedExpensePaymentMutation(dueDates: string[]) {
+  const queryClient = useQueryClient();
+  const userId = useUserStore((state) => state.userId);
+
+  return useMutation({
+    mutationKey: userAmountQueryKeys.toggleFixedExpensePayment(),
+    mutationFn: (params: ToggleFixedExpensePaymentParams) => toggleFixedExpensePayment(params),
+
+    onMutate: async (variables) => {
+      const paymentsKey = userAmountQueryKeys.fixedExpensePayments(userId, dueDates);
+
+      await queryClient.cancelQueries({ queryKey: paymentsKey });
+
+      const prevPayments = queryClient.getQueryData<FixedExpensePayment[]>(paymentsKey);
+
+      if (prevPayments) {
+        const isTarget = (payment: FixedExpensePayment) =>
+          payment.fixedItemCreatedAt === variables.fixedItemCreatedAt && payment.dueDate === variables.dueDate;
+
+        const nextPayments = variables.isPaid
+          ? prevPayments.filter((payment) => !isTarget(payment))
+          : [
+              ...prevPayments.filter((payment) => !isTarget(payment)),
+              {
+                fixedItemCreatedAt: variables.fixedItemCreatedAt,
+                dueDate: variables.dueDate,
+                paidAt: new Date().toISOString(),
+              },
+            ];
+
+        queryClient.setQueryData<FixedExpensePayment[]>(paymentsKey, nextPayments);
+      }
+
+      return { prevPayments };
+    },
+
+    onError: (_error, _variables, context) => {
+      toast.error("납부 상태 변경에 실패했어요. 다시 시도해 주세요.");
+      if (context?.prevPayments) {
+        queryClient.setQueryData(userAmountQueryKeys.fixedExpensePayments(userId, dueDates), context.prevPayments);
+      }
+    },
+
+    onSuccess: (_data, variables) => {
+      toast.success(variables.isPaid ? "납부 완료 표시를 해제했어요." : "납부 완료로 표시했어요.");
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.fixedExpensePayments(userId, dueDates) });
+    },
   });
 }
 

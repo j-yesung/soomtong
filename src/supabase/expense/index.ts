@@ -4,9 +4,11 @@ import {
   AmountSummary,
   ExpenseList,
   FixedAddParams,
+  FixedExpensePayment,
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
+  ToggleFixedExpensePaymentParams,
   UpdateBudgetParams,
 } from "@/features/common/types";
 import { createClient } from "@/shared/lib/supabase/client";
@@ -79,6 +81,67 @@ export async function updateFixedItem(params: FixedUpdateItem) {
 
   if (error) throw error;
   return (data as FixedRow[])[0];
+}
+
+/**
+ * 고정지출 납부 완료 내역 조회
+ */
+export async function getFixedExpensePayments(userId: string, dueDates: string[]) {
+  if (dueDates.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("fixed_expense_payments")
+    .select("fixed_item_created_at, due_date, paid_at")
+    .eq("user_id", userId)
+    .in("due_date", dueDates);
+
+  if (error) throw error;
+
+  return (data ?? []).map((item) => ({
+    fixedItemCreatedAt: Number(item.fixed_item_created_at),
+    dueDate: item.due_date,
+    paidAt: item.paid_at,
+  })) as FixedExpensePayment[];
+}
+
+/**
+ * 고정지출 납부 완료 토글
+ */
+export async function toggleFixedExpensePayment(params: ToggleFixedExpensePaymentParams) {
+  const { userId, fixedItemCreatedAt, dueDate, isPaid } = params;
+
+  if (isPaid) {
+    const { error } = await supabase
+      .from("fixed_expense_payments")
+      .delete()
+      .eq("user_id", userId)
+      .eq("fixed_item_created_at", fixedItemCreatedAt)
+      .eq("due_date", dueDate);
+
+    if (error) throw error;
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("fixed_expense_payments")
+    .upsert(
+      {
+        user_id: userId,
+        fixed_item_created_at: fixedItemCreatedAt,
+        due_date: dueDate,
+      },
+      { onConflict: "user_id,fixed_item_created_at,due_date" }
+    )
+    .select("fixed_item_created_at, due_date, paid_at")
+    .single();
+
+  if (error) throw error;
+
+  return {
+    fixedItemCreatedAt: Number(data.fixed_item_created_at),
+    dueDate: data.due_date,
+    paidAt: data.paid_at,
+  } as FixedExpensePayment;
 }
 
 /**
