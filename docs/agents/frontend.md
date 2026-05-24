@@ -22,6 +22,10 @@
 - 도메인 기능 단위 UI는 `src/features/{domain}` 아래에 둡니다.
 - 화면을 구성하는 큰 단위 UI는 `src/widgets/{domain}Screen` 또는 기존 widgets 구조에 맞춰 둡니다.
 - 여러 도메인에서 재사용하는 순수 UI만 `src/shared/ui`에 둡니다.
+- 여러 feature/widget에서 재사용되는 도메인 비의존 hook은 `src/shared/model`에 둡니다.
+- `src/shared/hooks`처럼 기술 종류 기준의 폴더명은 만들지 않고, FSD의 `model` 이름을 우선합니다.
+- 특정 도메인 상태, API 응답, 비즈니스 규칙에 묶인 hook은 해당 `src/features/{domain}/model` 또는 관련 도메인 경로에 둡니다.
+- `src/features/common/model`에는 새 hook을 추가하지 않는 것을 우선하고, 범용 hook은 `src/shared/model`, 도메인 hook은 해당 feature의 `model` 경로로 이동합니다.
 - Supabase 접근 로직은 `src/supabase/{domain}`에 둡니다.
 - 전역 레이아웃은 `src/shared/layout`의 기존 구조를 우선합니다.
 
@@ -36,6 +40,7 @@ src/widgets/homeScreen
 src/widgets/calendarScreen
 src/widgets/expenseScreen
 src/shared/ui/button
+src/shared/model/useOutsideClick.ts
 ```
 
 ## 함수 컨벤션

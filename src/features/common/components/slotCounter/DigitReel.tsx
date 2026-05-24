@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 
 import { animate, useMotionValue, useTransform } from "framer-motion";
 
-import { useCellHeight } from "@/features/common/hooks/useCellHeight";
+import { useCellHeight } from "@/features/common/model/useCellHeight";
 import { AppTheme } from "@/shared/styles/theme";
 
 import * as S from "./style";

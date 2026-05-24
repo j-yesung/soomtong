@@ -5,7 +5,7 @@ import { useState } from "react";
 import { getDaysInMonth, getMonth, getYear, startOfMonth } from "date-fns";
 
 import { CalendarView, DayDetailPanel } from "@/features/dashboard/calendar/components";
-import { useCalendarExpenseData } from "@/features/dashboard/calendar/hooks/useCalendarExpenseData";
+import { useCalendarExpenseData } from "@/features/dashboard/calendar/model/useCalendarExpenseData";
 
 import * as S from "./style";
 

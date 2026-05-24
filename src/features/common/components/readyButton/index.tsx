@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 
 import { Button } from "@/shared/ui";
-import { useKeyboardInset } from "@/features/common/hooks/useKeyboardOffset";
+import { useKeyboardInset } from "@/features/common/model/useKeyboardOffset";
 
 import { Motion } from "./style";
 

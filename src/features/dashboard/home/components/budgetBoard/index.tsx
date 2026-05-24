@@ -6,8 +6,8 @@ import { BudgetBarChart, BudgetReport } from "@/features/dashboard/home/componen
 import { EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import { BottomSheet, Button, Card, Column, Heading, Row, Text } from "@/shared/ui";
 
-import useBudgetSheetForm from "../../hooks/useBudgetSheetForm";
-import useExpenseSheetForm from "../../hooks/useExpenseSheetForm";
+import useBudgetSheetForm from "../../model/useBudgetSheetForm";
+import useExpenseSheetForm from "../../model/useExpenseSheetForm";
 
 export default function BudgetBoard() {
   const userId = useUserStore((state) => state.userId);
