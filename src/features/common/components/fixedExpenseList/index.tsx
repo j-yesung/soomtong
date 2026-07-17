@@ -2,10 +2,16 @@ import { useState } from "react";
 
 import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
-import { useFixedExpenseTableQuery } from "@/features/common/queries";
+import {
+  getFixedExpenseDueDates,
+  useFixedExpensePaymentsQuery,
+  useFixedExpenseTableQuery,
+  useToggleFixedExpensePaymentMutation,
+} from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
-import { Button, Empty, Row, Text } from "@/shared/ui";
+import { Button, Column, Empty, Row, Text } from "@/shared/ui";
+import { getFixedExpenseDueDate } from "@/shared/utils/date";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
@@ -18,9 +24,19 @@ export default function FixedExpenseList() {
   const userId = useUserStore((state) => state.userId);
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
+  const dueDates = getFixedExpenseDueDates(data?.items);
+  const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items);
+  const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
   const hasItems = (data?.items?.length ?? 0) > 0;
   const totalAmount = data?.totalFixedExpense ?? 0;
+  const paidKeys = new Set(payments.map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`));
+  const remainingAmount =
+    data?.items?.reduce((sum, item) => {
+      const dueDate = getFixedExpenseDueDate(item);
+      const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+      return isPaid ? sum : sum + item.amount;
+    }, 0) ?? 0;
 
   const handleItemClick = (item: FixedItem) => {
     setSelectedItem(item);
@@ -32,6 +48,18 @@ export default function FixedExpenseList() {
     setSelectedItem({} as FixedItem);
     setSheetType("add");
     setSheetOpen(true);
+  };
+
+  const handleTogglePaid = (item: FixedItem) => {
+    const dueDate = getFixedExpenseDueDate(item);
+    const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+
+    togglePaid({
+      userId,
+      fixedItemCreatedAt: item.createdAt,
+      dueDate,
+      isPaid,
+    });
   };
 
   const handleSheetClose = () => setSheetOpen(false);
@@ -46,18 +74,49 @@ export default function FixedExpenseList() {
         <Text size={24} weight={700}>
           고정지출
         </Text>
-        <Button onClick={handleAddClick} width={42} height={42}>
-          +
+        <Button
+          onClick={handleAddClick}
+          width={70}
+          height={36}
+          variant="fill"
+          size="s"
+          radius="pill"
+          aria-label="고정지출 추가"
+        >
+          <Row gap={5} align="center">
+            <Text size={14} weight={600} color="inverseWhite">
+              추가
+            </Text>
+          </Row>
         </Button>
       </Row>
 
-      {totalAmount > 0 && <SlotCounter value={totalAmount} fontSize={24} suffix="원" />}
+      {totalAmount > 0 && (
+        <Column gap={2}>
+          <SlotCounter value={totalAmount} fontSize={24} suffix="원" />
+          <Text size={13} weight={600} color={remainingAmount > 0 ? "secondary" : "darkBlue"}>
+            {remainingAmount > 0 ? `잔여 납부 금액 ${remainingAmount.toLocaleString()}원` : "이번 회차 납부 완료"}
+          </Text>
+        </Column>
+      )}
 
       {hasItems ? (
         <S.ListBox $hasItems={hasItems}>
-          {data?.items?.map((item) => (
-            <ExpenseItem key={item.createdAt} items={item} onClick={() => handleItemClick(item)} />
-          ))}
+          {data?.items?.map((item) => {
+            const dueDate = getFixedExpenseDueDate(item);
+            const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+
+            return (
+              <ExpenseItem
+                key={item.createdAt}
+                items={item}
+                dueDate={dueDate}
+                isPaid={isPaid}
+                onClick={() => handleItemClick(item)}
+                onTogglePaid={() => handleTogglePaid(item)}
+              />
+            );
+          })}
         </S.ListBox>
       ) : (
         <S.EmptyState>

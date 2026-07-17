@@ -9,7 +9,6 @@ Next.js App Router + Supabase(Anonymous Auth/DB) 기반으로 동작합니다.
 - 월수입/정산일 설정 및 사용 가능 금액 계산
 - 고정지출 추가/수정/삭제
 - 지출 등록 및 일자별 지출 내역 조회
-- 월간 캘린더 지출 뷰 + 선택 날짜 상세 패널
 - AI 지출 분석(코치형 텍스트 리포트)
 - iOS PWA 설치 안내 및 홈 화면 실행 지원
 
@@ -88,18 +87,17 @@ pnpm dev
 
 ## 라우트 요약
 
-| 경로                              | 설명                       |
-| --------------------------------- | -------------------------- |
-| `/`                               | `/dashboard`로 리다이렉트  |
-| `/login`                          | `/dashboard`로 리다이렉트  |
-| `/dashboard`                      | 메인 대시보드              |
-| `/dashboard?tab=home`             | 홈 요약                    |
-| `/dashboard?tab=calendar`         | 달력 뷰                    |
-| `/dashboard?tab=fixed`            | 고정지출 관리              |
-| `/dashboard?tab=expense`          | 지출내역                   |
-| `/dashboard?tab=expense-analysis` | AI 분석 결과               |
-| `/prompt-information`             | iOS PWA 설치 안내          |
-| `/api/ai/insight`                 | AI 분석 API(POST)          |
+| 경로                              | 설명                      |
+| --------------------------------- | ------------------------- |
+| `/`                               | `/dashboard`로 리다이렉트 |
+| `/login`                          | `/dashboard`로 리다이렉트 |
+| `/dashboard`                      | 메인 대시보드             |
+| `/dashboard?tab=home`             | 홈 요약                   |
+| `/dashboard?tab=fixed`            | 고정지출 관리             |
+| `/dashboard?tab=expense`          | 지출내역                  |
+| `/dashboard?tab=expense-analysis` | AI 분석 결과              |
+| `/prompt-information`             | iOS PWA 설치 안내         |
+| `/api/ai/insight`                 | AI 분석 API(POST)         |
 
 ## Supabase 준비 체크리스트
 

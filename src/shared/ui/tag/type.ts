@@ -1,3 +1,5 @@
+import type { BadgeTone } from "@/shared/styles/theme";
+
 type Variant = "chip" | "badge";
 type Size = "sm" | "md";
 
@@ -7,6 +9,7 @@ export interface TagProps {
   variant?: Variant;
   size?: Size;
   selected?: boolean;
+  tone?: BadgeTone;
 }
 
 export interface TagStylesProps {
@@ -14,4 +17,5 @@ export interface TagStylesProps {
   size: Size;
   selected?: boolean;
   clickable?: boolean;
+  tone: BadgeTone;
 }
