@@ -2,19 +2,18 @@
 
 import { useRef, useState } from "react";
 
-import { motion, type PanInfo } from "framer-motion";
+import { type PanInfo, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useTheme } from "styled-components";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import { CalendarIcon, FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
+import { FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
 import { navigateToDashboardTab } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
 const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] = [
   { tab: "home", label: "홈", icon: HomeIcon },
-  { tab: "calendar", label: "달력", icon: CalendarIcon },
   { tab: "fixed", label: "고정지출", icon: FixedIcon },
   { tab: "expense", label: "지출내역", icon: HistoryIcon },
 ];

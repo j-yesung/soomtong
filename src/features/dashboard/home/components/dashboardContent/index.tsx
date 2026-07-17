@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { FixedExpenseList, LazyTab } from "@/features/common/components";
 import { ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import CalendarScreen from "@/widgets/calendarScreen";
 import ExpenseScreen from "@/widgets/expenseScreen";
 import HomeScreen from "@/widgets/homeScreen";
 
@@ -29,10 +28,6 @@ export default function DashboardContent({ initialTab }: DashboardContentProps) 
     >
       <LazyTab activeValue="home">
         <HomeScreen />
-      </LazyTab>
-
-      <LazyTab activeValue="calendar">
-        <CalendarScreen />
       </LazyTab>
 
       <LazyTab activeValue="expense">

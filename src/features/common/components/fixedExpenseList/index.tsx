@@ -10,8 +10,8 @@ import {
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
-import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
 import { Button, Empty, Row, Text } from "@/shared/ui";
+import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
@@ -68,8 +68,20 @@ export default function FixedExpenseList() {
         <Text size={24} weight={700}>
           고정지출
         </Text>
-        <Button onClick={handleAddClick} width={42} height={42}>
-          +
+        <Button
+          onClick={handleAddClick}
+          width={70}
+          height={36}
+          variant="fill"
+          size="s"
+          radius="pill"
+          aria-label="고정지출 추가"
+        >
+          <Row gap={5} align="center">
+            <Text size={14} weight={600} color="inverseWhite">
+              추가
+            </Text>
+          </Row>
         </Button>
       </Row>
 

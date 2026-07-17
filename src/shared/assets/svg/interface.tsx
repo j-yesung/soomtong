@@ -47,18 +47,6 @@ export const HomeIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   );
 };
 
-export const CalendarIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8 2a.75.75 0 0 1 .75.75V4h6.5V2.75a.75.75 0 0 1 1.5 0V4h1.75A2.5 2.5 0 0 1 21 6.5v12a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4h1.75V2.75A.75.75 0 0 1 8 2ZM4.5 9.5v9a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-9h-15Z"
-      />
-    </svg>
-  );
-};
-
 export const HistoryIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +79,14 @@ export const FixedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
 
 export const EmptyIcon = ({ size = 56, color = "currentColor" }: IconProps) => {
   return (
-    <svg width={size} height={size} viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 56 56"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
       <rect x="6" y="9" width="44" height="38" rx="10" stroke={color} strokeWidth="2" />
       <path d="M18 21H38" stroke={color} strokeWidth="2" strokeLinecap="round" />
       <path d="M18 28H33" stroke={color} strokeWidth="2" strokeLinecap="round" />
