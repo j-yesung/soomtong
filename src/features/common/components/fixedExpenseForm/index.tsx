@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FixedItem } from "@/features/common/types";
 import { FixedExpenseCategoryList } from "@/features/dashboard/fixed/components";
 import { FixedExpenseFormMode, FixedExpenseFormValues } from "@/features/dashboard/fixed/types";
-import { DEFAULT_TAG_LIST } from "@/shared/config";
+import { FIXED_EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import { Button, Column, Heading, Row } from "@/shared/ui";
 import { Input } from "@/shared/ui";
 import { parseNumericInput } from "@/shared/utils/formatter";
@@ -62,7 +62,7 @@ export default function FixedExpenseForm({ onClose, onSubmit, initialItem, formT
         <FixedExpenseCategoryList
           onClick={(nextTag) => setTag(nextTag)}
           defaultTag={tag}
-          categoryList={DEFAULT_TAG_LIST}
+          categoryList={FIXED_EXPENSE_CATEGORY_LIST}
         />
       </Column>
       <Column gap={10}>

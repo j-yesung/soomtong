@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 
 import { FixedItem } from "@/features/common/types";
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
+import { getFixedExpenseBadgeTone } from "@/shared/config";
 import { Column, Row, Tag, Text } from "@/shared/ui";
 
 import * as S from "./style";
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export default function ExpenseItem({ onClick, onTogglePaid, items, isPaid = false, dueDate }: Props) {
+  const badgeTone = getFixedExpenseBadgeTone(items.tag);
+
   const handlePaidClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     onTogglePaid?.();
@@ -27,7 +30,7 @@ export default function ExpenseItem({ onClick, onTogglePaid, items, isPaid = fal
       <Row justify="center" gap={16}>
         <Column gap={4} fullWidth>
           <Row align="center" justify="space-between">
-            <Tag variant="chip" size="sm">
+            <Tag variant="badge" size="sm" tone={badgeTone}>
               {items.tag}
             </Tag>
             <Text size={16} weight={700}>

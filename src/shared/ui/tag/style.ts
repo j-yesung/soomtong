@@ -1,4 +1,3 @@
-
 import shouldForwardProp from "@styled-system/should-forward-prop";
 import styled, { css } from "styled-components";
 
@@ -33,14 +32,15 @@ const sizeStyles = {
 
 const chipStyles = css<TagStylesProps>`
   border: none;
-  background-color: ${({ theme, selected }) => (selected ? theme.colors.bg.lightBlue : "#ECEFF3")};
+  background-color: ${({ theme, selected }) =>
+    selected ? theme.colors.bg.lightBlue : theme.colors.badge.neutral.background};
   color: ${({ theme, selected }) => (selected ? theme.colors.text.blue : theme.colors.text.secondary)};
 `;
 
 const badgeStyles = css<TagStylesProps>`
-  border: 1px solid ${({ theme }) => theme.colors.border.secondary};
-  background-color: ${({ theme }) => theme.colors.bg.inverseWhite};
-  color: ${({ theme }) => theme.colors.text.primary};
+  border: 1px solid transparent;
+  background-color: ${({ theme, tone }) => theme.colors.badge[tone].background};
+  color: ${({ theme, tone }) => theme.colors.badge[tone].text};
 `;
 
 const variantStyles = {

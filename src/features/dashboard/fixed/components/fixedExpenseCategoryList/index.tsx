@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
+import { CategoryItem } from "@/shared/config";
 import { Tag } from "@/shared/ui";
-import { TagItem } from "@/shared/config";
 
 type Props = {
   onClick: (tag: string) => void;
   defaultTag?: string;
-  categoryList: TagItem[];
+  categoryList: CategoryItem[];
 };
 
 export default function FixedExpenseCategoryList({ onClick, defaultTag, categoryList }: Props) {
@@ -26,13 +26,7 @@ export default function FixedExpenseCategoryList({ onClick, defaultTag, category
   return (
     <ListWrap>
       {categoryList.map(({ name }) => (
-        <Tag
-          key={name}
-          variant="chip"
-          size="md"
-          selected={name === selectedName}
-          onClick={() => handleClick(name)}
-        >
+        <Tag key={name} variant="chip" size="md" selected={name === selectedName} onClick={() => handleClick(name)}>
           {name}
         </Tag>
       ))}

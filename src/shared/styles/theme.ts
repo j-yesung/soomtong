@@ -31,6 +31,20 @@ export const theme = {
       blue: "var(--color-blue)",
       darkBlue: "#42A5F5",
     },
+    badge: {
+      neutral: { background: "#ECEFF3", text: "#56606F" },
+      indigo: { background: "#EEF2FF", text: "#4338CA" },
+      amber: { background: "#FEF3C7", text: "#92400E" },
+      cyan: { background: "#CFFAFE", text: "#0E7490" },
+      orange: { background: "#FFEDD5", text: "#C2410C" },
+      sky: { background: "#E0F2FE", text: "#0369A1" },
+      purple: { background: "#F3E8FF", text: "#7E22CE" },
+      teal: { background: "#CCFBF1", text: "#0F766E" },
+      rose: { background: "#FFE4E6", text: "#BE123C" },
+      blue: { background: "#DBEAFE", text: "#1D4ED8" },
+      slate: { background: "#E2E8F0", text: "#475569" },
+      emerald: { background: "#D1FAE5", text: "#047857" },
+    },
     disabled: "var(--color-disabled)",
   },
   radius: {
@@ -59,3 +73,4 @@ export const theme = {
 } as const;
 
 export type AppTheme = typeof theme;
+export type BadgeTone = keyof AppTheme["colors"]["badge"];

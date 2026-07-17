@@ -1,4 +1,3 @@
-
 import * as S from "./style";
 import * as T from "./type";
 
@@ -8,6 +7,7 @@ export default function Tag({
   selected,
   size = "sm",
   variant = "badge",
+  tone = "neutral",
 }: T.TagProps) {
   return (
     <S.TagButton
@@ -15,6 +15,7 @@ export default function Tag({
       variant={variant}
       selected={selected}
       size={size}
+      tone={tone}
       clickable={Boolean(onClick)}
       aria-pressed={onClick ? selected : undefined}
     >
