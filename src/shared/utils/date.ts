@@ -39,6 +39,24 @@ function formatDateKey(year: number, month: number, day: number) {
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+function getScheduledDateKey(year: number, month: number, day: number) {
+  return formatDateKey(year, month, Math.min(day, getLastDayOfMonth(year, month)));
+}
+
+function getFirstFixedExpenseDueDate(day: number, createdAt: number) {
+  const created = getKstDateParts(new Date(createdAt));
+  const createdMonthDueDay = Math.min(day, getLastDayOfMonth(created.year, created.month));
+
+  if (created.day <= createdMonthDueDay) {
+    return formatDateKey(created.year, created.month, createdMonthDueDay);
+  }
+
+  const nextMonth = created.month === 12 ? 1 : created.month + 1;
+  const nextYear = created.month === 12 ? created.year + 1 : created.year;
+
+  return getScheduledDateKey(nextYear, nextMonth, day);
+}
+
 export function getCurrentFixedExpenseDueDate(day: number, now = new Date()) {
   const today = getKstDateParts(now);
   const thisMonthDueDay = Math.min(day, getLastDayOfMonth(today.year, today.month));
@@ -52,6 +70,40 @@ export function getCurrentFixedExpenseDueDate(day: number, now = new Date()) {
   const prevMonthDueDay = Math.min(day, getLastDayOfMonth(prevYear, prevMonth));
 
   return formatDateKey(prevYear, prevMonth, prevMonthDueDay);
+}
+
+type FixedExpenseSchedule = {
+  day: number;
+  createdAt: number;
+};
+
+export function getFixedExpenseDueDate(item: FixedExpenseSchedule, now = new Date()) {
+  const latestDueDate = getCurrentFixedExpenseDueDate(item.day, now);
+  const createdDate = getKstDateParts(new Date(item.createdAt));
+  const createdDateKey = formatDateKey(createdDate.year, createdDate.month, createdDate.day);
+
+  if (latestDueDate >= createdDateKey) {
+    return latestDueDate;
+  }
+
+  return getFirstFixedExpenseDueDate(item.day, item.createdAt);
+}
+
+export type FixedExpensePaymentStatus = "upcoming" | "dueToday" | "needsConfirmation" | "paid";
+
+export function getFixedExpensePaymentStatus(
+  dueDate: string,
+  isPaid: boolean,
+  now = new Date(),
+): FixedExpensePaymentStatus {
+  if (isPaid) return "paid";
+
+  const today = getKstDateParts(now);
+  const todayKey = formatDateKey(today.year, today.month, today.day);
+
+  if (dueDate > todayKey) return "upcoming";
+  if (dueDate === todayKey) return "dueToday";
+  return "needsConfirmation";
 }
 
 export function groupByKstDate(items: ExpenseList[]) {

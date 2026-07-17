@@ -1,9 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const ItemCard = styled.div<{ $isPaid: boolean }>`
+import type { FixedExpensePaymentStatus } from "@/shared/utils/date";
+
+export const ItemCard = styled.div`
   padding: 14px 12px;
-  background: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.bg.lightBlue : theme.colors.bg.inverseWhite)};
-  border: 1px solid ${({ $isPaid, theme }) => ($isPaid ? theme.colors.border.darkBlue : theme.colors.border.secondary)};
+  background: ${({ theme }) => theme.colors.bg.inverseWhite};
+  border: 1px solid ${({ theme }) => theme.colors.border.secondary};
   border-radius: ${({ theme }) => theme.radius.md};
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
@@ -25,22 +27,95 @@ export const ItemCard = styled.div<{ $isPaid: boolean }>`
   }
 `;
 
-export const PaidButton = styled.button<{ $isPaid: boolean }>`
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  > span {
+    flex: 0 0 auto;
+  }
+`;
+
+export const ItemIdentity = styled.div`
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  > button {
+    flex: 0 0 auto;
+  }
+
+  .item-memo {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
+export const StatusGroup = styled.div`
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
+const paymentStatusStyles = {
+  upcoming: css`
+    border-color: ${({ theme }) => theme.colors.border.secondary};
+    background: ${({ theme }) => theme.colors.bg.inverseWhite};
+    color: ${({ theme }) => theme.colors.text.gray};
+  `,
+  dueToday: css`
+    border-color: ${({ theme }) => theme.colors.border.blue};
+    background: ${({ theme }) => theme.colors.bg.lightBlue};
+    color: ${({ theme }) => theme.colors.text.blue};
+  `,
+  needsConfirmation: css`
+    border-color: ${({ theme }) => theme.colors.badge.amber.text};
+    background: ${({ theme }) => theme.colors.badge.amber.background};
+    color: ${({ theme }) => theme.colors.badge.amber.text};
+  `,
+  paid: css`
+    border-color: ${({ theme }) => theme.colors.border.darkBlue};
+    background: ${({ theme }) => theme.colors.bg.darkBlue};
+    color: ${({ theme }) => theme.colors.text.inverseWhite};
+  `,
+} as const;
+
+export const PaidButton = styled.button<{ $status: FixedExpensePaymentStatus }>`
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid ${({ $isPaid, theme }) => ($isPaid ? theme.colors.border.darkBlue : theme.colors.border.secondary)};
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border: 1px solid;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.bg.darkBlue : theme.colors.bg.inverseWhite)};
-  color: ${({ $isPaid, theme }) => ($isPaid ? theme.colors.text.inverseWhite : theme.colors.text.gray)};
   cursor: pointer;
   transition:
     transform 0.14s ease,
     background-color 0.14s ease,
     border-color 0.14s ease;
+
+  ${({ $status }) => paymentStatusStyles[$status]}
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+  }
 
   &:active {
     transform: scale(0.94);
@@ -51,11 +126,18 @@ export const PaidButton = styled.button<{ $isPaid: boolean }>`
   }
 `;
 
-export const ArrowBox = styled.div`
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text.gray};
+export const StatusLabel = styled.span<{ $status: FixedExpensePaymentStatus }>`
+  overflow: hidden;
+  color: ${({ $status, theme }) => {
+    if ($status === "dueToday") return theme.colors.text.blue;
+    if ($status === "needsConfirmation") return theme.colors.badge.amber.text;
+    return theme.colors.text.darkBlue;
+  }};
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const MetaRow = styled.div`
@@ -64,7 +146,7 @@ export const MetaRow = styled.div`
   justify-content: space-between;
   gap: 10px;
 
-  span:first-child {
-    padding-left: 5px;
+  > span {
+    flex: 0 0 auto;
   }
 `;

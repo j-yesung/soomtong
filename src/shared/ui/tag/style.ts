@@ -7,7 +7,7 @@ const COMMON = css<TagStylesProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.radius.pill};
+  border-radius: ${({ theme }) => theme.radius.sm};
   font-weight: 700;
   white-space: nowrap;
   line-height: 1;

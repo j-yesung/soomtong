@@ -10,8 +10,8 @@ import {
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
 import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
-import { Button, Empty, Row, Text } from "@/shared/ui";
-import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
+import { Button, Column, Empty, Row, Text } from "@/shared/ui";
+import { getFixedExpenseDueDate } from "@/shared/utils/date";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
@@ -31,6 +31,12 @@ export default function FixedExpenseList() {
   const hasItems = (data?.items?.length ?? 0) > 0;
   const totalAmount = data?.totalFixedExpense ?? 0;
   const paidKeys = new Set(payments.map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`));
+  const remainingAmount =
+    data?.items?.reduce((sum, item) => {
+      const dueDate = getFixedExpenseDueDate(item);
+      const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
+      return isPaid ? sum : sum + item.amount;
+    }, 0) ?? 0;
 
   const handleItemClick = (item: FixedItem) => {
     setSelectedItem(item);
@@ -45,7 +51,7 @@ export default function FixedExpenseList() {
   };
 
   const handleTogglePaid = (item: FixedItem) => {
-    const dueDate = getCurrentFixedExpenseDueDate(item.day);
+    const dueDate = getFixedExpenseDueDate(item);
     const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
 
     togglePaid({
@@ -85,12 +91,19 @@ export default function FixedExpenseList() {
         </Button>
       </Row>
 
-      {totalAmount > 0 && <SlotCounter value={totalAmount} fontSize={24} suffix="원" />}
+      {totalAmount > 0 && (
+        <Column gap={2}>
+          <SlotCounter value={totalAmount} fontSize={24} suffix="원" />
+          <Text size={13} weight={600} color={remainingAmount > 0 ? "secondary" : "darkBlue"}>
+            {remainingAmount > 0 ? `잔여 납부 금액 ${remainingAmount.toLocaleString()}원` : "이번 회차 납부 완료"}
+          </Text>
+        </Column>
+      )}
 
       {hasItems ? (
         <S.ListBox $hasItems={hasItems}>
           {data?.items?.map((item) => {
-            const dueDate = getCurrentFixedExpenseDueDate(item.day);
+            const dueDate = getFixedExpenseDueDate(item);
             const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
 
             return (

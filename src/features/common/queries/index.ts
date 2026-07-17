@@ -15,7 +15,7 @@ import {
   ToggleFixedExpensePaymentParams,
   UpdateBudgetParams,
 } from "@/features/common/types";
-import { getCurrentFixedExpenseDueDate } from "@/shared/utils/date";
+import { getFixedExpenseDueDate } from "@/shared/utils/date";
 import {
   addExpense,
   addFixedItem,
@@ -49,7 +49,7 @@ function calcTotalFixedExpense(items: FixedRow["items"] = []) {
 }
 
 export function getFixedExpenseDueDates(items: FixedItem[] = []) {
-  return Array.from(new Set(items.map((item) => getCurrentFixedExpenseDueDate(item.day)))).sort();
+  return Array.from(new Set(items.map((item) => getFixedExpenseDueDate(item)))).sort();
 }
 
 /**
