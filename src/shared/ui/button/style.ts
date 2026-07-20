@@ -44,7 +44,7 @@ const variantColorStyles = {
     `,
     secondary: css`
       background-color: ${({ theme }) => theme.colors.button.secondary};
-      color: ${({ theme }) => theme.colors.text.inverseWhite};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: none;
     `,
     danger: css`
@@ -54,7 +54,7 @@ const variantColorStyles = {
     `,
     default: css`
       background-color: ${({ theme }) => theme.colors.button.secondary};
-      color: ${({ theme }) => theme.colors.text.inverseWhite};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: none;
     `,
   },
@@ -66,7 +66,7 @@ const variantColorStyles = {
     `,
     secondary: css`
       background-color: transparent;
-      color: ${({ theme }) => theme.colors.text};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: 1px solid ${({ theme }) => theme.colors.border.secondary};
     `,
     danger: css`
@@ -76,7 +76,7 @@ const variantColorStyles = {
     `,
     default: css`
       background-color: transparent;
-      color: ${({ theme }) => theme.colors.text};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: 1px solid ${({ theme }) => theme.colors.border.secondary};
     `,
   },
@@ -88,7 +88,7 @@ const variantColorStyles = {
     `,
     secondary: css`
       background-color: transparent;
-      color: ${({ theme }) => theme.colors.text};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: 1px dashed ${({ theme }) => theme.colors.border.primary};
     `,
     danger: css`
@@ -98,7 +98,7 @@ const variantColorStyles = {
     `,
     default: css`
       background-color: transparent;
-      color: ${({ theme }) => theme.colors.text};
+      color: ${({ theme }) => theme.colors.text.primary};
       border: 1px dashed ${({ theme }) => theme.colors.border.primary};
     `,
   },
@@ -129,7 +129,7 @@ export const Button = styled.button<ButtonStyleProps>`
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--color-pressed-overlay);
     opacity: 0;
     transition: opacity 0.08s ease-out;
   }

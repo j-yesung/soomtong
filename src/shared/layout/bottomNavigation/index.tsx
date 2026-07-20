@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 
 import { type PanInfo, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useTheme } from "styled-components";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
@@ -20,7 +19,6 @@ const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] =
 
 export default function BottomNavigation() {
   const pathname = usePathname();
-  const theme = useTheme();
   const navInnerRef = useRef<HTMLDivElement | null>(null);
   const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [previewTab, setPreviewTab] = useState<DashboardTab | null>(null);
@@ -112,7 +110,7 @@ export default function BottomNavigation() {
                 </motion.div>
               )}
               <S.NavContent>
-                <Icon size={22} color={isActive ? theme.colors.bg.primary : "#8e8e93"} />
+                <Icon size={22} />
                 <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>
               </S.NavContent>
             </S.NavItem>

@@ -56,7 +56,7 @@ export const CardFooter = styled.div`
     content: "";
     inset: 8px;
     position: absolute;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--color-card-pressed-overlay);
     opacity: 0;
     transition: opacity 120ms ease;
     pointer-events: none;
@@ -78,7 +78,7 @@ export const CardRoot = styled.div<StylesProps>`
   width: 100%;
   padding: 16px 0;
   border-radius: ${({ theme, $radius }) => theme.radius[$radius ?? "sm"]};
-  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: ${({ theme }) => theme.shadows.card};
   background-color: ${({ theme }) => theme.colors.bg.inverseWhite};
   display: flex;
   flex-direction: ${({ $direction }) => ($direction === "column" ? "column" : "row")};

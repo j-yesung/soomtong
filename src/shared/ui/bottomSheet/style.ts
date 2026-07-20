@@ -55,7 +55,7 @@ export const DrawerContent = styled(Drawer.Content)`
   background: ${({ theme }) => theme.colors.bg.inverseWhite};
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sheet);
 
   max-height: 85svh;
   display: flex;
@@ -123,6 +123,6 @@ export const HandleBar = styled.div`
   width: 40px;
   height: 4px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.16);
+  background: var(--color-handle);
   margin: 0 auto 8px;
 `;

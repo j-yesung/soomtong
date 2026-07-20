@@ -1,9 +1,6 @@
-
 import { useEffect, useMemo, useRef } from "react";
 
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
-
-import { theme } from "@/shared/styles/theme";
 
 import { Donut, Percent } from "./style";
 
@@ -49,7 +46,7 @@ export default function DonutChart({ value, size = 100, thickness = 14 }: Props)
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={theme.colors.bg.secondary}
+          stroke="var(--color-secondary)"
           strokeWidth={thickness}
           fill="none"
         />
