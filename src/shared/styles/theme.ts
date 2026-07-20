@@ -17,7 +17,6 @@ export const theme = {
       blue: "var(--color-blue)",
       lightBlue: "var(--color-pale-blue)",
       darkBlue: "var(--color-dark-blue)",
-      gray: "var(--color-text-tertiary)",
     },
     button: {
       primary: "var(--color-brand)",

@@ -74,7 +74,7 @@ const paymentStatusStyles = {
   upcoming: css`
     border-color: ${({ theme }) => theme.colors.border.secondary};
     background: ${({ theme }) => theme.colors.bg.inverseWhite};
-    color: ${({ theme }) => theme.colors.text.gray};
+    color: ${({ theme }) => theme.colors.text.tertiary};
   `,
   dueToday: css`
     border-color: ${({ theme }) => theme.colors.border.blue};

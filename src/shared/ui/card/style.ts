@@ -56,7 +56,7 @@ export const CardFooter = styled.div`
     content: "";
     inset: 8px;
     position: absolute;
-    background: var(--color-card-pressed-overlay);
+    background: var(--color-pressed-overlay);
     opacity: 0;
     transition: opacity 120ms ease;
     pointer-events: none;
