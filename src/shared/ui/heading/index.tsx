@@ -1,4 +1,3 @@
-
 import { JSX } from "react";
 
 import * as S from "./style";
@@ -10,11 +9,13 @@ export default function Heading({
   align = "left",
   color = "primary",
   fontWeight = "normal",
+  as,
+  htmlFor,
 }: T.HeadingProps) {
-  const tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const tag = as ?? (`h${level}` as keyof JSX.IntrinsicElements);
 
   return (
-    <S.HeadingText as={tag} $level={level} $align={align} $color={color} $fontWeight={fontWeight}>
+    <S.HeadingText as={tag} htmlFor={htmlFor} $level={level} $align={align} $color={color} $fontWeight={fontWeight}>
       {children}
     </S.HeadingText>
   );

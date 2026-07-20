@@ -25,7 +25,7 @@ export default function BottomNavigation() {
 
   const { activeTab, setActiveTab } = useDashboardTabStore();
 
-  const isDashboard = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  const isDashboard = pathname === "/dashboard";
 
   if (!isDashboard) return null;
 

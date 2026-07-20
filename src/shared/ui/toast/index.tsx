@@ -1,3 +1,4 @@
+import { CircleCheck } from "lucide-react";
 import { Toaster as Sonner } from "sonner";
 
 import { ToastGlobalStyle } from "./style";
@@ -12,6 +13,7 @@ export default function Toast({ ...props }: React.ComponentProps<typeof Sonner>)
         duration={2500}
         offset={{ bottom: 120 }}
         mobileOffset={{ bottom: 120, left: 16, right: 16 }}
+        icons={{ success: <CircleCheck size={16} strokeWidth={2.2} aria-hidden /> }}
         {...props}
       />
     </>

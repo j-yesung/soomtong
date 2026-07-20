@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useUserStore } from "@/features/auth/store";
 import { ExpenseItem, SlotCounter } from "@/features/common/components/";
@@ -9,7 +9,6 @@ import {
   useToggleFixedExpensePaymentMutation,
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
-import { FixedExpenseBottomSheet } from "@/features/dashboard/fixed/components";
 import { Button, Column, Empty, Row, Text } from "@/shared/ui";
 import { getFixedExpenseDueDate } from "@/shared/utils/date";
 
@@ -17,10 +16,7 @@ import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
 
 export default function FixedExpenseList() {
-  const [sheetType, setSheetType] = useState<"add" | "edit">("add");
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<FixedItem>({} as FixedItem);
-
+  const router = useRouter();
   const userId = useUserStore((state) => state.userId);
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
@@ -39,15 +35,11 @@ export default function FixedExpenseList() {
     }, 0) ?? 0;
 
   const handleItemClick = (item: FixedItem) => {
-    setSelectedItem(item);
-    setSheetType("edit");
-    setSheetOpen(true);
+    router.push(`/dashboard/fixed/${item.createdAt}/edit`);
   };
 
   const handleAddClick = () => {
-    setSelectedItem({} as FixedItem);
-    setSheetType("add");
-    setSheetOpen(true);
+    router.push("/dashboard/fixed/new");
   };
 
   const handleTogglePaid = (item: FixedItem) => {
@@ -61,8 +53,6 @@ export default function FixedExpenseList() {
       isPaid,
     });
   };
-
-  const handleSheetClose = () => setSheetOpen(false);
 
   if (!isFetched) {
     return <FixedExpenseListScreenSkeleton />;
@@ -123,8 +113,6 @@ export default function FixedExpenseList() {
           <Empty description="아직 등록된 고정지출이 없어요." />
         </S.EmptyState>
       )}
-
-      <FixedExpenseBottomSheet onClose={handleSheetClose} open={sheetOpen} sheetType={sheetType} item={selectedItem} />
     </S.ListScreenContainer>
   );
 }

@@ -1,11 +1,13 @@
 import { usePathname } from "next/navigation";
 import { styled } from "styled-components";
 
+import { isDashboardFormPath } from "@/shared/lib/navigation/dashboard";
 import { Box } from "@/shared/ui";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isFormScreen = isDashboardFormPath(pathname);
 
   return (
     <LayoutWrapper>
@@ -14,8 +16,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         flexDirection="column"
         alignItems={isHome ? "center" : "flex-start"}
         justifyContent={isHome ? "center" : "flex-start"}
-        padding="20px"
-        paddingBottom="calc(100px + env(safe-area-inset-bottom))"
+        padding={isFormScreen ? "0" : "20px"}
+        paddingBottom={isFormScreen ? "0" : "calc(100px + env(safe-area-inset-bottom))"}
         boxSizing="border-box"
         flex={1}
       >

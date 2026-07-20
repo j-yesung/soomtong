@@ -24,13 +24,14 @@ const sizeStyles = {
     font-size: 12px;
   `,
   md: css`
-    min-height: 34px;
-    padding: 0 12px;
-    font-size: 13px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 14px;
   `,
 } as const;
 
 const chipStyles = css<TagStylesProps>`
+  border-radius: ${({ theme }) => theme.radius.pill};
   border: none;
   background-color: ${({ theme, selected }) =>
     selected ? theme.colors.bg.lightBlue : theme.colors.badge.neutral.background};

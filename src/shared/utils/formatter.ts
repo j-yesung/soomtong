@@ -14,3 +14,16 @@ export function parseNumericInput(raw: string) {
   const cleaned = raw.replace(/[^\d]/g, "");
   return Number(cleaned) || 0;
 }
+
+/**
+ * 원화 입력값을 안전한 양의 정수 범위에서 천 단위 콤마 문자열로 정규화
+ */
+export function formatAmountInput(raw: string) {
+  const digits = raw.replace(/[^\d]/g, "").replace(/^0+(?=\d)/, "");
+  if (!digits) return "";
+
+  const safeInteger = BigInt(Number.MAX_SAFE_INTEGER);
+  const value = BigInt(digits);
+
+  return formatWithComma(value > safeInteger ? safeInteger.toString() : digits);
+}
