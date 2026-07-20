@@ -14,7 +14,7 @@ export const ToastGlobalStyle = createGlobalStyle`
     font-size: 14px !important;
     font-weight: 600;
     font-family: inherit;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.shadows.modal};
   }
 
   [data-sonner-toast][data-styled='true'] [data-title] {

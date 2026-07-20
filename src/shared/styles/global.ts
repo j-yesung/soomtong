@@ -10,43 +10,65 @@ import { createGlobalStyle } from "styled-components";
  */
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --color-brand: #2D2D2D;
-    --color-secondary: #F8F8F8;
-    --color-danger: #EB003B;
-    --color-success: #74B075;
-    --color-inverseWhite: #FFFFFF;
-    --color-border: #e5e7eb;
-    --color-border-light: #8A8A8A;
-    --color-disabled: #9ca3af;
-    --color-bg-secondary: #F8F8F8;
-    --color-text-secondary: #6b7280;
+    color-scheme: light dark;
 
-    --color-light-blue: #f6f9ff;
-    --color-blue: #3B82F6;
-    
+    --color-bg: light-dark(#ffffff, #0f1115);
+    --color-surface: light-dark(#ffffff, #181b21);
+    --color-brand: light-dark(#2d2d2d, #f4f5f7);
+    --color-secondary: light-dark(#f5f6f8, #242830);
+    --color-input: light-dark(#f0f1f3, #20242b);
+    --color-danger: light-dark(#d7194b, #ff6b88);
+    --color-success: light-dark(#3f7d43, #85d38c);
+    --color-warning: light-dark(#8a6100, #f3c969);
+    --color-text: light-dark(#25272b, #f1f3f5);
+    --color-text-secondary: light-dark(#626a76, #b3bac7);
+    --color-text-tertiary: light-dark(#717987, #9ca5b3);
+    --color-text-inverse: light-dark(#ffffff, #111318);
+    --color-border: light-dark(#dfe3e8, #343945);
+    --color-border-light: light-dark(#8a929f, #707887);
+    --color-disabled: light-dark(#8a929f, #737c8a);
+    --color-light-blue: light-dark(#eef5ff, #18273d);
+    --color-pale-blue: light-dark(#e3f2fd, #203551);
+    --color-blue: light-dark(#2563eb, #78aeff);
+    --color-dark-blue: light-dark(#1976d2, #90caf9);
+
+    --color-badge-neutral-bg: light-dark(#eceff3, #2a303a);
+    --color-badge-neutral-text: light-dark(#56606f, #d8dde6);
+    --color-badge-indigo-bg: light-dark(#eef2ff, #242a4b);
+    --color-badge-indigo-text: light-dark(#4338ca, #b7c3ff);
+    --color-badge-amber-bg: light-dark(#fef3c7, #3a2d12);
+    --color-badge-amber-text: light-dark(#92400e, #ffd67a);
+    --color-badge-cyan-bg: light-dark(#cffafe, #12343c);
+    --color-badge-cyan-text: light-dark(#0e7490, #75e6f7);
+    --color-badge-orange-bg: light-dark(#ffedd5, #402718);
+    --color-badge-orange-text: light-dark(#c2410c, #ffb784);
+    --color-badge-sky-bg: light-dark(#e0f2fe, #172f45);
+    --color-badge-sky-text: light-dark(#0369a1, #8dd3ff);
+    --color-badge-purple-bg: light-dark(#f3e8ff, #332442);
+    --color-badge-purple-text: light-dark(#7e22ce, #deb1ff);
+    --color-badge-teal-bg: light-dark(#ccfbf1, #15352f);
+    --color-badge-teal-text: light-dark(#0f766e, #7de0cb);
+    --color-badge-rose-bg: light-dark(#ffe4e6, #3e2029);
+    --color-badge-rose-text: light-dark(#be123c, #ff9cb0);
+    --color-badge-blue-bg: light-dark(#dbeafe, #1c2f4d);
+    --color-badge-blue-text: light-dark(#1d4ed8, #8bb9ff);
+    --color-badge-slate-bg: light-dark(#e2e8f0, #2a3038);
+    --color-badge-slate-text: light-dark(#475569, #cbd2dd);
+    --color-badge-emerald-bg: light-dark(#d1fae5, #18352a);
+    --color-badge-emerald-text: light-dark(#047857, #83e0a6);
+
+    --color-skeleton-base: light-dark(#e5e7eb, #292e37);
+    --color-skeleton-highlight: light-dark(#f3f4f6, #3a414d);
+    --color-picker-fade: light-dark(rgba(255, 255, 255, 0.95), rgba(24, 27, 33, 0.96));
+    --color-picker-transparent: light-dark(rgba(255, 255, 255, 0), rgba(24, 27, 33, 0));
+    --color-handle: light-dark(rgba(37, 39, 43, 0.2), rgba(241, 243, 245, 0.24));
+    --color-pressed-overlay: light-dark(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.09));
+
+    --shadow-card: 0 2px 18px light-dark(rgba(15, 23, 42, 0.06), rgba(0, 0, 0, 0.3));
+    --shadow-modal: 0 12px 28px light-dark(rgba(15, 23, 42, 0.14), rgba(0, 0, 0, 0.46));
+    --shadow-sheet: 0 -8px 24px light-dark(rgba(15, 23, 42, 0.15), rgba(0, 0, 0, 0.42));
+    --focus-ring: 0 0 0 3px light-dark(rgba(37, 99, 235, 0.34), rgba(120, 174, 255, 0.42));
   }
-
-  /* Dark scheme */
-  /* @media (prefers-color-scheme: dark) {
-    :root {
-      --color-bg: #FFFFFF;
-      --color-text: #111315;
-      --color-border: #1f2937;
-
-      --color-text-primary: var(--color-text);
-      --color-text-secondary: #9ca3af;
-      --color-muted: #9ca3af;
-
-      --color-primary: #3b82f6;
-      --color-on-primary: #0b0e11;
-
-      --color-success: #22c55e;
-      --color-warning: #f59e0b;
-      --color-danger: #ef4444;
-
-      --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.45);
-    }
-  } */
 
   /* Reset */
   *, *::before, *::after {
@@ -57,6 +79,7 @@ export const GlobalStyle = createGlobalStyle`
   html {
     -webkit-text-size-adjust: 100%;
     font-size: 16px;
+    background: var(--color-bg);
   }
 
   body {
@@ -165,7 +188,7 @@ export const GlobalStyle = createGlobalStyle`
   *::-webkit-scrollbar-track { background: transparent; }
 
   /* Typography Utilities */
-  .text-muted { color: var(--color-muted); }
+  .text-muted { color: var(--color-text-secondary); }
   .text-success { color: var(--color-success); }
   .text-warning { color: var(--color-warning); }
   .text-danger  { color: var(--color-danger);  }

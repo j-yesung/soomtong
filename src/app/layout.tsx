@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
 
 import Providers from "./providers";
 
@@ -27,7 +27,18 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
-        <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
+        <link
+          rel="manifest"
+          href="/manifest.json"
+          media="(prefers-color-scheme: light)"
+          crossOrigin="use-credentials"
+        />
+        <link
+          rel="manifest"
+          href="/manifest-dark.json"
+          media="(prefers-color-scheme: dark)"
+          crossOrigin="use-credentials"
+        />
 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
@@ -44,9 +55,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="152x152" href="/apple/apple-icon-152x152.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple/apple-icon-180x180.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android/android-icon-192x192.png" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileColor" content="#2d2d2d" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)" />
 
         {/* Splash link tag */}
         <link

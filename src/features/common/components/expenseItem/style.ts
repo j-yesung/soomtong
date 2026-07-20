@@ -8,7 +8,7 @@ export const ItemCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border.secondary};
   border-radius: ${({ theme }) => theme.radius.md};
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  box-shadow: ${({ theme }) => theme.shadows.card};
   transition:
     transform 0.14s ease,
     box-shadow 0.14s ease,
@@ -18,7 +18,7 @@ export const ItemCard = styled.div`
 
   &:active {
     transform: scale(0.98) translateY(1px);
-    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+    box-shadow: none;
     background: ${({ theme }) => theme.colors.bg.secondary};
   }
 
@@ -74,7 +74,7 @@ const paymentStatusStyles = {
   upcoming: css`
     border-color: ${({ theme }) => theme.colors.border.secondary};
     background: ${({ theme }) => theme.colors.bg.inverseWhite};
-    color: ${({ theme }) => theme.colors.text.gray};
+    color: ${({ theme }) => theme.colors.text.tertiary};
   `,
   dueToday: css`
     border-color: ${({ theme }) => theme.colors.border.blue};

@@ -22,7 +22,7 @@ export const OverlayTop = styled.div`
   right: 0;
   height: 50%;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  background: linear-gradient(to bottom, var(--color-picker-fade), var(--color-picker-transparent));
 `;
 
 export const OverlayBottom = styled.div`
@@ -32,7 +32,7 @@ export const OverlayBottom = styled.div`
   right: 0;
   height: 50%;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, var(--color-picker-fade), var(--color-picker-transparent));
 `;
 
 export const CenterHighlight = styled.div`

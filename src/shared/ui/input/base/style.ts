@@ -47,7 +47,7 @@ export const Input = styled.input<InputStyleProps>`
       case "filled":
         return css`
           border: 1px solid transparent;
-          background: #f0f0f0;
+          background: ${theme.colors.bg.input};
         `;
       case "underline":
         return css`
@@ -79,7 +79,7 @@ export const Input = styled.input<InputStyleProps>`
       background: transparent;
 
       &::placeholder {
-        color: #999;
+        color: ${({ theme }) => theme.colors.text.tertiary};
         font-weight: normal;
         letter-spacing: normal;
       }
@@ -90,6 +90,6 @@ export const Unit = styled.span`
   position: absolute;
   right: 16px;
   font-size: 14px;
-  color: #666;
+  color: ${({ theme }) => theme.colors.text.secondary};
   pointer-events: none;
 `;

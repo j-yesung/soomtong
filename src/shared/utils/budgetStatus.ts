@@ -39,19 +39,19 @@ export function getBudgetStatusMeta(status: BudgetStatus): BudgetStatusMeta {
     case "여유":
       return {
         label: "여유",
-        color: "#74B075",
+        color: "var(--color-success)",
         icon: Wind,
       };
     case "안정":
       return {
         label: "안정",
-        color: "#dfdc31",
+        color: "var(--color-warning)",
         icon: Gauge,
       };
     case "조절":
       return {
         label: "조절",
-        color: "#EB003B",
+        color: "var(--color-danger)",
         icon: CircleAlert,
       };
   }

@@ -1,4 +1,3 @@
-
 import sspShouldForwardProp from "@styled-system/should-forward-prop";
 import styled, { keyframes } from "styled-components";
 
@@ -27,7 +26,12 @@ const Container = styled("div").withConfig({
   width: ${({ width }) => (typeof width === "number" ? `${width}px` : width)};
   height: ${({ height }) => (typeof height === "number" ? `${height}px` : height)};
   border-radius: ${({ rounded }) => (rounded ? "8px" : "0")};
-  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+  background: linear-gradient(
+    90deg,
+    var(--color-skeleton-base) 25%,
+    var(--color-skeleton-highlight) 37%,
+    var(--color-skeleton-base) 63%
+  );
   background-size: 200% 100%;
   animation: ${shimmer} 1.4s ease-in-out infinite;
 `;
