@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 export const NavContainer = styled.nav`
   position: fixed;
-  bottom: 10px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  padding: 12px 18px calc(env(safe-area-inset-bottom, 0px) + 18px);
+  padding: 6px 16px max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
 `;
 
@@ -19,10 +19,10 @@ export const NavInner = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 6px;
-  padding: 6px;
+  gap: 4px;
+  padding: 4px;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.13));
-  border-radius: 28px;
+  border-radius: 22px;
   background:
     radial-gradient(
       128% 150% at 8% -34%,
@@ -40,11 +40,11 @@ export const NavInner = styled.div`
       light-dark(rgba(232, 240, 255, 0.2), rgba(22, 26, 33, 0.82)) 50%,
       light-dark(rgba(255, 255, 255, 0.42), rgba(35, 40, 49, 0.88)) 100%
     );
-  backdrop-filter: blur(32px) saturate(165%) brightness(1.06);
-  -webkit-backdrop-filter: blur(32px) saturate(165%) brightness(1.06);
+  backdrop-filter: blur(24px) saturate(165%) brightness(1.06);
+  -webkit-backdrop-filter: blur(24px) saturate(165%) brightness(1.06);
   box-shadow:
-    0 20px 42px light-dark(rgba(21, 32, 55, 0.2), rgba(0, 0, 0, 0.46)),
-    0 5px 12px light-dark(rgba(36, 52, 84, 0.08), rgba(0, 0, 0, 0.24)),
+    0 12px 28px light-dark(rgba(21, 32, 55, 0.18), rgba(0, 0, 0, 0.4)),
+    0 3px 8px light-dark(rgba(36, 52, 84, 0.08), rgba(0, 0, 0, 0.22)),
     0 1px 0 light-dark(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.12)) inset,
     0 -1px 0 light-dark(rgba(101, 129, 177, 0.13), rgba(0, 0, 0, 0.34)) inset;
   overflow: hidden;
@@ -53,7 +53,7 @@ export const NavInner = styled.div`
     content: "";
     position: absolute;
     inset: 1px;
-    border-radius: 27px;
+    border-radius: 21px;
     background: linear-gradient(
       112deg,
       light-dark(rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.12)) 0%,
@@ -91,14 +91,14 @@ export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-height: 56px;
-  padding: 9px 0;
+  gap: 2px;
+  min-height: 44px;
+  padding: 4px 0;
   border: none;
   background: transparent;
   cursor: pointer;
   z-index: 1;
-  border-radius: 22px;
+  border-radius: 18px;
   transition:
     color 0.24s ease,
     transform 0.24s ease;
@@ -126,14 +126,14 @@ export const NavContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   z-index: 1;
   pointer-events: none;
   text-shadow: 0 1px 0 light-dark(rgba(255, 255, 255, 0.34), rgba(0, 0, 0, 0.5));
 `;
 
 export const NavLabel = styled.span<{ $isActive?: boolean }>`
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -145,7 +145,7 @@ export const ActivePill = styled.div`
   inset: 0;
   overflow: hidden;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18));
-  border-radius: 22px;
+  border-radius: 18px;
   background:
     radial-gradient(
       140% 138% at 0% -14%,

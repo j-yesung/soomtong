@@ -26,7 +26,7 @@ export default function DashboardClientLayout({ children }: { children: React.Re
   const isFormScreen = isDashboardFormPath(pathname);
 
   return (
-    <Column gap={isFormScreen ? 0 : 24} height={isFormScreen ? "100svh" : "calc(100svh - 125px)"}>
+    <Column gap={isFormScreen ? 0 : 24} height={isFormScreen ? "100svh" : "calc(100svh - 97px)"}>
       {!isFormScreen && (
         <Suspense fallback={null}>
           <DashboardHeader />

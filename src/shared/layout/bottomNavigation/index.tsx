@@ -110,7 +110,7 @@ export default function BottomNavigation() {
                 </motion.div>
               )}
               <S.NavContent>
-                <Icon size={22} />
+                <Icon size={20} />
                 <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>
               </S.NavContent>
             </S.NavItem>

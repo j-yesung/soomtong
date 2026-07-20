@@ -17,7 +17,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         alignItems={isHome ? "center" : "flex-start"}
         justifyContent={isHome ? "center" : "flex-start"}
         padding={isFormScreen ? "0" : "20px"}
-        paddingBottom={isFormScreen ? "0" : "calc(100px + env(safe-area-inset-bottom))"}
+        paddingBottom={isFormScreen ? "0" : "calc(72px + env(safe-area-inset-bottom))"}
         boxSizing="border-box"
         flex={1}
       >
