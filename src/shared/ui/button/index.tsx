@@ -23,6 +23,7 @@ export default function Button({
       className={`${className} c__button`}
       ref={ref}
       type={type}
+      disabled={disabled}
       onClick={onClick}
       $size={size}
       $color={color}

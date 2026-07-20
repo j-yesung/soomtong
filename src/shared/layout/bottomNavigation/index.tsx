@@ -25,7 +25,7 @@ export default function BottomNavigation() {
 
   const { activeTab, setActiveTab } = useDashboardTabStore();
 
-  const isDashboard = pathname === "/dashboard" || pathname.startsWith("/dashboard/");
+  const isDashboard = pathname === "/dashboard";
 
   if (!isDashboard) return null;
 
@@ -110,7 +110,7 @@ export default function BottomNavigation() {
                 </motion.div>
               )}
               <S.NavContent>
-                <Icon size={22} />
+                <Icon size={20} />
                 <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>
               </S.NavContent>
             </S.NavItem>

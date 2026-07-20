@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { JSX, PropsWithChildren } from "react";
 
 import { AppTheme } from "@/shared/styles/theme";
 
@@ -14,6 +14,8 @@ export interface HeadingProps extends PropsWithChildren {
   align?: HeadingAlign;
   color?: keyof AppTheme["colors"]["text"];
   fontWeight?: HeadingFontWeight;
+  as?: keyof JSX.IntrinsicElements;
+  htmlFor?: string;
 }
 
 export interface HeadingTextProps {

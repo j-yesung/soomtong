@@ -1,4 +1,3 @@
-
 import Flex from "../../flex";
 import * as S from "./style";
 import * as T from "./type";
@@ -21,6 +20,7 @@ export default function Input({
   className,
   flex,
   readOnly,
+  ...rest
 }: T.InputProps) {
   return (
     <Flex position="relative" align="center" flex={flex} className={className}>
@@ -44,6 +44,7 @@ export default function Input({
         $variant={variant}
         $inputStyle={inputStyle}
         $fullWidth={fullWidth}
+        {...rest}
       />
       {unit && <S.Unit>{unit}</S.Unit>}
     </Flex>

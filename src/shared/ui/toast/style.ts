@@ -23,6 +23,12 @@ export const ToastGlobalStyle = createGlobalStyle`
     font-weight: 600;
   }
 
+  [data-sonner-toast][data-styled='true'] [data-icon] {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+
   [data-sonner-toast][data-styled='true'] [data-description] {
     color: ${({ theme }) => theme.colors.text.inverseWhite};
     opacity: 0.8;

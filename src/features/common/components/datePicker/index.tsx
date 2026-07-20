@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 
 import styled from "styled-components";
 
-import { Button } from "@/shared/ui";
 import { hideScrollbarOnTouch } from "@/shared/styles/scroll";
+import { Button } from "@/shared/ui";
 
 type Props = {
   days?: number[];
@@ -30,8 +30,9 @@ export default function DatePicker({ days = DEFAULT_DAYS, selectedDay, onChange 
           key={day}
           isActive={day === selectedDay}
           onClick={() => onChange(day)}
-          width={70}
-          height={60}
+          width={60}
+          height={48}
+          radius="md"
           variant="outline"
           color="secondary"
         >

@@ -13,6 +13,8 @@ type AlertProps = {
   cancelText?: string;
   onConfirm: () => void;
   onCancel?: () => void;
+  isConfirmDisabled?: boolean;
+  confirmColor?: "primary" | "danger";
 };
 
 export default function Alert({
@@ -23,6 +25,8 @@ export default function Alert({
   cancelText = "닫기",
   onConfirm,
   onCancel,
+  isConfirmDisabled = false,
+  confirmColor = "primary",
 }: AlertProps) {
   if (!isOpen) return null;
 
@@ -46,7 +50,7 @@ export default function Alert({
                 {cancelText}
               </Button>
             )}
-            <Button width={72} height={36} onClick={onConfirm}>
+            <Button width={72} height={36} color={confirmColor} onClick={onConfirm} disabled={isConfirmDisabled}>
               {confirmText}
             </Button>
           </Row>

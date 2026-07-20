@@ -23,7 +23,7 @@ export const Input = styled.input<InputStyleProps>`
     switch ($inputSize) {
       case "s":
         return css`
-          font-size: ${theme.font.sm};
+          font-size: max(16px, ${theme.font.sm});
         `;
       case "m":
         return css`
@@ -42,7 +42,14 @@ export const Input = styled.input<InputStyleProps>`
         return css`
           border: 1px solid ${theme.colors.border.secondary};
           background: transparent;
-          padding-right: 40px;
+          min-height: 50px;
+          padding: 12px 40px 12px 14px;
+          border-radius: ${theme.radius.md};
+
+          &:focus-visible {
+            border-color: ${theme.colors.border.primary};
+            box-shadow: ${theme.shadows.focusRing};
+          }
         `;
       case "filled":
         return css`
@@ -71,8 +78,9 @@ export const Input = styled.input<InputStyleProps>`
     css`
       width: 100%;
       flex: 1;
-      padding: 0;
-      font-size: 28px;
+      min-height: 60px;
+      padding: 12px 52px 12px 16px;
+      font-size: 26px;
       font-weight: 800;
       height: auto;
       letter-spacing: normal;
@@ -89,7 +97,7 @@ export const Input = styled.input<InputStyleProps>`
 export const Unit = styled.span`
   position: absolute;
   right: 16px;
-  font-size: 14px;
+  font-size: 15px;
   color: ${({ theme }) => theme.colors.text.secondary};
   pointer-events: none;
 `;
