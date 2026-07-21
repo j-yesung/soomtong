@@ -10,19 +10,19 @@ type BudgetBarChartProps = {
 function BudgetBarChart({ data }: BudgetBarChartProps) {
   if (!data) return null;
 
-  const amountAvailable = data?.amountAvailable;
-  const totalVariableExpense = data?.totalVariable;
+  const budget = data.budget;
+  const fixedTotal = data.fixedTotal;
 
-  const ratio = amountAvailable > 0 ? Math.min((totalVariableExpense / amountAvailable) * 100, 100) : 0;
+  const ratio = budget > 0 ? Math.min((fixedTotal / budget) * 100, 100) : 0;
 
   return (
     <Box pvh={[0, 16]}>
       <BarChart
-        current={amountAvailable}
-        max={totalVariableExpense}
+        current={budget}
+        max={fixedTotal}
         LegendItems={[
-          { label: "사용 금액", value: totalVariableExpense, color: ratio > 80 ? "danger" : "primary" },
-          { label: "총 생활비", value: amountAvailable, color: "secondary" },
+          { label: "고정지출", value: fixedTotal, color: ratio >= 80 ? "danger" : "primary" },
+          { label: "월수입", value: budget, color: "secondary" },
         ]}
       />
     </Box>

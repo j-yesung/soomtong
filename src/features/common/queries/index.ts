@@ -3,8 +3,6 @@ import { toast } from "sonner";
 
 import { useUserStore } from "@/features/auth/store";
 import {
-  AddExpenseParams,
-  AmountSummary,
   FixedAddParams,
   FixedExpensePayment,
   FixedExpenseTableItem,
@@ -17,10 +15,8 @@ import {
 } from "@/features/common/types";
 import { getFixedExpenseDueDate } from "@/shared/utils/date";
 import {
-  addExpense,
   addFixedItem,
   getCurrentMonthAmountSummary,
-  getExpenseList,
   getFixedExpensePayments,
   getFixedExpenseTable,
   getUserProfile,
@@ -32,15 +28,13 @@ import {
 
 export const userAmountQueryKeys = {
   userProfile: (userId: string) => ["user-profile", userId],
-  detailExpenseList: (userId: string) => ["detail-expense-list", userId],
   fixedExpenseTable: (userId: string) => ["fixedExpense", userId],
   fixedExpensePayments: (userId: string, dueDates: string[]) => ["fixedExpensePayments", userId, dueDates.join(",")],
   addFixedExpense: () => ["addFixedExpense"],
   removeFixedExpense: () => ["deleteFixedExpense"],
   updateFixedExpense: () => ["updateFixedExpense"],
   toggleFixedExpensePayment: () => ["toggleFixedExpensePayment"],
-  summary: (userId: string, ym: string) => ["amountSummary", userId, ym],
-  addExpense: () => ["addExpense"],
+  summary: (userId: string) => ["amountSummary", userId],
   updateBudget: () => ["update-budget"],
 };
 
@@ -63,22 +57,6 @@ export function useUserProfileQuery(userId: string) {
     queryFn: () => getUserProfile(userId),
     enabled: isAuthReady && !!userId,
     staleTime: 5 * 60 * 1000,
-  });
-}
-
-/**
- * 지출내역 조회
- */
-export function useDetailExpenseListQuery() {
-  const userId = useUserStore((state) => state.userId);
-  const isAuthReady = useUserStore((state) => state.isReady);
-
-  return useQuery({
-    queryKey: userAmountQueryKeys.detailExpenseList(userId),
-    queryFn: () => getExpenseList(userId),
-    enabled: isAuthReady && !!userId,
-    staleTime: 30_000,
-    refetchOnWindowFocus: false,
   });
 }
 
@@ -363,11 +341,9 @@ export function useFixedExpenseUpdateMutation() {
  */
 export function useAmountSummaryQuery(userId: string) {
   const isAuthReady = useUserStore((state) => state.isReady);
-  const now = new Date();
-  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
   return useQuery({
-    queryKey: userAmountQueryKeys.summary(userId, ym),
+    queryKey: userAmountQueryKeys.summary(userId),
     queryFn: () => getCurrentMonthAmountSummary(userId),
     staleTime: 30_000,
     refetchOnWindowFocus: false,
@@ -375,64 +351,9 @@ export function useAmountSummaryQuery(userId: string) {
   });
 }
 
-/**
- * 생활비 지출 추가
- */
-export function useAddExpenseMutation() {
-  const queryClient = useQueryClient();
-  const now = new Date();
-  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
-
-  return useMutation({
-    mutationFn: (params: AddExpenseParams) => addExpense(params),
-
-    onSuccess: (data, variables) => {
-      toast.success(`${variables.amount.toLocaleString()}원이 추가됐어요.`);
-
-      if (data) {
-        queryClient.setQueryData<AmountSummary>(userAmountQueryKeys.summary(variables.userId, ym), {
-          budget: data.budget,
-          fixedTotal: data.fixedTotal,
-          totalVariable: data.totalVariable,
-          amountAvailable: data.amountAvailable,
-        });
-      }
-    },
-
-    onMutate: async (variables) => {
-      const { userId, amount } = variables;
-      const summaryKey = userAmountQueryKeys.summary(userId, ym);
-
-      await queryClient.cancelQueries({ queryKey: summaryKey });
-
-      const prevSummary = queryClient.getQueryData<AmountSummary>(summaryKey);
-
-      if (prevSummary) {
-        queryClient.setQueryData<AmountSummary>(summaryKey, {
-          ...prevSummary,
-          totalVariable: prevSummary.totalVariable + amount,
-          amountAvailable: prevSummary.amountAvailable - amount,
-        });
-      }
-
-      return { prevSummary, userId };
-    },
-
-    onError: (_error, _variables, context) => {
-      toast.error("지출 추가에 실패했어요. 다시 시도해 주세요.");
-      if (context?.prevSummary) {
-        queryClient.setQueryData(userAmountQueryKeys.summary(context.userId, ym), context.prevSummary);
-      }
-    },
-  });
-}
-
 export function useUpdateBudgetMutation() {
   const queryClient = useQueryClient();
   const userId = useUserStore((s) => s.userId);
-
-  const now = new Date();
-  const ym = `${now.getFullYear()}-${now.getMonth() + 1}`;
 
   return useMutation({
     mutationKey: userAmountQueryKeys.updateBudget(),
@@ -441,7 +362,7 @@ export function useUpdateBudgetMutation() {
     onSuccess: (_data, variables) => {
       toast.success(`월수입을 ${variables.budget.toLocaleString()}원으로 변경했어요.`);
       queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.userProfile(userId) });
-      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.summary(userId, ym) });
+      queryClient.invalidateQueries({ queryKey: userAmountQueryKeys.summary(userId) });
     },
 
     onMutate: async (variables) => {

@@ -1,33 +1,24 @@
-import { CircleAlert, Gauge, LucideIcon, Wind } from "lucide-react";
+import type { AmountSummary } from "@/features/common/types";
 
-import { AmountSummary } from "@/features/common/types";
-
-export type BudgetStatus = "여유" | "안정" | "조절";
+export type BudgetStatus = "여유" | "주의" | "부담";
 
 export type BudgetStatusMeta = {
   label: BudgetStatus;
   color: string;
-  icon: LucideIcon;
 };
 
 /**
- * 사용 가능 금액 대비 사용 금액 비율에 따른 예산 상태를 계산
+ * 월수입 대비 고정지출 비율에 따른 예산 상태를 계산
  * @param data - 금액 요약 데이터
- * @returns 예산 상태 라벨 ("여유", "안정", "조절")
+ * @returns 예산 상태 라벨 ("여유", "주의", "부담")
  */
 export function getBudgetStatus(data: AmountSummary): BudgetStatus {
-  if (!data) return "안정";
+  if (!data || data.budget <= 0) return "부담";
 
-  const { amountAvailable, totalVariable } = data;
+  const fixedExpenseRatio = data.fixedTotal / data.budget;
 
-  // 사용 가능 금액이 0 이하면 빠듯함
-  if (amountAvailable <= 0) return "조절";
-
-  // 사용 비율 계산
-  const usageRatio = totalVariable / amountAvailable;
-
-  if (usageRatio >= 0.8) return "조절";
-  if (usageRatio >= 0.5) return "안정";
+  if (fixedExpenseRatio >= 0.8) return "부담";
+  if (fixedExpenseRatio >= 0.5) return "주의";
   return "여유";
 }
 
@@ -40,19 +31,16 @@ export function getBudgetStatusMeta(status: BudgetStatus): BudgetStatusMeta {
       return {
         label: "여유",
         color: "var(--color-success)",
-        icon: Wind,
       };
-    case "안정":
+    case "주의":
       return {
-        label: "안정",
+        label: "주의",
         color: "var(--color-warning)",
-        icon: Gauge,
       };
-    case "조절":
+    case "부담":
       return {
-        label: "조절",
+        label: "부담",
         color: "var(--color-danger)",
-        icon: CircleAlert,
       };
   }
 }

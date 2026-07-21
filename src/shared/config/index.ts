@@ -24,11 +24,3 @@ const FIXED_EXPENSE_CATEGORY_MAP = new Map(FIXED_EXPENSE_CATEGORY_LIST.map((cate
 export function getFixedExpenseBadgeTone(categoryName: string): BadgeTone {
   return FIXED_EXPENSE_CATEGORY_MAP.get(categoryName)?.badgeTone ?? "neutral";
 }
-
-export const EXPENSE_CATEGORY_LIST: CategoryItem[] = [
-  { name: "식비" },
-  { name: "택시" },
-  { name: "기타생활비" },
-  { name: "의료비" },
-  { name: "커피" },
-];

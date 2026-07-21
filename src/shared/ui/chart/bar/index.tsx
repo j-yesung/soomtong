@@ -33,7 +33,7 @@ export default function BarChart({ current, max, duration = 900, LegendItems }: 
           initial={{ width: 0 }}
           animate={{ width: `${ratio}%` }}
           transition={prefersReduced ? { duration: 0 } : { duration: duration / 1000, ease: "easeOut" }}
-          $danger={ratio > 80}
+          $danger={ratio >= 80}
         />
       </Bar>
       {LegendItems && (

@@ -6,9 +6,10 @@ export const NavContainer = styled.nav`
   bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: max-content;
+  box-sizing: border-box;
+  width: fit-content;
   max-width: calc(100vw - 24px);
-  padding: 6px 16px max(8px, env(safe-area-inset-bottom, 0px));
+  padding: 6px 0 max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
 `;
 
@@ -18,7 +19,9 @@ export const NavInner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: max-content;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
   gap: 4px;
   padding: 4px;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.13));
