@@ -83,7 +83,7 @@ export default function FixedExpenseList() {
 
       {totalAmount > 0 && (
         <Column gap={2}>
-          <SlotCounter value={totalAmount} fontSize={24} suffix="원" />
+          <SlotCounter value={totalAmount} animationKey={`fixed-expense-total:${userId}`} fontSize={24} suffix="원" />
           <Text size={13} weight={600} color={remainingAmount > 0 ? "secondary" : "darkBlue"}>
             {remainingAmount > 0 ? `잔여 납부 금액 ${remainingAmount.toLocaleString()}원` : "이번 회차 납부 완료"}
           </Text>

@@ -16,7 +16,6 @@ import { FixedItem } from "@/features/common/types";
 import { TrashIcon } from "@/shared/assets/svg/interface";
 import { FIXED_EXPENSE_CATEGORY_LIST } from "@/shared/config";
 import FormScreen from "@/shared/layout/formScreen";
-import { dashboardTabPath } from "@/shared/lib/navigation/dashboard";
 import { Alert, Button, Column, Empty, Heading, Input, Skeleton } from "@/shared/ui";
 import { formatWithComma, parseNumericInput } from "@/shared/utils/formatter";
 
@@ -75,12 +74,11 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
     setIsInitialized(true);
   }, [isInitialized, item, mode]);
 
-  const destination = dashboardTabPath("fixed");
   const isDirty = isInitialized && JSON.stringify(values) !== JSON.stringify(initialValues);
   const isSubmitting = addMutation.isPending || updateMutation.isPending || removeMutation.isPending;
   const isSubmitDisabled = !userId || !isInitialized || !values.tag || parseNumericInput(values.amount) < 1;
 
-  const handleLeave = () => router.replace(destination);
+  const handleLeave = () => router.back();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,7 +90,7 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
       day: values.day,
       memo: values.memo,
     };
-    const options = { onSuccess: () => router.replace(destination) };
+    const options = { onSuccess: handleLeave };
 
     if (mode === "edit") {
       updateMutation.mutate({ userId, createdAt, item: { ...nextItem, createdAt } }, options);
@@ -105,10 +103,7 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
   const handleDelete = () => {
     if (!item || removeMutation.isPending) return;
 
-    removeMutation.mutate(
-      { userId, tag: item.tag, createdAt: item.createdAt },
-      { onSuccess: () => router.replace(destination) },
-    );
+    removeMutation.mutate({ userId, tag: item.tag, createdAt: item.createdAt }, { onSuccess: handleLeave });
   };
 
   if (isMissing) {

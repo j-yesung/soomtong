@@ -10,8 +10,11 @@ import { formatWithComma } from "@/shared/utils/formatter";
 
 import DigitReel from "./DigitReel";
 
+const lastAnimatedValues = new Map<string, number>();
+
 type SlotCounterProps = {
   value: number;
+  animationKey?: string;
   duration?: number; // 전체 애니메이션 시간
   spins?: number; // 최소 회전 바퀴 수
   fontSize?: number;
@@ -22,6 +25,7 @@ type SlotCounterProps = {
 
 export default function SlotCounter({
   value,
+  animationKey,
   duration = 1.2,
   spins = 1,
   fontSize = 28,
@@ -29,12 +33,13 @@ export default function SlotCounter({
   lineHeightFactor = 1.2,
   color = "primary",
 }: SlotCounterProps) {
-  const prevValueRef = useRef<number | null>(null);
+  const prevValueRef = useRef<number | null>(animationKey ? (lastAnimatedValues.get(animationKey) ?? null) : null);
   const prevValue = prevValueRef.current;
 
   useEffect(() => {
     prevValueRef.current = value;
-  }, [value]);
+    if (animationKey) lastAnimatedValues.set(animationKey, value);
+  }, [animationKey, value]);
 
   const formatted = useMemo(() => formatWithComma(value), [value]);
 
@@ -63,7 +68,7 @@ export default function SlotCounter({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+      initial={prevValue === null ? { opacity: 0, y: 10, filter: "blur(4px)" } : false}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
