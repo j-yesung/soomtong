@@ -3,11 +3,11 @@
 import { useRef, useState } from "react";
 
 import { type PanInfo, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
-import { navigateToDashboardTab } from "@/shared/lib/navigation/dashboard";
+import { dashboardTabPath } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
@@ -19,6 +19,7 @@ const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] =
 
 export default function BottomNavigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const navInnerRef = useRef<HTMLDivElement | null>(null);
   const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [previewTab, setPreviewTab] = useState<DashboardTab | null>(null);
@@ -29,11 +30,16 @@ export default function BottomNavigation() {
 
   if (!isDashboard) return null;
 
+  const handleTabChange = (tab: DashboardTab) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: "instant" });
+    router.replace(dashboardTabPath(tab), { scroll: false });
+  };
+
   const handleTabClick = (tab: DashboardTab) => {
     if (tab === activeTab) return;
     setPreviewTab(null);
-    setActiveTab(tab);
-    navigateToDashboardTab(tab);
+    handleTabChange(tab);
   };
 
   const getNearestTabFromX = (targetX: number) => {
@@ -56,8 +62,7 @@ export default function BottomNavigation() {
 
     if (!nearestTab || nearestTab === activeTab) return;
 
-    setActiveTab(nearestTab);
-    navigateToDashboardTab(nearestTab);
+    handleTabChange(nearestTab);
   };
 
   const visualActiveTab = previewTab ?? activeTab;

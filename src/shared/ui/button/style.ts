@@ -108,7 +108,6 @@ export const Button = styled.button<ButtonStyleProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 
@@ -120,27 +119,9 @@ export const Button = styled.button<ButtonStyleProps>`
   -webkit-appearance: none;
   appearance: none;
   transition:
-    transform 0.12s ease,
     filter 0.12s ease,
     background-color 0.2s ease,
     border-color 0.2s ease;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--color-pressed-overlay);
-    opacity: 0;
-    transition: opacity 0.08s ease-out;
-  }
-
-  &:active::after {
-    opacity: 1;
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
-  }
 
   ${({ $size }) => sizeStyles[$size]}
   ${({ $radius = "md" }) => radiusStyles[$radius]}

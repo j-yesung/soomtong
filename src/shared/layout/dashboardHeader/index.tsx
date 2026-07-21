@@ -1,13 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import Logo from "@/shared/assets/images/soomtong.png";
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
-import { Heading, Row } from "@/shared/ui";
+import { Row } from "@/shared/ui";
 
-// 뒤로가기 버튼이 필요한 탭
 const SUB_TABS = ["expense-analysis"];
 
 export default function DashboardHeader() {
@@ -19,21 +16,13 @@ export default function DashboardHeader() {
   const currentTab = searchParams.get("tab") || "home";
   const isSubTab = SUB_TABS.includes(currentTab);
 
+  if (isDashboardRoot && !isSubTab) return null;
+
   return (
     <Row align="center" justify="space-between">
-      {(!isDashboardRoot || isSubTab) && (
-        <button type="button" onClick={() => router.back()}>
-          <SingleArrowIcon size={40} />
-        </button>
-      )}
-      {isDashboardRoot && !isSubTab && (
-        <Row gap={4} align="center">
-          <Image src={Logo} width={40} height={40} alt="Soomtong Logo" priority />
-          <Heading level={3} fontWeight="bold">
-            Soomtong
-          </Heading>
-        </Row>
-      )}
+      <button type="button" onClick={() => router.back()} aria-label="뒤로가기">
+        <SingleArrowIcon size={40} />
+      </button>
     </Row>
   );
 }

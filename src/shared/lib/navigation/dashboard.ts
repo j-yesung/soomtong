@@ -12,10 +12,3 @@ export function isDashboardFormPath(pathname: string) {
     /^\/dashboard\/fixed\/[^/]+\/edit$/.test(pathname)
   );
 }
-
-export function navigateToDashboardTab(tab: DashboardTab) {
-  window.scrollTo({ top: 0, behavior: "instant" });
-  const newUrl = new URL(window.location.href);
-  newUrl.searchParams.set("tab", tab);
-  window.history.replaceState({}, "", newUrl.toString());
-}
