@@ -19,14 +19,6 @@ export const ListActions = styled.div<{ $hasItems: boolean }>`
   display: flex;
   align-items: center;
   justify-content: ${({ $hasItems }) => ($hasItems ? "space-between" : "flex-end")};
-
-  > button:last-child:active::after {
-    opacity: 0;
-  }
-
-  > button:last-child:active:not(:disabled) {
-    transform: none;
-  }
 `;
 
 export const SortControl = styled.label`

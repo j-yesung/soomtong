@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
-import { ChevronDown, Plus } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useUserStore } from "@/features/auth/store";
@@ -20,22 +20,24 @@ import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
 
 const SORT_STORAGE_KEY = "fixed-expense-sort";
+const SORT_DIRECTION_STORAGE_KEY = "fixed-expense-sort-direction";
 const SORT_OPTIONS = [
-  { value: "dueDate", label: "납부일 빠른순" },
-  { value: "amountDesc", label: "금액 높은순" },
-  { value: "amountAsc", label: "금액 낮은순" },
-  { value: "tag", label: "태그 가나다순" },
+  { value: "dueDate", label: "납부일순" },
+  { value: "amount", label: "금액순" },
+  { value: "tag", label: "태그순" },
 ] as const;
-type FixedExpenseSort = (typeof SORT_OPTIONS)[number]["value"];
+type FixedExpenseSortCriterion = (typeof SORT_OPTIONS)[number]["value"];
+type FixedExpenseSortDirection = "asc" | "desc";
 
-const isFixedExpenseSort = (value: string | null): value is FixedExpenseSort => {
+const isFixedExpenseSortCriterion = (value: string | null): value is FixedExpenseSortCriterion => {
   return SORT_OPTIONS.some((option) => option.value === value);
 };
 
 export default function FixedExpenseList() {
   const router = useRouter();
   const userId = useUserStore((state) => state.userId);
-  const [sort, setSort] = useState<FixedExpenseSort>("dueDate");
+  const [sortCriterion, setSortCriterion] = useState<FixedExpenseSortCriterion>("dueDate");
+  const [sortDirection, setSortDirection] = useState<FixedExpenseSortDirection>("asc");
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
   const dueDates = getFixedExpenseDueDates(data?.items);
@@ -43,21 +45,28 @@ export default function FixedExpenseList() {
   const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
   useEffect(() => {
-    const storedSort = safeLocalStorage.getItem(SORT_STORAGE_KEY);
-    if (isFixedExpenseSort(storedSort)) setSort(storedSort);
+    const storedCriterion = safeLocalStorage.getItem(SORT_STORAGE_KEY);
+    const storedDirection = safeLocalStorage.getItem(SORT_DIRECTION_STORAGE_KEY);
+
+    if (isFixedExpenseSortCriterion(storedCriterion)) setSortCriterion(storedCriterion);
+    if (storedDirection === "asc" || storedDirection === "desc") setSortDirection(storedDirection);
   }, []);
 
   const sortedItems = [...(data?.items ?? [])].sort((a, b) => {
-    switch (sort) {
-      case "amountDesc":
-        return b.amount - a.amount;
-      case "amountAsc":
-        return a.amount - b.amount;
+    let comparison: number;
+
+    switch (sortCriterion) {
+      case "amount":
+        comparison = a.amount - b.amount;
+        break;
       case "tag":
-        return a.tag.localeCompare(b.tag, "ko");
+        comparison = a.tag.localeCompare(b.tag, "ko");
+        break;
       default:
-        return getFixedExpenseDueDate(a).localeCompare(getFixedExpenseDueDate(b));
+        comparison = getFixedExpenseDueDate(a).localeCompare(getFixedExpenseDueDate(b));
     }
+
+    return sortDirection === "asc" ? comparison : -comparison;
   });
 
   const hasItems = sortedItems.length > 0;
@@ -79,11 +88,17 @@ export default function FixedExpenseList() {
   };
 
   const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const nextSort = event.target.value;
-    if (!isFixedExpenseSort(nextSort)) return;
+    const nextCriterion = event.target.value;
+    if (!isFixedExpenseSortCriterion(nextCriterion)) return;
 
-    setSort(nextSort);
-    safeLocalStorage.setItem(SORT_STORAGE_KEY, nextSort);
+    setSortCriterion(nextCriterion);
+    safeLocalStorage.setItem(SORT_STORAGE_KEY, nextCriterion);
+  };
+
+  const handleSortDirectionClick = () => {
+    const nextDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(nextDirection);
+    safeLocalStorage.setItem(SORT_DIRECTION_STORAGE_KEY, nextDirection);
   };
 
   const handleTogglePaid = (item: FixedItem) => {
@@ -119,17 +134,35 @@ export default function FixedExpenseList() {
 
       <S.ListActions $hasItems={hasItems}>
         {hasItems && (
-          <S.SortControl>
-            <span>{SORT_OPTIONS.find((option) => option.value === sort)?.label}</span>
-            <ChevronDown size={14} aria-hidden />
-            <S.SortSelect value={sort} onChange={handleSortChange} aria-label="고정지출 정렬">
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </S.SortSelect>
-          </S.SortControl>
+          <Row gap={8} align="center">
+            <S.SortControl>
+              <span>{SORT_OPTIONS.find((option) => option.value === sortCriterion)?.label}</span>
+              <ChevronDown size={14} aria-hidden />
+              <S.SortSelect value={sortCriterion} onChange={handleSortChange} aria-label="고정지출 정렬 기준">
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </S.SortSelect>
+            </S.SortControl>
+            <Button
+              onClick={handleSortDirectionClick}
+              width={44}
+              height={44}
+              variant="outline"
+              color="secondary"
+              size="s"
+              radius="pill"
+              aria-label={sortDirection === "asc" ? "내림차순으로 변경" : "오름차순으로 변경"}
+            >
+              {sortDirection === "asc" ? (
+                <ArrowUp size={16} aria-hidden />
+              ) : (
+                <ArrowDown size={16} aria-hidden />
+              )}
+            </Button>
+          </Row>
         )}
         <Button
           onClick={handleAddClick}
