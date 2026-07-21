@@ -57,12 +57,6 @@ export type ToggleFixedExpensePaymentParams = {
   isPaid: boolean;
 };
 
-export interface AddExpenseParams {
-  userId: string;
-  amount: number;
-  category?: string;
-}
-
 export type UpdateBudgetParams = {
   userId: string;
   budget: number;
@@ -71,22 +65,6 @@ export type UpdateBudgetParams = {
 
 export interface AmountSummary {
   budget: number;
-  fixedTotal?: number;
-  totalVariable: number;
+  fixedTotal: number;
   amountAvailable: number;
-}
-
-export type ExpenseList = {
-  id: number;
-  user_id: string;
-  amount: number;
-  category: string;
-  spent_at: string;
-  created_at: string;
-};
-
-export type GroupedExpense = Record<string, ExpenseList[]>;
-
-export interface AddExpenseResult extends AmountSummary {
-  expenseId: number;
 }

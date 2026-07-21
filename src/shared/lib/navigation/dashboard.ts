@@ -7,7 +7,6 @@ export const dashboardTabPath = (tab: DashboardTab) => `${DASHBOARD_PATH}?tab=${
 export function isDashboardFormPath(pathname: string) {
   return (
     pathname === `${DASHBOARD_PATH}/budget` ||
-    pathname === `${DASHBOARD_PATH}/expense/new` ||
     pathname === `${DASHBOARD_PATH}/fixed/new` ||
     /^\/dashboard\/fixed\/[^/]+\/edit$/.test(pathname)
   );

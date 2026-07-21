@@ -26,11 +26,6 @@ export default function BudgetBoard() {
                   월수입 변경
                 </Text>
               </button>
-              <button type="button" onClick={() => router.push("/dashboard/expense/new")}>
-                <Text size={14} color="inverseWhite">
-                  지출 추가
-                </Text>
-              </button>
             </Card.Footer>
           </>
         ) : (

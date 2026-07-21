@@ -6,10 +6,8 @@ Next.js App Router + Supabase(Anonymous Auth/DB) 기반으로 동작합니다.
 ## 주요 기능
 
 - 로그인 화면 없는 Supabase 익명 인증
-- 월수입/정산일 설정 및 사용 가능 금액 계산
+- 월수입/지급일 설정 및 사용 가능 금액 계산
 - 고정지출 추가/수정/삭제
-- 지출 등록 및 일자별 지출 내역 조회
-- AI 지출 분석(코치형 텍스트 리포트)
 - iOS PWA 설치 안내 및 홈 화면 실행 지원
 
 ## 기술 스택
@@ -21,7 +19,6 @@ Next.js App Router + Supabase(Anonymous Auth/DB) 기반으로 동작합니다.
 | Styling    | styled-components v6, styled-system |
 | State/Data | Zustand, TanStack Query v5          |
 | Backend    | Supabase (Auth, Postgres, RPC)      |
-| AI         | Google Gemini (`@google/genai`)     |
 | PWA        | `next-pwa`                          |
 
 ## 프로젝트 구조
@@ -60,11 +57,9 @@ pnpm install
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_GEMINI_API_KEY=
 ```
 
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`는 필수입니다.
-- `NEXT_PUBLIC_GEMINI_API_KEY`는 AI 분석 기능(`/api/ai/insight`) 사용 시 필요합니다.
 - `NEXT_PUBLIC_SITE_URL`은 로컬/컨테이너 기반 실행 시 사용합니다.
 
 ### 4) 실행
@@ -94,10 +89,7 @@ pnpm dev
 | `/dashboard`                      | 메인 대시보드             |
 | `/dashboard?tab=home`             | 홈 요약                   |
 | `/dashboard?tab=fixed`            | 고정지출 관리             |
-| `/dashboard?tab=expense`          | 지출내역                  |
-| `/dashboard?tab=expense-analysis` | AI 분석 결과              |
 | `/prompt-information`             | iOS PWA 설치 안내         |
-| `/api/ai/insight`                 | AI 분석 API(POST)         |
 
 ## Supabase 준비 체크리스트
 
@@ -109,14 +101,13 @@ pnpm dev
 
 코드에서 아래 리소스를 사용합니다.
 
-- 테이블: `user_profile`, `fixed_expenses`, `expenses`
+- 테이블: `user_profile`, `fixed_expenses`, `fixed_expense_payments`
 - RPC 함수:
   - `add_fixed_item`
   - `remove_fixed_item`
   - `update_fixed_item`
   - `get_current_month_amount_summary`
-  - `add_expense`
-  - `update_fixed_settings`
+  - `update_user_settings`
 
 ## 배포 참고
 

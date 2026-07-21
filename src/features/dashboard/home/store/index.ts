@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const DASHBOARD_TABS = ["home", "expense", "expense-analysis", "fixed"] as const;
+export const DASHBOARD_TABS = ["home", "fixed"] as const;
 
 export type DashboardTab = (typeof DASHBOARD_TABS)[number];
 

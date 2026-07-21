@@ -3,9 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { FixedExpenseList, LazyTab } from "@/features/common/components";
-import { ExpenseAnalysisBoard } from "@/features/dashboard/expense/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import ExpenseScreen from "@/widgets/expenseScreen";
 import HomeScreen from "@/widgets/homeScreen";
 
 interface DashboardContentProps {
@@ -28,14 +26,6 @@ export default function DashboardContent({ initialTab }: DashboardContentProps) 
     >
       <LazyTab activeValue="home">
         <HomeScreen />
-      </LazyTab>
-
-      <LazyTab activeValue="expense">
-        <ExpenseScreen />
-      </LazyTab>
-
-      <LazyTab activeValue="expense-analysis">
-        <ExpenseAnalysisBoard />
       </LazyTab>
 
       <LazyTab activeValue="fixed">

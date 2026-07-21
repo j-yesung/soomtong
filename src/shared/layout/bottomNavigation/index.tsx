@@ -6,7 +6,7 @@ import { type PanInfo, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import { FixedIcon, HistoryIcon, HomeIcon } from "@/shared/assets/svg/interface";
+import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
 import { dashboardTabPath } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
@@ -14,7 +14,6 @@ import * as S from "./style";
 const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] = [
   { tab: "home", label: "홈", icon: HomeIcon },
   { tab: "fixed", label: "고정지출", icon: FixedIcon },
-  { tab: "expense", label: "지출내역", icon: HistoryIcon },
 ];
 
 export default function BottomNavigation() {

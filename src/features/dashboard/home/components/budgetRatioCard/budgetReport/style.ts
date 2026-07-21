@@ -19,10 +19,6 @@ export const AvailableText = styled(Text)`
 `;
 
 export const StatusText = styled.span<{ $color: string }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
   font-weight: 700;
   color: ${({ $color }) => $color};
 `;
