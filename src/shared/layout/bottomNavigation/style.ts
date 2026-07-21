@@ -3,11 +3,11 @@ import styled from "styled-components";
 
 export const NavContainer = styled.nav`
   position: fixed;
-  bottom: 6px;
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
+  width: max-content;
+  max-width: calc(100vw - 24px);
   padding: 6px 16px max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
 `;
@@ -18,7 +18,7 @@ export const NavInner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: max-content;
   gap: 4px;
   padding: 4px;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.13));
@@ -86,7 +86,7 @@ export const NavInner = styled.div`
 
 export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
   position: relative;
-  flex: 1;
+  flex: 0 0 88px;
   display: flex;
   flex-direction: column;
   align-items: center;
