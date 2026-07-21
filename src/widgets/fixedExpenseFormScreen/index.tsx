@@ -63,7 +63,7 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const item = mode === "edit" ? data?.items?.find((candidate) => candidate.createdAt === createdAt) : undefined;
-  const isMissing = mode === "edit" && isFetched && !item;
+  const isMissing = mode === "edit" && isFetched && !removeMutation.isPending && !item;
 
   useEffect(() => {
     if (mode !== "edit" || !item || isInitialized) return;

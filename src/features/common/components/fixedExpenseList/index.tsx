@@ -1,3 +1,6 @@
+import { ChangeEvent, useEffect, useState } from "react";
+
+import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useUserStore } from "@/features/auth/store";
@@ -9,22 +12,55 @@ import {
   useToggleFixedExpensePaymentMutation,
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
-import { Button, Column, Empty, Row, Text } from "@/shared/ui";
+import { Button, Column, Empty, Text } from "@/shared/ui";
 import { getFixedExpenseDueDate } from "@/shared/utils/date";
+import { safeLocalStorage } from "@/shared/utils/storage";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
 
+const SORT_STORAGE_KEY = "fixed-expense-sort";
+const SORT_OPTIONS = [
+  { value: "dueDate", label: "납부일 빠른순" },
+  { value: "amountDesc", label: "금액 높은순" },
+  { value: "amountAsc", label: "금액 낮은순" },
+  { value: "tag", label: "태그 가나다순" },
+] as const;
+type FixedExpenseSort = (typeof SORT_OPTIONS)[number]["value"];
+
+const isFixedExpenseSort = (value: string | null): value is FixedExpenseSort => {
+  return SORT_OPTIONS.some((option) => option.value === value);
+};
+
 export default function FixedExpenseList() {
   const router = useRouter();
   const userId = useUserStore((state) => state.userId);
+  const [sort, setSort] = useState<FixedExpenseSort>("dueDate");
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
   const dueDates = getFixedExpenseDueDates(data?.items);
   const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items);
   const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
-  const hasItems = (data?.items?.length ?? 0) > 0;
+  useEffect(() => {
+    const storedSort = safeLocalStorage.getItem(SORT_STORAGE_KEY);
+    if (isFixedExpenseSort(storedSort)) setSort(storedSort);
+  }, []);
+
+  const sortedItems = [...(data?.items ?? [])].sort((a, b) => {
+    switch (sort) {
+      case "amountDesc":
+        return b.amount - a.amount;
+      case "amountAsc":
+        return a.amount - b.amount;
+      case "tag":
+        return a.tag.localeCompare(b.tag, "ko");
+      default:
+        return getFixedExpenseDueDate(a).localeCompare(getFixedExpenseDueDate(b));
+    }
+  });
+
+  const hasItems = sortedItems.length > 0;
   const totalAmount = data?.totalFixedExpense ?? 0;
   const paidKeys = new Set(payments.map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`));
   const remainingAmount =
@@ -40,6 +76,14 @@ export default function FixedExpenseList() {
 
   const handleAddClick = () => {
     router.push("/dashboard/fixed/new");
+  };
+
+  const handleSortChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const nextSort = event.target.value;
+    if (!isFixedExpenseSort(nextSort)) return;
+
+    setSort(nextSort);
+    safeLocalStorage.setItem(SORT_STORAGE_KEY, nextSort);
   };
 
   const handleTogglePaid = (item: FixedItem) => {
@@ -60,26 +104,9 @@ export default function FixedExpenseList() {
 
   return (
     <S.ListScreenContainer>
-      <Row justify="space-between" align="center" fullWidth>
-        <Text size={24} weight={700}>
-          고정지출
-        </Text>
-        <Button
-          onClick={handleAddClick}
-          width={70}
-          height={36}
-          variant="fill"
-          size="s"
-          radius="pill"
-          aria-label="고정지출 추가"
-        >
-          <Row gap={5} align="center">
-            <Text size={14} weight={600} color="inverseWhite">
-              추가
-            </Text>
-          </Row>
-        </Button>
-      </Row>
+      <Text size={24} weight={700}>
+        고정지출
+      </Text>
 
       {totalAmount > 0 && (
         <Column gap={2}>
@@ -90,9 +117,38 @@ export default function FixedExpenseList() {
         </Column>
       )}
 
+      <S.ListActions $hasItems={hasItems}>
+        {hasItems && (
+          <S.SortControl>
+            <span>{SORT_OPTIONS.find((option) => option.value === sort)?.label}</span>
+            <ChevronDown size={14} aria-hidden />
+            <S.SortSelect value={sort} onChange={handleSortChange} aria-label="고정지출 정렬">
+              {SORT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </S.SortSelect>
+          </S.SortControl>
+        )}
+        <Button
+          onClick={handleAddClick}
+          width={70}
+          height={36}
+          variant="fill"
+          size="s"
+          radius="pill"
+          aria-label="고정지출 추가"
+        >
+          <Text size={14} weight={600} color="inverseWhite">
+            추가
+          </Text>
+        </Button>
+      </S.ListActions>
+
       {hasItems ? (
-        <S.ListBox $hasItems={hasItems}>
-          {data?.items?.map((item) => {
+        <S.ListBox>
+          {sortedItems.map((item) => {
             const dueDate = getFixedExpenseDueDate(item);
             const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
 
