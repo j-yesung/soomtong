@@ -20,7 +20,14 @@ export default function HomeScreen() {
   if (showLogoLoading) {
     return (
       <Column height="100%" flex={1} align="center" justify="center">
-        <Image src={Logo} width={120} height={120} alt="Soomtong Logo" priority />
+        <Image
+          src={Logo}
+          width={120}
+          height={120}
+          alt="Soomtong Logo"
+          priority
+          style={{ filter: "brightness(0) invert(1)" }}
+        />
       </Column>
     );
   }
