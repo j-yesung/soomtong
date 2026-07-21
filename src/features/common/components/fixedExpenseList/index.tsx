@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useUserStore } from "@/features/auth/store";
@@ -12,7 +12,7 @@ import {
   useToggleFixedExpensePaymentMutation,
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
-import { Button, Column, Empty, Text } from "@/shared/ui";
+import { Button, Column, Empty, Row, Text } from "@/shared/ui";
 import { getFixedExpenseDueDate } from "@/shared/utils/date";
 import { safeLocalStorage } from "@/shared/utils/storage";
 
@@ -133,16 +133,19 @@ export default function FixedExpenseList() {
         )}
         <Button
           onClick={handleAddClick}
-          width={70}
-          height={36}
+          width={84}
+          height={44}
           variant="fill"
           size="s"
           radius="pill"
           aria-label="고정지출 추가"
         >
-          <Text size={14} weight={600} color="inverseWhite">
-            추가
-          </Text>
+          <Row gap={6} align="center">
+            <Plus size={16} aria-hidden />
+            <Text size={14} weight={600} color="inverseWhite">
+              추가
+            </Text>
+          </Row>
         </Button>
       </S.ListActions>
 
