@@ -129,6 +129,7 @@ export const PaidButton = styled.button<{ $status: FixedExpensePaymentStatus }>`
 export const StatusLabel = styled.span<{ $status: FixedExpensePaymentStatus }>`
   overflow: hidden;
   color: ${({ $status, theme }) => {
+    if ($status === "upcoming") return theme.colors.text.secondary;
     if ($status === "dueToday") return theme.colors.text.blue;
     if ($status === "needsConfirmation") return theme.colors.badge.amber.text;
     return theme.colors.text.darkBlue;
