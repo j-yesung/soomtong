@@ -30,7 +30,7 @@ export const SortControl = styled.label`
   align-items: center;
   gap: 6px;
   border: 1px solid ${({ theme }) => theme.colors.border.secondary};
-  border-radius: ${({ theme }) => theme.radius.pill};
+  border-radius: ${({ theme }) => theme.radius.md};
   color: ${({ theme }) => theme.colors.text.secondary};
   background: ${({ theme }) => theme.colors.bg.inverseWhite};
   font-size: 13px;
