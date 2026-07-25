@@ -7,8 +7,8 @@ export const NavContainer = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
-  width: fit-content;
-  max-width: calc(100vw - 24px);
+  width: 190px;
+  max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
   padding: 6px 0 max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
 `;
@@ -20,12 +20,11 @@ export const NavInner = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
   gap: 4px;
   padding: 4px;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.13));
-  border-radius: 22px;
+  border-radius: ${({ theme }) => theme.radius.xxl};
   background:
     radial-gradient(
       128% 150% at 8% -34%,
@@ -56,7 +55,7 @@ export const NavInner = styled.div`
     content: "";
     position: absolute;
     inset: 1px;
-    border-radius: 21px;
+    border-radius: ${({ theme }) => theme.radius.xxl};
     background: linear-gradient(
       112deg,
       light-dark(rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0.12)) 0%,
@@ -101,7 +100,7 @@ export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
   background: transparent;
   cursor: pointer;
   z-index: 1;
-  border-radius: 18px;
+  border-radius: ${({ theme }) => theme.radius.xxl};
   transition:
     color 0.24s ease,
     transform 0.24s ease;
@@ -148,7 +147,7 @@ export const ActivePill = styled.div`
   inset: 0;
   overflow: hidden;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18));
-  border-radius: 18px;
+  border-radius: ${({ theme }) => theme.radius.xxl};
   background:
     radial-gradient(
       140% 138% at 0% -14%,

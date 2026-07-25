@@ -78,7 +78,9 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
   const isSubmitting = addMutation.isPending || updateMutation.isPending || removeMutation.isPending;
   const isSubmitDisabled = !userId || !isInitialized || !values.tag || parseNumericInput(values.amount) < 1;
 
-  const handleLeave = () => router.back();
+  const handleLeave = () => {
+    router.back();
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -102,7 +104,6 @@ export default function FixedExpenseFormScreen({ mode, createdAt }: Props) {
 
   const handleDelete = () => {
     if (!item || removeMutation.isPending) return;
-
     removeMutation.mutate({ userId, tag: item.tag, createdAt: item.createdAt }, { onSuccess: handleLeave });
   };
 

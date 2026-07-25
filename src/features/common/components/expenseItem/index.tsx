@@ -18,6 +18,7 @@ type Props = {
 };
 
 const PAYMENT_STATUS_LABELS: Partial<Record<FixedExpensePaymentStatus, string>> = {
+  upcoming: "납부 예정",
   dueToday: "오늘 납부 예정",
   needsConfirmation: "납부 확인 필요",
   paid: "납부 완료",

@@ -163,8 +163,8 @@ export function useFixedExpenseAddMutation() {
     mutationKey: userAmountQueryKeys.addFixedExpense(),
     mutationFn: (params: FixedAddParams) => addFixedItem(params),
 
-    onSuccess: (data, variables) => {
-      toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원이 추가됐어요.`);
+    onSuccess: (data) => {
+      toast.success("추가 완료");
 
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
       const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
@@ -224,8 +224,8 @@ export function useFixedExpenseRemoveMutation() {
     mutationKey: userAmountQueryKeys.removeFixedExpense(),
     mutationFn: (params: FixedRemoveItem) => removeFixedItem(params),
 
-    onSuccess: (data, variables) => {
-      toast.success(`[고정지출] "${variables.tag}" 삭제됐어요.`);
+    onSuccess: (data) => {
+      toast.success("삭제 완료");
 
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
       const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
@@ -285,8 +285,8 @@ export function useFixedExpenseUpdateMutation() {
     mutationKey: userAmountQueryKeys.updateFixedExpense(),
     mutationFn: (params: FixedUpdateItem) => updateFixedItem(params),
 
-    onSuccess: (data, variables) => {
-      toast.success(`[고정지출] ${variables.item.tag} ${variables.item.amount.toLocaleString()}원으로 수정됐어요.`);
+    onSuccess: (data) => {
+      toast.success("수정 완료");
 
       const fixedKey = userAmountQueryKeys.fixedExpenseTable(userId);
       const prevFixed = queryClient.getQueryData<FixedExpenseTableItem>(fixedKey);
