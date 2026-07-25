@@ -7,8 +7,8 @@ export const NavContainer = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
-  width: fit-content;
-  max-width: calc(100vw - 24px);
+  width: 190px;
+  max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
   padding: 6px 0 max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
 `;
@@ -20,8 +20,7 @@ export const NavInner = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
   gap: 4px;
   padding: 4px;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.13));
