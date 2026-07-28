@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { type PanInfo, motion } from "framer-motion";
+import { type PanInfo, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";

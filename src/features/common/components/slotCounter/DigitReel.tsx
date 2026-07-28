@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import { animate, useMotionValue, useTransform } from "framer-motion";
+import { animate, useMotionValue, useTransform } from "motion/react";
 
 import { useCellHeight } from "@/features/common/model/useCellHeight";
 import { AppTheme } from "@/shared/styles/theme";

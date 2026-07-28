@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 import { FixedExpenseList, LazyTab } from "@/features/common/components";
 import { type DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";

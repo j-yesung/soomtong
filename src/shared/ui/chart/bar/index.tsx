@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 import Column from "@/shared/ui/column";
 import { AppTheme } from "@/shared/styles/theme";

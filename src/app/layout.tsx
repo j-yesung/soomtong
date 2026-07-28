@@ -1,6 +1,8 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
+import { COLOR_SCHEME_INIT_SCRIPT } from "@/shared/lib/colorScheme";
+
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -23,8 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: COLOR_SCHEME_INIT_SCRIPT }} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
         <link

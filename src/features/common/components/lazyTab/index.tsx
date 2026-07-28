@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Variants } from "framer-motion";
+import { Variants } from "motion/react";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 

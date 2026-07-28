@@ -72,6 +72,8 @@ export function useFixedExpenseTableQuery(userId: string) {
     staleTime: 30_000,
     refetchOnWindowFocus: false,
     select: (data) => {
+      if (!data) return null;
+
       const totalFixedExpense = data?.items?.reduce((acc, cur) => acc + cur.amount, 0);
       const amountAvailable = data?.budget - totalFixedExpense;
       return { ...data, amountAvailable, totalFixedExpense } as FixedExpenseTableItem;

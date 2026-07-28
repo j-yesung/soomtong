@@ -34,7 +34,7 @@ export async function getUserProfile(userId: string) {
 export async function getFixedExpenseTable(userId: string) {
   const { data, error } = await supabase.from("fixed_expenses").select("*").eq("user_id", userId).maybeSingle();
   if (error) throw error;
-  return data as FixedRow;
+  return data as FixedRow | null;
 }
 
 /**
@@ -127,7 +127,7 @@ export async function toggleFixedExpensePayment(params: ToggleFixedExpensePaymen
         fixed_item_created_at: fixedItemCreatedAt,
         due_date: dueDate,
       },
-      { onConflict: "user_id,fixed_item_created_at,due_date" }
+      { onConflict: "user_id,fixed_item_created_at,due_date" },
     )
     .select("fixed_item_created_at, due_date, paid_at")
     .single();

@@ -2,7 +2,7 @@
 
 import { FormEvent, ReactNode } from "react";
 
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "motion/react";
 
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
 import useFormLeaveGuard from "@/shared/model/useFormLeaveGuard";
