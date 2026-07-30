@@ -17,7 +17,6 @@ import { Button, Column, Empty, Row, Text } from "@/shared/ui";
 import { getFixedExpenseDueDateForCycle } from "@/shared/utils/date";
 import { safeLocalStorage } from "@/shared/utils/storage";
 
-import FixedExpenseListScreenSkeleton from "./skeleton";
 import * as S from "./style";
 
 const SORT_STORAGE_KEY = "fixed-expense-sort";
@@ -40,11 +39,26 @@ export default function FixedExpenseList() {
   const [sortCriterion, setSortCriterion] = useState<FixedExpenseSortCriterion>("dueDate");
   const [sortDirection, setSortDirection] = useState<FixedExpenseSortDirection>("asc");
 
-  const { data, isFetched } = useFixedExpenseTableQuery(userId);
-  const { data: profile, isFetched: isProfileFetched } = useUserProfileQuery(userId);
+  const fixedExpensesQuery = useFixedExpenseTableQuery(userId);
+  const profileQuery = useUserProfileQuery(userId);
+  const { data, isFetched, isFetching, isLoadingError, refetch } = fixedExpensesQuery;
+  const {
+    data: profile,
+    isFetched: isProfileFetched,
+    isFetching: isProfileFetching,
+    isLoadingError: isProfileLoadingError,
+    refetch: refetchProfile,
+  } = profileQuery;
   const salaryDay = profile?.day ?? 1;
   const dueDates = getFixedExpenseDueDates(data?.items, salaryDay);
-  const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items, profile?.day);
+  const paymentsQuery = useFixedExpensePaymentsQuery(userId, data?.items, profile?.day);
+  const {
+    data: payments = [],
+    isFetched: isPaymentsFetched,
+    isFetching: isPaymentsFetching,
+    isLoadingError: isPaymentsLoadingError,
+    refetch: refetchPayments,
+  } = paymentsQuery;
   const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
   useEffect(() => {
@@ -75,11 +89,12 @@ export default function FixedExpenseList() {
   });
 
   const hasItems = sortedItems.length > 0;
+  const isInitialLoading = !isFetched || !isProfileFetched || (hasItems && !isPaymentsFetched);
+  const hasLoadingError = isLoadingError || isProfileLoadingError || (hasItems && isPaymentsLoadingError);
+  const isRetrying = isFetching || isProfileFetching || isPaymentsFetching;
   const totalAmount = data?.totalFixedExpense ?? 0;
   const paidKeys = new Set(
-    payments
-      .filter((payment) => payment.paidAt)
-      .map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`),
+    payments.filter((payment) => payment.paidAt).map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`),
   );
   const remainingAmount =
     data?.items?.reduce((sum, item) => {
@@ -122,27 +137,29 @@ export default function FixedExpenseList() {
     });
   };
 
-  if (!isFetched || !isProfileFetched) {
-    return <FixedExpenseListScreenSkeleton />;
-  }
+  const handleRetry = () => {
+    void Promise.all([refetch(), refetchProfile(), ...(hasItems ? [refetchPayments()] : [])]);
+  };
 
   return (
-    <S.ListScreenContainer>
+    <S.ListScreenContainer aria-busy={isInitialLoading}>
       <Text size={24} weight={700}>
         고정지출
       </Text>
 
-      {totalAmount > 0 && (
-        <Column gap={2}>
-          <SlotCounter value={totalAmount} animationKey={`fixed-expense-total:${userId}`} fontSize={24} suffix="원" />
-          <Text size={13} weight={600} color={remainingAmount > 0 ? "secondary" : "darkBlue"}>
-            {remainingAmount > 0 ? `잔여 납부 금액 ${remainingAmount.toLocaleString()}원` : "이번 회차 납부 완료"}
-          </Text>
-        </Column>
-      )}
+      <S.SummarySlot>
+        {!isInitialLoading && !hasLoadingError && totalAmount > 0 && (
+          <Column gap={2}>
+            <SlotCounter value={totalAmount} animationKey={`fixed-expense-total:${userId}`} fontSize={24} suffix="원" />
+            <Text size={13} weight={600} color={remainingAmount > 0 ? "secondary" : "darkBlue"}>
+              {remainingAmount > 0 ? `잔여 납부 금액 ${remainingAmount.toLocaleString()}원` : "이번 회차 납부 완료"}
+            </Text>
+          </Column>
+        )}
+      </S.SummarySlot>
 
-      <S.ListActions $hasItems={hasItems}>
-        {hasItems && (
+      <S.ListActions $hasItems={!isInitialLoading && !hasLoadingError && hasItems}>
+        {!isInitialLoading && !hasLoadingError && hasItems && (
           <Row gap={8} align="center">
             <S.SortControl>
               <span>{SORT_OPTIONS.find((option) => option.value === sortCriterion)?.label}</span>
@@ -165,11 +182,7 @@ export default function FixedExpenseList() {
               radius="pill"
               aria-label={sortDirection === "asc" ? "내림차순으로 변경" : "오름차순으로 변경"}
             >
-              {sortDirection === "asc" ? (
-                <ArrowUp size={16} aria-hidden />
-              ) : (
-                <ArrowDown size={16} aria-hidden />
-              )}
+              {sortDirection === "asc" ? <ArrowUp size={16} aria-hidden /> : <ArrowDown size={16} aria-hidden />}
             </Button>
           </Row>
         )}
@@ -191,7 +204,19 @@ export default function FixedExpenseList() {
         </Button>
       </S.ListActions>
 
-      {hasItems ? (
+      {hasLoadingError ? (
+        <S.Feedback role="alert">
+          <Text size={15} weight={600}>
+            고정지출을 불러오지 못했어요.
+          </Text>
+          <Text size={13} color="secondary">
+            네트워크 연결을 확인하고 다시 시도해 주세요.
+          </Text>
+          <Button variant="outline" width={96} height={40} onClick={handleRetry} disabled={isRetrying}>
+            다시 시도
+          </Button>
+        </S.Feedback>
+      ) : isInitialLoading ? null : hasItems ? (
         <S.ListBox>
           {sortedItems.map((item) => {
             const dueDate = getFixedExpenseDueDateForCycle(item, salaryDay);

@@ -3,19 +3,26 @@ import styled from "styled-components";
 import { Column } from "@/shared/ui";
 
 export const ListScreenContainer = styled(Column)`
+  height: 100%;
   gap: 16px;
   position: relative;
-  padding-bottom: calc(110px + env(safe-area-inset-bottom));
 `;
 
 export const ListBox = styled(Column)`
   gap: 10px;
   align-self: stretch;
-  padding-bottom: 12px;
+  padding-bottom: calc(110px + env(safe-area-inset-bottom));
+`;
+
+export const SummarySlot = styled.div`
+  min-height: 56px;
+  flex-shrink: 0;
 `;
 
 export const ListActions = styled.div<{ $hasItems: boolean }>`
   width: 100%;
+  min-height: 44px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: ${({ $hasItems }) => ($hasItems ? "space-between" : "flex-end")};
@@ -59,4 +66,13 @@ export const EmptyState = styled(Column)`
   align-items: center;
   justify-content: center;
   gap: 14px;
+`;
+
+export const Feedback = styled(Column)`
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
 `;
