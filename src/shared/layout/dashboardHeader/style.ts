@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const SettingsButton = styled.button`
+  position: fixed;
+  top: calc(20px + env(safe-area-inset-top, 0px));
+  right: max(20px, calc((100vw - 500px) / 2 + 20px));
+  z-index: 50;
   display: grid;
   place-items: center;
   width: 44px;
