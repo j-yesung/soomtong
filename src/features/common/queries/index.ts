@@ -13,7 +13,7 @@ import {
   ToggleFixedExpensePaymentParams,
   UpdateBudgetParams,
 } from "@/features/common/types";
-import { getFixedExpenseDueDate } from "@/shared/utils/date";
+import { getFixedExpenseDueDateForCycle } from "@/shared/utils/date";
 import {
   addFixedItem,
   getCurrentMonthAmountSummary,
@@ -42,8 +42,17 @@ function calcTotalFixedExpense(items: FixedRow["items"] = []) {
   return items.reduce((acc, cur) => acc + cur.amount, 0);
 }
 
-export function getFixedExpenseDueDates(items: FixedItem[] = []) {
-  return Array.from(new Set(items.map((item) => getFixedExpenseDueDate(item)))).sort();
+function getFixedExpensePaymentSchedules(items: FixedItem[], salaryDay: number) {
+  return items.map((item) => ({
+    fixedItemCreatedAt: item.createdAt,
+    dueDate: getFixedExpenseDueDateForCycle(item, salaryDay),
+  }));
+}
+
+export function getFixedExpenseDueDates(items: FixedItem[] = [], salaryDay = 1) {
+  return Array.from(
+    new Set(getFixedExpensePaymentSchedules(items, salaryDay).map((schedule) => schedule.dueDate)),
+  ).sort();
 }
 
 /**
@@ -85,16 +94,16 @@ export function useFixedExpenseTableQuery(userId: string) {
 /**
  * 고정지출 납부 완료 내역 조회
  */
-export function useFixedExpensePaymentsQuery(userId: string, items: FixedItem[] = []) {
+export function useFixedExpensePaymentsQuery(userId: string, items: FixedItem[] = [], salaryDay?: number) {
   const isAuthReady = useUserStore((state) => state.isReady);
-  const dueDates = getFixedExpenseDueDates(items);
+  const schedules = salaryDay ? getFixedExpensePaymentSchedules(items, salaryDay) : [];
+  const dueDates = Array.from(new Set(schedules.map((schedule) => schedule.dueDate))).sort();
 
   return useQuery({
     queryKey: userAmountQueryKeys.fixedExpensePayments(userId, dueDates),
-    queryFn: () => getFixedExpensePayments(userId, dueDates),
+    queryFn: () => getFixedExpensePayments(userId, schedules),
     staleTime: 30_000,
-    refetchOnWindowFocus: false,
-    enabled: isAuthReady && !!userId && items.length > 0,
+    enabled: isAuthReady && !!userId && items.length > 0 && !!salaryDay,
   });
 }
 

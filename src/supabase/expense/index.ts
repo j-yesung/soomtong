@@ -2,12 +2,14 @@ import {
   AmountSummary,
   FixedAddParams,
   FixedExpensePayment,
+  FixedExpensePaymentSchedule,
   FixedRemoveItem,
   FixedRow,
   FixedUpdateItem,
   ToggleFixedExpensePaymentParams,
   UpdateBudgetParams,
 } from "@/features/common/types";
+import { getFixedExpensePaymentStatus } from "@/shared/utils/date";
 import { createClient } from "@/shared/lib/supabase/client";
 
 const supabase = createClient();
@@ -83,8 +85,30 @@ export async function updateFixedItem(params: FixedUpdateItem) {
 /**
  * 고정지출 납부 완료 내역 조회
  */
-export async function getFixedExpensePayments(userId: string, dueDates: string[]) {
-  if (dueDates.length === 0) return [];
+export async function getFixedExpensePayments(userId: string, schedules: FixedExpensePaymentSchedule[]) {
+  if (schedules.length === 0) return [];
+
+  const dueToday = schedules.filter(
+    (schedule) => getFixedExpensePaymentStatus(schedule.dueDate, false) === "dueToday",
+  );
+
+  if (dueToday.length > 0) {
+    const { error } = await supabase.from("fixed_expense_payments").upsert(
+      dueToday.map((schedule) => ({
+        user_id: userId,
+        fixed_item_created_at: schedule.fixedItemCreatedAt,
+        due_date: schedule.dueDate,
+      })),
+      {
+        onConflict: "user_id,fixed_item_created_at,due_date",
+        ignoreDuplicates: true,
+      },
+    );
+
+    if (error) throw error;
+  }
+
+  const dueDates = Array.from(new Set(schedules.map((schedule) => schedule.dueDate)));
 
   const { data, error } = await supabase
     .from("fixed_expense_payments")
@@ -110,7 +134,7 @@ export async function toggleFixedExpensePayment(params: ToggleFixedExpensePaymen
   if (isPaid) {
     const { error } = await supabase
       .from("fixed_expense_payments")
-      .delete()
+      .update({ paid_at: null })
       .eq("user_id", userId)
       .eq("fixed_item_created_at", fixedItemCreatedAt)
       .eq("due_date", dueDate);
@@ -126,6 +150,7 @@ export async function toggleFixedExpensePayment(params: ToggleFixedExpensePaymen
         user_id: userId,
         fixed_item_created_at: fixedItemCreatedAt,
         due_date: dueDate,
+        paid_at: new Date().toISOString(),
       },
       { onConflict: "user_id,fixed_item_created_at,due_date" },
     )

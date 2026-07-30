@@ -29,7 +29,7 @@ export default function DashboardHeader() {
   if (isDashboardRoot) {
     return (
       <>
-        <Row align="center" justify="flex-end">
+        <Row align="center" justify="flex-end" minHeight={44}>
           <S.SettingsButton type="button" onClick={handleOpenSettings} aria-label="설정 열기">
             <Settings size={21} strokeWidth={1.9} aria-hidden />
           </S.SettingsButton>

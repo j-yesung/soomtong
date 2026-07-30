@@ -27,7 +27,7 @@ export const SheetBackdrop = styled(Sheet.Backdrop)`
 `;
 
 export const SheetHeader = styled(Sheet.Header)`
-  padding: 10px 20px 12px;
+  padding: 10px 20px 20px;
 `;
 
 export const Handle = styled.div`
@@ -47,37 +47,6 @@ export const Title = styled.h2`
 
 export const SheetContent = styled(Sheet.Content)`
   padding: 0 20px calc(20px + env(safe-area-inset-bottom, 0px));
-`;
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-`;
-
-export const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-export const SectionTitle = styled.h3`
-  padding: 0 2px;
-  color: ${({ theme }) => theme.colors.text.secondary};
-  font-size: 13px;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  letter-spacing: -0.01em;
-  margin-bottom: 4px;
-`;
-
-export const ThemeFieldset = styled.fieldset`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
 `;
 
 export const ThemeOptions = styled.div`
@@ -160,31 +129,33 @@ export const ActionButton = styled.button<{ $isDanger?: boolean }>`
   text-align: left;
   color: ${({ $isDanger, theme }) => ($isDanger ? theme.colors.bg.danger : theme.colors.text.primary)};
 
+  &:disabled {
+    color: ${({ theme }) => theme.colors.text.secondary};
+    cursor: default;
+  }
+
   @media (hover: hover) {
-    &:hover {
+    &:not(:disabled):hover {
       background: ${({ theme }) => theme.colors.bg.secondary};
     }
   }
 `;
 
-export const ActionIcon = styled.span<{ $isDanger?: boolean }>`
+export const ActionIcon = styled.span<{ $isDanger?: boolean; $isDisabled?: boolean }>`
   display: grid;
   flex: 0 0 auto;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 41px;
+  height: 41px;
   border-radius: ${({ theme }) => theme.radius.md};
-  background: ${({ $isDanger, theme }) =>
-    $isDanger ? `color-mix(in srgb, ${theme.colors.bg.danger} 12%, transparent)` : theme.colors.bg.lightBlue};
-  color: ${({ $isDanger, theme }) => ($isDanger ? theme.colors.bg.danger : theme.colors.text.darkBlue)};
-`;
-
-export const ActionCopy = styled.span`
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 2px;
+  background: ${({ $isDanger, $isDisabled, theme }) =>
+    $isDanger
+      ? `color-mix(in srgb, ${theme.colors.bg.danger} 12%, transparent)`
+      : $isDisabled
+        ? theme.colors.bg.secondary
+        : theme.colors.bg.lightBlue};
+  color: ${({ $isDanger, $isDisabled, theme }) =>
+    $isDanger ? theme.colors.bg.danger : $isDisabled ? theme.colors.text.secondary : theme.colors.text.darkBlue};
 `;
 
 export const ActionTitle = styled.span`

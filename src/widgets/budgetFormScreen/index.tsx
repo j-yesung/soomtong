@@ -7,8 +7,9 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/features/auth/store";
 import { AmountInput, DatePicker } from "@/features/common/components";
 import { useUpdateBudgetMutation, useUserProfileQuery } from "@/features/common/queries";
+import { useDashboardTabStore } from "@/features/dashboard/home/store";
 import FormScreen from "@/shared/layout/formScreen";
-import { dashboardTabPath } from "@/shared/lib/navigation/dashboard";
+import { DASHBOARD_PATH } from "@/shared/lib/navigation/dashboard";
 import { Column, Heading, Skeleton } from "@/shared/ui";
 import { formatWithComma, parseNumericInput } from "@/shared/utils/formatter";
 
@@ -17,6 +18,7 @@ export default function BudgetFormScreen() {
   const userId = useUserStore((state) => state.userId);
   const { data, isFetched } = useUserProfileQuery(userId);
   const { mutate, isPending } = useUpdateBudgetMutation();
+  const setActiveTab = useDashboardTabStore((state) => state.setActiveTab);
 
   const [budget, setBudget] = useState("");
   const [budgetDay, setBudgetDay] = useState(1);
@@ -39,9 +41,10 @@ export default function BudgetFormScreen() {
 
   const isDirty = isInitialized && (budget !== initialBudget || budgetDay !== initialBudgetDay);
   const isSubmitDisabled = !userId || !isInitialized || parseNumericInput(budget) < 1;
-  const destination = dashboardTabPath("home");
-
-  const handleLeave = () => router.replace(destination);
+  const handleLeave = () => {
+    setActiveTab("home");
+    router.replace(DASHBOARD_PATH);
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,7 +56,7 @@ export default function BudgetFormScreen() {
         budget: parseNumericInput(budget),
         day: budgetDay,
       },
-      { onSuccess: () => router.replace(destination) },
+      { onSuccess: handleLeave },
     );
   };
 
