@@ -1,12 +1,6 @@
 import { create } from "zustand";
 
-export const DASHBOARD_TABS = ["home", "fixed"] as const;
-
-export type DashboardTab = (typeof DASHBOARD_TABS)[number];
-
-export function isDashboardTab(value: string | undefined): value is DashboardTab {
-  return DASHBOARD_TABS.some((tab) => tab === value);
-}
+export type DashboardTab = "home" | "fixed";
 
 interface DashboardState {
   activeTab: DashboardTab;

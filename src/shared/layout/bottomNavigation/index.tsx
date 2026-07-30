@@ -3,11 +3,10 @@
 import { useRef, useState } from "react";
 
 import { type PanInfo, motion } from "motion/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
-import { dashboardTabPath } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
@@ -18,7 +17,6 @@ const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] =
 
 export default function BottomNavigation() {
   const pathname = usePathname();
-  const router = useRouter();
   const navInnerRef = useRef<HTMLDivElement | null>(null);
   const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [previewTab, setPreviewTab] = useState<DashboardTab | null>(null);
@@ -32,7 +30,6 @@ export default function BottomNavigation() {
   const handleTabChange = (tab: DashboardTab) => {
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: "instant" });
-    router.replace(dashboardTabPath(tab), { scroll: false });
   };
 
   const handleTabClick = (tab: DashboardTab) => {
