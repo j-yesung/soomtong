@@ -47,7 +47,12 @@ export type FixedUpdateItem = {
 export type FixedExpensePayment = {
   fixedItemCreatedAt: number;
   dueDate: string;
-  paidAt: string;
+  paidAt: string | null;
+};
+
+export type FixedExpensePaymentSchedule = {
+  fixedItemCreatedAt: number;
+  dueDate: string;
 };
 
 export type ToggleFixedExpensePaymentParams = {

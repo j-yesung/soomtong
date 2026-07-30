@@ -10,10 +10,11 @@ import {
   useFixedExpensePaymentsQuery,
   useFixedExpenseTableQuery,
   useToggleFixedExpensePaymentMutation,
+  useUserProfileQuery,
 } from "@/features/common/queries";
 import { FixedItem } from "@/features/common/types";
 import { Button, Column, Empty, Row, Text } from "@/shared/ui";
-import { getFixedExpenseDueDate } from "@/shared/utils/date";
+import { getFixedExpenseDueDateForCycle } from "@/shared/utils/date";
 import { safeLocalStorage } from "@/shared/utils/storage";
 
 import FixedExpenseListScreenSkeleton from "./skeleton";
@@ -40,8 +41,10 @@ export default function FixedExpenseList() {
   const [sortDirection, setSortDirection] = useState<FixedExpenseSortDirection>("asc");
 
   const { data, isFetched } = useFixedExpenseTableQuery(userId);
-  const dueDates = getFixedExpenseDueDates(data?.items);
-  const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items);
+  const { data: profile, isFetched: isProfileFetched } = useUserProfileQuery(userId);
+  const salaryDay = profile?.day ?? 1;
+  const dueDates = getFixedExpenseDueDates(data?.items, salaryDay);
+  const { data: payments = [] } = useFixedExpensePaymentsQuery(userId, data?.items, profile?.day);
   const { mutate: togglePaid } = useToggleFixedExpensePaymentMutation(dueDates);
 
   useEffect(() => {
@@ -63,7 +66,9 @@ export default function FixedExpenseList() {
         comparison = a.tag.localeCompare(b.tag, "ko");
         break;
       default:
-        comparison = getFixedExpenseDueDate(a).localeCompare(getFixedExpenseDueDate(b));
+        comparison = getFixedExpenseDueDateForCycle(a, salaryDay).localeCompare(
+          getFixedExpenseDueDateForCycle(b, salaryDay),
+        );
     }
 
     return sortDirection === "asc" ? comparison : -comparison;
@@ -71,10 +76,14 @@ export default function FixedExpenseList() {
 
   const hasItems = sortedItems.length > 0;
   const totalAmount = data?.totalFixedExpense ?? 0;
-  const paidKeys = new Set(payments.map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`));
+  const paidKeys = new Set(
+    payments
+      .filter((payment) => payment.paidAt)
+      .map((payment) => `${payment.fixedItemCreatedAt}:${payment.dueDate}`),
+  );
   const remainingAmount =
     data?.items?.reduce((sum, item) => {
-      const dueDate = getFixedExpenseDueDate(item);
+      const dueDate = getFixedExpenseDueDateForCycle(item, salaryDay);
       const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
       return isPaid ? sum : sum + item.amount;
     }, 0) ?? 0;
@@ -102,7 +111,7 @@ export default function FixedExpenseList() {
   };
 
   const handleTogglePaid = (item: FixedItem) => {
-    const dueDate = getFixedExpenseDueDate(item);
+    const dueDate = getFixedExpenseDueDateForCycle(item, salaryDay);
     const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
 
     togglePaid({
@@ -113,7 +122,7 @@ export default function FixedExpenseList() {
     });
   };
 
-  if (!isFetched) {
+  if (!isFetched || !isProfileFetched) {
     return <FixedExpenseListScreenSkeleton />;
   }
 
@@ -185,7 +194,7 @@ export default function FixedExpenseList() {
       {hasItems ? (
         <S.ListBox>
           {sortedItems.map((item) => {
-            const dueDate = getFixedExpenseDueDate(item);
+            const dueDate = getFixedExpenseDueDateForCycle(item, salaryDay);
             const isPaid = paidKeys.has(`${item.createdAt}:${dueDate}`);
 
             return (

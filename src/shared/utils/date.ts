@@ -33,6 +33,10 @@ function getScheduledDateKey(year: number, month: number, day: number) {
   return formatDateKey(year, month, Math.min(day, getLastDayOfMonth(year, month)));
 }
 
+function getNextMonth(year: number, month: number) {
+  return month === 12 ? { year: year + 1, month: 1 } : { year, month: month + 1 };
+}
+
 function getFirstFixedExpenseDueDate(day: number, createdAt: number) {
   const created = getKstDateParts(new Date(createdAt));
   const createdMonthDueDay = Math.min(day, getLastDayOfMonth(created.year, created.month));
@@ -66,6 +70,25 @@ type FixedExpenseSchedule = {
   day: number;
   createdAt: number;
 };
+
+export function getFixedExpenseDueDateForCycle(
+  item: FixedExpenseSchedule,
+  salaryDay: number,
+  now = new Date(),
+) {
+  const [cycleYear, cycleMonth] = getCurrentFixedExpenseDueDate(salaryDay, now).split("-").map(Number);
+  const cycleStart = getScheduledDateKey(cycleYear, cycleMonth, salaryDay);
+  const thisMonthDueDate = getScheduledDateKey(cycleYear, cycleMonth, item.day);
+  const nextMonth = getNextMonth(cycleYear, cycleMonth);
+  const dueDate =
+    thisMonthDueDate >= cycleStart
+      ? thisMonthDueDate
+      : getScheduledDateKey(nextMonth.year, nextMonth.month, item.day);
+  const created = getKstDateParts(new Date(item.createdAt));
+  const createdDate = formatDateKey(created.year, created.month, created.day);
+
+  return dueDate >= createdDate ? dueDate : getFirstFixedExpenseDueDate(item.day, item.createdAt);
+}
 
 export function getFixedExpenseDueDate(item: FixedExpenseSchedule, now = new Date()) {
   const latestDueDate = getCurrentFixedExpenseDueDate(item.day, now);
