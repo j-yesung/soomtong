@@ -10,7 +10,7 @@ import { Sheet } from "react-modal-sheet";
 import { useResetFinancialDataMutation } from "@/features/settings/queries";
 import { ColorScheme, applyColorScheme, getStoredColorScheme, saveColorScheme } from "@/shared/lib/colorScheme";
 import { Alert, Column, Text } from "@/shared/ui";
-import { isIOS, isInStandaloneMode } from "@/shared/utils/mobile";
+import { isInStandaloneMode } from "@/shared/utils/mobile";
 
 import * as S from "./style";
 
@@ -34,7 +34,6 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
   const selectedThemeRef = useRef<HTMLInputElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("system");
-  const [canShowAppSection, setCanShowAppSection] = useState(false);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const [isResetAlertOpen, setIsResetAlertOpen] = useState(false);
   const resetMutation = useResetFinancialDataMutation();
@@ -43,9 +42,7 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
     const storedColorScheme = getStoredColorScheme();
     setColorScheme(storedColorScheme);
     applyColorScheme(storedColorScheme);
-    const isIOSDevice = isIOS();
-    setCanShowAppSection(isIOSDevice);
-    setIsAppInstalled(isIOSDevice && isInStandaloneMode());
+    setIsAppInstalled(isInStandaloneMode());
   }, []);
 
   useEffect(() => {
@@ -167,27 +164,25 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
                 </S.ThemeOptions>
               </Column>
 
-              {canShowAppSection && (
-                <Column as="section" gap={8}>
-                  <Text as="h3" size={13} weight={700} color="secondary">
-                    앱
-                  </Text>
-                  <S.ActionList>
-                    <S.ActionButton type="button" onClick={handleInstallGuideClick} disabled={isAppInstalled}>
-                      <S.ActionIcon $isDisabled={isAppInstalled}>
-                        {isAppInstalled ? <CheckCircle2 size={19} aria-hidden /> : <Download size={19} aria-hidden />}
-                      </S.ActionIcon>
-                      <Column as="span" gap={2} minWidth={0} flex={1}>
-                        <S.ActionTitle>{isAppInstalled ? "홈 화면에 추가됨" : "홈 화면에 앱 설치"}</S.ActionTitle>
-                        <S.ActionDescription>
-                          {isAppInstalled ? "이미 홈 화면에 추가했어요" : "설치 방법을 단계별로 확인해요"}
-                        </S.ActionDescription>
-                      </Column>
-                      {!isAppInstalled && <ChevronRight size={18} aria-hidden />}
-                    </S.ActionButton>
-                  </S.ActionList>
-                </Column>
-              )}
+              <Column as="section" gap={8}>
+                <Text as="h3" size={13} weight={700} color="secondary">
+                  앱
+                </Text>
+                <S.ActionList>
+                  <S.ActionButton type="button" onClick={handleInstallGuideClick} disabled={isAppInstalled}>
+                    <S.ActionIcon $isDisabled={isAppInstalled}>
+                      {isAppInstalled ? <CheckCircle2 size={19} aria-hidden /> : <Download size={19} aria-hidden />}
+                    </S.ActionIcon>
+                    <Column as="span" gap={2} minWidth={0} flex={1}>
+                      <S.ActionTitle>{isAppInstalled ? "홈 화면에 추가됨" : "홈 화면에 앱 설치"}</S.ActionTitle>
+                      <S.ActionDescription>
+                        {isAppInstalled ? "이미 홈 화면에 추가했어요" : "설치 방법을 단계별로 확인해요"}
+                      </S.ActionDescription>
+                    </Column>
+                    {!isAppInstalled && <ChevronRight size={18} aria-hidden />}
+                  </S.ActionButton>
+                </S.ActionList>
+              </Column>
 
               <Column as="section" gap={8}>
                 <Text as="h3" size={13} weight={700} color="secondary">
