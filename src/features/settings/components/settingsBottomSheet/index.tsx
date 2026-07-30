@@ -2,7 +2,7 @@
 
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
-import { ChevronRight, Download, Monitor, Moon, Sun, Trash2 } from "lucide-react";
+import { CheckCircle2, ChevronRight, Download, Monitor, Moon, Sun, Trash2 } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Sheet } from "react-modal-sheet";
@@ -34,7 +34,8 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
   const selectedThemeRef = useRef<HTMLInputElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("system");
-  const [canShowInstallGuide, setCanShowInstallGuide] = useState(false);
+  const [canShowAppSection, setCanShowAppSection] = useState(false);
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
   const [isResetAlertOpen, setIsResetAlertOpen] = useState(false);
   const resetMutation = useResetFinancialDataMutation();
 
@@ -42,7 +43,9 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
     const storedColorScheme = getStoredColorScheme();
     setColorScheme(storedColorScheme);
     applyColorScheme(storedColorScheme);
-    setCanShowInstallGuide(isIOS() && !isInStandaloneMode());
+    const isIOSDevice = isIOS();
+    setCanShowAppSection(isIOSDevice);
+    setIsAppInstalled(isIOSDevice && isInStandaloneMode());
   }, []);
 
   useEffect(() => {
@@ -162,19 +165,21 @@ export default function SettingsBottomSheet({ isOpen, onClose }: Props) {
                 </S.ThemeOptions>
               </S.ThemeFieldset>
 
-              {canShowInstallGuide && (
+              {canShowAppSection && (
                 <S.Section>
                   <S.SectionTitle>앱</S.SectionTitle>
                   <S.ActionList>
-                    <S.ActionButton type="button" onClick={handleInstallGuideClick}>
-                      <S.ActionIcon>
-                        <Download size={19} aria-hidden />
+                    <S.ActionButton type="button" onClick={handleInstallGuideClick} disabled={isAppInstalled}>
+                      <S.ActionIcon $isDisabled={isAppInstalled}>
+                        {isAppInstalled ? <CheckCircle2 size={19} aria-hidden /> : <Download size={19} aria-hidden />}
                       </S.ActionIcon>
                       <S.ActionCopy>
-                        <S.ActionTitle>홈 화면에 앱 설치</S.ActionTitle>
-                        <S.ActionDescription>설치 방법을 단계별로 확인해요</S.ActionDescription>
+                        <S.ActionTitle>{isAppInstalled ? "홈 화면에 추가됨" : "홈 화면에 앱 설치"}</S.ActionTitle>
+                        <S.ActionDescription>
+                          {isAppInstalled ? "이미 홈 화면에 추가했어요" : "설치 방법을 단계별로 확인해요"}
+                        </S.ActionDescription>
                       </S.ActionCopy>
-                      <ChevronRight size={18} aria-hidden />
+                      {!isAppInstalled && <ChevronRight size={18} aria-hidden />}
                     </S.ActionButton>
                   </S.ActionList>
                 </S.Section>

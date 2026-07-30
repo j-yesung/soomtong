@@ -160,23 +160,33 @@ export const ActionButton = styled.button<{ $isDanger?: boolean }>`
   text-align: left;
   color: ${({ $isDanger, theme }) => ($isDanger ? theme.colors.bg.danger : theme.colors.text.primary)};
 
+  &:disabled {
+    color: ${({ theme }) => theme.colors.text.secondary};
+    cursor: default;
+  }
+
   @media (hover: hover) {
-    &:hover {
+    &:not(:disabled):hover {
       background: ${({ theme }) => theme.colors.bg.secondary};
     }
   }
 `;
 
-export const ActionIcon = styled.span<{ $isDanger?: boolean }>`
+export const ActionIcon = styled.span<{ $isDanger?: boolean; $isDisabled?: boolean }>`
   display: grid;
   flex: 0 0 auto;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 41px;
+  height: 41px;
   border-radius: ${({ theme }) => theme.radius.md};
-  background: ${({ $isDanger, theme }) =>
-    $isDanger ? `color-mix(in srgb, ${theme.colors.bg.danger} 12%, transparent)` : theme.colors.bg.lightBlue};
-  color: ${({ $isDanger, theme }) => ($isDanger ? theme.colors.bg.danger : theme.colors.text.darkBlue)};
+  background: ${({ $isDanger, $isDisabled, theme }) =>
+    $isDanger
+      ? `color-mix(in srgb, ${theme.colors.bg.danger} 12%, transparent)`
+      : $isDisabled
+        ? theme.colors.bg.secondary
+        : theme.colors.bg.lightBlue};
+  color: ${({ $isDanger, $isDisabled, theme }) =>
+    $isDanger ? theme.colors.bg.danger : $isDisabled ? theme.colors.text.secondary : theme.colors.text.darkBlue};
 `;
 
 export const ActionCopy = styled.span`
