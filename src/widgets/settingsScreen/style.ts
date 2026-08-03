@@ -1,52 +1,7 @@
-import { Sheet } from "react-modal-sheet";
 import styled, { css } from "styled-components";
 
-export const SheetContainer = styled(Sheet.Container)`
-  width: min(100%, 500px);
-  max-height: calc(100svh - 24px);
-  margin-inline: auto;
-  overflow: hidden;
-  border: 1px solid light-dark(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.13));
-  border-bottom: 0;
-  border-radius: 28px 28px 0 0;
-  background:
-    radial-gradient(
-      100% 55% at 10% 0%,
-      light-dark(rgba(225, 238, 255, 0.72), rgba(84, 132, 199, 0.12)),
-      transparent 70%
-    ),
-    ${({ theme }) => theme.colors.bg.inverseWhite};
-  color: ${({ theme }) => theme.colors.text.primary};
-  box-shadow: ${({ theme }) => theme.shadows.modal};
-`;
-
-export const SheetBackdrop = styled(Sheet.Backdrop)`
-  background: rgba(7, 12, 20, 0.48);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-`;
-
-export const SheetHeader = styled(Sheet.Header)`
-  padding: 10px 20px 20px;
-`;
-
-export const Handle = styled.div`
-  width: 40px;
-  height: 5px;
-  margin: 0 auto 12px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  background: ${({ theme }) => theme.colors.border.light};
-  opacity: 0.48;
-`;
-
-export const Title = styled.h2`
-  font-size: 20px;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-`;
-
-export const SheetContent = styled(Sheet.Content)`
-  padding: 0 20px calc(20px + env(safe-area-inset-bottom, 0px));
+export const ScreenContent = styled.div`
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
 `;
 
 export const ThemeOptions = styled.div`

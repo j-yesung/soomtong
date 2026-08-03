@@ -7,7 +7,7 @@ export const NavContainer = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
-  width: 190px;
+  width: min(252px, calc(100vw - 24px));
   max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
   padding: 6px 0 max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
@@ -106,6 +106,10 @@ export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
     transform 0.24s ease;
 
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.text.primary : theme.colors.text.secondary)};
+
+  &:last-child {
+    flex-basis: 56px;
+  }
 
   @media (hover: hover) {
     &:hover {

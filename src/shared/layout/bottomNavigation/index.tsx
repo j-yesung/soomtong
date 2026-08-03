@@ -2,38 +2,53 @@
 
 import { useRef, useState } from "react";
 
+import { Settings } from "lucide-react";
 import { type PanInfo, motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
+import { DASHBOARD_PATH, DASHBOARD_SETTINGS_PATH, isDashboardSettingsPath } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
-const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] = [
+type NavigationTab = DashboardTab | "settings";
+type NavigationIcon = typeof HomeIcon | typeof Settings;
+
+const NAV_ITEMS: { tab: NavigationTab; label: string; icon: NavigationIcon }[] = [
   { tab: "home", label: "홈", icon: HomeIcon },
   { tab: "fixed", label: "고정지출", icon: FixedIcon },
+  { tab: "settings", label: "설정", icon: Settings },
 ];
 
 export default function BottomNavigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const navInnerRef = useRef<HTMLDivElement | null>(null);
   const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [previewTab, setPreviewTab] = useState<DashboardTab | null>(null);
+  const [previewTab, setPreviewTab] = useState<NavigationTab | null>(null);
 
   const { activeTab, setActiveTab } = useDashboardTabStore();
 
-  const isDashboard = pathname === "/dashboard";
+  const isSettings = isDashboardSettingsPath(pathname);
+  const isDashboard = pathname === DASHBOARD_PATH || isSettings;
+  const visualTab = isSettings ? "settings" : activeTab;
 
   if (!isDashboard) return null;
 
-  const handleTabChange = (tab: DashboardTab) => {
+  const handleTabChange = (tab: NavigationTab) => {
+    if (tab === "settings") {
+      router.replace(DASHBOARD_SETTINGS_PATH);
+      return;
+    }
+
     setActiveTab(tab);
+    if (isSettings) router.replace(DASHBOARD_PATH);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  const handleTabClick = (tab: DashboardTab) => {
-    if (tab === activeTab) return;
+  const handleTabClick = (tab: NavigationTab) => {
+    if (tab === visualTab) return;
     setPreviewTab(null);
     handleTabChange(tab);
   };
@@ -47,7 +62,7 @@ export default function BottomNavigation() {
         distance: Math.abs(rect.left + rect.width / 2 - targetX),
       };
     })
-      .filter((item): item is { tab: DashboardTab; distance: number } => item !== null)
+      .filter((item): item is { tab: NavigationTab; distance: number } => item !== null)
       .sort((a, b) => a.distance - b.distance)[0];
     return nearest?.tab ?? null;
   };
@@ -56,19 +71,19 @@ export default function BottomNavigation() {
     const nearestTab = getNearestTabFromX(info.point.x);
     setPreviewTab(null);
 
-    if (!nearestTab || nearestTab === activeTab) return;
+    if (!nearestTab || nearestTab === visualTab) return;
 
     handleTabChange(nearestTab);
   };
 
-  const visualActiveTab = previewTab ?? activeTab;
+  const visualActiveTab = previewTab ?? visualTab;
 
   return (
     <S.NavContainer>
       <S.NavInner ref={navInnerRef}>
         {NAV_ITEMS.map((item, index) => {
           const isActive = visualActiveTab === item.tab;
-          const isPillHost = activeTab === item.tab;
+          const isPillHost = visualTab === item.tab;
           const Icon = item.icon;
 
           return (
@@ -92,7 +107,7 @@ export default function BottomNavigation() {
                   dragConstraints={navInnerRef}
                   dragElastic={0.08}
                   dragMomentum={false}
-                  onDragStart={() => setPreviewTab(activeTab)}
+                  onDragStart={() => setPreviewTab(visualTab)}
                   onDrag={(_, info) => {
                     const nearestTab = getNearestTabFromX(info.point.x);
                     if (!nearestTab) return;
@@ -112,7 +127,7 @@ export default function BottomNavigation() {
               )}
               <S.NavContent>
                 <Icon size={20} />
-                <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>
+                {item.tab !== "settings" && <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>}
               </S.NavContent>
             </S.NavItem>
           );
