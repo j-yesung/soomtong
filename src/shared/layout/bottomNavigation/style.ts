@@ -7,7 +7,7 @@ export const NavContainer = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   box-sizing: border-box;
-  width: min(252px, calc(100vw - 24px));
+  width: min(200px, calc(100vw - 24px));
   max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
   padding: 6px 0 max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 100;
@@ -17,7 +17,6 @@ export const NavInner = styled.div`
   position: relative;
   isolation: isolate;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   width: 100%;
@@ -88,12 +87,10 @@ export const NavInner = styled.div`
 
 export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
   position: relative;
-  flex: 0 0 88px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
+  flex: 1 1 0;
+  display: grid;
+  place-items: center;
+  min-width: 0;
   min-height: 44px;
   padding: 4px 0;
   border: none;
@@ -106,10 +103,6 @@ export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
     transform 0.24s ease;
 
   color: ${({ $isActive, theme }) => ($isActive ? theme.colors.text.primary : theme.colors.text.secondary)};
-
-  &:last-child {
-    flex-basis: 56px;
-  }
 
   @media (hover: hover) {
     &:hover {
@@ -129,21 +122,11 @@ export const NavItem = styled(motion.button)<{ $isActive: boolean }>`
 
 export const NavContent = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  display: grid;
+  place-items: center;
   z-index: 1;
   pointer-events: none;
   text-shadow: 0 1px 0 light-dark(rgba(255, 255, 255, 0.34), rgba(0, 0, 0, 0.5));
-`;
-
-export const NavLabel = styled.span<{ $isActive?: boolean }>`
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  color: ${({ $isActive, theme }) => ($isActive ? theme.colors.text.primary : theme.colors.text.secondary)};
 `;
 
 export const ActivePill = styled.div`

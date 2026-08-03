@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, ChevronRight, Download, Monitor, Moon, Sun, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { useResetFinancialDataMutation } from "@/features/settings/queries";
+import { useResetFinancialDataMutation } from "@/features/dashboard/settings/queries";
 import { ColorScheme, applyColorScheme, getStoredColorScheme, saveColorScheme } from "@/shared/lib/colorScheme";
 import { Alert, Column, Text } from "@/shared/ui";
 import { isInStandaloneMode } from "@/shared/utils/mobile";

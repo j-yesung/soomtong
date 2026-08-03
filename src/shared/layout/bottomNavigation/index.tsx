@@ -1,29 +1,20 @@
 "use client";
 
-import { Settings } from "lucide-react";
+import { House, ReceiptText, Settings } from "lucide-react";
 import { motion } from "motion/react";
-import { usePathname } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
-import { DASHBOARD_PATH } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
-type NavigationIcon = typeof HomeIcon | typeof Settings;
-
-const NAV_ITEMS: { tab: DashboardTab; label: string; icon: NavigationIcon }[] = [
-  { tab: "home", label: "홈", icon: HomeIcon },
-  { tab: "fixed", label: "고정지출", icon: FixedIcon },
-  { tab: "settings", label: "설정", icon: Settings },
-];
+const NAV_ITEMS = [
+  { tab: "home", icon: House },
+  { tab: "fixed", icon: ReceiptText },
+  { tab: "settings", icon: Settings },
+] as const;
 
 export default function BottomNavigation() {
-  const pathname = usePathname();
-
   const { activeTab, setActiveTab } = useDashboardTabStore();
-
-  if (pathname !== DASHBOARD_PATH) return null;
 
   const handleTabChange = (tab: DashboardTab) => {
     setActiveTab(tab);
@@ -49,7 +40,7 @@ export default function BottomNavigation() {
               onClick={() => handleTabClick(item.tab)}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 420, damping: 28 }}
-              aria-label={item.label}
+              aria-label={item.tab}
               aria-current={isActive ? "page" : undefined}
               type="button"
             >
@@ -67,8 +58,7 @@ export default function BottomNavigation() {
                 </motion.div>
               )}
               <S.NavContent>
-                <Icon size={20} />
-                {item.tab !== "settings" && <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>}
+                <Icon size={20} strokeWidth={1.9} aria-hidden />
               </S.NavContent>
             </S.NavItem>
           );
