@@ -39,14 +39,6 @@ export const SingleArrowIcon = ({ size = 24, color = "currentColor" }: IconProps
   );
 };
 
-export const HomeIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-      <path d="M12.97 2.59a1.5 1.5 0 0 0-1.94 0l-7.5 6.363A1.5 1.5 0 0 0 3 10.097V19.5A1.5 1.5 0 0 0 4.5 21h4.75a.75.75 0 0 0 .75-.75v-4.5a2 2 0 0 1 4 0v4.5c0 .414.336.75.75.75h4.75a1.5 1.5 0 0 0 1.5-1.5v-9.403a1.5 1.5 0 0 0-.53-1.144l-7.5-6.363Z" />
-    </svg>
-  );
-};
-
 export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill={color} viewBox="0 0 24 24">
@@ -59,14 +51,6 @@ export const ArrowIcon = ({ size = 24, color = "currentColor", rotate }: IconPro
     </svg>
   );
 };
-export const FixedIcon = ({ size = 24, color = "currentColor" }: IconProps) => {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 9V5H8V9C8 10.1 8.9 11 10 11V16H8V17.5H16V16H14V11C15.1 11 16 10.1 16 9ZM12 2C13.1 2 14 2.9 14 4H10C10 2.9 10.9 2 12 2Z" />
-    </svg>
-  );
-};
-
 export const EmptyIcon = ({ size = 56, color = "currentColor" }: IconProps) => {
   return (
     <svg

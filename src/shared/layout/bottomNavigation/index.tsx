@@ -1,31 +1,20 @@
 "use client";
 
-import { useRef, useState } from "react";
-
-import { type PanInfo, motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { House, ReceiptText, Settings } from "lucide-react";
+import { motion } from "motion/react";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
-import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
 
 import * as S from "./style";
 
-const NAV_ITEMS: { tab: DashboardTab; label: string; icon: typeof HomeIcon }[] = [
-  { tab: "home", label: "홈", icon: HomeIcon },
-  { tab: "fixed", label: "고정지출", icon: FixedIcon },
-];
+const NAV_ITEMS = [
+  { tab: "home", icon: House },
+  { tab: "fixed", icon: ReceiptText },
+  { tab: "settings", icon: Settings },
+] as const;
 
 export default function BottomNavigation() {
-  const pathname = usePathname();
-  const navInnerRef = useRef<HTMLDivElement | null>(null);
-  const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [previewTab, setPreviewTab] = useState<DashboardTab | null>(null);
-
   const { activeTab, setActiveTab } = useDashboardTabStore();
-
-  const isDashboard = pathname === "/dashboard";
-
-  if (!isDashboard) return null;
 
   const handleTabChange = (tab: DashboardTab) => {
     setActiveTab(tab);
@@ -34,73 +23,31 @@ export default function BottomNavigation() {
 
   const handleTabClick = (tab: DashboardTab) => {
     if (tab === activeTab) return;
-    setPreviewTab(null);
     handleTabChange(tab);
   };
 
-  const getNearestTabFromX = (targetX: number) => {
-    const nearest = NAV_ITEMS.map((item, index) => {
-      const rect = navItemRefs.current[index]?.getBoundingClientRect();
-      if (!rect) return null;
-      return {
-        tab: item.tab,
-        distance: Math.abs(rect.left + rect.width / 2 - targetX),
-      };
-    })
-      .filter((item): item is { tab: DashboardTab; distance: number } => item !== null)
-      .sort((a, b) => a.distance - b.distance)[0];
-    return nearest?.tab ?? null;
-  };
-
-  const handleActivePillDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const nearestTab = getNearestTabFromX(info.point.x);
-    setPreviewTab(null);
-
-    if (!nearestTab || nearestTab === activeTab) return;
-
-    handleTabChange(nearestTab);
-  };
-
-  const visualActiveTab = previewTab ?? activeTab;
-
   return (
     <S.NavContainer>
-      <S.NavInner ref={navInnerRef}>
-        {NAV_ITEMS.map((item, index) => {
-          const isActive = visualActiveTab === item.tab;
-          const isPillHost = activeTab === item.tab;
+      <S.NavInner>
+        {NAV_ITEMS.map((item) => {
+          const isActive = activeTab === item.tab;
           const Icon = item.icon;
 
           return (
             <S.NavItem
               key={item.tab}
-              ref={(element) => {
-                navItemRefs.current[index] = element;
-              }}
               $isActive={isActive}
               onClick={() => handleTabClick(item.tab)}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 420, damping: 28 }}
-              aria-label={item.label}
+              aria-label={item.tab}
               aria-current={isActive ? "page" : undefined}
               type="button"
             >
-              {isPillHost && (
+              {isActive && (
                 <motion.div
                   layoutId="activeBackground"
-                  drag="x"
-                  dragConstraints={navInnerRef}
-                  dragElastic={0.08}
-                  dragMomentum={false}
-                  onDragStart={() => setPreviewTab(activeTab)}
-                  onDrag={(_, info) => {
-                    const nearestTab = getNearestTabFromX(info.point.x);
-                    if (!nearestTab) return;
-                    setPreviewTab((prev) => (prev === nearestTab ? prev : nearestTab));
-                  }}
-                  onDragEnd={handleActivePillDragEnd}
-                  whileDrag={{ scale: 1.04 }}
-                  style={{ position: "absolute", inset: 0, cursor: "grab", touchAction: "pan-y" }}
+                  style={{ position: "absolute", inset: 0 }}
                   transition={{
                     type: "spring",
                     stiffness: 430,
@@ -111,8 +58,7 @@ export default function BottomNavigation() {
                 </motion.div>
               )}
               <S.NavContent>
-                <Icon size={20} />
-                <S.NavLabel $isActive={isActive}>{item.label}</S.NavLabel>
+                <Icon size={20} strokeWidth={1.9} aria-hidden />
               </S.NavContent>
             </S.NavItem>
           );
