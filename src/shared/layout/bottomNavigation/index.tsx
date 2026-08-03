@@ -2,18 +2,17 @@
 
 import { Settings } from "lucide-react";
 import { motion } from "motion/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
 import { FixedIcon, HomeIcon } from "@/shared/assets/svg/interface";
-import { DASHBOARD_PATH, DASHBOARD_SETTINGS_PATH, isDashboardSettingsPath } from "@/shared/lib/navigation/dashboard";
+import { DASHBOARD_PATH } from "@/shared/lib/navigation/dashboard";
 
 import * as S from "./style";
 
-type NavigationTab = DashboardTab | "settings";
 type NavigationIcon = typeof HomeIcon | typeof Settings;
 
-const NAV_ITEMS: { tab: NavigationTab; label: string; icon: NavigationIcon }[] = [
+const NAV_ITEMS: { tab: DashboardTab; label: string; icon: NavigationIcon }[] = [
   { tab: "home", label: "홈", icon: HomeIcon },
   { tab: "fixed", label: "고정지출", icon: FixedIcon },
   { tab: "settings", label: "설정", icon: Settings },
@@ -21,29 +20,18 @@ const NAV_ITEMS: { tab: NavigationTab; label: string; icon: NavigationIcon }[] =
 
 export default function BottomNavigation() {
   const pathname = usePathname();
-  const router = useRouter();
 
   const { activeTab, setActiveTab } = useDashboardTabStore();
 
-  const isSettings = isDashboardSettingsPath(pathname);
-  const isDashboard = pathname === DASHBOARD_PATH || isSettings;
-  const visualTab = isSettings ? "settings" : activeTab;
+  if (pathname !== DASHBOARD_PATH) return null;
 
-  if (!isDashboard) return null;
-
-  const handleTabChange = (tab: NavigationTab) => {
-    if (tab === "settings") {
-      router.replace(DASHBOARD_SETTINGS_PATH);
-      return;
-    }
-
+  const handleTabChange = (tab: DashboardTab) => {
     setActiveTab(tab);
-    if (isSettings) router.replace(DASHBOARD_PATH);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  const handleTabClick = (tab: NavigationTab) => {
-    if (tab === visualTab) return;
+  const handleTabClick = (tab: DashboardTab) => {
+    if (tab === activeTab) return;
     handleTabChange(tab);
   };
 
@@ -51,7 +39,7 @@ export default function BottomNavigation() {
     <S.NavContainer>
       <S.NavInner>
         {NAV_ITEMS.map((item) => {
-          const isActive = visualTab === item.tab;
+          const isActive = activeTab === item.tab;
           const Icon = item.icon;
 
           return (

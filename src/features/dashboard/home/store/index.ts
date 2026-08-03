@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type DashboardTab = "home" | "fixed";
+export type DashboardTab = "home" | "fixed" | "settings";
 
 interface DashboardState {
   activeTab: DashboardTab;
