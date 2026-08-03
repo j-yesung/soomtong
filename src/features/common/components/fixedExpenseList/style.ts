@@ -43,11 +43,6 @@ export const SortControl = styled.label`
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   cursor: pointer;
-
-  &:focus-within {
-    border-color: ${({ theme }) => theme.colors.border.primary};
-    box-shadow: ${({ theme }) => theme.shadows.focusRing};
-  }
 `;
 
 export const SortSelect = styled.select`
@@ -56,8 +51,17 @@ export const SortSelect = styled.select`
   width: 100%;
   height: 100%;
   opacity: 0;
+  border: 0;
+  outline: none;
   font-size: 16px;
   cursor: pointer;
+
+  @media (hover: hover) {
+    &:focus-visible {
+      outline: 2px solid ${({ theme }) => theme.colors.border.primary};
+      outline-offset: 2px;
+    }
+  }
 `;
 
 export const EmptyState = styled(Column)`

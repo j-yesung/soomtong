@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const LEAVE_MESSAGE = "작성 중인 내용이 사라져요. 화면을 나갈까요?";
+const LEAVE_MESSAGE = "작성 중인 내용이 사라져요.\n화면을 나갈까요?";
 
 export default function useFormLeaveGuard(isDirty: boolean, onLeave: () => void) {
-  const [isLeaveConfirmOpen, setIsLeaveConfirmOpen] = useState(false);
   const isRestoringHistoryRef = useRef(false);
 
   useEffect(() => {
@@ -36,25 +35,8 @@ export default function useFormLeaveGuard(isDirty: boolean, onLeave: () => void)
   }, [isDirty]);
 
   const handleRequestLeave = () => {
-    if (isDirty) {
-      setIsLeaveConfirmOpen(true);
-      return;
-    }
-
-    onLeave();
+    if (!isDirty || window.confirm(LEAVE_MESSAGE)) onLeave();
   };
 
-  const handleConfirmLeave = () => {
-    setIsLeaveConfirmOpen(false);
-    onLeave();
-  };
-
-  const handleCancelLeave = () => setIsLeaveConfirmOpen(false);
-
-  return {
-    isLeaveConfirmOpen,
-    handleRequestLeave,
-    handleConfirmLeave,
-    handleCancelLeave,
-  };
+  return { handleRequestLeave };
 }
