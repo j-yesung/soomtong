@@ -1,9 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-
 import { Settings } from "lucide-react";
-import { type PanInfo, motion } from "motion/react";
+import { motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { DashboardTab, useDashboardTabStore } from "@/features/dashboard/home/store";
@@ -24,9 +22,6 @@ const NAV_ITEMS: { tab: NavigationTab; label: string; icon: NavigationIcon }[] =
 export default function BottomNavigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const navInnerRef = useRef<HTMLDivElement | null>(null);
-  const navItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [previewTab, setPreviewTab] = useState<NavigationTab | null>(null);
 
   const { activeTab, setActiveTab } = useDashboardTabStore();
 
@@ -49,49 +44,19 @@ export default function BottomNavigation() {
 
   const handleTabClick = (tab: NavigationTab) => {
     if (tab === visualTab) return;
-    setPreviewTab(null);
     handleTabChange(tab);
   };
 
-  const getNearestTabFromX = (targetX: number) => {
-    const nearest = NAV_ITEMS.map((item, index) => {
-      const rect = navItemRefs.current[index]?.getBoundingClientRect();
-      if (!rect) return null;
-      return {
-        tab: item.tab,
-        distance: Math.abs(rect.left + rect.width / 2 - targetX),
-      };
-    })
-      .filter((item): item is { tab: NavigationTab; distance: number } => item !== null)
-      .sort((a, b) => a.distance - b.distance)[0];
-    return nearest?.tab ?? null;
-  };
-
-  const handleActivePillDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const nearestTab = getNearestTabFromX(info.point.x);
-    setPreviewTab(null);
-
-    if (!nearestTab || nearestTab === visualTab) return;
-
-    handleTabChange(nearestTab);
-  };
-
-  const visualActiveTab = previewTab ?? visualTab;
-
   return (
     <S.NavContainer>
-      <S.NavInner ref={navInnerRef}>
-        {NAV_ITEMS.map((item, index) => {
-          const isActive = visualActiveTab === item.tab;
-          const isPillHost = visualTab === item.tab;
+      <S.NavInner>
+        {NAV_ITEMS.map((item) => {
+          const isActive = visualTab === item.tab;
           const Icon = item.icon;
 
           return (
             <S.NavItem
               key={item.tab}
-              ref={(element) => {
-                navItemRefs.current[index] = element;
-              }}
               $isActive={isActive}
               onClick={() => handleTabClick(item.tab)}
               whileTap={{ scale: 0.96 }}
@@ -100,22 +65,10 @@ export default function BottomNavigation() {
               aria-current={isActive ? "page" : undefined}
               type="button"
             >
-              {isPillHost && (
+              {isActive && (
                 <motion.div
                   layoutId="activeBackground"
-                  drag="x"
-                  dragConstraints={navInnerRef}
-                  dragElastic={0.08}
-                  dragMomentum={false}
-                  onDragStart={() => setPreviewTab(visualTab)}
-                  onDrag={(_, info) => {
-                    const nearestTab = getNearestTabFromX(info.point.x);
-                    if (!nearestTab) return;
-                    setPreviewTab((prev) => (prev === nearestTab ? prev : nearestTab));
-                  }}
-                  onDragEnd={handleActivePillDragEnd}
-                  whileDrag={{ scale: 1.04 }}
-                  style={{ position: "absolute", inset: 0, cursor: "grab", touchAction: "pan-y" }}
+                  style={{ position: "absolute", inset: 0 }}
                   transition={{
                     type: "spring",
                     stiffness: 430,
