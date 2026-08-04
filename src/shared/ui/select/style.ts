@@ -31,11 +31,4 @@ export const NativeSelect = styled.select`
   &:disabled {
     opacity: 0.5;
   }
-
-  @media (hover: hover) {
-    &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.border.primary};
-      outline-offset: 2px;
-    }
-  }
 `;

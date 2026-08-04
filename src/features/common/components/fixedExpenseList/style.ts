@@ -55,13 +55,6 @@ export const SortSelect = styled.select`
   outline: none;
   font-size: 16px;
   cursor: pointer;
-
-  @media (hover: hover) {
-    &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.border.primary};
-      outline-offset: 2px;
-    }
-  }
 `;
 
 export const EmptyState = styled(Column)`

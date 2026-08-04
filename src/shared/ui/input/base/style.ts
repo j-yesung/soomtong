@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { InputStyleProps } from "./type";
 
 export const Input = styled.input<InputStyleProps>`
+  appearance: none;
   border: none;
   outline: none;
   border-radius: 8px;
@@ -45,11 +46,6 @@ export const Input = styled.input<InputStyleProps>`
           min-height: 50px;
           padding: 12px 40px 12px 14px;
           border-radius: ${theme.radius.md};
-
-          &:focus-visible {
-            border-color: ${theme.colors.border.primary};
-            box-shadow: ${theme.shadows.focusRing};
-          }
         `;
       case "filled":
         return css`
