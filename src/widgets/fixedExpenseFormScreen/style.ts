@@ -18,26 +18,3 @@ export const FieldLabel = styled.span`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
-
-export const NativeSelect = styled.select`
-  width: 100%;
-  min-height: 52px;
-  padding: 0 12px;
-  color: ${({ theme }) => theme.colors.text.primary};
-  font: inherit;
-  text-overflow: ellipsis;
-  background-color: ${({ theme }) => theme.colors.bg.inverseWhite};
-  border: 1px solid ${({ theme }) => theme.colors.border.secondary};
-  border-radius: ${({ theme }) => theme.radius.md};
-
-  &:focus {
-    outline: none;
-  }
-
-  @media (hover: hover) {
-    &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.border.primary};
-      outline-offset: 2px;
-    }
-  }
-`;
