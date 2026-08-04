@@ -7,17 +7,17 @@ type Props = {
 };
 
 export default function FixedExpenseReport({ data }: Props) {
-  const totalCount = data?.items?.length ?? 0;
   const totalFixed = data?.totalFixedExpense ?? 0;
 
   return (
     <S.Container>
       <S.Description>
-        총 {totalCount}건이
+        매월 총
         <br />
-        매월 발생하고 있어요
+        <S.Amount>{totalFixed.toLocaleString()}원이</S.Amount>
+        <br />
+        빠져나가요
       </S.Description>
-      <S.Amount>{totalFixed.toLocaleString()}원</S.Amount>
     </S.Container>
   );
 }

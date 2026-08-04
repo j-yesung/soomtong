@@ -7,6 +7,7 @@ type StylesProps = {
   $gap?: number;
   $radius?: keyof AppTheme["radius"];
   $position?: React.CSSProperties["position"];
+  $flushBottom?: boolean;
 };
 
 export const CardFooter = styled.div`
@@ -77,6 +78,7 @@ export const CardFooter = styled.div`
 export const CardRoot = styled.div<StylesProps>`
   width: 100%;
   padding: 16px 0;
+  padding-bottom: ${({ $flushBottom }) => ($flushBottom ? "0" : "16px")};
   border-radius: ${({ theme, $radius }) => theme.radius[$radius ?? "sm"]};
   box-shadow: ${({ theme }) => theme.shadows.card};
   background-color: ${({ theme }) => theme.colors.bg.inverseWhite};

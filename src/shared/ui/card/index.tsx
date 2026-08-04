@@ -11,12 +11,20 @@ type Props = {
   direction?: "row" | "column";
   gap?: number;
   radius?: keyof AppTheme["radius"];
+  flushBottom?: boolean;
   as?: React.ElementType;
 };
 
-function Root({ children, direction, position, gap, radius = "sm", as }: PropsWithChildren<Props>) {
+function Root({ children, direction, position, gap, radius = "sm", flushBottom, as }: PropsWithChildren<Props>) {
   return (
-    <S.CardRoot $direction={direction} $gap={gap} $radius={radius} as={as} $position={position}>
+    <S.CardRoot
+      $direction={direction}
+      $gap={gap}
+      $radius={radius}
+      $flushBottom={flushBottom}
+      as={as}
+      $position={position}
+    >
       {children}
     </S.CardRoot>
   );

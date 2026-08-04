@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
 
@@ -8,39 +8,38 @@ type Props = {
   value: number;
   size?: number;
   thickness?: number;
+  color?: string;
+  ariaLabel?: string;
 };
 
-export default function DonutChart({ value, size = 100, thickness = 14 }: Props) {
-  const clamped = Math.max(0, Math.min(100, Number.isFinite(value) ? value : 0));
+export default function DonutChart({ value, size = 100, thickness = 14, color, ariaLabel }: Props) {
+  const normalized = Math.max(0, Number.isFinite(value) ? value : 0);
   const radius = useMemo(() => (size - thickness) / 2, [size, thickness]);
   const circumference = useMemo(() => 2 * Math.PI * radius, [radius]);
 
-  const mv = useMotionValue(clamped);
-  const dashOffset = useTransform(mv, (v) => circumference * (1 - v / 100));
+  const mv = useMotionValue(0);
+  const dashOffset = useTransform(mv, (v) => circumference * (1 - Math.min(v, 100) / 100));
   const percentText = useTransform(mv, (v) => `${Math.round(v)}%`);
-
-  const isFirst = useRef(true);
 
   useEffect(() => {
     const prefersReduce =
       typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReduce || isFirst.current) {
-      mv.set(clamped);
-      isFirst.current = false;
+    if (prefersReduce) {
+      mv.set(normalized);
       return;
     }
 
-    const controls = animate(mv, clamped, {
+    const controls = animate(mv, normalized, {
       duration: 0.9,
       delay: 0,
       ease: [0.22, 1, 0.36, 1],
     });
     return () => controls.stop();
-  }, [clamped, mv]);
+  }, [mv, normalized]);
 
   return (
-    <Donut role="img" $size={size}>
+    <Donut role="img" aria-label={ariaLabel ?? `비율 ${Math.round(normalized)}%`} $size={size} $color={color}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true" focusable="false">
         <circle
           cx={size / 2}

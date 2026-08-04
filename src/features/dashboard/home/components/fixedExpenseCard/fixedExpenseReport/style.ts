@@ -5,6 +5,7 @@ import { Column, Text } from "@/shared/ui";
 export const Container = styled(Column)`
   gap: 4px;
   flex: 1;
+  min-width: 0;
 `;
 
 export const Description = styled(Text)`
