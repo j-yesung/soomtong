@@ -6,7 +6,7 @@ import { useReducedMotion } from "motion/react";
 
 import { SingleArrowIcon } from "@/shared/assets/svg/interface";
 import useFormLeaveGuard from "@/shared/model/useFormLeaveGuard";
-import { Button, Text } from "@/shared/ui";
+import { Alert, Button, Text } from "@/shared/ui";
 
 import * as S from "./style";
 
@@ -36,7 +36,10 @@ export default function FormScreen({
   onSubmit,
 }: Props) {
   const shouldReduceMotion = useReducedMotion();
-  const { handleRequestLeave } = useFormLeaveGuard(isDirty, onLeave);
+  const { isLeaveConfirmOpen, handleRequestLeave, handleConfirmLeave, handleCancelLeave } = useFormLeaveGuard(
+    isDirty,
+    onLeave,
+  );
 
   return (
     <S.Screen
@@ -77,6 +80,17 @@ export default function FormScreen({
           </Button>
         </S.ActionBar>
       </S.Form>
+
+      <Alert
+        isOpen={isLeaveConfirmOpen}
+        title="작성 내용을 버릴까요?"
+        description="저장하지 않은 내용은 사라져요."
+        confirmText="나가기"
+        cancelText="계속 작성"
+        confirmColor="danger"
+        onConfirm={handleConfirmLeave}
+        onCancel={handleCancelLeave}
+      />
     </S.Screen>
   );
 }

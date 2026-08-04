@@ -13,6 +13,8 @@ export { default as Row } from "./row";
 export { default as BarChart } from "./chart/bar";
 export { default as DonutChart } from "./chart/donut";
 export { default as Skeleton } from "./skeleton";
+export { default as Select } from "./select";
+export { default as Alert } from "./alert";
 export { default as CategoryButton } from "./categoryButton";
 export { default as Card, CardFooter } from "./card";
 export { default as Toast } from "./toast";
