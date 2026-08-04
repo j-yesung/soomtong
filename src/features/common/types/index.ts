@@ -73,3 +73,8 @@ export interface AmountSummary {
   fixedTotal: number;
   amountAvailable: number;
 }
+
+export type FixedExpense = {
+  tag: string;
+  amount: number;
+};

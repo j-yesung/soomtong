@@ -1,13 +1,11 @@
-import { FixedExpenseTableItem } from "@/features/common/types";
 import { DonutChart } from "@/shared/ui";
 
 type Props = {
-  data: FixedExpenseTableItem;
+  budget: number;
+  totalFixed: number;
 };
 
-export default function FixedExpenseDonutChart({ data }: Props) {
-  const budget = data?.budget ?? 0;
-  const totalFixed = data?.totalFixedExpense ?? 0;
+export default function FixedExpenseDonutChart({ budget, totalFixed }: Props) {
   const ratio = budget > 0 ? (totalFixed / budget) * 100 : 0;
   const color = ratio >= 80 ? "var(--color-danger)" : ratio >= 50 ? "var(--color-warning)" : undefined;
 

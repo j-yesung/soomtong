@@ -12,7 +12,11 @@ export default function FixedExpenseReport({ data }: Props) {
   return (
     <S.Container>
       <S.Description>
-        매월 총 <S.Amount>{totalFixed.toLocaleString()}원</S.Amount>이 빠져나가요
+        매월 총
+        <br />
+        <S.Amount>{totalFixed.toLocaleString()}원이</S.Amount>
+        <br />
+        빠져나가요
       </S.Description>
     </S.Container>
   );
