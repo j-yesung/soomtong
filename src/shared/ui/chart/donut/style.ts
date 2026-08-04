@@ -1,10 +1,10 @@
 
 import styled from "styled-components";
 
-export const Donut = styled.div<{ $size: number }>`
+export const Donut = styled.div<{ $size: number; $color?: string }>`
   display: inline-flex;
   position: relative;
-  color: ${({ theme }) => theme.colors.bg.primary};
+  color: ${({ $color, theme }) => $color ?? theme.colors.bg.primary};
   align-items: center;
   justify-content: center;
   width: ${({ $size }) => $size}px;
